@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2013 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>github-parent</artifactId>
+    <groupId>com.googlesource.gerrit.plugins.github</groupId>
+    <version>2.8-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>github-plugin</artifactId>
+  <packaging>jar</packaging>
+  <name>Gerrit Code Review - GitHub plugin</name>
+
+  <properties>
+    <Gerrit-ApiType>plugin</Gerrit-ApiType>
+    <Gerrit-ApiVersion>${project.version}</Gerrit-ApiVersion>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <archive>
+            <manifestEntries>
+              <Gerrit-Module>com.googlesource.gerrit.plugins.github.Module</Gerrit-Module>
+              <Gerrit-InitStep>com.googlesource.gerrit.plugins.github.InitGitHub</Gerrit-InitStep>
+
+              <Implementation-Vendor>GerritForge</Implementation-Vendor>
+              <Implementation-URL>http://www.gerritforge.com</Implementation-URL>
+
+              <Implementation-Title>${Gerrit-ApiType} ${project.artifactId}</Implementation-Title>
+              <Implementation-Version>${project.version}</Implementation-Version>
+
+              <Gerrit-ApiType>${Gerrit-ApiType}</Gerrit-ApiType>
+              <Gerrit-ApiVersion>${Gerrit-ApiVersion}</Gerrit-ApiVersion>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.google.gerrit</groupId>
+      <artifactId>gerrit-${Gerrit-ApiType}-api</artifactId>
+      <version>${Gerrit-ApiVersion}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <repositories>
+    <repository>
+      <id>gerrit-api-repository</id>
+      <url>https://gerrit-api.commondatastorage.googleapis.com/snapshot/</url>
+    </repository>
+  </repositories>
+</project>
