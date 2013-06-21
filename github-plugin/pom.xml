@@ -14,7 +14,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>github-parent</artifactId>
@@ -41,12 +42,14 @@ limitations under the License.
           <archive>
             <manifestEntries>
               <Gerrit-Module>com.googlesource.gerrit.plugins.github.Module</Gerrit-Module>
+              <Gerrit-HttpModule>com.googlesource.gerrit.plugins.github.HttpModule</Gerrit-HttpModule>
               <Gerrit-InitStep>com.googlesource.gerrit.plugins.github.InitGitHub</Gerrit-InitStep>
 
               <Implementation-Vendor>GerritForge</Implementation-Vendor>
               <Implementation-URL>http://www.gerritforge.com</Implementation-URL>
 
-              <Implementation-Title>${Gerrit-ApiType} ${project.artifactId}</Implementation-Title>
+              <Implementation-Title>${Gerrit-ApiType}
+                ${project.artifactId}</Implementation-Title>
               <Implementation-Version>${project.version}</Implementation-Version>
 
               <Gerrit-ApiType>${Gerrit-ApiType}</Gerrit-ApiType>
@@ -83,6 +86,13 @@ limitations under the License.
       <version>4.8.1</version>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>github-oauth</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
   </dependencies>
 
   <repositories>
