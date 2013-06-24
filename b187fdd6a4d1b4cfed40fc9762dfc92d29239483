@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a1671dc_d8e86d37",
+        "filename": "github-plugin/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-06-24T15:48:03Z",
+      "side": 1,
+      "message": "This file seems to come with Windows line endings for most parts.",
+      "revId": "b187fdd6a4d1b4cfed40fc9762dfc92d29239483",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a57c1b3_8409263d",
+        "filename": "github-plugin/src/main/resources/Documentation/config.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2013-06-24T15:48:03Z",
+      "side": 1,
+      "message": "It would be good to have documentation on how to get ClientId, ClientSecret values from GitHub.",
+      "revId": "b187fdd6a4d1b4cfed40fc9762dfc92d29239483",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
