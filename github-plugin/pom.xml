@@ -36,27 +36,54 @@ limitations under the License.
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>2.4</version>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>1.6</version>
         <configuration>
-          <archive>
-            <manifestEntries>
-              <Gerrit-Module>com.googlesource.gerrit.plugins.github.Module</Gerrit-Module>
-              <Gerrit-HttpModule>com.googlesource.gerrit.plugins.github.HttpModule</Gerrit-HttpModule>
-              <Gerrit-InitStep>com.googlesource.gerrit.plugins.github.InitGitHub</Gerrit-InitStep>
+          <promoteTransitiveDependencies>true</promoteTransitiveDependencies>
+          <artifactSet>
+            <excludes>
+              <exclude>com.google.*:*</exclude>
+              <exclude>javax.inject:*:*</exclude>
+              <exclude>aopalliance:aopalliance:*</exclude>
+              <exclude>org.slf4j:*</exclude>
+              <exclude>log4j:log4j:*</exclude>
+              <exclude>commons-lang:*:*</exclude>
+              <exclude>commons-codec:*:*</exclude>
+              <exclude>commons-io:*:*</exclude>
+              <exclude>com.google.guava:*</exclude>
 
-              <Implementation-Vendor>GerritForge</Implementation-Vendor>
-              <Implementation-URL>http://www.gerritforge.com</Implementation-URL>
+            </excludes>
+          </artifactSet>
+          <transformers>
+            <transformer
+              implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+              <manifestEntries>
+                <Gerrit-Module>com.googlesource.gerrit.plugins.github.Module</Gerrit-Module>
+                <Gerrit-HttpModule>com.googlesource.gerrit.plugins.github.HttpModule</Gerrit-HttpModule>
+                <Gerrit-InitStep>com.googlesource.gerrit.plugins.github.InitGitHub</Gerrit-InitStep>
 
-              <Implementation-Title>${Gerrit-ApiType}
-                ${project.artifactId}</Implementation-Title>
-              <Implementation-Version>${project.version}</Implementation-Version>
+                <Implementation-Vendor>GerritForge</Implementation-Vendor>
+                <Implementation-URL>http://www.gerritforge.com</Implementation-URL>
 
-              <Gerrit-ApiType>${Gerrit-ApiType}</Gerrit-ApiType>
-              <Gerrit-ApiVersion>${Gerrit-ApiVersion}</Gerrit-ApiVersion>
-            </manifestEntries>
-          </archive>
+                <Implementation-Title>${Gerrit-ApiType}
+                  ${project.artifactId}</Implementation-Title>
+                <Implementation-Version>${project.version}</Implementation-Version>
+
+                <Gerrit-ApiType>${Gerrit-ApiType}</Gerrit-ApiType>
+                <Gerrit-ApiVersion>${Gerrit-ApiVersion}</Gerrit-ApiVersion>
+              </manifestEntries>
+            </transformer>
+          </transformers>
+
         </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
 
       <plugin>
@@ -79,20 +106,23 @@ limitations under the License.
       <version>${Gerrit-ApiVersion}</version>
       <scope>provided</scope>
     </dependency>
-
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.8.1</version>
       <scope>test</scope>
     </dependency>
-
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>github-oauth</artifactId>
       <version>${project.version}</version>
     </dependency>
-
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.0.1</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 
   <repositories>
