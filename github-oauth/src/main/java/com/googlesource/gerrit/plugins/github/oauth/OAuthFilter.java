@@ -29,10 +29,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.httpd.WebSession;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 public class OAuthFilter implements Filter {
   private static final org.slf4j.Logger log = LoggerFactory
@@ -87,7 +85,11 @@ public class OAuthFilter implements Filter {
               "Login failed");
         }
       } else {
+        if(oauth.isOAuthLogin(httpRequest)) {
         oauth.loginPhase1(httpRequest, httpResponse);
+        } else {
+          chain.doFilter(request, response);
+        }
       }
       return;
     } else {

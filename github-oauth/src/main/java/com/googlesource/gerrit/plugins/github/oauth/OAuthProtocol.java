@@ -18,14 +18,12 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
-import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GitHub;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
@@ -58,6 +56,10 @@ public class OAuthProtocol {
   
   public boolean isOAuthFinal(HttpServletRequest request) {
     return request.getRequestURI().endsWith(OAuthConfig.OAUTH_FINAL);
+  }
+  
+  public boolean isOAuthLogin(HttpServletRequest request) {
+    return request.getRequestURI().endsWith(OAuthConfig.OAUTH_LOGIN);
   }
   
   public GitHubLogin loginPhase2(HttpServletRequest request,

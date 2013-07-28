@@ -31,6 +31,7 @@ public class OAuthConfig {
   public static final String OAUTH_FINAL = "/oauth";
   public static final String LOGIN_OAUTH_ACCESS_TOKEN =
       "/login/oauth/access_token";
+  public static final String OAUTH_LOGIN = "/login";
 
   public final String gitHubUrl;
   public final String gitHubClientId;
