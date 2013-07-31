@@ -26,12 +26,15 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.kohsuke.github.GHMyself;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Strings;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
+@Singleton
 public class OAuthFilter implements Filter {
   private static final org.slf4j.Logger log = LoggerFactory
       .getLogger(OAuthFilter.class);
@@ -43,7 +46,7 @@ public class OAuthFilter implements Filter {
   @Inject
   public OAuthFilter(OAuthConfig config) {
     this.config = config;
-    this.cookieProvider = new OAuthCookieProvider();
+    this.cookieProvider = new OAuthCookieProvider(new TokenCipher());
     this.oauth =
         new OAuthProtocol(config, GitHubHttpProvider.getInstance().get(),
             new Gson());
@@ -51,7 +54,6 @@ public class OAuthFilter implements Filter {
 
   @Override
   public void init(FilterConfig filterConfig) throws ServletException {
-    cookieProvider.init();
   }
 
   @Override
@@ -72,12 +74,14 @@ public class OAuthFilter implements Filter {
     if (authCookie == null) {
       if (oauth.isOAuthFinal(httpRequest)) {
 
-        String user =
-            oauth.loginPhase2(httpRequest, httpResponse).hub.getMyself()
-                .getLogin();
+        GHMyself myself =
+            oauth.loginPhase2(httpRequest, httpResponse).hub.getMyself();
+        String user = myself.getLogin();
+        String email = myself.getEmail();
+        String fullName = myself.getName();
 
         if (user != null) {
-          httpResponse.addCookie(cookieProvider.getFromUser(user));
+          httpResponse.addCookie(cookieProvider.getFromUser(user, email, fullName));
           httpResponse.sendRedirect(targetUrl);
           return;
         } else {
@@ -95,7 +99,8 @@ public class OAuthFilter implements Filter {
     } else {
       HttpServletRequest wrappedRequest =
           new AuthenticatedHttpRequest(httpRequest, config.httpHeader,
-              authCookie.user);
+              authCookie.user, config.httpDisplaynameHeader, authCookie.fullName,
+              config.httpEmailHeader, authCookie.email);
 
       if (targetUrl != null && oauth.isOAuthFinal(httpRequest)) {
         httpResponse.sendRedirect(config.getUrl(targetUrl,
