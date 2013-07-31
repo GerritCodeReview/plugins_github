@@ -20,10 +20,27 @@ public class OAuthCookie extends Cookie {
   public static final String OAUTH_COOKIE_NAME = "GerritOAuth";
 
   public final String user;
+  public final String email;
+  public final String fullName;
 
-  OAuthCookie(String user, String cookieValue) {
-    super(OAUTH_COOKIE_NAME, cookieValue);
-
+  public OAuthCookie(TokenCipher cipher, final String user, final String email,
+      final String fullName) throws OAuthTokenException {
+    super(OAUTH_COOKIE_NAME, cipher.encode(String.format("%s\n%s\n%s", user,
+        email, fullName)));
     this.user = user;
+    this.email = email;
+    this.fullName = fullName;
+    setMaxAge((int) (TokenCipher.COOKIE_TIMEOUT/1000L));
+    setHttpOnly(true);
+  }
+
+  public OAuthCookie(TokenCipher cipher, Cookie cookie)
+      throws OAuthTokenException {
+    super(OAUTH_COOKIE_NAME, cookie.getValue());
+    String clearTextValue = cipher.decode(cookie.getValue());
+    String[] clearText = clearTextValue.split("\n");
+    user = clearText.length > 0 ? clearText[0]:null;
+    email = clearText.length > 1 ? clearText[1]:null;
+    fullName = clearText.length > 2 ? clearText[2]:null;
   }
 }

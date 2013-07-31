@@ -26,15 +26,19 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.kohsuke.github.GHMyself;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Strings;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
+@Singleton
 public class OAuthFilter implements Filter {
   private static final org.slf4j.Logger log = LoggerFactory
       .getLogger(OAuthFilter.class);
+  private static final String GERRIT_COOKIE_NAME = "GerritAccount";
 
   private final OAuthConfig config;
   private final OAuthCookieProvider cookieProvider;
@@ -43,7 +47,7 @@ public class OAuthFilter implements Filter {
   @Inject
   public OAuthFilter(OAuthConfig config) {
     this.config = config;
-    this.cookieProvider = new OAuthCookieProvider();
+    this.cookieProvider = new OAuthCookieProvider(new TokenCipher());
     this.oauth =
         new OAuthProtocol(config, GitHubHttpProvider.getInstance().get(),
             new Gson());
@@ -51,7 +55,6 @@ public class OAuthFilter implements Filter {
 
   @Override
   public void init(FilterConfig filterConfig) throws ServletException {
-    cookieProvider.init();
   }
 
   @Override
@@ -66,18 +69,27 @@ public class OAuthFilter implements Filter {
     HttpServletResponse httpResponse = (HttpServletResponse) response;
     log.info("doFilter(" + httpRequest.getRequestURI() + ")");
 
-    OAuthCookie authCookie = getOAuthCookie(httpRequest);
+    Cookie gerritCookie = getGerritCookie(httpRequest);
+    OAuthCookie authCookie =
+        getOAuthCookie(httpRequest, (HttpServletResponse) response);
     String targetUrl = httpRequest.getParameter("state");
 
-    if (authCookie == null) {
+    if (((oauth.isOAuthLogin(httpRequest) || oauth.isOAuthFinal(httpRequest)) && authCookie == null)
+        || (authCookie == null && gerritCookie == null)) {
       if (oauth.isOAuthFinal(httpRequest)) {
 
-        String user =
-            oauth.loginPhase2(httpRequest, httpResponse).hub.getMyself()
-                .getLogin();
+        GHMyself myself =
+            oauth.loginPhase2(httpRequest, httpResponse).hub.getMyself();
+        String user = myself.getLogin();
+        String email = myself.getEmail();
+        String fullName =
+            Strings.emptyToNull(myself.getName()) == null ? user : myself
+                .getName();
 
         if (user != null) {
-          httpResponse.addCookie(cookieProvider.getFromUser(user));
+          OAuthCookie userCookie =
+              cookieProvider.getFromUser(user, email, fullName);
+          httpResponse.addCookie(userCookie);
           httpResponse.sendRedirect(targetUrl);
           return;
         } else {
@@ -85,33 +97,63 @@ public class OAuthFilter implements Filter {
               "Login failed");
         }
       } else {
-        if(oauth.isOAuthLogin(httpRequest)) {
-        oauth.loginPhase1(httpRequest, httpResponse);
+        if (oauth.isOAuthLogin(httpRequest)) {
+          oauth.loginPhase1(httpRequest, httpResponse);
         } else {
           chain.doFilter(request, response);
         }
       }
       return;
     } else {
-      HttpServletRequest wrappedRequest =
-          new AuthenticatedHttpRequest(httpRequest, config.httpHeader,
-              authCookie.user);
+      if (gerritCookie != null && !oauth.isOAuthLogin(httpRequest)) {
+        if (authCookie != null) {
+          authCookie.setMaxAge(0);
+          authCookie.setValue("");
+          httpResponse.addCookie(authCookie);
+        }
+      } else if (authCookie != null) {
+        httpRequest =
+            new AuthenticatedHttpRequest(httpRequest, config.httpHeader,
+                authCookie.user, config.httpDisplaynameHeader,
+                authCookie.fullName, config.httpEmailHeader, authCookie.email);
+      }
 
       if (targetUrl != null && oauth.isOAuthFinal(httpRequest)) {
         httpResponse.sendRedirect(config.getUrl(targetUrl,
             OAuthConfig.OAUTH_FINAL) + "?code=" + request.getParameter("code"));
         return;
       } else {
-        chain.doFilter(wrappedRequest, response);
+        chain.doFilter(httpRequest, response);
       }
     }
   }
 
-  private OAuthCookie getOAuthCookie(HttpServletRequest request) {
+  private Cookie getGerritCookie(HttpServletRequest httpRequest) {
+    for (Cookie cookie : httpRequest.getCookies()) {
+      if (cookie.getName().equalsIgnoreCase(GERRIT_COOKIE_NAME)) {
+        return cookie;
+      }
+    }
+    return null;
+  }
+
+  private OAuthCookie getOAuthCookie(HttpServletRequest request,
+      HttpServletResponse response) {
     for (Cookie cookie : request.getCookies()) {
       if (cookie.getName().equalsIgnoreCase(OAuthCookie.OAUTH_COOKIE_NAME)
           && !Strings.isNullOrEmpty(cookie.getValue())) {
-        return cookieProvider.getFromCookie(cookie);
+        try {
+          return cookieProvider.getFromCookie(cookie);
+        } catch (OAuthTokenException e) {
+          log.warn(
+              "Invalid cookie detected: cleaning up and sending a reset back to the browser",
+              e);
+          cookie.setValue("");
+          cookie.setPath("/");
+          cookie.setMaxAge(0);
+          response.addCookie(cookie);
+          return null;
+        }
       }
     }
     return null;

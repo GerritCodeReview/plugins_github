@@ -59,7 +59,7 @@ public class OAuthProtocol {
   }
   
   public boolean isOAuthLogin(HttpServletRequest request) {
-    return request.getRequestURI().endsWith(OAuthConfig.OAUTH_LOGIN);
+    return request.getRequestURI().indexOf(OAuthConfig.OAUTH_LOGIN) >= 0;
   }
   
   public GitHubLogin loginPhase2(HttpServletRequest request,

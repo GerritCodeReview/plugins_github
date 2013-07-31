@@ -14,66 +14,45 @@
 package com.googlesource.gerrit.plugins.github.oauth;
 
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
-import com.google.common.base.Objects;
+import com.google.common.collect.Iterators;
 
 public class AuthenticatedHttpRequest extends HttpServletRequestWrapper {
-  private String httpHeaderName;
-  private String httpHeaderValue;
+  private HashMap<String, String> headers = new HashMap<String, String>();
 
   public AuthenticatedHttpRequest(HttpServletRequest request,
-      String authHeaderName, String authHeaderValue) {
+      String... headerNamesValues) {
     super(request);
-    this.httpHeaderName = authHeaderName;
-    this.httpHeaderValue = authHeaderValue;
+
+    for (int i = 0; i < headerNamesValues.length;) {
+      String name = headerNamesValues[i++];
+      String value = headerNamesValues[i++];
+      if (name != null && value != null) {
+        headers.put(name, value);
+      }
+    }
   }
 
   @Override
   public Enumeration<String> getHeaderNames() {
-
     final Enumeration<String> wrappedHeaderNames = super.getHeaderNames();
-    return new Enumeration<String>() {
-
-      boolean lastElement;
-      boolean headerFound;
-
-      @Override
-      public boolean hasMoreElements() {
-        if (wrappedHeaderNames.hasMoreElements()) {
-          return true;
-        } else if (!lastElement && !headerFound) {
-          return true;
-        } else {
-          return false;
-        }
-      }
-
-      @Override
-      public String nextElement() {
-        if (wrappedHeaderNames.hasMoreElements()) {
-          String nextHeader = wrappedHeaderNames.nextElement();
-          if (nextHeader.equalsIgnoreCase(httpHeaderName)) {
-            headerFound = true;
-          }
-          return nextHeader;
-        } else if (!lastElement && !headerFound) {
-          lastElement = true;
-          return httpHeaderName;
-        } else {
-          return null;
-        }
-      }
-
-    };
+    HashSet<String> headerNames = new HashSet<String>(headers.keySet());
+    while (wrappedHeaderNames.hasMoreElements()) {
+      headerNames.add(wrappedHeaderNames.nextElement());
+    }
+    return Iterators.asEnumeration(headerNames.iterator());
   }
 
   @Override
   public String getHeader(String name) {
-    if (name.equalsIgnoreCase(httpHeaderName)) {
-      return httpHeaderValue;
+    String headerValue = headers.get(name);
+    if (headerValue != null) {
+      return headerValue;
     } else {
       return super.getHeader(name);
     }

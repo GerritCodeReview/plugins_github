@@ -37,6 +37,8 @@ public class OAuthConfig {
   public final String gitHubClientId;
   public final String gitHubClientSecret;
   public final String httpHeader;
+  public final String httpDisplaynameHeader;
+  public final String httpEmailHeader;
   public final String gitHubOAuthUrl;
   public final String oAuthFinalRedirectUrl;
   public final String gitHubOAuthAccessTokenUrl;
@@ -46,6 +48,8 @@ public class OAuthConfig {
   public OAuthConfig(@GerritServerConfig Config config)
       throws MalformedURLException {
     httpHeader = config.getString("auth", null, "httpHeader");
+    httpDisplaynameHeader = config.getString("auth", null, "httpDisplaynameHeader");
+    httpEmailHeader = config.getString("auth", null, "httpEmailHeader");
     gitHubUrl =
         Objects.firstNonNull(config.getString("github", null, "url"),
             GITHUB_URL);
