@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.github.replication;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -65,6 +66,7 @@ public class GitHubDestinations {
   private final GitRepositoryManager gitRepositoryManager;
   private final GroupBackend groupBackend;
   boolean replicateAllOnPluginStart;
+  private final List<String> organisations;
 
   @Inject
   GitHubDestinations(final Injector i, final SitePaths site,
@@ -78,6 +80,18 @@ public class GitHubDestinations {
     gitRepositoryManager = grm;
     groupBackend = gb;
     configs = getDestinations(new File(site.etc_dir, "replication.config"));
+    organisations = getOrganisations(configs);
+  }
+
+  private List<String> getOrganisations(List<Destination> destinations) {
+    ArrayList<String> organisations = new ArrayList<String>();
+    for (Destination destination : destinations) {
+      for (URIish urish : destination.getRemote().getURIs()) {
+        String[] uriPathParts = urish.getPath().split("/");
+        organisations.add(uriPathParts[0]);
+      }
+    }
+    return organisations;
   }
 
   private List<Destination> getDestinations(File cfgPath)
@@ -149,5 +163,9 @@ public class GitHubDestinations {
 
   public List<Destination> getDestinations() {
     return configs;
+  }
+
+  public List<String> getOrganisations() {
+    return organisations;
   }
 }

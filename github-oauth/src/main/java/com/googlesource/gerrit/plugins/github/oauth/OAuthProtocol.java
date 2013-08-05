@@ -8,6 +8,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,23 +23,50 @@ import org.kohsuke.github.GitHub;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Strings;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
 public class OAuthProtocol {
-  private static final Logger log = LoggerFactory.getLogger(OAuthProtocol.class);
   
+  public static enum Scope {
+    DEFAULT(""),
+    USER("user"),
+    USER_EMAIL("user:email"),
+    USER_FOLLOW("user:follow"),
+    PUBLIC_REPO("public_repo"),
+    REPO("repo"),
+    REPO_STATUS("repo_status"),
+    DELETE_REPO("delete_repo"),
+    NOTIFICATIONS("notifications"),
+    GIST("gist");
+
+    private final String value;
+
+    public String getValue() {
+      return value;
+    }
+
+    private Scope(final String value) {
+      this.value = value;
+    }
+  }
+  private static final String ME_SEPARATOR = ",";
+
+  private static final Logger log = LoggerFactory
+      .getLogger(OAuthProtocol.class);
+
   private final OAuthConfig config;
   private final HttpClient http;
   private final Gson gson;
-  
+
   public static class AccessToken {
     public String access_token;
     public String token_type;
   }
-  
+
   @Inject
   public OAuthProtocol(OAuthConfig config, HttpClient httpClient, Gson gson) {
     this.config = config;
@@ -47,21 +75,57 @@ public class OAuthProtocol {
   }
 
   public void loginPhase1(HttpServletRequest request,
-      HttpServletResponse response) throws IOException {
+      HttpServletResponse response, Scope... scopes) throws IOException {
     response.sendRedirect(String.format(
-        "%s?client_id=%s&redirect_uri=%s&state=%s", config.gitHubOAuthUrl,
-        config.gitHubClientId, getURLEncoded(config.oAuthFinalRedirectUrl),
-        getURLEncoded(request.getRequestURI().toString())));
+        "%s?client_id=%s%s&redirect_uri=%s&state=%s%s", config.gitHubOAuthUrl,
+        config.gitHubClientId, getScope(scopes),
+        getURLEncoded(config.oAuthFinalRedirectUrl),
+        me(), getURLEncoded(request.getRequestURI().toString())));
   }
-  
+
+  private String getScope(Scope[] scopes) {
+    if(scopes.length <= 0) {
+      return "";
+    }
+    
+    StringBuilder out = new StringBuilder();
+    for (Scope scope : scopes) {
+      if(out.length() > 0) {
+        out.append(",");
+      }
+      out.append(scope.getValue());
+    }
+    return "&" +
+    		"scope=" + out.toString();
+  }
+
   public boolean isOAuthFinal(HttpServletRequest request) {
-    return request.getRequestURI().endsWith(OAuthConfig.OAUTH_FINAL);
+    return Strings.emptyToNull(request.getParameter("code")) != null
+        && wasInitiatedByMe(request);
   }
   
+  public boolean isOAuthFinalForOthers(HttpServletRequest request) {
+    String targetUrl = getTargetUrl(request);
+    if(targetUrl.equals(request.getRequestURI())) {
+      return false;
+    }
+    
+    return Strings.emptyToNull(request.getParameter("code")) != null
+        && !wasInitiatedByMe(request);
+  }
+
+  private String me() {
+    return "" + hashCode() + ME_SEPARATOR;
+  }
+
+  public boolean wasInitiatedByMe(HttpServletRequest request) {
+    return state(request).startsWith(me());
+  }
+
   public boolean isOAuthLogin(HttpServletRequest request) {
     return request.getRequestURI().indexOf(OAuthConfig.OAUTH_LOGIN) >= 0;
   }
-  
+
   public GitHubLogin loginPhase2(HttpServletRequest request,
       HttpServletResponse response) throws IOException {
 
@@ -104,7 +168,7 @@ public class OAuthProtocol {
       return null;
     }
   }
-  
+
   private String getURLEncoded(String url) {
     try {
       return URLEncoder.encode(url, "UTF-8");
@@ -112,5 +176,26 @@ public class OAuthProtocol {
       // UTF-8 is hardcoded, cannot fail
       return null;
     }
+  }
+
+  public String getTargetUrl(ServletRequest request) {
+    int meEnd = state(request).indexOf(ME_SEPARATOR);
+    if (meEnd > 0) {
+      return state(request).substring(meEnd+1);
+    } else {
+      return "";
+    }
+  }
+
+  private String state(ServletRequest request) {
+    return Strings.nullToEmpty(request.getParameter("state"));
+  }
+
+  public String getTargetOAuthFinal(HttpServletRequest httpRequest) {
+    String targetUrl = getTargetUrl(httpRequest);
+    String code = getURLEncoded(httpRequest.getParameter("code"));
+    String state = getURLEncoded(httpRequest.getParameter("state"));
+    return targetUrl + (targetUrl.indexOf('?') < 0 ? '?' : '&') + "code="
+        + code + "&state=" + state;
   }
 }

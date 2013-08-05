@@ -72,7 +72,6 @@ public class OAuthFilter implements Filter {
     Cookie gerritCookie = getGerritCookie(httpRequest);
     OAuthCookie authCookie =
         getOAuthCookie(httpRequest, (HttpServletResponse) response);
-    String targetUrl = httpRequest.getParameter("state");
 
     if (((oauth.isOAuthLogin(httpRequest) || oauth.isOAuthFinal(httpRequest)) && authCookie == null)
         || (authCookie == null && gerritCookie == null)) {
@@ -90,7 +89,7 @@ public class OAuthFilter implements Filter {
           OAuthCookie userCookie =
               cookieProvider.getFromUser(user, email, fullName);
           httpResponse.addCookie(userCookie);
-          httpResponse.sendRedirect(targetUrl);
+          httpResponse.sendRedirect(oauth.getTargetUrl(request));
           return;
         } else {
           httpResponse.sendError(HttpURLConnection.HTTP_UNAUTHORIZED,
@@ -118,9 +117,8 @@ public class OAuthFilter implements Filter {
                 authCookie.fullName, config.httpEmailHeader, authCookie.email);
       }
 
-      if (targetUrl != null && oauth.isOAuthFinal(httpRequest)) {
-        httpResponse.sendRedirect(config.getUrl(targetUrl,
-            OAuthConfig.OAUTH_FINAL) + "?code=" + request.getParameter("code"));
+      if (oauth.isOAuthFinalForOthers(httpRequest)) {
+        httpResponse.sendRedirect(oauth.getTargetOAuthFinal(httpRequest));
         return;
       } else {
         chain.doFilter(httpRequest, response);
