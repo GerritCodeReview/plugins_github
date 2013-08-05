@@ -57,9 +57,11 @@ public class SshKeysImportServlet extends HttpServlet {
       AccountResource res = new AccountResource(userProvider.get());
       AddSshKey.Input key = new AddSshKey.Input();
       final String sshKey = ghKey.getKey();
-      out.println("Importing key " + sshKey);
+      final String sshKeyLabel = ghKey.getTitle();
+      String sshKeyWithLabel = sshKey + " " + sshKeyLabel;
+      out.println("Importing key " + sshKeyWithLabel);
       final ByteArrayInputStream keyIs =
-          new ByteArrayInputStream(sshKey.getBytes());
+          new ByteArrayInputStream(sshKeyWithLabel.getBytes());
       key.raw = new RawInput() {
 
         @Override
