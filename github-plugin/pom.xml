@@ -123,6 +123,27 @@ limitations under the License.
       <version>3.0.1</version>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>com.google.gerrit</groupId>
+      <artifactId>gerrit-pgm</artifactId>
+      <version>${Gerrit-ApiVersion}</version>
+      <scope>system</scope>
+      <systemPath>${gerrit_src}/buck-out/gen/gerrit-pgm/lib__pgm__output/pgm.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>com.google.gerrit</groupId>
+      <artifactId>gerrit-server</artifactId>
+      <version>${Gerrit-ApiVersion}</version>
+      <scope>system</scope>
+      <systemPath>${gerrit_src}/buck-out/gen/gerrit-server/lib__server__output/server.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>com.google.gerrit</groupId>
+      <artifactId>gerrit-extension-api</artifactId>
+      <version>${Gerrit-ApiVersion}</version>
+      <scope>system</scope>
+      <systemPath>${gerrit_src}/buck-out/gen/release__tmp/WEB-INF/lib/gerrit-extension-api-api.jar</systemPath>
+    </dependency>
   </dependencies>
 
   <repositories>
