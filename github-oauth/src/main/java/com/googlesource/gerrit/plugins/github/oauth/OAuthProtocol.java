@@ -114,7 +114,7 @@ public class OAuthProtocol {
         && !wasInitiatedByMe(request);
   }
 
-  private String me() {
+  public String me() {
     return "" + hashCode() + ME_SEPARATOR;
   }
 

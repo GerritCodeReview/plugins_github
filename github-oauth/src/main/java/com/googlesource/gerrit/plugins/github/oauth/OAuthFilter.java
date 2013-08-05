@@ -67,7 +67,7 @@ public class OAuthFilter implements Filter {
 
     HttpServletRequest httpRequest = (HttpServletRequest) request;
     HttpServletResponse httpResponse = (HttpServletResponse) response;
-    log.info("doFilter(" + httpRequest.getRequestURI() + ")");
+    log.info("doFilter(" + httpRequest.getRequestURI() + ") code=" + request.getParameter("code") + " me=" + oauth.me());
 
     Cookie gerritCookie = getGerritCookie(httpRequest);
     OAuthCookie authCookie =
