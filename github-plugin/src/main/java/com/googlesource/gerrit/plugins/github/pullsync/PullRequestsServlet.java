@@ -3,14 +3,17 @@ package com.googlesource.gerrit.plugins.github.pullsync;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.runtime.RuntimeInstance;
 import org.kohsuke.github.GHCommitPointer;
 import org.kohsuke.github.GHIssueState;
 import org.kohsuke.github.GHOrganization;
@@ -20,16 +23,14 @@ import org.kohsuke.github.GitHub;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
-import com.googlesource.gerrit.plugins.github.replication.Destination;
 import com.googlesource.gerrit.plugins.github.replication.GitHubDestinations;
 
 @Singleton
@@ -40,13 +41,16 @@ public class PullRequestsServlet extends HttpServlet {
   private Provider<GitHubLogin> loginProvider;
   private GitHubDestinations destinations;
   private ProjectCache projects;
+  private RuntimeInstance velocityRuntime;
 
   @Inject
   public PullRequestsServlet(Provider<GitHubLogin> loginProvider,
-      GitHubDestinations destinations, ProjectCache projects) {
+      GitHubDestinations destinations, ProjectCache projects,
+      @Named("PluginRuntimeInstance") RuntimeInstance velocityRuntime) {
     this.loginProvider = loginProvider;
     this.destinations = destinations;
     this.projects = projects;
+    this.velocityRuntime = velocityRuntime;
   }
 
   @Override
@@ -55,16 +59,9 @@ public class PullRequestsServlet extends HttpServlet {
 
     PrintWriter out = null;
     try {
-      GitHubLogin hubLogin = loginProvider.get();
-      if (!hubLogin.isLoggedIn() && !hubLogin.login(req, resp)) {
-        return;
-      }
-
-      GitHub hub = hubLogin.hub;
+      GitHub hub = loginProvider.get().hub;
       out = resp.getWriter();
-
-      out.println("<html><body>");
-
+      
       for (String orgName : destinations.getOrganisations()) {
         GHOrganization org = hub.getOrganization(orgName);
         for (GHRepository repo : org.getRepositories().values()) {
@@ -76,36 +73,26 @@ public class PullRequestsServlet extends HttpServlet {
             continue;
           }
 
-          out.println("<h1>Project: " + project.getProject().getName()
-              + "</h1>");
-
           List<GHPullRequest> pullRequests =
               repo.getPullRequests(GHIssueState.OPEN);
           for (GHPullRequest pullRequest : pullRequests) {
 
-            out.println("<form id=\"%s\">");
-            out.println("<H2>Pull Request #" + pullRequest.getNumber()
-                + "</H2>");
-            out.println("> Title: " + pullRequest.getTitle());
-            out.println("> Body: " + pullRequest.getBody());
-
             GHCommitPointer pullHead = pullRequest.getHead();
-            out.println("> Pull Repository: "
-                + pullHead.getRepository().getUrl());
-            out.println("> Pull SHA-1: " + pullHead.getSha());
-            out.println("> Pull ref-spec: " + pullHead.getRef());
-
             GHCommitPointer pullBase = pullRequest.getBase();
-            out.println("> Base Repository: "
-                + pullBase.getRepository().getUrl());
-            out.println("> Base SHA-1: " + pullBase.getSha());
-            out.println("> Base ref-spec: " + pullBase.getRef());
           }
 
         }
         org.getRepositories();
       };
-      out.println("</body></html>");
+    } catch (ResourceNotFoundException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (ParseErrorException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
     } finally {
       if (out != null) {
         out.close();

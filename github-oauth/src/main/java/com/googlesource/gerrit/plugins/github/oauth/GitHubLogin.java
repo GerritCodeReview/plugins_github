@@ -19,9 +19,12 @@ import java.util.Arrays;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.http.HttpStatus;
 import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GitHub;
 import org.slf4j.Logger;
@@ -75,6 +78,12 @@ public class GitHubLogin {
     return loggedIn;
   }
 
+  public boolean login(ServletRequest request, ServletResponse response,
+      Scope... scopes) throws IOException {
+    return login((HttpServletRequest) request, (HttpServletResponse) response,
+        scopes);
+  }
+
   public boolean login(HttpServletRequest request,
       HttpServletResponse response, Scope... scopes) throws IOException {
     if (isLoggedIn(scopes)) {
@@ -86,8 +95,10 @@ public class GitHubLogin {
     if (oauth.isOAuthFinal(request)) {
       init(oauth.loginPhase2(request, response));
       if (isLoggedIn(scopes)) {
+        response.sendRedirect(oauth.getTargetUrl(request));
         return true;
       } else {
+        response.sendError(HttpStatus.SC_UNAUTHORIZED);
         return false;
       }
     } else {
