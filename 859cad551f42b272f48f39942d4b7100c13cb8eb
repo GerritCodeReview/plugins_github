@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58020843_31e69064",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/wizard/SshKeysImportServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-07T05:43:37Z",
+      "side": 1,
+      "message": "i find it confusing, that the injected REST APIs and your local methods have the same names. I would prefer to have different names for different things.",
+      "revId": "859cad551f42b272f48f39942d4b7100c13cb8eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
