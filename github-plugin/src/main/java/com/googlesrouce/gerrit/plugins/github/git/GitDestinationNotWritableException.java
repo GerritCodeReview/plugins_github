@@ -11,13 +11,20 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+package com.googlesrouce.gerrit.plugins.github.git;
 
-package com.googlesource.gerrit.plugins.github;
+import java.io.File;
 
-import com.google.inject.AbstractModule;
+public class GitDestinationNotWritableException extends GitException {
+  private static final long serialVersionUID = -6486633812790391401L;
 
-class Module extends AbstractModule {
-  @Override
-  protected void configure() {
+  public GitDestinationNotWritableException(File destDirectory) {
+    super("Destination Git directory " + destDirectory + " is not writable");
   }
+
+  @Override
+  public String getErrorDescription() {
+    return "Output destination directory is not writeable";
+  }
+
 }
