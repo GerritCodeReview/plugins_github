@@ -11,23 +11,24 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package com.googlesource.gerrit.plugins.github.wizard;
+package com.googlesrouce.gerrit.plugins.github.git;
 
-import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
-import com.google.gerrit.server.IdentifiedUser;
-import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
+@Singleton
+public class GitCommandsExecutor {
+  private static final int MAX_THREADS = 10;
+  private ExecutorService executor = Executors.newFixedThreadPool(MAX_THREADS);
 
+  @Inject
+  public GitCommandsExecutor() {
+  }
 
-
-public interface VelocityController {
-
-  void doAction(IdentifiedUser user, GitHubLogin hubLogin,
-      HttpServletRequest req, HttpServletResponse resp, ControllerErrors errors)
-      throws ServletException, IOException;
-
+  public void exec(GitCloneJob job) {
+    executor.execute(job);
+  }
 }

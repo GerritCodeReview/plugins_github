@@ -69,7 +69,7 @@ public class GitHubLogin {
     if (loggedIn) {
       try {
         myself = hub.getMyself();
-      } catch (IOException e) {
+      } catch (Throwable e) {
         log.error("Connection to GitHub broken: logging out", e);
         logout();
         loggedIn = false;

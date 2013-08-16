@@ -13,19 +13,44 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.oauth;
 
+import org.apache.http.HttpHost;
 import org.apache.http.client.HttpClient;
+import org.apache.http.conn.routing.HttpRoute;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.PoolingClientConnectionManager;
 
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
-public class GitHubHttpProvider implements Provider<HttpClient>{
-  private static final GitHubHttpProvider singleton = new GitHubHttpProvider();
+@Singleton
+public class GitHubHttpProvider implements Provider<HttpClient> {
+  private static final int MAX_TOTAL_CONN = 1024;
+  private static final int MAX_CONN_PER_ROUTE = 10;
+  private static final int MAX_LOCALHOST_CONN = 512;
+  private final PoolingClientConnectionManager connectionManager;
+
+  public GitHubHttpProvider() {
+    SchemeRegistry schemeRegistry = new SchemeRegistry();
+    schemeRegistry.register(new Scheme("http", 80, PlainSocketFactory
+        .getSocketFactory()));
+    schemeRegistry.register(new Scheme("https", 443, SSLSocketFactory
+        .getSocketFactory()));
+
+    connectionManager = new PoolingClientConnectionManager(schemeRegistry);
+    connectionManager.setMaxTotal(MAX_TOTAL_CONN);
+    connectionManager.setDefaultMaxPerRoute(MAX_CONN_PER_ROUTE);
+    HttpHost localhost = new HttpHost("locahost", 80);
+    connectionManager.setMaxPerRoute(new HttpRoute(localhost),
+        MAX_LOCALHOST_CONN);
+  }
+
   @Override
   public HttpClient get() {
-    return new DefaultHttpClient();
+    return new DefaultHttpClient(connectionManager);
   }
 
-  public static Provider<HttpClient> getInstance() {
-    return singleton;
-  }
 }
