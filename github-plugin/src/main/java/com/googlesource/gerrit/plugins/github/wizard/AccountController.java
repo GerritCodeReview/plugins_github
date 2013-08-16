@@ -43,7 +43,7 @@ public class AccountController implements VelocityController {
   }
 
   public void doAction(IdentifiedUser user, GitHubLogin hubLogin,
-      HttpServletRequest req, HttpServletResponse resp)
+      HttpServletRequest req, HttpServletResponse resp, ControllerErrors errors)
       throws ServletException, IOException {
     GHMyself myself = hubLogin.getMyself();
     List<GHKey> githubKeys = myself.getPublicKeys();

@@ -44,6 +44,7 @@ public class VelocityControllerServlet extends HttpServlet {
       throws ServletException, IOException {
     String controllerName = req.getServletPath();
     VelocityController controller;
+    ControllerErrors errors = new ControllerErrors();
 
     controllerName = trimFromChar(controllerName, '/');
     controllerName = trimUpToChar(controllerName, '.');
@@ -66,7 +67,7 @@ public class VelocityControllerServlet extends HttpServlet {
     GitHubLogin hubLogin = loginProvider.get();
     IdentifiedUser user = userProvider.get();
     WrappedResponse wrappedResp = new WrappedResponse(resp);
-    controller.doAction(user, hubLogin, req, wrappedResp);
+    controller.doAction(user, hubLogin, req, wrappedResp, errors);
 
     if (wrappedResp.getStatus() == HttpStatus.SC_OK) {
       redirectToNextStep(req, resp);
