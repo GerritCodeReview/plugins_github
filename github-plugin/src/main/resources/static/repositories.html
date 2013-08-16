@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>GitHub plugin for Gerrit Code Review - Repositories
+	replication</title>
+#include ("static/styles.html")
+#include ("static/scripts.html")
+</head>
+<body>
+	<div class="header">
+		<div>
+			<div class="center">
+				#include ("static/header.html")
+				<div class="page-title">
+					<div>
+						<h2>
+							<a href="account.html">Account profile</a> &gt; Repositories
+							replication
+						</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--div.header end -->
+
+	<!--div.container start -->
+	<div class="container">
+		<div class="center">
+			<form id="repositories" class="signupform">
+
+				<h5>
+					GitHub repositories available for replication <em>(* Indicates
+						required information)</em>
+				</h5>
+				<div class="loading">
+				<p>Loading list of GitHub repositories ...</p>
+				</div>
+				<ul class="repo-sync">
+					<li id="repo-template" style="visibility: hidden;">
+						<label class="repository">Synchronize #repo-organisation#/#repo-name#</label>
+						<input class="keycheckbox" type="checkbox" name="repo_#repo-index#" checked="checked" />
+						<input type="hidden" name="repo_#repo-index#_organisation" value="#repo-organisation#" />
+						<input type="hidden" name="repo_#repo-index#_repository" value="#repo-name#" />
+						<span id="status_#repo-index#" class="status" style="visibility: hidden;"></span>
+						<label id="repo_#repo-index#" class="synch-status"></label>
+				    </li>
+					<li class="a-center">
+						<button type="button" id="cancel">
+							<span class="button"><span>Cancel</span></span>
+						</button>
+						<button type="submit" id="submit" disabled="disabled">
+							<span class="button"><span>Accept &gt;</span></span>
+						</button> <input type="hidden" name="next" value="$nextUrl" />
+					</li>
+				</ul>
+			</form>
+		</div>
+	</div>
+	<script type='text/javascript' src='js/repositories.js'></script>
+
+
+	<!--div.container end -->
+	#include ("static/footer.html")
+</body>
+</html>

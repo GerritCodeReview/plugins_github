@@ -1,3 +1,16 @@
+// Copyright (C) 2013 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 package com.googlesource.gerrit.plugins.github.wizard;
 
 import java.io.IOException;
@@ -29,27 +42,24 @@ public class VelocityControllerServlet extends HttpServlet {
   private final Provider<GitHubLogin> loginProvider;
   private final Provider<IdentifiedUser> userProvider;
   private final Injector injector;
+  private Provider<ControllerErrors> errorsProvider;
 
   @Inject
   public VelocityControllerServlet(final Provider<GitHubLogin> loginProvider,
-      Provider<IdentifiedUser> userProvider, final Injector injector) {
+      Provider<IdentifiedUser> userProvider, final Injector injector, Provider<ControllerErrors> errorsProvider) {
     this.loginProvider = loginProvider;
     this.userProvider = userProvider;
     this.injector = injector;
+    this.errorsProvider = errorsProvider;
   }
 
   @SuppressWarnings("unchecked")
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
-    String controllerName = req.getServletPath();
+    String controllerName;
     VelocityController controller;
-
-    controllerName = trimFromChar(controllerName, '/');
-    controllerName = trimUpToChar(controllerName, '.');
-    controllerName =
-        Character.toUpperCase(controllerName.charAt(0))
-            + controllerName.substring(1);
+    controllerName = getControllerClassName(req);
 
     try {
       Class<? extends VelocityController> controllerClass =
@@ -66,11 +76,26 @@ public class VelocityControllerServlet extends HttpServlet {
     GitHubLogin hubLogin = loginProvider.get();
     IdentifiedUser user = userProvider.get();
     WrappedResponse wrappedResp = new WrappedResponse(resp);
-    controller.doAction(user, hubLogin, req, wrappedResp);
+    controller.doAction(user, hubLogin, req, wrappedResp, errorsProvider.get());
 
     if (wrappedResp.getStatus() == HttpStatus.SC_OK) {
       redirectToNextStep(req, resp);
     }
+  }
+
+  private String getControllerClassName(HttpServletRequest req) {
+    String reqServletName;
+    StringBuilder controllerName = new StringBuilder();
+    reqServletName = req.getServletPath();
+    reqServletName = trimFromChar(reqServletName, '/');
+    reqServletName = trimUpToChar(reqServletName, '.');
+    String[] controllerNameParts = reqServletName.split("-");
+
+    for (String namePart : controllerNameParts) {
+      controllerName.append(Character.toUpperCase(namePart.charAt(0))
+          + namePart.substring(1));
+    }
+    return controllerName.toString();
   }
 
   private String trimUpToChar(String string, char ch) {
