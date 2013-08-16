@@ -20,14 +20,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 
+@Singleton
+public class RepositoriesNextController implements VelocityController {
 
-
-public interface VelocityController {
-
-  void doAction(IdentifiedUser user, GitHubLogin hubLogin,
+  @Override
+  public void doAction(IdentifiedUser user, GitHubLogin hubLogin,
       HttpServletRequest req, HttpServletResponse resp, ControllerErrors errors)
-      throws ServletException, IOException;
+      throws ServletException, IOException {
+  }
 
 }

@@ -11,23 +11,29 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package com.googlesource.gerrit.plugins.github.wizard;
+package com.googlesrouce.gerrit.plugins.github.git;
 
 import java.io.IOException;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+public abstract class GitException extends IOException {
+  private static final long serialVersionUID = -1180349547385523064L;
 
-import com.google.gerrit.server.IdentifiedUser;
-import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
+  public GitException() {
+    super();
+  }
 
+  public GitException(String message) {
+    super(message);
+  }
 
+  public GitException(Throwable cause) {
+    super(cause);
+  }
 
-public interface VelocityController {
+  public GitException(String message, Throwable cause) {
+    super(message, cause);
+  }
 
-  void doAction(IdentifiedUser user, GitHubLogin hubLogin,
-      HttpServletRequest req, HttpServletResponse resp, ControllerErrors errors)
-      throws ServletException, IOException;
+  public abstract String getErrorDescription();
 
 }

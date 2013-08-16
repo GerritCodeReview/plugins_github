@@ -20,14 +20,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
+import com.googlesrouce.gerrit.plugins.github.git.GitCloner;
 
+@Singleton
+public class RepositoriesCloneCancelController implements VelocityController {
 
+  private Provider<GitCloner> clonerProvider;
 
-public interface VelocityController {
+  @Inject
+  public RepositoriesCloneCancelController(Provider<GitCloner> clonerProvider) {
+    this.clonerProvider = clonerProvider;
+  }
 
-  void doAction(IdentifiedUser user, GitHubLogin hubLogin,
+  @Override
+  public void doAction(IdentifiedUser user, GitHubLogin hubLogin,
       HttpServletRequest req, HttpServletResponse resp, ControllerErrors errors)
-      throws ServletException, IOException;
+      throws ServletException, IOException {
+    clonerProvider.get().cancel();
+  }
 
 }

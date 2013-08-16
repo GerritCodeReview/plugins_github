@@ -26,13 +26,19 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.http.client.HttpClient;
 import org.kohsuke.github.GHMyself;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Strings;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.Key;
+import com.google.inject.Provider;
+import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
 
 @Singleton
 public class OAuthFilter implements Filter {
@@ -48,9 +54,9 @@ public class OAuthFilter implements Filter {
   public OAuthFilter(OAuthConfig config) {
     this.config = config;
     this.cookieProvider = new OAuthCookieProvider(new TokenCipher());
-    this.oauth =
-        new OAuthProtocol(config, GitHubHttpProvider.getInstance().get(),
-            new Gson());
+    HttpClient httpClient;
+    httpClient = new GitHubHttpProvider().get();
+    this.oauth = new OAuthProtocol(config, httpClient, new Gson());
   }
 
   @Override
@@ -67,7 +73,8 @@ public class OAuthFilter implements Filter {
 
     HttpServletRequest httpRequest = (HttpServletRequest) request;
     HttpServletResponse httpResponse = (HttpServletResponse) response;
-    log.info("doFilter(" + httpRequest.getRequestURI() + ") code=" + request.getParameter("code") + " me=" + oauth.me());
+    log.info("doFilter(" + httpRequest.getRequestURI() + ") code="
+        + request.getParameter("code") + " me=" + oauth.me());
 
     Cookie gerritCookie = getGerritCookie(httpRequest);
     OAuthCookie authCookie =
