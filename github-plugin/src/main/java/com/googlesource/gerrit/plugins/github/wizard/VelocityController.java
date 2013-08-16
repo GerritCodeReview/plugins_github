@@ -14,7 +14,7 @@ import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 public interface VelocityController {
 
   void doAction(IdentifiedUser user, GitHubLogin hubLogin,
-      HttpServletRequest req, HttpServletResponse resp)
+      HttpServletRequest req, HttpServletResponse resp, ControllerErrors errors)
       throws ServletException, IOException;
 
 }
