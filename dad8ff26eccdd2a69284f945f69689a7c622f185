@@ -48,6 +48,23 @@
     },
     {
       "key": {
+        "uuid": "8d48c079_63e5a257",
+        "filename": "github-oauth/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-17T06:56:38Z",
+      "side": 1,
+      "message": "Doesn\u0027t work here. Missing repository?\n\n Failure to find org.kohsuke:github-api:jar:1.44-SNAPSHOT in http://repo.jenkins-ci.org/public/",
+      "revId": "dad8ff26eccdd2a69284f945f69689a7c622f185",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d0a7414_d81c4d7c",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/wizard/ControllerErrors.java",
         "patchSetId": 3
@@ -111,6 +128,23 @@
         "endLine": 45,
         "endChar": 8
       },
+      "revId": "dad8ff26eccdd2a69284f945f69689a7c622f185",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d48c079_43eaa629",
+        "filename": "github-plugin/src/test/java/com/googlesource/gerrit/plugins/github/wizard/test/GitClonerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-17T06:56:38Z",
+      "side": 1,
+      "message": "Unused import",
       "revId": "dad8ff26eccdd2a69284f945f69689a7c622f185",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
