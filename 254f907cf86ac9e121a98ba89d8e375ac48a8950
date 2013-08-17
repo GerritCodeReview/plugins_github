@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd4e3882_05f4b205",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/filters/GitHubOAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-17T07:15:33Z",
+      "side": 1,
+      "message": "nit: trailing space",
+      "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d8888e2_61e57657",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/filters/PluginVelocityModelFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-17T07:15:33Z",
+      "side": 1,
+      "message": "nit: trailing space",
+      "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd4e3882_e5f876fc",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/filters/PluginVelocityModelFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-17T07:15:33Z",
+      "side": 1,
+      "message": "space",
+      "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd4e3882_c5f57a02",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/filters/PluginVelocityModelFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-17T07:15:33Z",
+      "side": 1,
+      "message": "space",
+      "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd4e3882_25efae39",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/pullsync/PullRequestsServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-17T07:15:33Z",
+      "side": 1,
+      "message": "nit: trailing blank",
+      "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d48c079_a3027a1c",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/pullsync/PullRequestsServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-17T07:15:33Z",
+      "side": 1,
+      "message": "throw RuntimeException here?",
+      "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d0a7414_9816d556",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/velocity/PluginVelocityModel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-17T07:15:33Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d48c079_c3f57602",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/velocity/PluginVelocityRuntimeProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-17T07:15:33Z",
+      "side": 1,
+      "message": "break this line",
+      "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d48c079_03f4ae05",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/velocity/VelocityStaticServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-17T07:15:33Z",
+      "side": 1,
+      "message": "unused import",
+      "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd4e3882_45eaaa29",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/velocity/VelocityStaticServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-17T07:15:33Z",
+      "side": 1,
+      "message": "unused import",
+      "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d48c079_e3f872fc",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/velocity/VelocityViewServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-17T07:15:33Z",
+      "side": 1,
+      "message": "Why template is defined outside of try block?",
+      "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d48c079_83ff7ee0",
+        "filename": "github-plugin/src/main/resources/static/scripts.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-17T07:15:33Z",
+      "side": 1,
+      "message": "nit: trailing blank\n\nWhy not to use this and not ship it locally?\n\n http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js",
+      "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
