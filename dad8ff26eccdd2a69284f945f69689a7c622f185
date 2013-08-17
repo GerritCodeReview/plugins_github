@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d0f7025_9716a456",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-08-17T06:40:17Z",
+      "side": 1,
+      "message": "nit: Trailing whitespace",
+      "range": {
+        "startLine": 11,
+        "startChar": 44,
+        "endLine": 11,
+        "endChar": 45
+      },
+      "revId": "dad8ff26eccdd2a69284f945f69689a7c622f185",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d0a7414_f81f116e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-08-17T06:40:17Z",
+      "side": 1,
+      "message": "nit: Trailing whitespace",
+      "range": {
+        "startLine": 12,
+        "startChar": 47,
+        "endLine": 12,
+        "endChar": 48
+      },
+      "revId": "dad8ff26eccdd2a69284f945f69689a7c622f185",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d0a7414_d81c4d7c",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/wizard/ControllerErrors.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-08-17T06:40:17Z",
+      "side": 1,
+      "message": "Remove?",
+      "range": {
+        "startLine": 6,
+        "startChar": 4,
+        "endLine": 6,
+        "endChar": 38
+      },
+      "revId": "dad8ff26eccdd2a69284f945f69689a7c622f185",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d0f7025_573c8cd9",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/wizard/ControllerErrors.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-08-17T06:40:17Z",
+      "side": 1,
+      "message": "nit: Trailing whitespace",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 4
+      },
+      "revId": "dad8ff26eccdd2a69284f945f69689a7c622f185",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d0f7025_1746145e",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/wizard/GitCloner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-08-17T06:40:17Z",
+      "side": 1,
+      "message": "nit: Trailing whitespace",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 8
+      },
+      "revId": "dad8ff26eccdd2a69284f945f69689a7c622f185",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
