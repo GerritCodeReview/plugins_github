@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "8d936069_eb48b15f",
+        "filename": "github-plugin/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-22T09:23:17Z",
+      "side": 1,
+      "message": "Line endings in this file seem to be messed up.",
+      "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d936069_0b817d4f",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/HttpModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-22T09:23:17Z",
+      "side": 1,
+      "message": "Missing copyright header in this file and several others.",
+      "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd4e3882_05f4b205",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/filters/GitHubOAuthFilter.java",
         "patchSetId": 1
@@ -183,6 +217,40 @@
       "writtenOn": "2013-08-17T07:15:33Z",
       "side": 1,
       "message": "Why template is defined outside of try block?",
+      "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d82ac1a_6a46775f",
+        "filename": "github-plugin/src/main/resources/static/account.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-22T09:23:17Z",
+      "side": 1,
+      "message": "Nit: Tabs",
+      "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d82ac1a_8a2acb8b",
+        "filename": "github-plugin/src/main/resources/static/account.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-22T09:23:17Z",
+      "side": 1,
+      "message": "trailing space",
       "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
