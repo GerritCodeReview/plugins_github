@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "cd4398e0_7d92779f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-08-23T22:02:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d0f7025_9716a456",
+      "revId": "dad8ff26eccdd2a69284f945f69689a7c622f185",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d0a7414_f81f116e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "cd4398e0_1d9fb3a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-08-23T22:02:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d0a7414_f81f116e",
+      "revId": "dad8ff26eccdd2a69284f945f69689a7c622f185",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d48c079_63e5a257",
         "filename": "github-oauth/pom.xml",
         "patchSetId": 3
@@ -59,6 +95,24 @@
       "writtenOn": "2013-08-17T06:56:38Z",
       "side": 1,
       "message": "Doesn\u0027t work here. Missing repository?\n\n Failure to find org.kohsuke:github-api:jar:1.44-SNAPSHOT in http://repo.jenkins-ci.org/public/",
+      "revId": "dad8ff26eccdd2a69284f945f69689a7c622f185",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed469cef_1e9fada6",
+        "filename": "github-oauth/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-08-23T22:02:52Z",
+      "side": 1,
+      "message": "I actually need the \"latest and greatest\" 1.44-SNAPSHOT ... that means you need to clone the Kohsuke GitHub repo and build the github-api locally first.\n\nSee https://github.com/kohsuke/github-api",
+      "parentUuid": "8d48c079_63e5a257",
       "revId": "dad8ff26eccdd2a69284f945f69689a7c622f185",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -88,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "ed469cef_3e9ce9ae",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/wizard/ControllerErrors.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-08-23T22:02:52Z",
+      "side": 1,
+      "message": "Nope ... just forgot to put the code :-)",
+      "parentUuid": "2d0a7414_d81c4d7c",
+      "revId": "dad8ff26eccdd2a69284f945f69689a7c622f185",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d0f7025_573c8cd9",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/wizard/ControllerErrors.java",
         "patchSetId": 3
@@ -105,6 +177,24 @@
         "endLine": 7,
         "endChar": 4
       },
+      "revId": "dad8ff26eccdd2a69284f945f69689a7c622f185",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed469cef_de6705e7",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/wizard/ControllerErrors.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-08-23T22:02:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d0f7025_573c8cd9",
       "revId": "dad8ff26eccdd2a69284f945f69689a7c622f185",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -134,6 +224,24 @@
     },
     {
       "key": {
+        "uuid": "cd4398e0_3d9cefae",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/wizard/GitCloner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-08-23T22:02:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d0f7025_1746145e",
+      "revId": "dad8ff26eccdd2a69284f945f69689a7c622f185",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d48c079_43eaa629",
         "filename": "github-plugin/src/test/java/com/googlesource/gerrit/plugins/github/wizard/test/GitClonerTest.java",
         "patchSetId": 3
@@ -145,6 +253,24 @@
       "writtenOn": "2013-08-17T06:56:38Z",
       "side": 1,
       "message": "Unused import",
+      "revId": "dad8ff26eccdd2a69284f945f69689a7c622f185",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed469cef_fe6c41cd",
+        "filename": "github-plugin/src/test/java/com/googlesource/gerrit/plugins/github/wizard/test/GitClonerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-08-23T22:02:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d48c079_43eaa629",
       "revId": "dad8ff26eccdd2a69284f945f69689a7c622f185",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
