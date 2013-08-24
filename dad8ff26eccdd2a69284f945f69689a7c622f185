@@ -137,6 +137,24 @@
     },
     {
       "key": {
+        "uuid": "6d81cc4b_d2e4c45d",
+        "filename": "github-oauth/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-08-24T08:13:33Z",
+      "side": 1,
+      "message": "Agreed: will add a global README.md with instructions on how to build :-)\nThanks for the feedback.\n\nLuca.",
+      "parentUuid": "ad290421_d4e4bc5d",
+      "revId": "dad8ff26eccdd2a69284f945f69689a7c622f185",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d0a7414_d81c4d7c",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/wizard/ControllerErrors.java",
         "patchSetId": 3
