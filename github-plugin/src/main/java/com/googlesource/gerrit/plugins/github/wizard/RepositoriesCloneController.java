@@ -63,11 +63,22 @@ public class RepositoriesCloneController implements VelocityController {
       String repository =
           req.getParameter(REPO_PARAM_PREFIX + repoIdx + "_repository");
       try {
-        gitCloner.clone(repoIdx, organisation, repository);
+        gitCloner.clone(repoIdx, organisation, repository,
+            getDescription(hubLogin, organisation, repository));
       } catch (Exception e) {
         errorMgr.submit(e);
       }
 
+    }
+  }
+
+  private String getDescription(GitHubLogin hubLogin, String organisation,
+      String repository) throws IOException {
+    if (organisation.equals(hubLogin.getMyself().getLogin())) {
+      return hubLogin.getMyself().getRepository(repository).getDescription();
+    } else {
+      return hubLogin.hub.getOrganization(organisation)
+          .getRepository(repository).getDescription();
     }
   }
 
