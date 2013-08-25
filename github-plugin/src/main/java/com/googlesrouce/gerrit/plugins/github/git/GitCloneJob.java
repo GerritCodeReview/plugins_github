@@ -39,6 +39,7 @@ public class GitCloneJob extends AbstractCloneJob implements Runnable,
   public void run() {
     try {
       cloneCommand.doClone(this);
+      cloneCommand.configureProject(this);
       status = GitCloneStatus.COMPLETE;
     } catch (Exception e) {
       if (status == GitCloneStatus.SYNC) {

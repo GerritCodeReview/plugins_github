@@ -19,6 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.servlet.SessionScoped;
 import com.googlesrouce.gerrit.plugins.github.git.GitClone.Factory;
@@ -30,18 +31,20 @@ public class GitCloner {
   private final ConcurrentHashMap<Integer, CloneJob> cloneJobs =
       new ConcurrentHashMap<Integer, CloneJob>();
   private final GitCommandsExecutor executor;
+  private IdentifiedUser user;
 
 
   @Inject
-  public GitCloner(GitClone.Factory cloneFactory, GitCommandsExecutor executor) {
+  public GitCloner(GitClone.Factory cloneFactory, GitCommandsExecutor executor, IdentifiedUser user) {
     this.cloneFactory = cloneFactory;
     this.executor = executor;
+    this.user = user;
   }
 
-  public void clone(int idx, String organisation, String repository) {
+  public void clone(int idx, String organisation, String repository, String description) {
     try {
       GitCloneJob gitCloneJob =
-          new GitCloneJob(idx, cloneFactory.create(organisation, repository));
+          new GitCloneJob(idx, cloneFactory.create(organisation, repository, description, user.getUserName()));
       log.debug("New Git clone job created: " + gitCloneJob);
       executor.exec(gitCloneJob);
       cloneJobs.put(idx, gitCloneJob);
