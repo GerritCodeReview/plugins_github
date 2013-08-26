@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ed5dbcd3_e6e9fe34",
+        "filename": "github-plugin/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-08-26T21:55:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d936069_eb48b15f",
+      "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d936069_0b817d4f",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/HttpModule.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-08-22T09:23:17Z",
       "side": 1,
       "message": "Missing copyright header in this file and several others.",
+      "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd5ab8dc_c5e4fa5d",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/HttpModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-08-26T21:55:00Z",
+      "side": 1,
+      "message": "Fixed all the copyright headers in:\nhttps://gerrit-review.googlesource.com/#/c/48871/",
+      "parentUuid": "8d936069_0b817d4f",
       "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "cd5ab8dc_e5e9f634",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/filters/GitHubOAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-08-26T21:55:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd4e3882_05f4b205",
+      "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d8888e2_61e57657",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/filters/PluginVelocityModelFilter.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2013-08-17T07:15:33Z",
       "side": 1,
       "message": "nit: trailing space",
+      "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd5ab8dc_85ee023a",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/filters/PluginVelocityModelFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-08-26T21:55:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d8888e2_61e57657",
       "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "ed5dbcd3_86ee0a3a",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/filters/PluginVelocityModelFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-08-26T21:55:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd4e3882_e5f876fc",
+      "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd4e3882_c5f57a02",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/filters/PluginVelocityModelFilter.java",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2013-08-17T07:15:33Z",
       "side": 1,
       "message": "space",
+      "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd5ab8dc_a5f3fe1e",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/filters/PluginVelocityModelFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-08-26T21:55:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd4e3882_c5f57a02",
       "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -138,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "ed5dbcd3_a6f3061f",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/pullsync/PullRequestsServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-08-26T21:55:00Z",
+      "side": 1,
+      "message": "This Servlet is just a placeholder for trying out the GitHub API for fetching pull requests.\n\nI have introduced in the latest patches the Velocity templates and Controllers and everything will be redesigned with an HTML/AJAX interface.\n\nDon\u0027t spend time in tidying up this class, it will be redesigned anyway.",
+      "parentUuid": "8d48c079_a3027a1c",
+      "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d0a7414_9816d556",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/velocity/PluginVelocityModel.java",
         "patchSetId": 1
@@ -149,6 +275,24 @@
       "writtenOn": "2013-08-17T07:15:33Z",
       "side": 1,
       "message": "trailing space",
+      "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad5744b3_c4e4fe5d",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/velocity/PluginVelocityModel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-08-26T21:55:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d0a7414_9816d556",
       "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -172,6 +316,24 @@
     },
     {
       "key": {
+        "uuid": "ed5dbcd3_46f9f2fd",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/velocity/PluginVelocityRuntimeProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-08-26T21:55:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d48c079_c3f57602",
+      "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d48c079_03f4ae05",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/velocity/VelocityStaticServlet.java",
         "patchSetId": 1
@@ -183,6 +345,24 @@
       "writtenOn": "2013-08-17T07:15:33Z",
       "side": 1,
       "message": "unused import",
+      "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed5dbcd3_66f66e0f",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/velocity/VelocityStaticServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-08-26T21:55:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d48c079_03f4ae05",
       "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -206,6 +386,24 @@
     },
     {
       "key": {
+        "uuid": "ed5dbcd3_0603fa23",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/velocity/VelocityStaticServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-08-26T21:55:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd4e3882_45eaaa29",
+      "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d48c079_e3f872fc",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/velocity/VelocityViewServlet.java",
         "patchSetId": 1
@@ -223,6 +421,24 @@
     },
     {
       "key": {
+        "uuid": "cd5ab8dc_45f9eafd",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/velocity/VelocityViewServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-08-26T21:55:00Z",
+      "side": 1,
+      "message": "No reason :-) Put inside.",
+      "parentUuid": "8d48c079_e3f872fc",
+      "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d82ac1a_6a46775f",
         "filename": "github-plugin/src/main/resources/static/account.html",
         "patchSetId": 1
@@ -234,6 +450,24 @@
       "writtenOn": "2013-08-22T09:23:17Z",
       "side": 1,
       "message": "Nit: Tabs",
+      "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd5ab8dc_65f6660f",
+        "filename": "github-plugin/src/main/resources/static/account.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-08-26T21:55:00Z",
+      "side": 1,
+      "message": "will generate too many conflicts in fixing it here.\nWill do the reformat in a specific ad-hoc commit.",
+      "parentUuid": "6d82ac1a_6a46775f",
       "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -268,6 +502,24 @@
       "writtenOn": "2013-08-17T07:15:33Z",
       "side": 1,
       "message": "nit: trailing blank\n\nWhy not to use this and not ship it locally?\n\n http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js",
+      "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed5dbcd3_26007614",
+        "filename": "github-plugin/src/main/resources/static/scripts.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-08-26T21:55:00Z",
+      "side": 1,
+      "message": "Actually I did it and included in one of my last commits.\n\nP.S. Can\u0027t use jQuery 2.x because of Browser compatibility issues.",
+      "parentUuid": "8d48c079_83ff7ee0",
       "revId": "254f907cf86ac9e121a98ba89d8e375ac48a8950",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
