@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "edf21c16_be3659f8",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2013-08-27T07:40:36Z",
+      "side": 1,
+      "message": "Move this section to \"about.md\"?",
+      "revId": "2a6628ccbe7f91d05007ce5383cc56897ba2e629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "adaae4e9_0c1db775",
         "filename": "README.md",
         "patchSetId": 1
