@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "adaae4e9_0c1db775",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-27T06:13:30Z",
+      "side": 1,
+      "message": "untabify",
+      "revId": "2a6628ccbe7f91d05007ce5383cc56897ba2e629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8da7e022_8b106d62",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-27T06:13:30Z",
+      "side": 1,
+      "message": "Why to mention something that is not implemented yet? Remove it and add it once it is implemented?",
+      "revId": "2a6628ccbe7f91d05007ce5383cc56897ba2e629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "adaae4e9_4c17bf53",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-27T06:13:30Z",
+      "side": 1,
+      "message": "You need to clone, build and install\nor just be more precisely about instruction here:\n\n mvn install",
+      "revId": "2a6628ccbe7f91d05007ce5383cc56897ba2e629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "adaae4e9_6c1a7b7f",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-27T06:13:30Z",
+      "side": 1,
+      "message": "Point is missing.",
+      "revId": "2a6628ccbe7f91d05007ce5383cc56897ba2e629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d5440b2_2332aa00",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2013-08-27T06:13:30Z",
+      "side": 1,
+      "message": "the same as above:\n\n mvn install",
+      "revId": "2a6628ccbe7f91d05007ce5383cc56897ba2e629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
