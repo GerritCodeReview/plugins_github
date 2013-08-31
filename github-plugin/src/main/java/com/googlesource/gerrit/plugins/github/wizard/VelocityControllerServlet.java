@@ -30,6 +30,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import com.googlesource.gerrit.plugins.github.GitHubConfig;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 
 @Singleton
@@ -42,15 +43,18 @@ public class VelocityControllerServlet extends HttpServlet {
   private final Provider<GitHubLogin> loginProvider;
   private final Provider<IdentifiedUser> userProvider;
   private final Injector injector;
-  private Provider<ControllerErrors> errorsProvider;
+  private final Provider<ControllerErrors> errorsProvider;
+  private final GitHubConfig githubConfig;
 
   @Inject
   public VelocityControllerServlet(final Provider<GitHubLogin> loginProvider,
-      Provider<IdentifiedUser> userProvider, final Injector injector, Provider<ControllerErrors> errorsProvider) {
+      Provider<IdentifiedUser> userProvider, final Injector injector, Provider<ControllerErrors> errorsProvider,
+      GitHubConfig githubConfig) {
     this.loginProvider = loginProvider;
     this.userProvider = userProvider;
     this.injector = injector;
     this.errorsProvider = errorsProvider;
+    this.githubConfig = githubConfig;
   }
 
   @SuppressWarnings("unchecked")
@@ -114,9 +118,15 @@ public class VelocityControllerServlet extends HttpServlet {
 
   private void redirectToNextStep(HttpServletRequest req,
       HttpServletResponse resp) throws IOException {
-    String nextUrl = req.getParameter("next");
-    if (Strings.emptyToNull(nextUrl) != null) {
-      resp.sendRedirect(nextUrl);
+    String sourcePath = req.getRequestURI();
+    String sourcePage = sourcePath.substring(sourcePath.lastIndexOf('/')+1);
+    int queryStringStart = sourcePage.indexOf('?');
+    if(queryStringStart > 0) {
+      sourcePage = sourcePage.substring(0, queryStringStart);
+    }
+    String nextPage = githubConfig.getNextPage(sourcePage);
+    if (nextPage != null) {
+      resp.sendRedirect(nextPage);
     }
   }
 }
