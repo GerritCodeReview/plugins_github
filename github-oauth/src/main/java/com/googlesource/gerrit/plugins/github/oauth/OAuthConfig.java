@@ -15,14 +15,18 @@ package com.googlesource.gerrit.plugins.github.oauth;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.jgit.lib.Config;
 
 import com.google.common.base.Objects;
+import com.google.common.base.Strings;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
 
 @Singleton
 public class OAuthConfig {
@@ -43,6 +47,7 @@ public class OAuthConfig {
   public final String oAuthFinalRedirectUrl;
   public final String gitHubOAuthAccessTokenUrl;
   public final boolean enabled;
+  public final List<OAuthProtocol.Scope> scopes;
 
   @Inject
   public OAuthConfig(@GerritServerConfig Config config)
@@ -63,6 +68,19 @@ public class OAuthConfig {
     enabled =
         config.getString("auth", null, "type").equalsIgnoreCase(
             AuthType.HTTP.toString());
+    scopes = parseScopes(config.getString("github", null, "scopes"));
+  }
+
+  private List<Scope> parseScopes(String scopesString) {
+    ArrayList<Scope> scopes = new ArrayList<OAuthProtocol.Scope>();
+    if(Strings.emptyToNull(scopesString) != null) {
+      String[] scopesStrings = scopesString.split(",");
+      for (String scope : scopesStrings) {
+        scopes.add(Enum.valueOf(Scope.class, scope));
+      }
+    }
+    
+    return scopes;
   }
 
   public String getUrl(String baseUrl, String path)

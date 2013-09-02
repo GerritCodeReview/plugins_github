@@ -6,6 +6,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.servlet.ServletRequest;
@@ -84,12 +86,15 @@ public class OAuthProtocol {
   }
 
   private String getScope(Scope[] scopes) {
-    if(scopes.length <= 0) {
+    HashSet<Scope> fullScopes = new HashSet<OAuthProtocol.Scope>(config.scopes);
+    fullScopes.addAll(Arrays.asList(scopes));
+    
+    if(fullScopes.size() <= 0) {
       return "";
     }
     
     StringBuilder out = new StringBuilder();
-    for (Scope scope : scopes) {
+    for (Scope scope : fullScopes) {
       if(out.length() > 0) {
         out.append(",");
       }
