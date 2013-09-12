@@ -13,47 +13,34 @@
 // limitations under the License.
 package com.googlesrouce.gerrit.plugins.github.git;
 
-public class ErrorCloneJob extends AbstractCloneJob implements GitJob {
+import org.eclipse.jgit.lib.ProgressMonitor;
 
-  private int idx;
+
+
+public abstract class ImportStep {
+  private static final String GITHUB_REPOSITORY_FORMAT =
+      "https://github.com/%1$s/%2$s.git";
   private String organisation;
   private String repository;
-  private Throwable exception;
 
-  public ErrorCloneJob(int idx, String organisation, String repository,
-      Throwable e) {
-    this.idx = idx;
+  public ImportStep(String organisation, String repository) {
     this.organisation = organisation;
     this.repository = repository;
-    this.exception = e;
   }
 
-  @Override
-  public String getStatusDescription() {
-    return getErrorDescription(exception);
+  protected String getSourceUri() {
+    return String.format(GITHUB_REPOSITORY_FORMAT, organisation, repository);
   }
-
-  @Override
-  public GitJobStatus getStatus() {
-    return GitJobStatus.FAILED;
-  }
-
-  @Override
-  public int getIndex() {
-    return idx;
-  }
-
-  @Override
+  
   public String getOrganisation() {
     return organisation;
   }
 
-  @Override
   public String getRepository() {
     return repository;
   }
 
-  public void cancel() {
-  }
+  public abstract void doImport(ProgressMonitor progress) throws Exception;
 
+  public abstract boolean rollback();
 }

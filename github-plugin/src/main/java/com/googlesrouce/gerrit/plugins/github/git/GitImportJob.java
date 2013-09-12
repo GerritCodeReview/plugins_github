@@ -15,11 +15,8 @@ package com.googlesrouce.gerrit.plugins.github.git;
 
 import org.eclipse.jgit.lib.ProgressMonitor;
 
-public class GitCloneJob extends AbstractCloneJob implements Runnable,
-    ProgressMonitor, CloneJob {
-  private GitClone cloneCommand;
-
-
+public class GitImportJob extends AbstractCloneJob implements Runnable,
+    ProgressMonitor, GitJob {
   private int currTask;
   private int totUnits;
   private int currUnit;
@@ -27,38 +24,50 @@ public class GitCloneJob extends AbstractCloneJob implements Runnable,
   private boolean cancelled;
   private String task = "Initializing ...";
   private Exception exception;
-  private GitCloneStatus status = GitCloneStatus.SYNC;
+  private GitJobStatus status = GitJobStatus.SYNC;
   private int index;
+  private final ImportStep[] importSteps;
+  private String organisation;
+  private String repository;
 
-  public GitCloneJob(int id, GitClone cloneCommand) {
-    this.cloneCommand = cloneCommand;
+  public GitImportJob(int id, String organisation, String repository, ImportStep... steps) {
+    this.importSteps = steps;
     this.index = id;
+    this.organisation = organisation;
+    this.repository = repository;
   }
 
   @Override
   public void run() {
     try {
-      cloneCommand.doClone(this);
-      cloneCommand.configureProject(this);
-      status = GitCloneStatus.COMPLETE;
-    } catch (Exception e) {
-      if (status == GitCloneStatus.SYNC) {
-        this.exception = e;
-        status = GitCloneStatus.FAILED;
+      for (ImportStep importStep : importSteps) {
+        importStep.doImport(this);
       }
-      cloneCommand.cleanUp();
+      status = GitJobStatus.COMPLETE;
+    } catch (Exception e) {
+      if (status == GitJobStatus.SYNC) {
+        this.exception = e;
+        status = GitJobStatus.FAILED;
+      }
+      rollback();
+    }
+  }
+
+  private void rollback() {
+    for (ImportStep importStep : importSteps) {
+      importStep.rollback();
     }
   }
 
   @Override
   public void cancel() {
-    if (status != GitCloneStatus.SYNC) {
+    if (status != GitJobStatus.SYNC) {
       return;
     }
 
     cancelled = true;
-    status = GitCloneStatus.CANCELLED;
-    cloneCommand.cleanUp();
+    status = GitJobStatus.CANCELLED;
+    rollback();
   }
 
 
@@ -92,7 +101,7 @@ public class GitCloneJob extends AbstractCloneJob implements Runnable,
    * @see com.googlesrouce.gerrit.plugins.github.git.CloneJob#getStatus()
    */
   @Override
-  public GitCloneStatus getStatus() {
+  public GitJobStatus getStatus() {
     return status;
   }
 
@@ -117,7 +126,7 @@ public class GitCloneJob extends AbstractCloneJob implements Runnable,
   @Override
   public boolean isCancelled() {
     if (cancelled) {
-      status = GitCloneStatus.CANCELLED;
+      status = GitJobStatus.CANCELLED;
     }
     return cancelled;
   }
@@ -135,34 +144,25 @@ public class GitCloneJob extends AbstractCloneJob implements Runnable,
     this.lastPercentage = 0;
   }
 
-  public GitClone getCloneCommand() {
-    return cloneCommand;
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.googlesrouce.gerrit.plugins.github.git.CloneJob#getIndex()
-   */
   @Override
   public int getIndex() {
     return index;
   }
 
   @Override
+  public String toString() {
+    return "CloneJob#" + index + " " + getOrganisation() + "/"
+        + getRepository();
+  }
+
+  @Override
   public String getOrganisation() {
-    return cloneCommand.getOrganisation();
+    return organisation;
   }
 
   @Override
   public String getRepository() {
-    return cloneCommand.getRepository();
-  }
-
-  @Override
-  public String toString() {
-    return "CloneJob#" + index + " " + getOrganisation() + "/"
-        + getRepository();
+    return repository;
   }
 
 }

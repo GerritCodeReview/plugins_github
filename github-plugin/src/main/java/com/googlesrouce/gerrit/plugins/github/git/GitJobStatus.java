@@ -13,18 +13,10 @@
 // limitations under the License.
 package com.googlesrouce.gerrit.plugins.github.git;
 
-public interface CloneJob {
-
-  String getStatusDescription();
-
-  GitCloneStatus getStatus();
-
-  int getIndex();
-
-  String getOrganisation();
-
-  String getRepository();
-
-  public abstract void cancel();
-
+public enum GitJobStatus {
+  SYNC, COMPLETE, FAILED, CANCELLED;
+  
+  public String toString() {
+    return name().toLowerCase();
+  };
 }

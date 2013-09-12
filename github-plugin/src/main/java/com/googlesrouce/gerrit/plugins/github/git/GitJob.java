@@ -13,10 +13,18 @@
 // limitations under the License.
 package com.googlesrouce.gerrit.plugins.github.git;
 
-public enum GitCloneStatus {
-  SYNC, COMPLETE, FAILED, CANCELLED;
-  
-  public String toString() {
-    return name().toLowerCase();
-  };
+public interface GitJob {
+
+  String getStatusDescription();
+
+  GitJobStatus getStatus();
+
+  int getIndex();
+
+  String getOrganisation();
+
+  String getRepository();
+
+  public abstract void cancel();
+
 }

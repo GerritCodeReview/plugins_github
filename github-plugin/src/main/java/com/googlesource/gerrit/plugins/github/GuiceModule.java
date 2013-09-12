@@ -21,13 +21,17 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.name.Names;
 import com.googlesource.gerrit.plugins.github.replication.RemoteSiteUser;
 import com.googlesource.gerrit.plugins.github.velocity.PluginVelocityRuntimeProvider;
-import com.googlesrouce.gerrit.plugins.github.git.GitClone;
+import com.googlesrouce.gerrit.plugins.github.git.CreateProjectStep;
+import com.googlesrouce.gerrit.plugins.github.git.GitCloneStep;
 
 public class GuiceModule extends AbstractModule {
   @Override
   protected void configure() {
-    install(new FactoryModuleBuilder().implement(GitClone.class, GitClone.class)
-        .build(GitClone.Factory.class));
+    install(new FactoryModuleBuilder().implement(GitCloneStep.class, GitCloneStep.class)
+        .build(GitCloneStep.Factory.class));
+    install(new FactoryModuleBuilder().implement(CreateProjectStep.class, CreateProjectStep.class)
+        .build(CreateProjectStep.Factory.class));
+
     bind(RuntimeInstance.class).annotatedWith(Names.named("PluginRuntimeInstance"))
     .toProvider(PluginVelocityRuntimeProvider.class);
 

@@ -14,21 +14,17 @@
 package com.googlesource.gerrit.plugins.github;
 
 import org.apache.http.client.HttpClient;
-import org.apache.velocity.runtime.RuntimeInstance;
 
 import com.google.inject.assistedinject.FactoryModuleBuilder;
-import com.google.inject.name.Names;
 import com.google.inject.servlet.ServletModule;
 import com.googlesource.gerrit.plugins.github.filters.GitHubOAuthFilter;
 import com.googlesource.gerrit.plugins.github.filters.PluginVelocityModelFilter;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubHttpProvider;
 import com.googlesource.gerrit.plugins.github.pullsync.PullRequestsServlet;
 import com.googlesource.gerrit.plugins.github.replication.RemoteSiteUser;
-import com.googlesource.gerrit.plugins.github.velocity.PluginVelocityRuntimeProvider;
 import com.googlesource.gerrit.plugins.github.velocity.VelocityStaticServlet;
 import com.googlesource.gerrit.plugins.github.velocity.VelocityViewServlet;
 import com.googlesource.gerrit.plugins.github.wizard.VelocityControllerServlet;
-import com.googlesrouce.gerrit.plugins.github.git.GitClone;
 
 public class GuiceHttpModule extends ServletModule {
 

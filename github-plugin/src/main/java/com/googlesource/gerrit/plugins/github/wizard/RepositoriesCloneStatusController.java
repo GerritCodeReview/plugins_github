@@ -28,15 +28,15 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
-import com.googlesrouce.gerrit.plugins.github.git.CloneJob;
-import com.googlesrouce.gerrit.plugins.github.git.GitCloner;
+import com.googlesrouce.gerrit.plugins.github.git.GitJob;
+import com.googlesrouce.gerrit.plugins.github.git.GitImporter;
 
 @Singleton
 public class RepositoriesCloneStatusController implements VelocityController {
-  private Provider<GitCloner> clonerProvider;
+  private Provider<GitImporter> clonerProvider;
 
   @Inject
-  public RepositoriesCloneStatusController(Provider<GitCloner> clonerProvider) {
+  public RepositoriesCloneStatusController(Provider<GitImporter> clonerProvider) {
     this.clonerProvider = clonerProvider;
   }
 
@@ -44,17 +44,17 @@ public class RepositoriesCloneStatusController implements VelocityController {
   public void doAction(IdentifiedUser user, GitHubLogin hubLogin,
       HttpServletRequest req, HttpServletResponse resp, ControllerErrors errors)
       throws ServletException, IOException {
-    GitCloner cloner = clonerProvider.get();
+    GitImporter cloner = clonerProvider.get();
 
     JsonArray reposStatus = new JsonArray();
-    for (CloneJob job : cloner.getCloneJobs()) {
+    for (GitJob job : cloner.getCloneJobs()) {
       reposStatus.add(getJsonStatus(job));
 
     }
     resp.getWriter().println(reposStatus.toString());
   }
 
-  private JsonElement getJsonStatus(CloneJob job) {
+  private JsonElement getJsonStatus(GitJob job) {
     JsonObject json = new JsonObject();
     json.add("index", new JsonPrimitive(job.getIndex()));
     json.add("organisation", new JsonPrimitive(job.getOrganisation()));

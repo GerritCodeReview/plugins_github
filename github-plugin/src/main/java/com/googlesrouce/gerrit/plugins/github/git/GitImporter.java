@@ -22,29 +22,35 @@ import org.slf4j.LoggerFactory;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.servlet.SessionScoped;
-import com.googlesrouce.gerrit.plugins.github.git.GitClone.Factory;
 
 @SessionScoped
-public class GitCloner {
-  private static final Logger log = LoggerFactory.getLogger(GitCloner.class);
-  private final Factory cloneFactory;
-  private final ConcurrentHashMap<Integer, CloneJob> cloneJobs =
-      new ConcurrentHashMap<Integer, CloneJob>();
+public class GitImporter {
+  private static final Logger log = LoggerFactory.getLogger(GitImporter.class);
+  private final GitCloneStep.Factory cloneFactory;
+  private final ConcurrentHashMap<Integer, GitJob> cloneJobs =
+      new ConcurrentHashMap<Integer, GitJob>();
   private final GitCommandsExecutor executor;
   private IdentifiedUser user;
+  private CreateProjectStep.Factory projectFactory;
 
 
   @Inject
-  public GitCloner(GitClone.Factory cloneFactory, GitCommandsExecutor executor, IdentifiedUser user) {
+  public GitImporter(GitCloneStep.Factory cloneFactory,
+      CreateProjectStep.Factory projectFactory,
+      GitCommandsExecutor executor, IdentifiedUser user) {
     this.cloneFactory = cloneFactory;
+    this.projectFactory = projectFactory;
     this.executor = executor;
     this.user = user;
   }
 
-  public void clone(int idx, String organisation, String repository, String description) {
+  public void clone(int idx, String organisation, String repository,
+      String description) {
     try {
-      GitCloneJob gitCloneJob =
-          new GitCloneJob(idx, cloneFactory.create(organisation, repository, description, user.getUserName()));
+      GitImportJob gitCloneJob =
+          new GitImportJob(idx, organisation, repository, cloneFactory.create(
+              organisation, repository), projectFactory.create(organisation,
+              repository, description, user.getUserName()));
       log.debug("New Git clone job created: " + gitCloneJob);
       executor.exec(gitCloneJob);
       cloneJobs.put(idx, gitCloneJob);
@@ -53,7 +59,7 @@ public class GitCloner {
     }
   }
 
-  public Collection<CloneJob> getCloneJobs() {
+  public Collection<GitJob> getCloneJobs() {
     return cloneJobs.values();
   }
 
@@ -63,7 +69,7 @@ public class GitCloner {
   }
 
   public void cancel() {
-    for (CloneJob job : cloneJobs.values()) {
+    for (GitJob job : cloneJobs.values()) {
       job.cancel();
     }
   }
