@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.servlet.SessionScoped;
+import com.googlesrouce.gerrit.plugins.github.git.ReplicateProjectStep.Factory;
 
 @SessionScoped
 public class GitImporter {
@@ -31,15 +32,18 @@ public class GitImporter {
       new ConcurrentHashMap<Integer, GitJob>();
   private final GitCommandsExecutor executor;
   private IdentifiedUser user;
-  private CreateProjectStep.Factory projectFactory;
+  private final CreateProjectStep.Factory projectFactory;
+  private final ReplicateProjectStep.Factory replicateFactory;
 
 
   @Inject
   public GitImporter(GitCloneStep.Factory cloneFactory,
       CreateProjectStep.Factory projectFactory,
+      ReplicateProjectStep.Factory replicateFactory,
       GitCommandsExecutor executor, IdentifiedUser user) {
     this.cloneFactory = cloneFactory;
     this.projectFactory = projectFactory;
+    this.replicateFactory = replicateFactory;
     this.executor = executor;
     this.user = user;
   }
@@ -47,10 +51,14 @@ public class GitImporter {
   public void clone(int idx, String organisation, String repository,
       String description) {
     try {
+      GitCloneStep cloneStep = cloneFactory.create(
+          organisation, repository);
+      CreateProjectStep projectStep = projectFactory.create(organisation,
+          repository, description, user.getUserName());
+      ReplicateProjectStep replicateStep = replicateFactory.create(organisation, repository);
       GitImportJob gitCloneJob =
-          new GitImportJob(idx, organisation, repository, cloneFactory.create(
-              organisation, repository), projectFactory.create(organisation,
-              repository, description, user.getUserName()));
+          new GitImportJob(idx, organisation, repository, cloneStep, projectStep,
+              replicateStep);
       log.debug("New Git clone job created: " + gitCloneJob);
       executor.exec(gitCloneJob);
       cloneJobs.put(idx, gitCloneJob);
