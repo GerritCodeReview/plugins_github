@@ -18,8 +18,10 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 
 
 public abstract class ImportStep {
+  protected static final String GITHUB_REPOSITORY_BASE_URI =
+      "https://github.com";
   private static final String GITHUB_REPOSITORY_FORMAT =
-      "https://github.com/%1$s/%2$s.git";
+      GITHUB_REPOSITORY_BASE_URI + "/%1$s/%2$s.git";
   private String organisation;
   private String repository;
 

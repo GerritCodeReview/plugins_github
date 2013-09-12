@@ -23,17 +23,21 @@ import com.googlesource.gerrit.plugins.github.replication.RemoteSiteUser;
 import com.googlesource.gerrit.plugins.github.velocity.PluginVelocityRuntimeProvider;
 import com.googlesrouce.gerrit.plugins.github.git.CreateProjectStep;
 import com.googlesrouce.gerrit.plugins.github.git.GitCloneStep;
+import com.googlesrouce.gerrit.plugins.github.git.ReplicateProjectStep;
 
 public class GuiceModule extends AbstractModule {
   @Override
   protected void configure() {
-    install(new FactoryModuleBuilder().implement(GitCloneStep.class, GitCloneStep.class)
-        .build(GitCloneStep.Factory.class));
-    install(new FactoryModuleBuilder().implement(CreateProjectStep.class, CreateProjectStep.class)
-        .build(CreateProjectStep.Factory.class));
+    install(new FactoryModuleBuilder().implement(GitCloneStep.class,
+        GitCloneStep.class).build(GitCloneStep.Factory.class));
+    install(new FactoryModuleBuilder().implement(CreateProjectStep.class,
+        CreateProjectStep.class).build(CreateProjectStep.Factory.class));
+    install(new FactoryModuleBuilder().implement(ReplicateProjectStep.class,
+        ReplicateProjectStep.class).build(ReplicateProjectStep.Factory.class));
 
-    bind(RuntimeInstance.class).annotatedWith(Names.named("PluginRuntimeInstance"))
-    .toProvider(PluginVelocityRuntimeProvider.class);
+    bind(RuntimeInstance.class).annotatedWith(
+        Names.named("PluginRuntimeInstance")).toProvider(
+        PluginVelocityRuntimeProvider.class);
 
   }
 }
