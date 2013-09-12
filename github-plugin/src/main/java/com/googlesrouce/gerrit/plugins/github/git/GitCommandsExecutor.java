@@ -28,7 +28,7 @@ public class GitCommandsExecutor {
   public GitCommandsExecutor() {
   }
 
-  public void exec(GitCloneJob job) {
+  public void exec(GitImportJob job) {
     executor.execute(job);
   }
 }
