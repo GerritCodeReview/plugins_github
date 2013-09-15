@@ -13,19 +13,29 @@
 // limitations under the License.
 package com.googlesrouce.gerrit.plugins.github.git;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.ProvisionException;
 
 public class AbstractCloneJob {
+  private static final Logger LOG = LoggerFactory.getLogger(AbstractCloneJob.class);
 
   public AbstractCloneJob() {
     super();
   }
 
   protected String getErrorDescription(Throwable exception) {
+    LOG.error("Job " + this + " FAILED", exception);
     if(GitException.class.isAssignableFrom(exception.getClass())) {
       return ((GitException) exception).getErrorDescription();
     } else if(ProvisionException.class.isAssignableFrom(exception.getClass())){
-      return getErrorDescription(exception.getCause());
+      Throwable cause = exception.getCause();
+      if(cause != null) {
+      return getErrorDescription(cause);
+      } else {
+        return "Import startup failed";
+      }
     } else {
       return "Internal error";
     }

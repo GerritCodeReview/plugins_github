@@ -11,7 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package com.googlesource.gerrit.plugins.github.filters;
+package com.googlesource.gerrit.plugins.github.velocity;
 
 import java.io.IOException;
 import java.util.Map.Entry;
@@ -29,7 +29,6 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
-import com.googlesource.gerrit.plugins.github.velocity.PluginVelocityModel;
 
 @Singleton
 public class PluginVelocityModelFilter implements Filter {

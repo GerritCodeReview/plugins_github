@@ -16,19 +16,22 @@ package com.googlesrouce.gerrit.plugins.github.git;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
 public class GitCommandsExecutor {
   private static final int MAX_THREADS = 10;
-  private ExecutorService executor = Executors.newFixedThreadPool(MAX_THREADS);
+  private final ExecutorService executor = Executors.newFixedThreadPool(MAX_THREADS);
+  private final RequestScopePropagator requestScopePropagator;
 
   @Inject
-  public GitCommandsExecutor() {
+  public GitCommandsExecutor(final RequestScopePropagator requestScopePropagator) {
+    this.requestScopePropagator = requestScopePropagator;
   }
 
   public void exec(GitImportJob job) {
-    executor.execute(job);
+    executor.execute(requestScopePropagator.wrap(job));
   }
 }

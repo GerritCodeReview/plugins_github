@@ -20,12 +20,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.kohsuke.github.GHOrganization;
 import org.kohsuke.github.GHRepository;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -45,19 +48,33 @@ public class RepositoriesListController implements VelocityController {
   public void doAction(IdentifiedUser user, GitHubLogin hubLogin,
       HttpServletRequest req, HttpServletResponse resp, ControllerErrors errors)
       throws ServletException, IOException {
-    String organisation = hubLogin.getMyself().getLogin();
+    String organisation = req.getParameter("organisation");
     JsonArray jsonRepos = new JsonArray();
 
-    List<GHRepository> myRepositories =
-        hubLogin.getMyself().listRepositories().asList();
+    List<GHRepository> myRepositories = getRepositories(hubLogin, organisation);
     for (GHRepository hubRepository : myRepositories) {
+      JsonObject repository = new JsonObject();
       String projectName = organisation + "/" + hubRepository.getName();
       if (projects.get(Project.NameKey.parse(projectName)) == null) {
-        jsonRepos.add(new JsonPrimitive(projectName));
+        repository.add("name", new JsonPrimitive(hubRepository.getName()));
+        repository.add("organisation", new JsonPrimitive(organisation));
+        repository.add("description",
+            new JsonPrimitive(Strings.nullToEmpty(hubRepository.getDescription())));
+        jsonRepos.add(repository);
       }
     }
 
     resp.getWriter().println(jsonRepos.toString());
   }
 
+  private List<GHRepository> getRepositories(GitHubLogin hubLogin,
+      String organisation) throws IOException {
+    if (organisation.equals(hubLogin.getMyself().getLogin())) {
+      return hubLogin.getMyself().listRepositories().asList();
+    } else {
+      GHOrganization ghOrganisation =
+          hubLogin.getMyself().getOrganizations().byLogin(organisation);
+      return ghOrganisation.listRepositories().asList();
+    }
+  }
 }
