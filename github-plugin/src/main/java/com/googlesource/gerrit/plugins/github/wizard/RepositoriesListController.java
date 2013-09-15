@@ -36,8 +36,9 @@ import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 
 @Singleton
 public class RepositoriesListController implements VelocityController {
-
+  private static final int PAGE_SIZE = 100;
   private ProjectCache projects;
+
 
   @Inject
   public RepositoriesListController(ProjectCache projects) {
@@ -49,17 +50,18 @@ public class RepositoriesListController implements VelocityController {
       HttpServletRequest req, HttpServletResponse resp, ControllerErrors errors)
       throws ServletException, IOException {
     String organisation = req.getParameter("organisation");
-    JsonArray jsonRepos = new JsonArray();
 
-    List<GHRepository> myRepositories = getRepositories(hubLogin, organisation);
-    for (GHRepository hubRepository : myRepositories) {
+    JsonArray jsonRepos = new JsonArray();
+    for (GHRepository ghRepository : getRepositories(hubLogin, organisation)) {
       JsonObject repository = new JsonObject();
-      String projectName = organisation + "/" + hubRepository.getName();
+      String projectName = organisation + "/" + ghRepository.getName();
       if (projects.get(Project.NameKey.parse(projectName)) == null) {
-        repository.add("name", new JsonPrimitive(hubRepository.getName()));
+        repository.add("name", new JsonPrimitive(ghRepository.getName()));
         repository.add("organisation", new JsonPrimitive(organisation));
-        repository.add("description",
-            new JsonPrimitive(Strings.nullToEmpty(hubRepository.getDescription())));
+        repository.add(
+            "description",
+            new JsonPrimitive(
+                Strings.nullToEmpty(ghRepository.getDescription())));
         jsonRepos.add(repository);
       }
     }
@@ -70,11 +72,11 @@ public class RepositoriesListController implements VelocityController {
   private List<GHRepository> getRepositories(GitHubLogin hubLogin,
       String organisation) throws IOException {
     if (organisation.equals(hubLogin.getMyself().getLogin())) {
-      return hubLogin.getMyself().listRepositories().asList();
+      return hubLogin.getMyself().listRepositories(PAGE_SIZE).asList();
     } else {
       GHOrganization ghOrganisation =
           hubLogin.getMyself().getOrganizations().byLogin(organisation);
-      return ghOrganisation.listRepositories().asList();
+      return ghOrganisation.listRepositories(PAGE_SIZE).asList();
     }
   }
 }
