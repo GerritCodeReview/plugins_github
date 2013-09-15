@@ -36,6 +36,11 @@ $(function() {
 		});
 	}
 	
+	$("select#organisation").change(function() {
+		loadRepositories();
+		completed = false;
+	});
+	
 	$("#submit").click(function() {
 		var destination;
 
@@ -51,7 +56,7 @@ $(function() {
 					$(".status").each(function() {
 						this.style.visibility = "visible";
 					});
-					$(".keycheckbox").each(function() {
+					$("ul.repo-sync .keycheckbox").each(function() {
 						this.style.display = "none";
 					});
 					refresh();
@@ -74,21 +79,34 @@ $(function() {
 	});
 });
 
-$(document).ready(function () {
-	$.post('repositories-list.gh', function(data) {
+var loadRepositories = function () {
+	$("div.loading").attr("style","display: visible;");
+	$("ul.repo-sync").empty();
+	
+	var organisation = $("select#organisation option:selected").val();
+	$.post('repositories-list.gh', 
+		{ "organisation": organisation },
+		function(data) {
 		$("div.loading").attr("style","display: none;");
 		$("#submit").prop("disabled", "");
 		
 		var repos = eval('(' + data + ')');
 		
 		for (var i=0; i<repos.length; i++) {
-			var repoParts = repos[i].split("/");
+			var repo = repos[i];
 			var repoTemplate = $("#repo-template").html();
 			repoTemplate = repoTemplate.replaceAll("#repo-index#",i);
-			repoTemplate = repoTemplate.replaceAll("#repo-name#", repoParts[1]);
-			repoTemplate = repoTemplate.replaceAll("#repo-organisation#", repoParts[0]);
+			repoTemplate = repoTemplate.replaceAll("#repo-name#", repo.name);
+			repoTemplate = repoTemplate.replaceAll("#repo-description#", repo.description);
+			repoTemplate = repoTemplate.replaceAll("#repo-organisation#", repo.organisation);
 			
 			$("<li>" + repoTemplate + "</li>").prependTo("ul.repo-sync");
 		}
+		$("#submit").html("<span class=\"button\"><span>Import &gt;</span></span>")
 	});
+};
+
+
+$(document).ready(function () {
+	loadRepositories();
 });

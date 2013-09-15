@@ -33,27 +33,41 @@
 				<h5>
 					Select GitHub repositories to clone and replicate
 				</h5>
+				<div class="organisations">
+					<label class="organisation">Organization</label>
+					<select id="organisation" name="organisation">
+						<option selected="selected">$myself.login</option>
+						#foreach( $organisation in $myself.organizations )
+						    <option>$organisation.login</option>
+						#end
+					</select>
+				</div>
 				<div class="loading">
 				<p>Loading list of GitHub repositories ...</p>
 				</div>
+                <ul class="repo-sync-template" style="display: none;">
+                    <li id="repo-template" style="visibility: hidden;">
+                        <label class="repository">#repo-organisation# / <b>#repo-name#</b></label>
+                        <input class="keycheckbox" type="checkbox" name="repo_#repo-index#" checked="checked" />
+                        <input type="hidden" name="repo_#repo-index#_organisation" value="#repo-organisation#" />
+                        <input type="hidden" name="repo_#repo-index#_repository" value="#repo-name#" />
+                        <input type="hidden" name="repo_#repo-index#_description" value="#repo-description#" />
+                        <span id="status_#repo-index#" class="status" style="visibility: hidden;"></span>
+                        <label id="repo_#repo-index#" class="synch-status"></label>
+                    </li>
+                </ul>
 				<ul class="repo-sync">
-					<li id="repo-template" style="visibility: hidden;">
-						<label class="repository">#repo-organisation# / <b>#repo-name#</b></label>
-						<input class="keycheckbox" type="checkbox" name="repo_#repo-index#" checked="checked" />
-						<input type="hidden" name="repo_#repo-index#_organisation" value="#repo-organisation#" />
-						<input type="hidden" name="repo_#repo-index#_repository" value="#repo-name#" />
-						<span id="status_#repo-index#" class="status" style="visibility: hidden;"></span>
-						<label id="repo_#repo-index#" class="synch-status"></label>
-				    </li>
-					<li class="a-center">
-						<button type="button" id="cancel">
-							<span class="button"><span>Cancel</span></span>
-						</button>
-						<button type="submit" id="submit" disabled="disabled">
-							<span class="button"><span>Accept &gt;</span></span>
-						</button> <input type="hidden" name="next" value="$nextUrl" />
-					</li>
 				</ul>
+                <ul class="repo-sync-buttons">
+                    <li class="a-center">
+                        <button type="button" id="cancel">
+                            <span class="button"><span>Cancel</span></span>
+                        </button>
+                        <button type="submit" id="submit" disabled="disabled">
+                            <span class="button"><span>Accept &gt;</span></span>
+                        </button> <input type="hidden" name="next" value="$nextUrl" />
+                    </li>
+                </ul>
 			</form>
 		</div>
 	</div>
