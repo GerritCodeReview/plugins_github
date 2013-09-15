@@ -38,7 +38,47 @@ $(function() {
 	
 	$("select#organisation").change(function() {
 		loadRepositories();
+		$("input#filter").val("");
 		completed = false;
+	});
+	
+	$("select#numitems").change(function() {
+		filterRepositories();
+	})
+	
+	var filterTimeout;
+	$("#filter").keyup(function() {
+		if (filterTimeout) {
+			clearTimeout(filterTimeout);
+		}
+		filterTimeout = setTimeout(function () {
+			filterRepositories();
+		},500);
+	});
+	
+	var filterRepositories = function() {
+		var filter = $("input#filter").val().toLowerCase();
+		var numRepos = 0;
+		$(".repo-sync li").each(function() {
+			var repoName = $(this).find("input.name").val();
+			var matched = repoName.toLowerCase().indexOf(filter)>=0;
+			var maxItems = $("select#numitems").val();
+			var checkbox = $(this).find("input.keycheckbox");
+			if(matched && numRepos < maxItems) {
+				$(this).attr("style","display: visible;");
+				checkbox.prop("checked", true);
+				numRepos++;
+			} else {
+				$(this).attr("style","display: none;");
+				checkbox.prop("checked", false);
+			}
+		});
+	}
+	
+	$("button#search").click(function() {
+		loadRepositories();
+		completed = false;
+		return false;
 	});
 	
 	$("#submit").click(function() {
@@ -82,15 +122,18 @@ $(function() {
 var loadRepositories = function () {
 	$("div.loading").attr("style","display: visible;");
 	$("ul.repo-sync").empty();
+	$("div.filter").attr("style","display: none;");
 	
 	var organisation = $("select#organisation option:selected").val();
+	var filter = $("input#filter").val();
 	$.post('repositories-list.gh', 
-		{ "organisation": organisation },
+		{ "organisation": organisation, "filter": filter },
 		function(data) {
 		$("div.loading").attr("style","display: none;");
 		$("#submit").prop("disabled", "");
 		
 		var repos = eval('(' + data + ')');
+		var maxItems = $("select#numitems").val();
 		
 		for (var i=0; i<repos.length; i++) {
 			var repo = repos[i];
@@ -99,10 +142,17 @@ var loadRepositories = function () {
 			repoTemplate = repoTemplate.replaceAll("#repo-name#", repo.name);
 			repoTemplate = repoTemplate.replaceAll("#repo-description#", repo.description);
 			repoTemplate = repoTemplate.replaceAll("#repo-organisation#", repo.organisation);
-			
-			$("<li>" + repoTemplate + "</li>").prependTo("ul.repo-sync");
+			var repoLine = $("<li>" + repoTemplate + "</li>");
+			if(i >= maxItems) {
+				repoLine.attr("style","display:none;");
+				repoLine.find("input.keycheckbox").prop("checked", false);
+			} else {
+				repoLine.find("input.keycheckbox").prop("checked", true);
+			}
+			repoLine.appendTo("ul.repo-sync");
 		}
 		$("#submit").html("<span class=\"button\"><span>Import &gt;</span></span>")
+		$("div.filter").attr("style","display: visible;");
 	});
 };
 
