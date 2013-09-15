@@ -28,8 +28,7 @@
 	<!--div.container start -->
 	<div class="container">
 		<div class="center">
-			<form id="repositories" action="repositories-next.gh" method="post" class="signupform">
-
+            <form id="repositories" action="repositories-next.gh" method="post" class="signupform">
 				<h5>
 					Select GitHub repositories to clone and replicate
 				</h5>
@@ -42,15 +41,25 @@
 						#end
 					</select>
 				</div>
-				<div class="loading">
-				<p>Loading list of GitHub repositories ...</p>
-				</div>
+                <div class="filter">
+                    <label class="filter">Filter</label>
+                    <input type="text" id="filter" class="filter" name="filter" />
+                    <label>Items</label>
+                    <select id="numitems">
+                        <option>10</option>
+                        <option>50</option>
+                        <option>100</option>
+                    </select>
+                </div>
+                <div class="loading">
+                  <p>Loading list of GitHub repositories ...</p>
+                </div>
                 <ul class="repo-sync-template" style="display: none;">
                     <li id="repo-template" style="visibility: hidden;">
                         <label class="repository">#repo-organisation# / <b>#repo-name#</b></label>
-                        <input class="keycheckbox" type="checkbox" name="repo_#repo-index#" checked="checked" />
+                        <input class="keycheckbox" type="checkbox" name="repo_#repo-index#" />
                         <input type="hidden" name="repo_#repo-index#_organisation" value="#repo-organisation#" />
-                        <input type="hidden" name="repo_#repo-index#_repository" value="#repo-name#" />
+                        <input type="hidden" class="name" name="repo_#repo-index#_repository" value="#repo-name#" />
                         <input type="hidden" name="repo_#repo-index#_description" value="#repo-description#" />
                         <span id="status_#repo-index#" class="status" style="visibility: hidden;"></span>
                         <label id="repo_#repo-index#" class="synch-status"></label>
