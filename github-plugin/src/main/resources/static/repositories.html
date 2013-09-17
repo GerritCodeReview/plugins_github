@@ -32,39 +32,10 @@
 				<h5>
 					Select GitHub repositories to clone and replicate
 				</h5>
-				<div class="organisations">
-                <ul>
-                    <li>
-					<label class="organisation">Organization</label>
-					<select id="organisation" name="organisation">
-						<option selected="selected">$myself.login</option>
-						#foreach( $organisation in $myself.organizations )
-						    <option>$organisation.login</option>
-						#end
-					</select>
-                    </li>
-                </ul>
-				</div>
-                <div class="filter">
-                    <ul>
-                    <li><label class="filter">Filter</label>
-                    <input type="text" id="filter" class="filter" name="filter" />
-                    <select id="numitems">
-                        <option>10</option>
-                        <option>50</option>
-                        <option>100</option>
-                    </select>
-                    <label class="repositories">Repositories</label>
-                    </li>
-                    </ul>
-                </div>
-                <div class="loading">
-                  <p>Loading list of GitHub repositories ...</p>
-                </div>
                 <ul class="repo-sync-template" style="display: none;">
                     <li id="repo-template" style="visibility: hidden;">
-                        <label class="repository">#repo-organisation# / <b>#repo-name#</b></label>
                         <input class="keycheckbox" type="checkbox" name="repo_#repo-index#" />
+                        <label class="repository">#repo-organisation# / <b>#repo-name#</b></label>
                         <input type="hidden" name="repo_#repo-index#_organisation" value="#repo-organisation#" />
                         <input type="hidden" class="name" name="repo_#repo-index#_repository" value="#repo-name#" />
                         <input type="hidden" name="repo_#repo-index#_description" value="#repo-description#" />
@@ -72,7 +43,28 @@
                         <label id="repo_#repo-index#" class="synch-status"></label>
                     </li>
                 </ul>
-				<ul class="repo-sync">
+                <ul class="repo-sync-header">
+                    <li>
+                      <input class="keycheckbox" type="checkbox" id="selectallcheckbox" checked="checked"/>
+                      <select id="organisation" name="organisation">
+                      <option selected="selected">$myself.login</option>
+                      #foreach( $organisation in $myself.organizations )
+                          <option>$organisation.login</option>
+                      #end
+                      </select><label class="repository"> / Repository name</label>
+                      <label class="rows">Rows</label>
+                      <select id="numitems">
+                          <option>10</option>
+                          <option>50</option>
+                          <option>100</option>
+                      </select>
+                      <input type="text" id="filter" class="filter" name="filter" placeholder="Filter by name" />
+                    </li>
+                </ul>
+                <div class="loading">
+                  <p>Loading list of GitHub repositories ...</p>
+                </div>
+                <ul class="repo-sync">
 				</ul>
                 <ul class="repo-sync-buttons">
                     <li class="a-center">

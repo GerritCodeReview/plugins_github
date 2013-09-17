@@ -97,7 +97,10 @@ $(function() {
 						this.style.visibility = "visible";
 					});
 					$("ul.repo-sync .keycheckbox").each(function() {
-						this.style.display = "none";
+						if($(this).prop("checked")) {
+							$(this).prop("checked", false);
+							this.style.visibility = "hidden";
+						}
 					});
 					refresh();
 					refreshInterval = setInterval(refresh, 2000);
@@ -114,6 +117,19 @@ $(function() {
 			url : "repositories-clone-cancel.gh",
 			success: function() {
 				refresh();
+			}
+		});
+	});
+	
+	$("input#filter").focusin(function() {
+		$("input#filter").attr("placeholder","");
+	});
+	
+	$("input#selectallcheckbox").change(function() {
+		var checked = $("input#selectallcheckbox").prop("checked");
+		$("ul.repo-sync .keycheckbox").each(function() {
+			if(this.style.display != "none") {
+				$(this).prop("checked", checked);
 			}
 		});
 	});
