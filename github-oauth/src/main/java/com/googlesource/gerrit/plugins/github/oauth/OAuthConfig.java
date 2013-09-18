@@ -36,10 +36,12 @@ public class OAuthConfig {
   public static final String LOGIN_OAUTH_ACCESS_TOKEN =
       "/login/oauth/access_token";
   public static final String OAUTH_LOGIN = "/login";
+  public static final String OAUTH_LOGOUT = "/logout";
 
   public final String gitHubUrl;
   public final String gitHubClientId;
   public final String gitHubClientSecret;
+  public final String logoutRedirectUrl;
   public final String httpHeader;
   public final String httpDisplaynameHeader;
   public final String httpEmailHeader;
@@ -62,6 +64,7 @@ public class OAuthConfig {
     gitHubClientSecret = config.getString("github", null, "clientSecret");
     gitHubOAuthUrl = getUrl(gitHubUrl, LOGIN_OAUTH_AUTHORIZE);
     gitHubOAuthAccessTokenUrl = getUrl(gitHubUrl, LOGIN_OAUTH_ACCESS_TOKEN);
+    logoutRedirectUrl = config.getString("github", null, "logoutRedirectUrl");
     oAuthFinalRedirectUrl =
         getUrl(config.getString("gerrit", null, "canonicalWebUrl"), OAUTH_FINAL);
 

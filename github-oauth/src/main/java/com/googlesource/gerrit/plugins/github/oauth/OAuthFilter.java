@@ -34,12 +34,7 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Strings;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
-import com.google.inject.Key;
-import com.google.inject.Provider;
-import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
-import com.google.inject.TypeLiteral;
 
 @Singleton
 public class OAuthFilter implements Filter {
@@ -81,8 +76,12 @@ public class OAuthFilter implements Filter {
     try {
       OAuthCookie authCookie =
           getOAuthCookie(httpRequest, (HttpServletResponse) response);
-
-      if (((oauth.isOAuthLogin(httpRequest) || oauth.isOAuthFinal(httpRequest)) && authCookie == null)
+      
+      if(oauth.isOAuthLogout((HttpServletRequest) request)) {
+        GitHubLogoutServletResponse bufferedResponse = new GitHubLogoutServletResponse((HttpServletResponse) response,
+            config.logoutRedirectUrl);
+        chain.doFilter(httpRequest, bufferedResponse);
+      } else if (((oauth.isOAuthLogin(httpRequest) || oauth.isOAuthFinal(httpRequest)) && authCookie == null)
           || (authCookie == null && gerritCookie == null)) {
         if (oauth.isOAuthFinal(httpRequest)) {
 

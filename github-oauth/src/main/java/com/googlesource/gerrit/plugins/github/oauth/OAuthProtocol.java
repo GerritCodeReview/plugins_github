@@ -131,6 +131,10 @@ public class OAuthProtocol {
     return request.getRequestURI().indexOf(OAuthConfig.OAUTH_LOGIN) >= 0;
   }
 
+  public boolean isOAuthLogout(HttpServletRequest request) {
+    return request.getRequestURI().indexOf(OAuthConfig.OAUTH_LOGOUT) >= 0;
+  }
+
   public GitHubLogin loginPhase2(HttpServletRequest request,
       HttpServletResponse response) throws IOException {
 
