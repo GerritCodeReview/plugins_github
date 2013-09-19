@@ -7,39 +7,43 @@ $(function() {
 	var refreshInterval;
 
 	var completed = false;
+	var running = false;
 
 	var refresh = function() {
 		$.post('repositories-clone-status.gh', function(data) {
 			var repos = eval('(' + data + ')');
-			var allCompleted = true;
+			var allCompleted = false;
 			if(repos.length == 0) {
-				return;
-			}
-			
-			for (var i=0; i<repos.length; i++) {
-				var id = repos[i].index;
-				var value = repos[i].value;
-				var status = repos[i].status;
-				$("#status_" + id).attr("class", "status " + status);
-				$("#repo_" + id).text(value);
-				if(status == 'sync') {
-					allCompleted = false;
+				$("#submit").prop("disabled", "disabled");
+			} else {
+				allCompleted = true;
+				for (var i=0; i<repos.length; i++) {
+					var id = repos[i].index;
+					var value = repos[i].value;
+					var status = repos[i].status;
+					$("#status_" + id).attr("class", "status " + status);
+					$("#repo_" + id).text(value);
+					if(status == 'sync') {
+						allCompleted = false;
+					}
 				}
 			}
 			
-			if(allCompleted && repos.length > 0) {
+			if(allCompleted || repos.length <= 0) {
 				completed = true;
 				$("#submit").prop("disabled", "");
-				$("#submit").html("<span class=\"button\"><span>Next &gt;</span></span>")
+				$("#submit").html("<span class=\"button green\"><span>Next &gt;</span></span>")
 				clearInterval(refreshInterval);
+				running = false;
 			}
 		});
 	}
 	
 	$("select#organisation").change(function() {
+		completed = false;
+		running = false;
 		loadRepositories();
 		$("input#filter").val("");
-		completed = false;
 	});
 	
 	$("select#numitems").change(function() {
@@ -75,16 +79,10 @@ $(function() {
 		});
 	}
 	
-	$("button#search").click(function() {
-		loadRepositories();
-		completed = false;
-		return false;
-	});
-	
 	$("#submit").click(function() {
 		var destination;
 
-		if(completed) {
+		if(completed || $("ul.repo-sync li").length <= 0) {
 			$('#repositories').submit();
 			return true;
 		} else {
@@ -106,19 +104,24 @@ $(function() {
 					refreshInterval = setInterval(refresh, 2000);
 				}
 			});
+			running = true;
 			$("#submit").prop("disabled", "disabled");
 			return false;
 		}
 	});
 	
 	$("#cancel").click(function() {
-		$.ajax({
-			type : "POST",
-			url : "repositories-clone-cancel.gh",
-			success: function() {
-				refresh();
-			}
-		});
+		if(running) {
+			$.ajax({
+				type : "POST",
+				url : "repositories-clone-cancel.gh",
+				success: function() {
+					refresh();
+				}
+			});
+		} else {
+			window.location = "/";
+		}
 	});
 	
 	$("input#filter").focusin(function() {
@@ -139,6 +142,7 @@ var loadRepositories = function () {
 	$("div.loading").attr("style","display: visible;");
 	$("ul.repo-sync").empty();
 	$("div.filter").attr("style","display: none;");
+	$("#submit").prop("disabled", "disabled");
 	
 	var organisation = $("select#organisation option:selected").val();
 	var filter = $("input#filter").val();
@@ -146,7 +150,6 @@ var loadRepositories = function () {
 		{ "organisation": organisation, "filter": filter },
 		function(data) {
 		$("div.loading").attr("style","display: none;");
-		$("#submit").prop("disabled", "");
 		
 		var repos = eval('(' + data + ')');
 		var maxItems = $("select#numitems").val();
@@ -167,7 +170,13 @@ var loadRepositories = function () {
 			}
 			repoLine.appendTo("ul.repo-sync");
 		}
-		$("#submit").html("<span class=\"button\"><span>Import &gt;</span></span>")
+		
+		if(repos.length > 0) {
+			$("#submit").html("<span class=\"button green\"><span>Import &gt;</span></span>")
+		} else {
+			$("#submit").html("<span class=\"button green\"><span>Next &gt;</span></span>")
+		}
+		$("#submit").prop("disabled", "");
 		$("div.filter").attr("style","display: visible;");
 	});
 };

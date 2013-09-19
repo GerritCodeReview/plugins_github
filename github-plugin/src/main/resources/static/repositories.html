@@ -18,6 +18,14 @@
 							<a href="account.html">Account profile</a> &gt; Repositories
 							replication
 						</h2>
+                        <div class="right">
+                          <button type="button" id="cancel">
+                              <span class="button"><span>Cancel</span></span>
+                          </button>
+                          <button type="submit" id="submit" disabled="disabled">
+                              <span class="button green"><span>Accept &gt;</span></span>
+                          </button> <input type="hidden" name="next" value="$nextUrl" />
+                        </div>
 					</div>
 				</div>
 			</div>
@@ -66,16 +74,6 @@
                 </div>
                 <ul class="repo-sync">
 				</ul>
-                <ul class="repo-sync-buttons">
-                    <li class="a-center">
-                        <button type="button" id="cancel">
-                            <span class="button"><span>Cancel</span></span>
-                        </button>
-                        <button type="submit" id="submit" disabled="disabled">
-                            <span class="button"><span>Accept &gt;</span></span>
-                        </button> <input type="hidden" name="next" value="$nextUrl" />
-                    </li>
-                </ul>
 			</form>
 		</div>
 	</div>

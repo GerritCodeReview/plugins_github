@@ -16,6 +16,16 @@
 						<h2>
 							Account profile
 						</h2>
+                        <div class="right">
+                          <button type="button" onclick="window.location='/'"
+                              id="cancel">
+                              <span class="button"><span>Cancel</span></span>
+                          </button>
+                          <button type="submit" onclick="document.forms[0].submit()">
+                              <span class="button green"><span>Accept &gt;</span></span>
+                          </button>
+                          <input type="hidden" name="next" value="$nextUrl" />
+                        </div>
 					</div>
 				</div>
 			</div>
@@ -57,19 +67,6 @@
 						</li>
 					#end
                 #end
-
-				<h5></h5>
-				<li class="a-center">
-					<button type="button" onclick="window.location='reset'"
-						id="cancel">
-						<span class="button"><span>Cancel</span></span>
-					</button>
-					<button type="submit">
-						<span class="button"><span>Accept &gt;</span></span>
-					</button>
-					<input type="hidden" name="next" value="$nextUrl" />
-				</li>
-
 				</ul>
 			</form>
 		</div>
