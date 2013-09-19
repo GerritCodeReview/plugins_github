@@ -27,7 +27,9 @@ import com.google.gerrit.server.mail.VelocityRuntimeProvider.Slf4jLogChute;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
+import com.google.inject.Singleton;
 
+@Singleton
 public class PluginVelocityRuntimeProvider implements Provider<RuntimeInstance> {
   private static final String VELOCITY_FILE_RESOURCE_LOADER_PATH =
       "file.resource.loader.path";

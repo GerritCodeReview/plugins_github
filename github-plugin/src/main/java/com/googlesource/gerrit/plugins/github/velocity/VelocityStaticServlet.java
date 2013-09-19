@@ -94,12 +94,12 @@ public class VelocityStaticServlet extends HttpServlet {
     return out.toByteArray();
   }
 
-  private final Provider<RuntimeInstance> velocityRuntimeProvider;
+  private final RuntimeInstance velocity; 
 
   @Inject
   VelocityStaticServlet(
       @Named("PluginRuntimeInstance") final Provider<RuntimeInstance> velocityRuntimeProvider) {
-    this.velocityRuntimeProvider = velocityRuntimeProvider;
+    this.velocity = velocityRuntimeProvider.get();
   }
 
   private Resource local(final HttpServletRequest req) {
@@ -112,7 +112,6 @@ public class VelocityStaticServlet extends HttpServlet {
     }
 
     String resourceName = name.substring(1);
-    RuntimeInstance velocity = velocityRuntimeProvider.get();
     try {
       return velocity.getContent(resourceName);
     } catch (Exception e) {
