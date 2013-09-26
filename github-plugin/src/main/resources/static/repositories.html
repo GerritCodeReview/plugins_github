@@ -40,17 +40,6 @@
 				<h5>
 					Select GitHub repositories to clone and replicate
 				</h5>
-                <ul class="repo-sync-template" style="display: none;">
-                    <li id="repo-template" style="visibility: hidden;">
-                        <input class="keycheckbox" type="checkbox" name="repo_#repo-index#" />
-                        <label class="repository">#repo-organisation# / <b>#repo-name#</b></label>
-                        <input type="hidden" name="repo_#repo-index#_organisation" value="#repo-organisation#" />
-                        <input type="hidden" class="name" name="repo_#repo-index#_repository" value="#repo-name#" />
-                        <input type="hidden" name="repo_#repo-index#_description" value="#repo-description#" />
-                        <span id="status_#repo-index#" class="status" style="visibility: hidden;"></span>
-                        <label id="repo_#repo-index#" class="synch-status"></label>
-                    </li>
-                </ul>
                 <ul class="repo-sync-header">
                     <li>
                       <input class="keycheckbox" type="checkbox" id="selectallcheckbox" checked="checked"/>
@@ -74,6 +63,17 @@
                 </div>
                 <ul class="repo-sync">
 				</ul>
+                <script type="text/template" id="repo-sync-template">
+                    <li>
+                        <input class="keycheckbox" type="checkbox" name="repo_<%= index %>" />
+                        <label class="repository"><%= repo.organisation %> / <b><%= repo.name %></b></label>
+                        <input type="hidden" name="repo_<%= index %>_organisation" value="<%= repo.organisation %>" />
+                        <input type="hidden" class="name" name="repo_<%= index %>_repository" value="<%= repo.name %>" />
+                        <input type="hidden" name="repo_<%= index %>_description" value="<%= repo.description %>" />
+                        <span id="status_<%= index %>" class="status" style="visibility: hidden;"></span>
+                        <label id="repo_<%= index %>" class="synch-status"></label>
+                    </li>
+                </script>
 			</form>
 		</div>
 	</div>

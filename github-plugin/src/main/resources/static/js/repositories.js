@@ -1,8 +1,3 @@
-String.prototype.replaceAll = function(str1, str2, ignore)
-{
-   return this.replace(new RegExp(str1.replace(/([\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g, function(c){return "\\" + c;}), "g"+(ignore?"i":"")), str2);
-};
-
 $(function() {
 	var refreshInterval;
 
@@ -156,12 +151,9 @@ var loadRepositories = function () {
 		
 		for (var i=0; i<repos.length; i++) {
 			var repo = repos[i];
-			var repoTemplate = $("#repo-template").html();
-			repoTemplate = repoTemplate.replaceAll("#repo-index#",i);
-			repoTemplate = repoTemplate.replaceAll("#repo-name#", repo.name);
-			repoTemplate = repoTemplate.replaceAll("#repo-description#", repo.description);
-			repoTemplate = repoTemplate.replaceAll("#repo-organisation#", repo.organisation);
-			var repoLine = $("<li>" + repoTemplate + "</li>");
+			var repoLine = $(_.template($("#repo-sync-template").html(),
+					{ "index": i, 
+				      "repo": repo }));
 			if(i >= maxItems) {
 				repoLine.attr("style","display:none;");
 				repoLine.find("input.keycheckbox").prop("checked", false);
