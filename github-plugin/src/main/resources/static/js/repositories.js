@@ -15,7 +15,7 @@ $(function() {
 				for (var i=0; i<repos.length; i++) {
 					var id = repos[i].index;
 					var value = repos[i].value;
-					var status = repos[i].status;
+					var status = repos[i].status.toLowerCase();
 					$("#status_" + id).attr("class", "status " + status);
 					$("#repo_" + id).text(value);
 					if(status == 'sync') {
@@ -65,10 +65,12 @@ $(function() {
 			var checkbox = $(this).find("input.keycheckbox");
 			if(matched && numRepos < maxItems) {
 				$(this).attr("style","display: visible;");
+				$(this).find("input").removeAttr("disabled");
 				checkbox.prop("checked", true);
 				numRepos++;
 			} else {
 				$(this).attr("style","display: none;");
+				$(this).find("input").attr("disabled","disabled");
 				checkbox.prop("checked", false);
 			}
 		});

@@ -20,16 +20,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.inject.Singleton;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
+import com.googlesrouce.gerrit.plugins.github.git.PullRequestImporter;
 
-@Singleton
-public class RepositoriesNextController implements VelocityController {
+public class PullRequestImportStatusController extends JobStatusController
+    implements VelocityController {
+
+  private Provider<PullRequestImporter> pullRequestsImporter;
+
+  @Inject
+  public PullRequestImportStatusController(
+      final Provider<PullRequestImporter> pullRequestsImporter) {
+    this.pullRequestsImporter = pullRequestsImporter;
+  }
 
   @Override
   public void doAction(IdentifiedUser user, GitHubLogin hubLogin,
       HttpServletRequest req, HttpServletResponse resp, ControllerErrors errors)
       throws ServletException, IOException {
+    respondWithJobStatusJson(resp, pullRequestsImporter.get());
   }
-
 }
