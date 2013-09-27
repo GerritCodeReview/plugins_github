@@ -21,7 +21,6 @@ import com.googlesource.gerrit.plugins.github.filters.GitHubOAuthFilter;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubHttpProvider;
 import com.googlesource.gerrit.plugins.github.pullsync.PullRequestsServlet;
 import com.googlesource.gerrit.plugins.github.replication.RemoteSiteUser;
-import com.googlesource.gerrit.plugins.github.velocity.PluginVelocityModelFilter;
 import com.googlesource.gerrit.plugins.github.velocity.VelocityStaticServlet;
 import com.googlesource.gerrit.plugins.github.velocity.VelocityViewServlet;
 import com.googlesource.gerrit.plugins.github.wizard.VelocityControllerServlet;
@@ -40,8 +39,5 @@ public class GuiceHttpModule extends ServletModule {
     serve("*.gh").with(VelocityControllerServlet.class);
 
     filter("*").through(GitHubOAuthFilter.class);
-    filter("*.html").through(PluginVelocityModelFilter.class);
-
-    
   }
 }

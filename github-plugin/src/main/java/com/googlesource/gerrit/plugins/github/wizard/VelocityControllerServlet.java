@@ -14,7 +14,13 @@
 package com.googlesource.gerrit.plugins.github.wizard;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.Map.Entry;
+import java.util.Set;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +37,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.GitHubConfig;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
+import com.googlesource.gerrit.plugins.github.velocity.PluginVelocityModel;
 
 @Singleton
 public class VelocityControllerServlet extends HttpServlet {
@@ -47,8 +54,8 @@ public class VelocityControllerServlet extends HttpServlet {
 
   @Inject
   public VelocityControllerServlet(final Provider<GitHubLogin> loginProvider,
-      Provider<IdentifiedUser> userProvider, final Injector injector, Provider<ControllerErrors> errorsProvider,
-      GitHubConfig githubConfig) {
+      Provider<IdentifiedUser> userProvider, final Injector injector,
+      Provider<ControllerErrors> errorsProvider, GitHubConfig githubConfig) {
     this.loginProvider = loginProvider;
     this.userProvider = userProvider;
     this.injector = injector;
@@ -58,7 +65,7 @@ public class VelocityControllerServlet extends HttpServlet {
 
   @SuppressWarnings("unchecked")
   @Override
-  protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+  protected void service(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
     String controllerName;
     VelocityController controller;
@@ -70,9 +77,9 @@ public class VelocityControllerServlet extends HttpServlet {
               .forName(CONTROLLER_PACKAGE + "." + controllerName + "Controller");
       controller = injector.getInstance(controllerClass);
     } catch (ClassNotFoundException e) {
-      log.error("Cannot find any controller for servlet "
+      log.debug("Cannot find any controller for servlet "
           + req.getServletPath());
-      resp.sendError(HttpStatus.SC_NOT_FOUND);
+      redirectToNextStep(req, resp);
       return;
     }
 
@@ -116,16 +123,19 @@ public class VelocityControllerServlet extends HttpServlet {
   }
 
   private void redirectToNextStep(HttpServletRequest req,
-      HttpServletResponse resp) throws IOException {
+      HttpServletResponse resp) throws IOException, ServletException {
     String sourcePath = req.getRequestURI();
-    String sourcePage = sourcePath.substring(sourcePath.lastIndexOf('/')+1);
+    String sourcePage = sourcePath.substring(sourcePath.lastIndexOf('/') + 1);
     int queryStringStart = sourcePage.indexOf('?');
-    if(queryStringStart > 0) {
+    if (queryStringStart > 0) {
       sourcePage = sourcePage.substring(0, queryStringStart);
     }
     String nextPage = githubConfig.getNextPage(sourcePage);
     if (nextPage != null) {
-      resp.sendRedirect(nextPage);
+      RequestDispatcher requestDispatcher = req.getRequestDispatcher(nextPage);
+      req.setAttribute("destUrl", nextPage);
+      requestDispatcher.forward(req, resp);
     }
   }
+
 }

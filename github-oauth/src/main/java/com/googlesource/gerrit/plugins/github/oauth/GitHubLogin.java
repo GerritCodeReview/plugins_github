@@ -16,6 +16,7 @@ package com.googlesource.gerrit.plugins.github.oauth;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -48,7 +49,11 @@ public class GitHubLogin {
   private GHMyself myself;
 
   public GHMyself getMyself() {
-    return myself;
+    if (isLoggedIn(scopesSet)) {
+      return myself;
+    } else {
+      return null;
+    }
   }
 
   @Inject
@@ -56,16 +61,18 @@ public class GitHubLogin {
     this.oauth = oauth;
   }
 
-  public GitHubLogin(GitHub hub, AccessToken token) {
+  public GitHubLogin(GitHub hub, AccessToken token, Scope... scopes) {
     this.hub = hub;
     this.token = token;
+    this.scopesSet = new TreeSet<OAuthProtocol.Scope>(Arrays.asList(scopes));
   }
 
   public boolean isLoggedIn(Scope... scopes) {
-    SortedSet<Scope> inputScopes =
-        new TreeSet<OAuthProtocol.Scope>(Arrays.asList(scopes));
-    boolean loggedIn =
-        scopesSet.equals(inputScopes) && token != null && hub != null;
+    return isLoggedIn(new TreeSet<Scope>(Arrays.asList(scopes)));
+  }
+
+  public boolean isLoggedIn(Set<Scope> scopes) {
+    boolean loggedIn = scopesSet.equals(scopes) && token != null && hub != null;
     if (loggedIn) {
       try {
         myself = hub.getMyself();

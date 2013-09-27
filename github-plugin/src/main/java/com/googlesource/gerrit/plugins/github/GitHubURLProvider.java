@@ -11,31 +11,23 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package com.googlesrouce.gerrit.plugins.github.git;
+package com.googlesource.gerrit.plugins.github;
 
-import java.io.File;
-
-import org.eclipse.jgit.lib.Config;
-
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import com.google.inject.Provider;
 
-@Singleton
-public class GitConfig {
+public class GitHubURLProvider implements Provider<String> {
 
-  public final File gitDir;
-
-  public GitConfig(File gitDir) {
-    this.gitDir = gitDir;
-  }
+  private String gitHubUrl;
 
   @Inject
-  public GitConfig(final SitePaths site, @GerritServerConfig final Config cfg) {
-    gitDir = site.resolve(cfg.getString("gerrit", null, "basePath"));
-    if (gitDir == null) {
-      throw new IllegalStateException("gerrit.basePath must be configured");
-    }
+  public GitHubURLProvider(GitHubConfig gitHubConfig) {
+    this.gitHubUrl = gitHubConfig.gitHubUrl;
   }
+
+  @Override
+  public String get() {
+    return gitHubUrl;
+  }
+
 }

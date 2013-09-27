@@ -23,6 +23,8 @@ import com.googlesource.gerrit.plugins.github.replication.RemoteSiteUser;
 import com.googlesource.gerrit.plugins.github.velocity.PluginVelocityRuntimeProvider;
 import com.googlesrouce.gerrit.plugins.github.git.CreateProjectStep;
 import com.googlesrouce.gerrit.plugins.github.git.GitCloneStep;
+import com.googlesrouce.gerrit.plugins.github.git.PullRequestImportJob;
+import com.googlesrouce.gerrit.plugins.github.git.PullRequestImporter;
 import com.googlesrouce.gerrit.plugins.github.git.ReplicateProjectStep;
 
 public class GuiceModule extends AbstractModule {
@@ -34,10 +36,13 @@ public class GuiceModule extends AbstractModule {
         CreateProjectStep.class).build(CreateProjectStep.Factory.class));
     install(new FactoryModuleBuilder().implement(ReplicateProjectStep.class,
         ReplicateProjectStep.class).build(ReplicateProjectStep.Factory.class));
+    install(new FactoryModuleBuilder().implement(PullRequestImportJob.class,
+        PullRequestImportJob.class).build(PullRequestImportJob.Factory.class));
 
     bind(RuntimeInstance.class).annotatedWith(
         Names.named("PluginRuntimeInstance")).toProvider(
         PluginVelocityRuntimeProvider.class);
-
+    
+    bind(String.class).annotatedWith(GitHubURL.class).toProvider(GitHubURLProvider.class);
   }
 }

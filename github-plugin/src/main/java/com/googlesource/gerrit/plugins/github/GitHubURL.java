@@ -11,22 +11,18 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package com.googlesource.gerrit.plugins.github.wizard;
+package com.googlesource.gerrit.plugins.github;
 
-import java.io.IOException;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.google.inject.BindingAnnotation;
 
-import com.google.gerrit.server.IdentifiedUser;
-import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
+@Target({ElementType.PARAMETER, ElementType.FIELD})
+@Retention(RetentionPolicy.RUNTIME)
+@BindingAnnotation
+public @interface GitHubURL {
 
-
-
-public interface VelocityController {
-
-  void doAction(IdentifiedUser user, GitHubLogin hubLogin,
-      HttpServletRequest req, HttpServletResponse resp, ControllerErrors errors)
-      throws ServletException, IOException;
 }

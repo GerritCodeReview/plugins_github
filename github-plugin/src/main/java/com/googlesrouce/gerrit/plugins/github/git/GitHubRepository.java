@@ -13,32 +13,26 @@
 // limitations under the License.
 package com.googlesrouce.gerrit.plugins.github.git;
 
-import org.eclipse.jgit.lib.ProgressMonitor;
-
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.github.GitHubURL;
 
-public abstract class ImportStep {
-  protected String gitHubUrl;
-  private final GitHubRepository gitHubRepository;
-
-  public ImportStep(@GitHubURL String gitHubUrl, String organisation, String repository) {
-    this.gitHubRepository = new GitHubRepository(gitHubUrl, organisation, repository);
-    this.gitHubUrl = gitHubUrl;
+public class GitHubRepository {
+  public interface Factory {
+    GitHubRepository create(@Assisted("organisation") String organisation,
+        @Assisted("repository") String repository);
   }
 
-  protected String getSourceUri() {
-    return gitHubRepository.cloneUrl;
-  }
-  
-  public String getOrganisation() {
-    return gitHubRepository.organisation;
-  }
+  public final String cloneUrl;
+  public final String organisation;
+  public final String repository;
 
-  public String getRepository() {
-    return gitHubRepository.repository;
+  @Inject
+  public GitHubRepository(@GitHubURL String gitHubUrl,
+      @Assisted("organisation") String organisation,
+      @Assisted("repository") String repository) {
+    this.cloneUrl = gitHubUrl + "/" + organisation + "/" + repository + ".git";
+    this.organisation = organisation;
+    this.repository = repository;
   }
-
-  public abstract void doImport(ProgressMonitor progress) throws Exception;
-
-  public abstract boolean rollback();
 }

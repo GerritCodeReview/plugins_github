@@ -13,10 +13,60 @@
 // limitations under the License.
 package com.googlesrouce.gerrit.plugins.github.git;
 
-public enum GitJobStatus {
-  SYNC, COMPLETE, FAILED, CANCELLED;
-  
-  public String toString() {
-    return name().toLowerCase();
-  };
+import java.io.PrintWriter;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonWriter;
+
+
+public class GitJobStatus {
+
+  public enum Code {
+    SYNC, COMPLETE, FAILED, CANCELLED;
+
+    public String toString() {
+      return name().toLowerCase();
+    };
+  }
+
+  public final int index;
+  private Code status;
+  private String shortDescription;
+  private String value;
+
+  public GitJobStatus(int index) {
+    this.index = index;
+    this.status = GitJobStatus.Code.SYNC;
+    this.shortDescription = "Init";
+    this.value = "Initializing ...";
+  }
+
+  public void update(Code code, String shortDescription, String description) {
+    this.status = code;
+    this.shortDescription = shortDescription;
+    this.value = description;
+  }
+
+  public Code getStatus() {
+    return status;
+  }
+
+  public String getShortDescription() {
+    return shortDescription;
+  }
+
+  public String getValue() {
+    return value;
+  }
+
+  public void update(Code status) {
+    this.status = status;
+    this.shortDescription = status.name();
+    this.value = status.name();
+  }
+
+  public void printJson(PrintWriter out) {
+    new Gson().toJson(this, GitJobStatus.class, new JsonWriter(out));
+  }
 }

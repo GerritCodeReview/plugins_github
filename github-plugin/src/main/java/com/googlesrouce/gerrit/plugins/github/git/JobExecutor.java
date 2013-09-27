@@ -13,25 +13,36 @@
 // limitations under the License.
 package com.googlesrouce.gerrit.plugins.github.git;
 
-import java.util.concurrent.ExecutorService;
+import java.util.Random;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class GitCommandsExecutor {
+public class JobExecutor {
   private static final int MAX_THREADS = 10;
-  private final ExecutorService executor = Executors.newFixedThreadPool(MAX_THREADS);
+  private static final int MAX_EXEC_TIMEOUT_SECS = 30;
+
+  private final ScheduledExecutorService executor = Executors
+      .newScheduledThreadPool(MAX_THREADS);
   private final RequestScopePropagator requestScopePropagator;
 
   @Inject
-  public GitCommandsExecutor(final RequestScopePropagator requestScopePropagator) {
+  public JobExecutor(final RequestScopePropagator requestScopePropagator) {
     this.requestScopePropagator = requestScopePropagator;
   }
 
-  public void exec(GitImportJob job) {
-    executor.execute(requestScopePropagator.wrap(job));
+  public void exec(GitJob job) {
+    executor.schedule(requestScopePropagator.wrap(job),
+        getRandomExecutionDelay(job), TimeUnit.SECONDS);
+  }
+
+  private int getRandomExecutionDelay(GitJob job) {
+    Random rnd = new Random(System.currentTimeMillis() + job.hashCode());
+    return rnd.nextInt(MAX_EXEC_TIMEOUT_SECS);
   }
 }
