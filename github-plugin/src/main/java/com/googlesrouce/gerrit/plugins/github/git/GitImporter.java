@@ -13,7 +13,6 @@
 // limitations under the License.
 package com.googlesrouce.gerrit.plugins.github.git;
 
-import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
@@ -22,16 +21,11 @@ import org.slf4j.LoggerFactory;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.servlet.SessionScoped;
-import com.googlesrouce.gerrit.plugins.github.git.ReplicateProjectStep.Factory;
 
 @SessionScoped
-public class GitImporter {
+public class GitImporter extends BatchImporter {
   private static final Logger log = LoggerFactory.getLogger(GitImporter.class);
   private final GitCloneStep.Factory cloneFactory;
-  private final ConcurrentHashMap<Integer, GitJob> cloneJobs =
-      new ConcurrentHashMap<Integer, GitJob>();
-  private final GitCommandsExecutor executor;
-  private IdentifiedUser user;
   private final CreateProjectStep.Factory projectFactory;
   private final ReplicateProjectStep.Factory replicateFactory;
 
@@ -41,11 +35,10 @@ public class GitImporter {
       CreateProjectStep.Factory projectFactory,
       ReplicateProjectStep.Factory replicateFactory,
       GitCommandsExecutor executor, IdentifiedUser user) {
+    super(executor, user);
     this.cloneFactory = cloneFactory;
     this.projectFactory = projectFactory;
     this.replicateFactory = replicateFactory;
-    this.executor = executor;
-    this.user = user;
   }
 
   public void clone(int idx, String organisation, String repository,
@@ -60,25 +53,9 @@ public class GitImporter {
           new GitImportJob(idx, organisation, repository, cloneStep, projectStep,
               replicateStep);
       log.debug("New Git clone job created: " + gitCloneJob);
-      executor.exec(gitCloneJob);
-      cloneJobs.put(idx, gitCloneJob);
+      schedule(idx, gitCloneJob);
     } catch (Throwable e) {
-      cloneJobs.put(idx, new ErrorCloneJob(idx, organisation, repository, e));
-    }
-  }
-
-  public Collection<GitJob> getCloneJobs() {
-    return cloneJobs.values();
-  }
-
-  public void reset() {
-    cancel();
-    cloneJobs.clear();
-  }
-
-  public void cancel() {
-    for (GitJob job : cloneJobs.values()) {
-      job.cancel();
+      schedule(idx, new ErrorJob(idx, organisation, repository, e));
     }
   }
 }

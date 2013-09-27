@@ -67,6 +67,14 @@ public class OAuthProtocol {
   public static class AccessToken {
     public String access_token;
     public String token_type;
+    
+    public AccessToken() {
+    }
+    
+    public AccessToken(String token, String type) {
+      this.access_token = token;
+      this.token_type = type;
+    }
   }
 
   @Inject

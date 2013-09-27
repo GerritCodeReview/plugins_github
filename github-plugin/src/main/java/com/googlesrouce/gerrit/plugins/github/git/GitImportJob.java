@@ -15,6 +15,8 @@ package com.googlesrouce.gerrit.plugins.github.git;
 
 import org.eclipse.jgit.lib.ProgressMonitor;
 
+import com.googlesrouce.gerrit.plugins.github.git.GitJobStatus.Code;
+
 public class GitImportJob extends AbstractCloneJob implements Runnable,
     ProgressMonitor, GitJob {
   private int currTask;
@@ -24,7 +26,7 @@ public class GitImportJob extends AbstractCloneJob implements Runnable,
   private boolean cancelled;
   private String task = "Initializing ...";
   private Exception exception;
-  private GitJobStatus status = GitJobStatus.SYNC;
+  private GitJobStatus status;
   private int index;
   private final ImportStep[] importSteps;
   private String organisation;
@@ -35,19 +37,21 @@ public class GitImportJob extends AbstractCloneJob implements Runnable,
     this.index = id;
     this.organisation = organisation;
     this.repository = repository;
+    this.status = new GitJobStatus(id);
   }
 
   @Override
   public void run() {
     try {
+      status.update(Code.SYNC, "Init", "Initializing import steps ...");
       for (ImportStep importStep : importSteps) {
         importStep.doImport(this);
       }
-      status = GitJobStatus.COMPLETE;
+      status.update(GitJobStatus.Code.COMPLETE,"Done","Done: repository replicated to Gerrit.");
     } catch (Exception e) {
-      if (status == GitJobStatus.SYNC) {
+      if (status.getStatus() == GitJobStatus.Code.SYNC) {
         this.exception = e;
-        status = GitJobStatus.FAILED;
+        status.update(GitJobStatus.Code.FAILED, "Failed", getStatusDescription());
       }
       rollback();
     }
@@ -61,29 +65,20 @@ public class GitImportJob extends AbstractCloneJob implements Runnable,
 
   @Override
   public void cancel() {
-    if (status != GitJobStatus.SYNC) {
+    if (status.getStatus() != GitJobStatus.Code.SYNC) {
       return;
     }
 
     cancelled = true;
-    status = GitJobStatus.CANCELLED;
+    status.update(GitJobStatus.Code.CANCELLED, "Cancelled", "Cancelled");
     rollback();
   }
 
-
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * com.googlesrouce.gerrit.plugins.github.git.CloneJob#getStatusDescription()
-   */
-  @Override
   public String getStatusDescription() {
     if (exception != null) {
       return getErrorDescription(exception);
     } else {
-      switch (status) {
+      switch (status.getStatus()) {
         case COMPLETE:
           return "Cloned (100%)";
         case CANCELLED:
@@ -116,6 +111,8 @@ public class GitImportJob extends AbstractCloneJob implements Runnable,
     if (percentage > lastPercentage) {
       lastPercentage = percentage;
     }
+    
+    status.update(Code.SYNC, status.getShortDescription(), getStatusDescription());
   }
 
   @Override
@@ -126,7 +123,7 @@ public class GitImportJob extends AbstractCloneJob implements Runnable,
   @Override
   public boolean isCancelled() {
     if (cancelled) {
-      status = GitJobStatus.CANCELLED;
+      status.update(GitJobStatus.Code.CANCELLED);
     }
     return cancelled;
   }
@@ -142,6 +139,8 @@ public class GitImportJob extends AbstractCloneJob implements Runnable,
     this.totUnits = totalUnits;
     this.currUnit = 0;
     this.lastPercentage = 0;
+    
+    status.update(Code.SYNC, status.getShortDescription(), getStatusDescription());
   }
 
   @Override

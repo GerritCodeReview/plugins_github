@@ -31,7 +31,7 @@ public class GitCommandsExecutor {
     this.requestScopePropagator = requestScopePropagator;
   }
 
-  public void exec(GitImportJob job) {
+  public void exec(GitJob job) {
     executor.execute(requestScopePropagator.wrap(job));
   }
 }

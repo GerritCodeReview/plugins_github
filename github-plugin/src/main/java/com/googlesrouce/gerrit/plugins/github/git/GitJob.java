@@ -13,9 +13,7 @@
 // limitations under the License.
 package com.googlesrouce.gerrit.plugins.github.git;
 
-public interface GitJob {
-
-  String getStatusDescription();
+public interface GitJob extends Runnable {
 
   GitJobStatus getStatus();
 
