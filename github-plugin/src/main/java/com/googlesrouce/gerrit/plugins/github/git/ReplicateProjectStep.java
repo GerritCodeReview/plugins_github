@@ -14,13 +14,17 @@
 package com.googlesrouce.gerrit.plugins.github.git;
 
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import com.googlesource.gerrit.plugins.github.GitHubURL;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 
 public class ReplicateProjectStep extends ImportStep {
+  private static final Logger LOG = LoggerFactory.getLogger(ReplicateProjectStep.class);
   private final ReplicationConfig replicationConfig;
   private final String authUsername;
   private final String authToken;
@@ -34,12 +38,11 @@ public class ReplicateProjectStep extends ImportStep {
   @Inject
   public ReplicateProjectStep(final ReplicationConfig replicationConfig,
       final Provider<GitHubLogin> gitHubLoginProvider,
+      @GitHubURL String gitHubUrl,
       @Assisted("organisation") String organisation,
-      @Assisted("name") String repository)
-      throws GitDestinationAlreadyExistsException,
-      GitDestinationNotWritableException {
-    super(organisation, repository);
-    
+      @Assisted("name") String repository) {
+    super(gitHubUrl, organisation, repository);
+    LOG.debug("Gerrit ReplicateProject " + organisation + "/" + repository);
     this.replicationConfig = replicationConfig;
     this.authUsername = gitHubLoginProvider.get().getMyself().getLogin();
     this.authToken = gitHubLoginProvider.get().token.access_token;
@@ -48,15 +51,14 @@ public class ReplicateProjectStep extends ImportStep {
   @Override
   public void doImport(ProgressMonitor progress) throws Exception {
     progress.beginTask("Setting up Gerrit replication", 2);
-    
+
     String repositoryName = getOrganisation() + "/" + getRepository();
     progress.update(1);
-    replicationConfig.addSecureCredentials(getOrganisation(), authUsername, authToken);
+    replicationConfig.addSecureCredentials(getOrganisation(), authUsername,
+        authToken);
     progress.update(1);
-    replicationConfig.addReplicationRemote(
-        getOrganisation(),
-        GITHUB_REPOSITORY_BASE_URI + "/${name}.git", 
-        repositoryName);
+    replicationConfig.addReplicationRemote(getOrganisation(), gitHubUrl
+        + "/${name}.git", repositoryName);
     progress.endTask();
   }
 

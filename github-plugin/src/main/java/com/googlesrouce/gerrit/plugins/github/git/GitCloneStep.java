@@ -15,38 +15,23 @@ package com.googlesrouce.gerrit.plugins.github.git;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Set;
+import java.net.MalformedURLException;
 
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.CloneCommand;
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.gerrit.common.data.AccessSection;
-import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.data.GroupReference;
-import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
-import com.google.gerrit.reviewdb.client.Project.NameKey;
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.git.MetaDataUpdate;
-import com.google.gerrit.server.git.MetaDataUpdate.User;
-import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.googlesource.gerrit.plugins.github.GitHubConfig;
 
 public class GitCloneStep extends ImportStep {
-  private static final Logger log = LoggerFactory.getLogger(GitImporter.class);
+  private static final Logger LOG = LoggerFactory.getLogger(GitImporter.class);
 
   private final File gitDir;
   private File destinationDirectory;
@@ -57,7 +42,7 @@ public class GitCloneStep extends ImportStep {
   }
 
   @Inject
-  public GitCloneStep(GitConfig gitConfig,
+  public GitCloneStep(GitHubConfig gitConfig,
       MetaDataUpdate.User metaDataUpdateFactory, 
       GroupBackend groupBackend,
       ProjectCache projectCache,
@@ -65,8 +50,8 @@ public class GitCloneStep extends ImportStep {
       @Assisted("name") String repository)
       throws GitDestinationAlreadyExistsException,
       GitDestinationNotWritableException {
-    super(organisation, repository);
-    
+    super(gitConfig.gitHubUrl, organisation, repository);
+    LOG.debug("GitHub Clone " + organisation + "/" + repository);
     this.gitDir = gitConfig.gitDir;
     this.destinationDirectory =
         getDestinationDirectory(organisation, repository);
@@ -102,7 +87,7 @@ public class GitCloneStep extends ImportStep {
       clone.setProgressMonitor(progress);
     }
     try {
-      log.info(sourceUri + "| Clone into " + destinationDirectory);
+      LOG.info(sourceUri + "| Clone into " + destinationDirectory);
       clone.call();
     } catch (Throwable e) {
       throw new GitCloneFailedException(sourceUri, e);
@@ -127,7 +112,7 @@ public class GitCloneStep extends ImportStep {
       FileUtils.deleteDirectory(gitDirectory);
       return true;
     } catch (IOException e) {
-      log.error("Cannot clean-up output Git directory " + gitDirectory);
+      LOG.error("Cannot clean-up output Git directory " + gitDirectory);
       return false;
     }
   }

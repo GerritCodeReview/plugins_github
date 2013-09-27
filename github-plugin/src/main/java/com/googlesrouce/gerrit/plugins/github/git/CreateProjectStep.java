@@ -13,7 +13,11 @@
 // limitations under the License.
 package com.googlesrouce.gerrit.plugins.github.git;
 
+import java.net.MalformedURLException;
+
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupDescription;
@@ -32,9 +36,10 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.googlesource.gerrit.plugins.github.GitHubURL;
 
 public class CreateProjectStep extends ImportStep {
-  
+  private static final Logger LOG = LoggerFactory.getLogger(CreateProjectStep.class);
   private static final String CODE_REVIEW_REFS = "refs/for/refs/*";
   private static final String TAGS_REFS = "refs/tags/*";
   private static final String CODE_REVIEW_LABEL = "Code-Review";
@@ -58,18 +63,17 @@ public class CreateProjectStep extends ImportStep {
   }
 
   @Inject
-  public CreateProjectStep(GitConfig gitConfig,
+  public CreateProjectStep(@GitHubURL String gitHubUrl,
       MetaDataUpdate.User metaDataUpdateFactory, 
       GroupBackend groupBackend,
       ProjectCache projectCache,
       @Assisted("organisation") String organisation,
       @Assisted("name") String repository,
       @Assisted("description") String description,
-      @Assisted("username") String username)
-      throws GitDestinationAlreadyExistsException,
-      GitDestinationNotWritableException {
-    super(organisation, repository);
-    
+      @Assisted("username") String username) {
+    super(gitHubUrl, organisation, repository);
+    LOG.debug("Gerrit CreateProject " + organisation + "/" + repository);
+
     this.organisation = organisation;
     this.repository = repository;
     this.description = description;

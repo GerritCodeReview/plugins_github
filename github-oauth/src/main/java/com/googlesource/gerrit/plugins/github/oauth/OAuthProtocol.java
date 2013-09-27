@@ -60,17 +60,25 @@ public class OAuthProtocol {
   private static final Logger log = LoggerFactory
       .getLogger(OAuthProtocol.class);
 
-  private final OAuthConfig config;
+  private final GitHubOAuthConfig config;
   private final HttpClient http;
   private final Gson gson;
 
   public static class AccessToken {
     public String access_token;
     public String token_type;
+    
+    public AccessToken() {
+    }
+    
+    public AccessToken(String token, String type) {
+      this.access_token = token;
+      this.token_type = type;
+    }
   }
 
   @Inject
-  public OAuthProtocol(OAuthConfig config, HttpClient httpClient, Gson gson) {
+  public OAuthProtocol(GitHubOAuthConfig config, HttpClient httpClient, Gson gson) {
     this.config = config;
     this.http = httpClient;
     this.gson = gson;
@@ -128,11 +136,11 @@ public class OAuthProtocol {
   }
 
   public boolean isOAuthLogin(HttpServletRequest request) {
-    return request.getRequestURI().indexOf(OAuthConfig.OAUTH_LOGIN) >= 0;
+    return request.getRequestURI().indexOf(GitHubOAuthConfig.OAUTH_LOGIN) >= 0;
   }
 
   public boolean isOAuthLogout(HttpServletRequest request) {
-    return request.getRequestURI().indexOf(OAuthConfig.OAUTH_LOGOUT) >= 0;
+    return request.getRequestURI().indexOf(GitHubOAuthConfig.OAUTH_LOGOUT) >= 0;
   }
 
   public GitHubLogin loginPhase2(HttpServletRequest request,

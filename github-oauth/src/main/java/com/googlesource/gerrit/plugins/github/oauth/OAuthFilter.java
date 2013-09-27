@@ -42,12 +42,12 @@ public class OAuthFilter implements Filter {
       .getLogger(OAuthFilter.class);
   private static final String GERRIT_COOKIE_NAME = "GerritAccount";
 
-  private final OAuthConfig config;
+  private final GitHubOAuthConfig config;
   private final OAuthCookieProvider cookieProvider;
   private final OAuthProtocol oauth;
 
   @Inject
-  public OAuthFilter(OAuthConfig config) {
+  public OAuthFilter(GitHubOAuthConfig config) {
     this.config = config;
     this.cookieProvider = new OAuthCookieProvider(new TokenCipher());
     HttpClient httpClient;

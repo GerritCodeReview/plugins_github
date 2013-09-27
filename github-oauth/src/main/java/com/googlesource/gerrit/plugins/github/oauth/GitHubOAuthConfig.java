@@ -29,7 +29,8 @@ import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
 
 @Singleton
-public class OAuthConfig {
+public class GitHubOAuthConfig {
+  protected static final String CONF_SECTION = "github";
   private static final String LOGIN_OAUTH_AUTHORIZE = "/login/oauth/authorize";
   private static final String GITHUB_URL = "https://github.com";
   public static final String OAUTH_FINAL = "/oauth";
@@ -52,26 +53,30 @@ public class OAuthConfig {
   public final List<OAuthProtocol.Scope> scopes;
 
   @Inject
-  public OAuthConfig(@GerritServerConfig Config config)
+  public GitHubOAuthConfig(@GerritServerConfig Config config)
       throws MalformedURLException {
     httpHeader = config.getString("auth", null, "httpHeader");
     httpDisplaynameHeader = config.getString("auth", null, "httpDisplaynameHeader");
     httpEmailHeader = config.getString("auth", null, "httpEmailHeader");
-    gitHubUrl =
-        Objects.firstNonNull(config.getString("github", null, "url"),
-            GITHUB_URL);
-    gitHubClientId = config.getString("github", null, "clientId");
-    gitHubClientSecret = config.getString("github", null, "clientSecret");
+    gitHubUrl = dropTrailingSlash(
+        Objects.firstNonNull(config.getString(CONF_SECTION, null, "url"),
+            GITHUB_URL));
+    gitHubClientId = config.getString(CONF_SECTION, null, "clientId");
+    gitHubClientSecret = config.getString(CONF_SECTION, null, "clientSecret");
     gitHubOAuthUrl = getUrl(gitHubUrl, LOGIN_OAUTH_AUTHORIZE);
     gitHubOAuthAccessTokenUrl = getUrl(gitHubUrl, LOGIN_OAUTH_ACCESS_TOKEN);
-    logoutRedirectUrl = config.getString("github", null, "logoutRedirectUrl");
+    logoutRedirectUrl = config.getString(CONF_SECTION, null, "logoutRedirectUrl");
     oAuthFinalRedirectUrl =
         getUrl(config.getString("gerrit", null, "canonicalWebUrl"), OAUTH_FINAL);
 
     enabled =
         config.getString("auth", null, "type").equalsIgnoreCase(
             AuthType.HTTP.toString());
-    scopes = parseScopes(config.getString("github", null, "scopes"));
+    scopes = parseScopes(config.getString(CONF_SECTION, null, "scopes"));
+  }
+
+  private String dropTrailingSlash(String url) {
+    return (url.endsWith("/") ? url.substring(0, url.length()-1):url);
   }
 
   private List<Scope> parseScopes(String scopesString) {

@@ -13,24 +13,32 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github;
 
+import java.io.File;
+import java.net.MalformedURLException;
 import java.util.HashMap;
 
 import org.eclipse.jgit.lib.Config;
 
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig;
 
 @Singleton
-public class GitHubConfig {
+public class GitHubConfig extends GitHubOAuthConfig {
 
-  private static final String CONF_SECTION = "github";
   private static final String CONF_WIZARD_FLOW = "wizardFlow";
   private HashMap<String, String> wizardFromTo = new HashMap<String, String>();
   private static final String FROM_TO_SEPARATOR = "=>";
 
+  public final File gitDir;
+
+
   @Inject
-  public GitHubConfig(@GerritServerConfig Config config) {
+  public GitHubConfig(@GerritServerConfig Config config, final SitePaths site)
+      throws MalformedURLException {
+    super(config);
     String[] wizardFlows =
         config.getStringList(CONF_SECTION, null, CONF_WIZARD_FLOW);
     for (String fromTo : wizardFlows) {
@@ -39,6 +47,10 @@ public class GitHubConfig {
       String toPage =
           fromTo.substring(sepPos + FROM_TO_SEPARATOR.length() + 1).trim();
       wizardFromTo.put(fromPage, toPage);
+    }
+    gitDir = site.resolve(config.getString("gerrit", null, "basePath"));
+    if (gitDir == null) {
+      throw new IllegalStateException("gerrit.basePath must be configured");
     }
   }
 

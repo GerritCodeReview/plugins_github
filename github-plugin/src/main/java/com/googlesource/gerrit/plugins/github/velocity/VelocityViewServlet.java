@@ -14,8 +14,11 @@
 package com.googlesource.gerrit.plugins.github.velocity;
 
 import java.io.IOException;
+import java.util.Map.Entry;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,6 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Objects;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -37,37 +41,51 @@ import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 
 @Singleton
 public class VelocityViewServlet extends HttpServlet {
-  private static final Logger log = LoggerFactory.getLogger(VelocityViewServlet.class);
+  private static final Logger log = LoggerFactory
+      .getLogger(VelocityViewServlet.class);
   private static final String STATIC_PREFIX = "/static";
   private static final long serialVersionUID = 529071287765413268L;
   private final RuntimeInstance velocityRuntime;
   private final Provider<PluginVelocityModel> modelProvider;
+  private final Provider<GitHubLogin> loginProvider;
+  private final Provider<IdentifiedUser> userProvider;
 
   @Inject
   public VelocityViewServlet(
       @Named("PluginRuntimeInstance") final RuntimeInstance velocityRuntime,
-      Provider<PluginVelocityModel> modelProvider) {
+      Provider<PluginVelocityModel> modelProvider,
+      Provider<GitHubLogin> loginProvider, Provider<IdentifiedUser> userProvider) {
 
     this.velocityRuntime = velocityRuntime;
     this.modelProvider = modelProvider;
+    this.loginProvider = loginProvider;
+    this.userProvider = userProvider;
   }
 
-  @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-      throws ServletException, IOException {
 
-    String pathInfo = req.getServletPath();
-    String nextUrl = Objects.firstNonNull(req.getParameter("next"), "/");
+  @Override
+  public void service(ServletRequest request, ServletResponse response)
+      throws ServletException, IOException {
+    HttpServletRequest req = (HttpServletRequest) request;
+    HttpServletResponse resp = (HttpServletResponse) response;
+
+    String servletPath = req.getServletPath();
+    String destUrl = (String) req.getAttribute("destUrl");
+    if (destUrl != null && !destUrl.startsWith("/")) {
+      destUrl =
+          servletPath.substring(0, servletPath.lastIndexOf("/")) + "/"
+              + destUrl;
+    }
+
+    String pathInfo = Objects.firstNonNull(destUrl, servletPath);
     if (!pathInfo.startsWith(STATIC_PREFIX)) {
       resp.sendError(HttpStatus.SC_NOT_FOUND);
     }
 
     try {
-      Template template =
-            velocityRuntime.getTemplate(
-                pathInfo, "UTF-8");
-      VelocityContext context = modelProvider.get().getContext();
-        context.put("nextUrl", nextUrl);
+      Template template = velocityRuntime.getTemplate(pathInfo, "UTF-8");
+      VelocityContext context = initVelocityModel(req).getContext();
+      context.put("request", req);
       template.merge(context, resp.getWriter());
     } catch (ResourceNotFoundException e) {
       log.error("Cannot load velocity template " + pathInfo, e);
@@ -79,4 +97,15 @@ public class VelocityViewServlet extends HttpServlet {
     }
   }
 
+  private PluginVelocityModel initVelocityModel(HttpServletRequest request) {
+    PluginVelocityModel model = modelProvider.get();
+    model.put("myself", loginProvider.get().getMyself());
+    model.put("user", userProvider.get());
+    model.put("hub", loginProvider.get().hub);
+
+    for (Entry<String, String[]> reqPar : request.getParameterMap().entrySet()) {
+      model.put(reqPar.getKey(), reqPar.getValue());
+    }
+    return model;
+  }
 }

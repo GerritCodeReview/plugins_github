@@ -13,29 +13,29 @@
 // limitations under the License.
 package com.googlesrouce.gerrit.plugins.github.git;
 
-public class ErrorCloneJob extends AbstractCloneJob implements GitJob {
+import com.googlesrouce.gerrit.plugins.github.git.GitJobStatus.Code;
+
+public class ErrorJob extends AbstractCloneJob implements GitJob {
 
   private int idx;
   private String organisation;
   private String repository;
   private Throwable exception;
+  private GitJobStatus status;
 
-  public ErrorCloneJob(int idx, String organisation, String repository,
+  public ErrorJob(int idx, String organisation, String repository,
       Throwable e) {
     this.idx = idx;
     this.organisation = organisation;
     this.repository = repository;
     this.exception = e;
-  }
-
-  @Override
-  public String getStatusDescription() {
-    return getErrorDescription(exception);
+    status = new GitJobStatus(idx);
+    status.update(Code.FAILED, "Failed", getErrorDescription(exception));
   }
 
   @Override
   public GitJobStatus getStatus() {
-    return GitJobStatus.FAILED;
+    return status;
   }
 
   @Override
@@ -54,6 +54,10 @@ public class ErrorCloneJob extends AbstractCloneJob implements GitJob {
   }
 
   public void cancel() {
+  }
+
+  @Override
+  public void run() {
   }
 
 }

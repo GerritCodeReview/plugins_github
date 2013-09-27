@@ -19,7 +19,6 @@ import java.io.InputStream;
 import java.util.HashSet;
 import java.util.List;
 
-import javax.annotation.Nullable;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -79,8 +78,7 @@ public class AccountController implements VelocityController {
       return Lists.transform(keysInfo, new Function<SshKeyInfo, String>() {
 
         @Override
-        @Nullable
-        public String apply(@Nullable SshKeyInfo keyInfo) {
+        public String apply(SshKeyInfo keyInfo) {
           return keyInfo.sshPublicKey;
         }
 
