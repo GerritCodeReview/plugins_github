@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>GitHub plugin for Gerrit Code Review - Pull Requests
+	replication</title>
+#include ("static/styles.html")
+#include ("static/scripts.html")
+</head>
+<body>
+	<div class="header">
+		<div>
+			<div class="center">
+				#include ("static/header.html")
+				<div class="page-title">
+					<div>
+						<h2>
+							Manage Pull Requests with Gerrit
+						</h2>
+                        <div class="right">
+                          <button type="button" id="cancel">
+                              <span class="button"><span>Cancel</span></span>
+                          </button>
+                          <button type="submit" id="submit" disabled="disabled">
+                              <span class="button green"><span>Accept &gt;</span></span>
+                          </button> <input type="hidden" name="next" value="$nextUrl" />
+                        </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--div.header end -->
+
+	<!--div.container start -->
+	<div class="container">
+		<div class="center">
+            <form id="pullrequests" action="repositories-next.gh" method="post" class="signupform">
+            <div id="repositories">
+                <ul class="pullrequest-repos">
+                    <li>
+                      <select id="organisation" name="organisation">
+                      <option selected="selected">$myself.login</option>
+                      #foreach( $organisation in $myself.organizations )
+                          <option>$organisation.login</option>
+                      #end
+                      </select>
+                   </li>
+                   <li class="filter" style="display: none;">
+                      <input type="text" id="repo-filter" class="filter" name="filter" placeholder="Filter repositories" />
+                  </li>
+                </ul>
+                <ul class="repo-list">
+				</ul>
+        </div>
+        <div id="pullrequests">
+        <div class="loading">
+          <p>Loading Pull Requests from GitHub ...</p>
+        </div>
+        <table class="table simple-table responsive-table responsive-table-on" style="display: none;" id="pull-requests">
+
+                <thead>
+                    <tr>
+                        <th scope="col" class="checkbox"><input type="checkbox" name="check-all" id="check-all" value="1"></th>
+                        <th scope="col" class="id">Id</th>
+                        <th scope="col" class="subject">Repository / Pull request subject / Author</th>
+                        <th scope="col" class="status align-center hide-on-mobile">Status</th>
+                        <th scope="col" class="date align-center">Date</th>
+                        <th scope="col" class="actions align-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            </div>
+			</form>
+		</div>
+	</div>
+    <script type='text/javascript' src='js/pullrequests.js'></script>
+
+	<!--div.container end -->
+	#include ("static/footer.html")
+</body>
+</html>
