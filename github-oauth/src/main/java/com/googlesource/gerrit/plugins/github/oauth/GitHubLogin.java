@@ -73,15 +73,6 @@ public class GitHubLogin {
 
   public boolean isLoggedIn(Set<Scope> scopes) {
     boolean loggedIn = scopesSet.equals(scopes) && token != null && hub != null;
-    if (loggedIn) {
-      try {
-        myself = hub.getMyself();
-      } catch (Throwable e) {
-        log.error("Connection to GitHub broken: logging out", e);
-        logout();
-        loggedIn = false;
-      }
-    }
     return loggedIn;
   }
 
