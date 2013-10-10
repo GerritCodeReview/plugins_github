@@ -14,41 +14,59 @@
 package com.google.gerrit.server.account;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.apache.http.HttpStatus;
 import org.kohsuke.github.GHUser;
 
+import com.google.common.base.Objects;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Account.Id;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.CreateAccount.Factory;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 public class AccountImpoter {
-  private Factory createAccountFactory;
+  private final Factory createAccountFactory;
+  private final Provider<ReviewDb> schema;
 
   @Inject
-  public AccountImpoter(CreateAccount.Factory createAccountFactory) {
+  public AccountImpoter(final CreateAccount.Factory createAccountFactory,
+      final Provider<ReviewDb> schema) {
     this.createAccountFactory = createAccountFactory;
+    this.schema = schema;
   }
 
-  public Account.Id importAccount(String login, String name, String email) throws IOException,
-      BadRequestException, ResourceConflictException,
+  @SuppressWarnings("unchecked")
+  public Account.Id importAccount(String login, String name, String email)
+      throws IOException, BadRequestException, ResourceConflictException,
       UnprocessableEntityException, OrmException {
+    ReviewDb db = schema.get();
     CreateAccount createAccount = createAccountFactory.create(login);
     CreateAccount.Input accountInput = new CreateAccount.Input();
     accountInput.email = email;
-    accountInput.name = name;
     accountInput.username = login;
+    accountInput.name = Objects.firstNonNull(name, login);
     Response<AccountInfo> accountResponse =
         (Response<AccountInfo>) createAccount.apply(TopLevelResource.INSTANCE,
             accountInput);
     if (accountResponse.statusCode() == HttpStatus.SC_CREATED) {
-      return accountResponse.value()._id;
+      Id accountId = accountResponse.value()._id;
+      db.accountExternalIds().insert(
+          Arrays
+              .asList(new AccountExternalId(accountId,
+                  new AccountExternalId.Key(AccountExternalId.SCHEME_GERRIT,
+                      login))));
+      return accountId;
     } else {
       throw new IOException("Cannot import GitHub account " + login
           + ": HTTP Status " + accountResponse.statusCode());
