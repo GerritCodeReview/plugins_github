@@ -28,7 +28,6 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.kohsuke.github.GHIssueState;
 import org.kohsuke.github.GHPerson;
@@ -56,6 +55,7 @@ import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import com.googlesource.gerrit.plugins.github.GitHubConfig;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 
 @Singleton
@@ -63,17 +63,20 @@ public class PullRequestListController implements VelocityController {
   private static final Logger LOG = LoggerFactory
       .getLogger(PullRequestListController.class);
   private static final String DATE_FMT = "yyyy-MM-dd HH:mm z";
-  private static final int MAX_PULL_REQUESTS = 20;
-  private ProjectCache projectsCache;
-  private GitRepositoryManager repoMgr;
+
+  private final GitHubConfig config;
+  private final ProjectCache projectsCache;
+  private final GitRepositoryManager repoMgr;
   private final Provider<ReviewDb> schema;
 
   @Inject
-  public PullRequestListController(ProjectCache projectsCache,
-      GitRepositoryManager repoMgr, Provider<ReviewDb> schema) {
+  public PullRequestListController(final ProjectCache projectsCache,
+      final GitRepositoryManager repoMgr, final Provider<ReviewDb> schema,
+      final GitHubConfig config) {
     this.projectsCache = projectsCache;
     this.repoMgr = repoMgr;
     this.schema = schema;
+    this.config = config;
   }
 
   @Override
@@ -145,7 +148,7 @@ public class PullRequestListController implements VelocityController {
           String ghRepoName = gerritRepoName.get().split("/")[1];
           List<GHPullRequest> repoPullRequests = Lists.newArrayList();
 
-          if (numPullRequests < MAX_PULL_REQUESTS) {
+          if (numPullRequests < config.pullRequestListLimit) {
             for (GHPullRequest ghPullRequest : GHRepository.listPullRequests(
                 login.hub, ghOwner, ghRepoName, GHIssueState.OPEN)) {
 

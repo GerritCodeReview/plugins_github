@@ -14,7 +14,6 @@
 package com.googlesource.gerrit.plugins.github.wizard;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +21,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.kohsuke.github.GHOrganization;
 import org.kohsuke.github.GHRepository;
+import org.kohsuke.github.PagedIterable;
+import org.kohsuke.github.PagedIterator;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.reviewdb.client.Project;
@@ -32,17 +33,20 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.googlesource.gerrit.plugins.github.GitHubConfig;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 
 @Singleton
 public class RepositoriesListController implements VelocityController {
-  private static final int PAGE_SIZE = 100;
-  private ProjectCache projects;
+  private final ProjectCache projects;
+  private final GitHubConfig config;
 
 
   @Inject
-  public RepositoriesListController(ProjectCache projects) {
+  public RepositoriesListController(final ProjectCache projects,
+      final GitHubConfig config) {
     this.projects = projects;
+    this.config = config;
   }
 
   @Override
@@ -52,7 +56,12 @@ public class RepositoriesListController implements VelocityController {
     String organisation = req.getParameter("organisation");
 
     JsonArray jsonRepos = new JsonArray();
-    for (GHRepository ghRepository : getRepositories(hubLogin, organisation)) {
+    int numRepos = 0;
+    PagedIterator<GHRepository> repoIter =
+        getRepositories(hubLogin, organisation).iterator();
+
+    while (repoIter.hasNext() && numRepos < config.repositoryListLimit) {
+      GHRepository ghRepository = repoIter.next();
       JsonObject repository = new JsonObject();
       String projectName = organisation + "/" + ghRepository.getName();
       if (projects.get(Project.NameKey.parse(projectName)) == null) {
@@ -63,20 +72,21 @@ public class RepositoriesListController implements VelocityController {
             new JsonPrimitive(
                 Strings.nullToEmpty(ghRepository.getDescription())));
         jsonRepos.add(repository);
+        numRepos++;
       }
     }
 
     resp.getWriter().println(jsonRepos.toString());
   }
 
-  private List<GHRepository> getRepositories(GitHubLogin hubLogin,
+  private PagedIterable<GHRepository> getRepositories(GitHubLogin hubLogin,
       String organisation) throws IOException {
     if (organisation.equals(hubLogin.getMyself().getLogin())) {
-      return hubLogin.getMyself().listRepositories(PAGE_SIZE).asList();
+      return hubLogin.getMyself().listRepositories(config.repositoryListPageSize);
     } else {
       GHOrganization ghOrganisation =
           hubLogin.getMyself().getOrganizations().byLogin(organisation);
-      return ghOrganisation.listRepositories(PAGE_SIZE).asList();
+      return ghOrganisation.listRepositories(config.repositoryListPageSize);
     }
   }
 }

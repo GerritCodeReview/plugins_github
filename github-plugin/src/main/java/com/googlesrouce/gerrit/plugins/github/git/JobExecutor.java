@@ -35,7 +35,7 @@ public class JobExecutor {
     this.requestScopePropagator = requestScopePropagator;
     this.config = config;
     this.executor = Executors
-        .newScheduledThreadPool(config.getJobPoolLimit());
+        .newScheduledThreadPool(config.jobPoolLimit);
   }
 
   public void exec(GitJob job) {
@@ -45,6 +45,6 @@ public class JobExecutor {
 
   private int getRandomExecutionDelay(GitJob job) {
     Random rnd = new Random(System.currentTimeMillis() + job.hashCode());
-    return rnd.nextInt(config.getJobExecTimeout());
+    return rnd.nextInt(config.jobExecTimeout);
   }
 }

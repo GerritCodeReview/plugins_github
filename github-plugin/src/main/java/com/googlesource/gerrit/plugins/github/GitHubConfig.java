@@ -35,9 +35,19 @@ public class GitHubConfig extends GitHubOAuthConfig {
   private static final String FROM_TO_REDIRECT_SEPARATOR = "R>";
   private static final String CONF_JOB_POOL_LIMIT = "jobPoolLimit";
   private static final String CONF_JOB_EXEC_TIMEOUT = "jobExecTimeout";
+  private static final String CONF_PULL_REQUEST_LIST_LIMIT =
+      "pullRequestListLimit";
+  private static final String CONF_REPOSITORY_LIST_PAGE_SIZE =
+      "repositoryListPageSize";
+  private static final String CONF_REPOSITORY_LIST_LIMIT =
+      "repositoryListLimit";
+
   public final File gitDir;
-  private int jobPoolLimit;
-  private int jobExecTimeout;
+  public final int jobPoolLimit;
+  public final int jobExecTimeout;
+  public final int pullRequestListLimit;
+  public final int repositoryListPageSize;
+  public final int repositoryListLimit;
 
   public static class NextPage {
     public final String uri;
@@ -64,10 +74,16 @@ public class GitHubConfig extends GitHubOAuthConfig {
           new NextPage(fromTo.substring(
               sepPos + getSeparator(redirect).length() + 1).trim(), redirect);
       wizardFromTo.put(fromPage, toPage);
-
-      jobPoolLimit = config.getInt(CONF_SECTION, CONF_JOB_POOL_LIMIT, 5);
-      jobExecTimeout = config.getInt(CONF_SECTION, CONF_JOB_EXEC_TIMEOUT, 10);
     }
+
+    jobPoolLimit = config.getInt(CONF_SECTION, CONF_JOB_POOL_LIMIT, 5);
+    jobExecTimeout = config.getInt(CONF_SECTION, CONF_JOB_EXEC_TIMEOUT, 10);
+    pullRequestListLimit =
+        config.getInt(CONF_SECTION, CONF_PULL_REQUEST_LIST_LIMIT, 50);
+    repositoryListPageSize =
+        config.getInt(CONF_SECTION, CONF_REPOSITORY_LIST_PAGE_SIZE, 50);
+    repositoryListLimit =
+        config.getInt(CONF_SECTION, CONF_REPOSITORY_LIST_LIMIT, 50);
 
     gitDir = site.resolve(config.getString("gerrit", null, "basePath"));
     if (gitDir == null) {
@@ -91,13 +107,5 @@ public class GitHubConfig extends GitHubOAuthConfig {
 
   public NextPage getNextPage(String sourcePage) {
     return wizardFromTo.get(sourcePage);
-  }
-
-  public int getJobPoolLimit() {
-    return jobPoolLimit;
-  }
-
-  public int getJobExecTimeout() {
-    return jobExecTimeout;
   }
 }
