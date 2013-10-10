@@ -19,7 +19,6 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.servlet.ServletModule;
 import com.googlesource.gerrit.plugins.github.filters.GitHubOAuthFilter;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubHttpProvider;
-import com.googlesource.gerrit.plugins.github.pullsync.PullRequestsServlet;
 import com.googlesource.gerrit.plugins.github.replication.RemoteSiteUser;
 import com.googlesource.gerrit.plugins.github.velocity.VelocityStaticServlet;
 import com.googlesource.gerrit.plugins.github.velocity.VelocityViewServlet;
@@ -33,7 +32,6 @@ public class GuiceHttpModule extends ServletModule {
     install(new FactoryModuleBuilder().build(RemoteSiteUser.Factory.class));
 
     install(new GuiceModule());
-    serve("/").with(PullRequestsServlet.class);
     serve("*.css","*.js","*.png","*.jpg","*.woff","*.gif","*.ttf").with(VelocityStaticServlet.class);
     serve("*.html").with(VelocityViewServlet.class);
     serve("*.gh").with(VelocityControllerServlet.class);
