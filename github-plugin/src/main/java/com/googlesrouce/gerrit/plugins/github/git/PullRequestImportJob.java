@@ -34,6 +34,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
 import org.kohsuke.github.GHPullRequest;
 import org.kohsuke.github.GHPullRequestCommitDetail;
+import org.kohsuke.github.GHPullRequestCommitDetail.Authorship;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GHUser;
 import org.slf4j.Logger;
@@ -185,8 +186,8 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
     return e.getLocalizedMessage();
   }
 
-  private List<Id> addPullRequestToChange(ReviewDb db, GHPullRequest pr, Repository gitRepo)
-      throws Exception {
+  private List<Id> addPullRequestToChange(ReviewDb db, GHPullRequest pr,
+      Repository gitRepo) throws Exception {
     String destinationBranch = pr.getBase().getRef();
     List<Id> prChanges = Lists.newArrayList();
     ObjectId baseObjectId = ObjectId.fromString(pr.getBase().getSha());
@@ -203,10 +204,21 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
           + ": Inserting PullRequest into Gerrit");
       RevCommit revCommit =
           walk.parseCommit(ObjectId.fromString(ghCommitDetail.getSha()));
-      Account.Id pullRequestOwner = getOrRegisterAccount(db, pr.getUser());
+
+      Account.Id pullRequestOwner;
+      // It may happen that the user that created the Pull Request has been
+      // removed from GitHub: we assume that the commit author was that user
+      // as there are no other choices.
+      if (pr.getUser() == null) {
+        pullRequestOwner = getOrRegisterAccount(db, ghCommitDetail.getCommit().getAuthor());
+      } else {
+        pullRequestOwner = getOrRegisterAccount(db, pr.getUser());
+      }
+
       Id changeId =
-          createChange.addCommitToChange(db, project, gitRepo, destinationBranch,
-              pullRequestOwner, revCommit, getChangeMessage(pr),
+          createChange.addCommitToChange(db, project, gitRepo,
+              destinationBranch, pullRequestOwner, revCommit,
+              getChangeMessage(pr),
               String.format(TOPIC_FORMAT, pr.getNumber()), false);
       if (changeId != null) {
         prChanges.add(changeId);
@@ -216,19 +228,34 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
     return prChanges;
   }
 
-  private com.google.gerrit.reviewdb.client.Account.Id getOrRegisterAccount(ReviewDb db,
-      GHUser user) throws OrmException, BadRequestException,
+  private com.google.gerrit.reviewdb.client.Account.Id getOrRegisterAccount(
+      ReviewDb db, Authorship author) throws BadRequestException,
+      ResourceConflictException, UnprocessableEntityException, OrmException,
+      IOException {
+    return getOrRegisterAccount(db, author.getName(), author.getName(),
+        author.getEmail());
+  }
+
+  private com.google.gerrit.reviewdb.client.Account.Id getOrRegisterAccount(
+      ReviewDb db, GHUser user) throws OrmException, BadRequestException,
       ResourceConflictException, UnprocessableEntityException, IOException {
-      AccountExternalId.Key userExtKey =
-          new AccountExternalId.Key(AccountExternalId.SCHEME_USERNAME,
-              user.getLogin());
-      AccountExternalIdAccess gerritExtIds = db.accountExternalIds();
-      AccountExternalId userExtId = gerritExtIds.get(userExtKey);
-      if (userExtId == null) {
-        return accountImporter.importAccount(user);
-      } else {
-        return userExtId.getAccountId();
-      }
+    return getOrRegisterAccount(db, user.getLogin(), user.getName(),
+        user.getEmail());
+  }
+
+  private com.google.gerrit.reviewdb.client.Account.Id getOrRegisterAccount(
+      ReviewDb db, String login, String name, String email)
+      throws OrmException, BadRequestException, ResourceConflictException,
+      UnprocessableEntityException, IOException {
+    AccountExternalId.Key userExtKey =
+        new AccountExternalId.Key(AccountExternalId.SCHEME_USERNAME, login);
+    AccountExternalIdAccess gerritExtIds = db.accountExternalIds();
+    AccountExternalId userExtId = gerritExtIds.get(userExtKey);
+    if (userExtId == null) {
+      return accountImporter.importAccount(login, name, email);
+    } else {
+      return userExtId.getAccountId();
+    }
   }
 
   private String getChangeMessage(GHPullRequest pr) {
