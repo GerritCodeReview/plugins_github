@@ -73,7 +73,7 @@ public class GitHubLogin {
 
   public boolean isLoggedIn(Set<Scope> scopes) {
     boolean loggedIn = scopesSet.equals(scopes) && token != null && hub != null;
-    if (loggedIn) {
+    if (loggedIn && myself == null) {
       try {
         myself = hub.getMyself();
       } catch (Throwable e) {
