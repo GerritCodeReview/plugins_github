@@ -46,6 +46,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.IdentifiedUser.GenericFactory;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy;
@@ -76,8 +77,8 @@ public class PullRequestCreateChange {
   private final ChangeInserter.Factory changeInserterFactory;
   final MergeUtil.Factory mergeUtilFactory;
   private final PatchSetInserter.Factory patchSetInserterFactory;
-
-  private Factory projectControlFactor;
+  private final Factory projectControlFactor;
+  private final GenericFactory userFactory;
 
 
   @Inject
@@ -86,22 +87,23 @@ public class PullRequestCreateChange {
       final ChangeInserter.Factory changeInserterFactory,
       final MergeUtil.Factory mergeUtilFactory,
       final PatchSetInserter.Factory patchSetInserterFactory,
-      final ProjectControl.Factory projectControlFactory) {
+      final ProjectControl.Factory projectControlFactory,
+      final IdentifiedUser.GenericFactory userFactory) {
     this.currentUser = currentUser;
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.changeInserterFactory = changeInserterFactory;
     this.mergeUtilFactory = mergeUtilFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.projectControlFactor = projectControlFactory;
+    this.userFactory = userFactory;
   }
 
   public Change.Id addCommitToChange(final ReviewDb db, final Project project,
       final Repository git, final String destinationBranch,
-      final Account.Id pullRequestOwner,
-      final RevCommit pullRequestCommit, final String pullRequestMesage,
-      final String topic, boolean doValidation) throws NoSuchChangeException,
-      EmailException, OrmException, MissingObjectException,
-      IncorrectObjectTypeException, IOException,
+      final Account.Id pullRequestOwner, final RevCommit pullRequestCommit,
+      final String pullRequestMesage, final String topic, boolean doValidation)
+      throws NoSuchChangeException, EmailException, OrmException,
+      MissingObjectException, IncorrectObjectTypeException, IOException,
       InvalidChangeOperationException, MergeException, NoSuchProjectException {
     Id newChange = null;
     if (destinationBranch == null || destinationBranch.length() == 0) {
@@ -165,20 +167,21 @@ public class PullRequestCreateChange {
           // patch-set
           Change destChange = destChanges.get(0);
           return insertPatchSet(git, revWalk, destChange, pullRequestCommit,
-              refControl, pullRequestMesage, doValidation);
+              refControl, pullRequestOwner, pullRequestMesage, doValidation);
         } else {
           // Change key not found on destination branch. We can create a new
           // change.
           return (newChange =
               createNewChange(db, git, revWalk, changeKey,
-                  project.getNameKey(), destRef, pullRequestOwner, pullRequestCommit, refControl,
-                  pullRequestMesage, topic, doValidation));
+                  project.getNameKey(), destRef, pullRequestOwner,
+                  pullRequestCommit, refControl, pullRequestMesage, topic,
+                  doValidation));
         }
       } finally {
         revWalk.release();
         if (newChange == null) {
           db.rollback();
-        } 
+        }
       }
     } finally {
       git.close();
@@ -187,12 +190,12 @@ public class PullRequestCreateChange {
 
   private Change.Id insertPatchSet(Repository git, RevWalk revWalk,
       Change change, RevCommit cherryPickCommit, RefControl refControl,
-      String pullRequestMessage, boolean doValidation)
-      throws InvalidChangeOperationException, IOException, OrmException,
-      NoSuchChangeException {
+      Account.Id pullRequestOwnerId, String pullRequestMessage,
+      boolean doValidation) throws InvalidChangeOperationException,
+      IOException, OrmException, NoSuchChangeException {
     PatchSetInserter patchSetInserter =
-        patchSetInserterFactory.create(git, revWalk, refControl, currentUser,
-            change, cherryPickCommit);
+        patchSetInserterFactory.create(git, revWalk, refControl,
+            userFactory.create(pullRequestOwnerId), change, cherryPickCommit);
     // This apparently useless method call is made for triggering
     // the creation of patchSet inside PatchSetInserter and thus avoiding a NPE
     patchSetInserter.getPatchSetId();
@@ -206,15 +209,13 @@ public class PullRequestCreateChange {
 
   private Change.Id createNewChange(ReviewDb db, Repository git,
       RevWalk revWalk, Change.Key changeKey, Project.NameKey project,
-      Ref destRef, 
-      Account.Id pullRequestOwner,
-      RevCommit pullRequestCommit, RefControl refControl,
-      String pullRequestMessage, String topic, boolean doValidation)
-      throws OrmException, InvalidChangeOperationException, IOException {
+      Ref destRef, Account.Id pullRequestOwner, RevCommit pullRequestCommit,
+      RefControl refControl, String pullRequestMessage, String topic,
+      boolean doValidation) throws OrmException,
+      InvalidChangeOperationException, IOException {
     Change change =
         new Change(changeKey, new Change.Id(db.nextChangeId()),
-            pullRequestOwner, new Branch.NameKey(project,
-                destRef.getName()));
+            pullRequestOwner, new Branch.NameKey(project, destRef.getName()));
     if (topic != null) {
       change.setTopic(topic);
     }
@@ -236,7 +237,9 @@ public class PullRequestCreateChange {
           ru.getResult()));
     }
 
-    ins.setMessage(buildChangeMessage(db, change, pullRequestMessage)).insert();
+    ins.setMessage(
+        buildChangeMessage(db, change, pullRequestOwner, pullRequestMessage))
+        .insert();
 
     return change.getId();
   }
@@ -260,10 +263,11 @@ public class PullRequestCreateChange {
   }
 
   private ChangeMessage buildChangeMessage(ReviewDb db, Change dest,
-      String pullRequestMessage) throws OrmException {
+      Account.Id pullRequestAuthorId, String pullRequestMessage)
+      throws OrmException {
     ChangeMessage cmsg =
         new ChangeMessage(new ChangeMessage.Key(dest.getId(),
-            ChangeUtil.messageUUID(db)), currentUser.getAccountId(), null);
+            ChangeUtil.messageUUID(db)), pullRequestAuthorId, null);
     cmsg.setMessage(pullRequestMessage);
     return cmsg;
   }
