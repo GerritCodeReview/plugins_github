@@ -21,19 +21,21 @@ import java.util.concurrent.TimeUnit;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.googlesource.gerrit.plugins.github.GitHubConfig;
 
 @Singleton
 public class JobExecutor {
-  private static final int MAX_THREADS = 10;
-  private static final int MAX_EXEC_TIMEOUT_SECS = 30;
-
-  private final ScheduledExecutorService executor = Executors
-      .newScheduledThreadPool(MAX_THREADS);
+  private final ScheduledExecutorService executor;
   private final RequestScopePropagator requestScopePropagator;
+  private final GitHubConfig config;
 
   @Inject
-  public JobExecutor(final RequestScopePropagator requestScopePropagator) {
+  public JobExecutor(final RequestScopePropagator requestScopePropagator,
+      final GitHubConfig config) {
     this.requestScopePropagator = requestScopePropagator;
+    this.config = config;
+    this.executor = Executors
+        .newScheduledThreadPool(config.getJobPoolLimit());
   }
 
   public void exec(GitJob job) {
@@ -43,6 +45,6 @@ public class JobExecutor {
 
   private int getRandomExecutionDelay(GitJob job) {
     Random rnd = new Random(System.currentTimeMillis() + job.hashCode());
-    return rnd.nextInt(MAX_EXEC_TIMEOUT_SECS);
+    return rnd.nextInt(config.getJobExecTimeout());
   }
 }

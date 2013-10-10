@@ -33,7 +33,11 @@ public class GitHubConfig extends GitHubOAuthConfig {
   private HashMap<String, NextPage> wizardFromTo = Maps.newHashMap();
   private static final String FROM_TO_SEPARATOR = "=>";
   private static final String FROM_TO_REDIRECT_SEPARATOR = "R>";
+  private static final String CONF_JOB_POOL_LIMIT = "jobPoolLimit";
+  private static final String CONF_JOB_EXEC_TIMEOUT = "jobExecTimeout";
   public final File gitDir;
+  private int jobPoolLimit;
+  private int jobExecTimeout;
 
   public static class NextPage {
     public final String uri;
@@ -60,7 +64,11 @@ public class GitHubConfig extends GitHubOAuthConfig {
           new NextPage(fromTo.substring(
               sepPos + getSeparator(redirect).length() + 1).trim(), redirect);
       wizardFromTo.put(fromPage, toPage);
+
+      jobPoolLimit = config.getInt(CONF_SECTION, CONF_JOB_POOL_LIMIT, 5);
+      jobExecTimeout = config.getInt(CONF_SECTION, CONF_JOB_EXEC_TIMEOUT, 10);
     }
+
     gitDir = site.resolve(config.getString("gerrit", null, "basePath"));
     if (gitDir == null) {
       throw new IllegalStateException("gerrit.basePath must be configured");
@@ -83,5 +91,13 @@ public class GitHubConfig extends GitHubOAuthConfig {
 
   public NextPage getNextPage(String sourcePage) {
     return wizardFromTo.get(sourcePage);
+  }
+
+  public int getJobPoolLimit() {
+    return jobPoolLimit;
+  }
+
+  public int getJobExecTimeout() {
+    return jobExecTimeout;
   }
 }

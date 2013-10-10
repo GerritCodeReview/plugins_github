@@ -24,7 +24,7 @@ public class GitImportJob extends AbstractCloneJob implements Runnable,
   private int currUnit;
   private int lastPercentage;
   private boolean cancelled;
-  private String task = "Initializing ...";
+  private String task = "Waiting ...";
   private Exception exception;
   private GitJobStatus status;
   private int index;
