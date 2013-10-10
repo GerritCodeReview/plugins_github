@@ -42,7 +42,7 @@ $(function() {
 	$("#submit").click(function() {
 		var destination;
 
-		if(completed || $("tr").length <= 0) {
+		if(completed || $("input#checkall:checked").length <= 1) {
 			$('#pullrequests').submit();
 			return true;
 		} else {
@@ -182,6 +182,10 @@ var loadPullRequests = function (repository) {
 			}
 		}
 		
+		if(idx == 0) {
+			$("#submit").html("<span class=\"button green\"><span>Next &gt;</span></span>")
+		}
+
 		if(repository == undefined) {
 			var repoSort = function sortAlpha(a,b){  
 				var cmpA = ($(a).find("p") == undefined ? "0":$(a).find("p").text()) + $(a).find("a").text();
