@@ -172,7 +172,7 @@ var loadPullRequests = function (repository) {
 		                        '<p class="body">' + req.body + '</p>' +
 		                        '<p class="author">by ' + req.author + '</p>',
 		                        '<p class="timestamp">' + req.date + '</p>',
-		                        '<select name="' + paramPrefix + '.type" id="importtype"><option>Squash</option><option>Commits</option> </select>' +
+		                        '<select name="' + paramPrefix + '.type" id="importtype"><option>Commits</option> </select>' +
 		                        '<span id="status_' +  idx + '" class="status" ></span>' +
 		                        '<label id="status_description_' + idx + '" class="synch-status">'
 			                  ] );
