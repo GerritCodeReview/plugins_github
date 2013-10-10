@@ -37,6 +37,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+import com.googlesource.gerrit.plugins.github.GitHubConfig.NextPage;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 
 @Singleton
@@ -70,11 +71,12 @@ public class VelocityViewServlet extends HttpServlet {
     HttpServletResponse resp = (HttpServletResponse) response;
 
     String servletPath = req.getServletPath();
-    String destUrl = (String) req.getAttribute("destUrl");
-    if (destUrl != null && !destUrl.startsWith("/")) {
+    NextPage nextPage = (NextPage) req.getAttribute("destUrl");
+    String destUrl = null;
+    if (nextPage != null && !nextPage.uri.startsWith("/")) {
       destUrl =
           servletPath.substring(0, servletPath.lastIndexOf("/")) + "/"
-              + destUrl;
+              + nextPage.uri;
     }
 
     String pathInfo = Objects.firstNonNull(destUrl, servletPath);
