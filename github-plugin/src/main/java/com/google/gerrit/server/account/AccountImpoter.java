@@ -36,21 +36,21 @@ public class AccountImpoter {
     this.createAccountFactory = createAccountFactory;
   }
 
-  public Account.Id importAccount(GHUser user) throws IOException,
+  public Account.Id importAccount(String login, String name, String email) throws IOException,
       BadRequestException, ResourceConflictException,
       UnprocessableEntityException, OrmException {
-    CreateAccount createAccount = createAccountFactory.create(user.getLogin());
+    CreateAccount createAccount = createAccountFactory.create(login);
     CreateAccount.Input accountInput = new CreateAccount.Input();
-    accountInput.email = user.getEmail();
-    accountInput.name = user.getName();
-    accountInput.username = user.getLogin();
+    accountInput.email = email;
+    accountInput.name = name;
+    accountInput.username = login;
     Response<AccountInfo> accountResponse =
         (Response<AccountInfo>) createAccount.apply(TopLevelResource.INSTANCE,
             accountInput);
     if (accountResponse.statusCode() == HttpStatus.SC_CREATED) {
       return accountResponse.value()._id;
     } else {
-      throw new IOException("Cannot import GitHub account " + user.getLogin()
+      throw new IOException("Cannot import GitHub account " + login
           + ": HTTP Status " + accountResponse.statusCode());
     }
   }
