@@ -19,6 +19,7 @@ import java.util.HashMap;
 
 import org.eclipse.jgit.lib.Config;
 
+import com.google.common.collect.Maps;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
@@ -29,10 +30,20 @@ import com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig;
 public class GitHubConfig extends GitHubOAuthConfig {
 
   private static final String CONF_WIZARD_FLOW = "wizardFlow";
-  private HashMap<String, String> wizardFromTo = new HashMap<String, String>();
+  private HashMap<String, NextPage> wizardFromTo = Maps.newHashMap();
   private static final String FROM_TO_SEPARATOR = "=>";
-
+  private static final String FROM_TO_REDIRECT_SEPARATOR = "R>";
   public final File gitDir;
+
+  public static class NextPage {
+    public final String uri;
+    public final boolean redirect;
+
+    public NextPage(final String pageUri, final boolean redirect) {
+      this.uri = pageUri;
+      this.redirect = redirect;
+    }
+  }
 
 
   @Inject
@@ -42,10 +53,12 @@ public class GitHubConfig extends GitHubOAuthConfig {
     String[] wizardFlows =
         config.getStringList(CONF_SECTION, null, CONF_WIZARD_FLOW);
     for (String fromTo : wizardFlows) {
-      int sepPos = getSepPos(fromTo);
+      boolean redirect = fromTo.indexOf(FROM_TO_REDIRECT_SEPARATOR) > 0;
+      int sepPos = getSepPos(fromTo, redirect);
       String fromPage = fromTo.substring(0, sepPos).trim();
-      String toPage =
-          fromTo.substring(sepPos + FROM_TO_SEPARATOR.length() + 1).trim();
+      NextPage toPage =
+          new NextPage(fromTo.substring(
+              sepPos + getSeparator(redirect).length() + 1).trim(), redirect);
       wizardFromTo.put(fromPage, toPage);
     }
     gitDir = site.resolve(config.getString("gerrit", null, "basePath"));
@@ -54,15 +67,21 @@ public class GitHubConfig extends GitHubOAuthConfig {
     }
   }
 
-  private int getSepPos(String fromTo) {
-    int sepPos = fromTo.indexOf(FROM_TO_SEPARATOR);
+  private String getSeparator(boolean redirect) {
+    String separator =
+        redirect ? FROM_TO_REDIRECT_SEPARATOR : FROM_TO_SEPARATOR;
+    return separator;
+  }
+
+  private int getSepPos(String fromTo, boolean redirect) {
+    int sepPos = fromTo.indexOf(getSeparator(redirect));
     if (sepPos < 0) {
       throw new InvalidGitHubConfigException(fromTo);
     }
     return sepPos;
   }
 
-  public String getNextPage(String sourcePage) {
+  public NextPage getNextPage(String sourcePage) {
     return wizardFromTo.get(sourcePage);
   }
 }

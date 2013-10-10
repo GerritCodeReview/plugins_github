@@ -36,6 +36,7 @@ import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.GitHubConfig;
+import com.googlesource.gerrit.plugins.github.GitHubConfig.NextPage;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.velocity.PluginVelocityModel;
 
@@ -130,11 +131,16 @@ public class VelocityControllerServlet extends HttpServlet {
     if (queryStringStart > 0) {
       sourcePage = sourcePage.substring(0, queryStringStart);
     }
-    String nextPage = githubConfig.getNextPage(sourcePage);
+    NextPage nextPage = githubConfig.getNextPage(sourcePage);
     if (nextPage != null) {
-      RequestDispatcher requestDispatcher = req.getRequestDispatcher(nextPage);
-      req.setAttribute("destUrl", nextPage);
-      requestDispatcher.forward(req, resp);
+      if (nextPage.redirect) {
+        resp.sendRedirect(nextPage.uri);
+      } else {
+        RequestDispatcher requestDispatcher =
+            req.getRequestDispatcher(nextPage.uri);
+        req.setAttribute("destUrl", nextPage);
+        requestDispatcher.forward(req, resp);
+      }
     }
   }
 
