@@ -16,6 +16,7 @@ package com.googlesource.gerrit.plugins.github.velocity;
 import java.io.IOException;
 import java.util.Map.Entry;
 
+import javax.mail.internet.ContentType;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -88,6 +89,7 @@ public class VelocityViewServlet extends HttpServlet {
       Template template = velocityRuntime.getTemplate(pathInfo, "UTF-8");
       VelocityContext context = initVelocityModel(req).getContext();
       context.put("request", req);
+      resp.setHeader("content-type", "text/html");
       template.merge(context, resp.getWriter());
     } catch (ResourceNotFoundException e) {
       log.error("Cannot load velocity template " + pathInfo, e);
