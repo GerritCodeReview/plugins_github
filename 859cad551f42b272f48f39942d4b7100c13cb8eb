@@ -16,6 +16,24 @@
       "revId": "859cad551f42b272f48f39942d4b7100c13cb8eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e3aa4c5_1193cca9",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/wizard/SshKeysImportServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-10-11T13:39:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58020843_31e69064",
+      "revId": "859cad551f42b272f48f39942d4b7100c13cb8eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
