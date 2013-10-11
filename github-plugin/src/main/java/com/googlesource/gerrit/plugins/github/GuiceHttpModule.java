@@ -14,15 +14,22 @@
 package com.googlesource.gerrit.plugins.github;
 
 import org.apache.http.client.HttpClient;
+import org.apache.velocity.runtime.RuntimeInstance;
 
 import com.google.inject.assistedinject.FactoryModuleBuilder;
+import com.google.inject.name.Names;
 import com.google.inject.servlet.ServletModule;
 import com.googlesource.gerrit.plugins.github.filters.GitHubOAuthFilter;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubHttpProvider;
 import com.googlesource.gerrit.plugins.github.replication.RemoteSiteUser;
+import com.googlesource.gerrit.plugins.github.velocity.PluginVelocityRuntimeProvider;
 import com.googlesource.gerrit.plugins.github.velocity.VelocityStaticServlet;
 import com.googlesource.gerrit.plugins.github.velocity.VelocityViewServlet;
 import com.googlesource.gerrit.plugins.github.wizard.VelocityControllerServlet;
+import com.googlesrouce.gerrit.plugins.github.git.CreateProjectStep;
+import com.googlesrouce.gerrit.plugins.github.git.GitCloneStep;
+import com.googlesrouce.gerrit.plugins.github.git.PullRequestImportJob;
+import com.googlesrouce.gerrit.plugins.github.git.ReplicateProjectStep;
 
 public class GuiceHttpModule extends ServletModule {
 
@@ -31,8 +38,24 @@ public class GuiceHttpModule extends ServletModule {
     bind(HttpClient.class).toProvider(GitHubHttpProvider.class);
     install(new FactoryModuleBuilder().build(RemoteSiteUser.Factory.class));
 
-    install(new GuiceModule());
-    serve("*.css","*.js","*.png","*.jpg","*.woff","*.gif","*.ttf").with(VelocityStaticServlet.class);
+    install(new FactoryModuleBuilder().implement(GitCloneStep.class,
+        GitCloneStep.class).build(GitCloneStep.Factory.class));
+    install(new FactoryModuleBuilder().implement(CreateProjectStep.class,
+        CreateProjectStep.class).build(CreateProjectStep.Factory.class));
+    install(new FactoryModuleBuilder().implement(ReplicateProjectStep.class,
+        ReplicateProjectStep.class).build(ReplicateProjectStep.Factory.class));
+    install(new FactoryModuleBuilder().implement(PullRequestImportJob.class,
+        PullRequestImportJob.class).build(PullRequestImportJob.Factory.class));
+
+    bind(RuntimeInstance.class).annotatedWith(
+        Names.named("PluginRuntimeInstance")).toProvider(
+        PluginVelocityRuntimeProvider.class);
+
+    bind(String.class).annotatedWith(GitHubURL.class).toProvider(
+        GitHubURLProvider.class);
+
+    serve("*.css", "*.js", "*.png", "*.jpg", "*.woff", "*.gif", "*.ttf").with(
+        VelocityStaticServlet.class);
     serve("*.html").with(VelocityViewServlet.class);
     serve("*.gh").with(VelocityControllerServlet.class);
 
