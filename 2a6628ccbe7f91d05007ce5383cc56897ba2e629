@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3e3aa4c5_b1d3e04c",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-10-11T14:04:00Z",
+      "side": 1,
+      "message": "I would prefer to keep it all together in a unique README: the link to the Gitles could be sent to advertise it :-)",
+      "parentUuid": "edf21c16_be3659f8",
+      "revId": "2a6628ccbe7f91d05007ce5383cc56897ba2e629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "adaae4e9_0c1db775",
         "filename": "README.md",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2013-08-27T06:13:30Z",
       "side": 1,
       "message": "untabify",
+      "revId": "2a6628ccbe7f91d05007ce5383cc56897ba2e629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5e3598d0_9277bc8c",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-10-11T14:04:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "adaae4e9_0c1db775",
       "revId": "2a6628ccbe7f91d05007ce5383cc56897ba2e629",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "8da7e022_4b17a553",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-10-11T14:04:00Z",
+      "side": 1,
+      "message": "Current status of the github-plugin is WIP ... but I think is worth mentioning what\u0027s coming :-)\n\nCould potentially attract people helping me finalising the implementation ;-)",
+      "parentUuid": "8da7e022_8b106d62",
+      "revId": "2a6628ccbe7f91d05007ce5383cc56897ba2e629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "adaae4e9_4c17bf53",
         "filename": "README.md",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2013-08-27T06:13:30Z",
       "side": 1,
       "message": "You need to clone, build and install\nor just be more precisely about instruction here:\n\n mvn install",
+      "revId": "2a6628ccbe7f91d05007ce5383cc56897ba2e629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e3aa4c5_91d0dc40",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-10-11T14:04:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "adaae4e9_4c17bf53",
       "revId": "2a6628ccbe7f91d05007ce5383cc56897ba2e629",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "5e3598d0_52db9469",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-10-11T14:04:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "adaae4e9_6c1a7b7f",
+      "revId": "2a6628ccbe7f91d05007ce5383cc56897ba2e629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8d5440b2_2332aa00",
         "filename": "README.md",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2013-08-27T06:13:30Z",
       "side": 1,
       "message": "the same as above:\n\n mvn install",
+      "revId": "2a6628ccbe7f91d05007ce5383cc56897ba2e629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e3aa4c5_71bfb8f3",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2013-10-11T14:04:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d5440b2_2332aa00",
       "revId": "2a6628ccbe7f91d05007ce5383cc56897ba2e629",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
