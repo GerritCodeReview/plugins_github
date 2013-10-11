@@ -58,7 +58,7 @@ once approved. Additionally to the standard Gerrit push replication,
 supports as well the ability to pull branches from remote GitHub
 repositories.
 
-### Pull-request to Change. (TODO)
+### Pull-request to Change. (DONE - Change-Id: d669e351a03798cc2ec966d028458f083c232564)
 
 Hooks into the GitHub pull-request mechanism to automatically create
 a Change in Gerrit submitted for review.
