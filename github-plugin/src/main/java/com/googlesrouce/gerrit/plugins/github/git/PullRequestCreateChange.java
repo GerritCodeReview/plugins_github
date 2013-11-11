@@ -15,6 +15,7 @@
 package com.googlesrouce.gerrit.plugins.github.git;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Iterator;
 import java.util.List;
 
@@ -62,6 +63,7 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectControl.Factory;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.ssh.NoSshInfo;
+import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
@@ -215,7 +217,8 @@ public class PullRequestCreateChange {
       InvalidChangeOperationException, IOException {
     Change change =
         new Change(changeKey, new Change.Id(db.nextChangeId()),
-            pullRequestOwner, new Branch.NameKey(project, destRef.getName()));
+            pullRequestOwner, new Branch.NameKey(project, destRef.getName()),
+            TimeUtil.nowTs());
     if (topic != null) {
       change.setTopic(topic);
     }
@@ -238,7 +241,7 @@ public class PullRequestCreateChange {
     }
 
     ins.setMessage(
-        buildChangeMessage(db, change, pullRequestOwner, pullRequestMessage))
+        buildChangeMessage(db, change, newPatchSet, pullRequestOwner, pullRequestMessage))
         .insert();
 
     return change.getId();
@@ -263,11 +266,12 @@ public class PullRequestCreateChange {
   }
 
   private ChangeMessage buildChangeMessage(ReviewDb db, Change dest,
-      Account.Id pullRequestAuthorId, String pullRequestMessage)
-      throws OrmException {
+      PatchSet newPatchSet, Account.Id pullRequestAuthorId,
+      String pullRequestMessage) throws OrmException {
     ChangeMessage cmsg =
         new ChangeMessage(new ChangeMessage.Key(dest.getId(),
-            ChangeUtil.messageUUID(db)), pullRequestAuthorId, null);
+            ChangeUtil.messageUUID(db)), pullRequestAuthorId, TimeUtil.nowTs(),
+            newPatchSet.getId());
     cmsg.setMessage(pullRequestMessage);
     return cmsg;
   }
