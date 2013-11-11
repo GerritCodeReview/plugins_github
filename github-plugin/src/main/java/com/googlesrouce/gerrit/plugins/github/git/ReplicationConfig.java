@@ -59,6 +59,7 @@ public class ReplicationConfig {
             "remote", organisation, "projects")));
     projects.add(projectName);
     replicationConf.setStringList("remote", organisation, "projects", projects);
+    replicationConf.setString("remote", organisation, "push", "refs/*:refs/*");
     replicationConf.save();
   }
 
