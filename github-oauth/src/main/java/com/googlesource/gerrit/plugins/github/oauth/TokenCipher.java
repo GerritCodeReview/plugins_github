@@ -36,7 +36,7 @@ public class TokenCipher {
   private static final String ENC_ALGO = "AES";
   private static final Logger log = org.slf4j.LoggerFactory
       .getLogger(OAuthCookieProvider.class);
-  public static final Long COOKIE_TIMEOUT = 60 * 1000L;
+  public static final Long COOKIE_TIMEOUT = 15 * 60 * 1000L;
   
   private SecretKey aesKey;
   private byte[] IV;
