@@ -89,7 +89,8 @@ public class VelocityControllerServlet extends HttpServlet {
     WrappedResponse wrappedResp = new WrappedResponse(resp);
     controller.doAction(user, hubLogin, req, wrappedResp, errorsProvider.get());
 
-    if (wrappedResp.getStatus() == HttpStatus.SC_OK) {
+    if (wrappedResp.getStatus() == 0 ||
+        wrappedResp.getStatus() == HttpStatus.SC_OK) {
       redirectToNextStep(req, resp);
     }
   }
