@@ -26,16 +26,20 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
+import com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
 
 @Singleton
 public class GitHubOAuthFilter implements Filter {
 
   private final Provider<GitHubLogin> loginProvider;
+  private final Scope[] authScopes;
 
   @Inject
-  public GitHubOAuthFilter(final Provider<GitHubLogin> loginProvider) {
+  public GitHubOAuthFilter(final Provider<GitHubLogin> loginProvider,
+      final GitHubOAuthConfig githubOAuthConfig) {
     this.loginProvider = loginProvider;
+    this.authScopes = githubOAuthConfig.scopes.toArray(new Scope[0]);
   }
 
   @Override
@@ -46,8 +50,8 @@ public class GitHubOAuthFilter implements Filter {
   public void doFilter(ServletRequest request, ServletResponse response,
       FilterChain chain) throws IOException, ServletException {
     GitHubLogin hubLogin = loginProvider.get();
-    if (!hubLogin.isLoggedIn(Scope.USER)) {
-      hubLogin.login(request, response, Scope.USER);
+    if (!hubLogin.isLoggedIn(authScopes)) {
+      hubLogin.login(request, response, authScopes);
       return;
     } else {
       chain.doFilter(request, response);
