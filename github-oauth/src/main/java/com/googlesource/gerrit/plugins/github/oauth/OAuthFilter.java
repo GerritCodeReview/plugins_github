@@ -15,6 +15,10 @@ package com.googlesource.gerrit.plugins.github.oauth;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Random;
+import java.util.Set;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -28,10 +32,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.http.client.HttpClient;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
 import org.kohsuke.github.GHMyself;
+import org.kohsuke.github.GitHub;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -45,14 +54,17 @@ public class OAuthFilter implements Filter {
   private final GitHubOAuthConfig config;
   private final OAuthCookieProvider cookieProvider;
   private final OAuthProtocol oauth;
+  private final Random retryRandom = new Random(System.currentTimeMillis());
+  private SitePaths sites;
 
   @Inject
-  public OAuthFilter(GitHubOAuthConfig config) {
+  public OAuthFilter(GitHubOAuthConfig config, SitePaths sites) {
     this.config = config;
     this.cookieProvider = new OAuthCookieProvider(new TokenCipher());
     HttpClient httpClient;
     httpClient = new GitHubHttpProvider().get();
     this.oauth = new OAuthProtocol(config, httpClient, new Gson());
+    this.sites = sites;
   }
 
   @Override
@@ -85,13 +97,18 @@ public class OAuthFilter implements Filter {
           || (authCookie == null && gerritCookie == null)) {
         if (oauth.isOAuthFinal(httpRequest)) {
 
+          GitHubLogin hubLogin = oauth.loginPhase2(httpRequest, httpResponse);
+          GitHub hub = hubLogin.hub;
           GHMyself myself =
-              oauth.loginPhase2(httpRequest, httpResponse).hub.getMyself();
+              hub.getMyself();
           String user = myself.getLogin();
           String email = myself.getEmail();
           String fullName =
               Strings.emptyToNull(myself.getName()) == null ? user : myself
                   .getName();
+
+          updateSecureConfigWithRetry(hub.getMyOrganizations().keySet(), user,
+              hubLogin.token.access_token);
 
           if (user != null) {
             OAuthCookie userCookie =
@@ -146,6 +163,80 @@ public class OAuthFilter implements Filter {
         }
       }
     }
+  }
+
+  private void updateSecureConfigWithRetry(Set<String> organisations,
+      String user, String access_token) {
+    int retryCount = 0;
+
+    while (retryCount < config.fileUpdateMaxRetryCount) {
+      try {
+        updateSecureConfig(organisations, user, access_token);
+        return;
+      } catch (IOException e) {
+        retryCount++;
+        int retryInterval =
+            retryRandom.nextInt(config.fileUpdateMaxRetryIntervalMsec);
+        log.warn("Error whilst trying to update " + sites.secure_config
+            + (retryCount < config.fileUpdateMaxRetryCount ? ": attempt #" + retryCount + " will be retried after " + retryInterval + " msecs":""), e);
+        try {
+          Thread.sleep(retryInterval);
+        } catch (InterruptedException e1) {
+          log.error("Thread has been cancelled before retrying to save "
+              + sites.secure_config);
+          return;
+        }
+      } catch (ConfigInvalidException e) {
+        log.error("Cannot update " + sites.secure_config
+            + " as the file is corrupted", e);
+        return;
+      }
+    }
+  }
+
+  private synchronized void updateSecureConfig(Set<String> organisations,
+      String user, String access_token) throws IOException,
+      ConfigInvalidException {
+    FileBasedConfig currentSecureConfig =
+        new FileBasedConfig(sites.secure_config, FS.DETECTED);
+    long currentSecureConfigUpdateTs = sites.secure_config.lastModified();
+    currentSecureConfig.load();
+
+    boolean configUpdate = updateConfigSection(currentSecureConfig, user, user, access_token);
+    for (String organisation : organisations) {
+      configUpdate |= updateConfigSection(currentSecureConfig, organisation, user, access_token);
+    }
+
+    if(!configUpdate) {
+      return;
+    }
+
+    log.info("Updating " + sites.secure_config + " credentials for user " + user);
+
+    if (sites.secure_config.lastModified() != currentSecureConfigUpdateTs) {
+      throw new ConcurrentFileBasedConfigWriteException("File "
+          + sites.secure_config + " was written at "
+          + formatTS(sites.secure_config.lastModified())
+          + " while was trying to update security for user " + user);
+    }
+    currentSecureConfig.save();
+  }
+
+  private String formatTS(long ts) {
+    return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(ts));
+  }
+
+  private boolean updateConfigSection(FileBasedConfig config,
+      String section, String user, String password) {
+    String configUser = config.getString("remote", section, "username");
+    String configPassword = config.getString("remote", section, "password");
+    if(configUser == null || !configUser.equals(user) || configPassword.equals(password)) {
+      return false;
+    }
+
+    config.setString("remote", section, "username", user);
+    config.setString("remote", section, "password", password);
+    return true;
   }
 
   private Cookie getGerritCookie(HttpServletRequest httpRequest) {

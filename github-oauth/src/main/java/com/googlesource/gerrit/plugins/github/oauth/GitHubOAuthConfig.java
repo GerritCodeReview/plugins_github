@@ -51,6 +51,8 @@ public class GitHubOAuthConfig {
   public final String gitHubOAuthAccessTokenUrl;
   public final boolean enabled;
   public final List<OAuthProtocol.Scope> scopes;
+  public final int fileUpdateMaxRetryCount;
+  public final int fileUpdateMaxRetryIntervalMsec;
 
   @Inject
   public GitHubOAuthConfig(@GerritServerConfig Config config)
@@ -73,6 +75,9 @@ public class GitHubOAuthConfig {
         config.getString("auth", null, "type").equalsIgnoreCase(
             AuthType.HTTP.toString());
     scopes = parseScopes(config.getString(CONF_SECTION, null, "scopes"));
+
+    fileUpdateMaxRetryCount = config.getInt(CONF_SECTION, "fileUpdateMaxRetryCount", 3);
+    fileUpdateMaxRetryIntervalMsec = config.getInt(CONF_SECTION, "fileUpdateMaxRetryIntervalMsec", 3000);
   }
 
   private String dropTrailingSlash(String url) {
