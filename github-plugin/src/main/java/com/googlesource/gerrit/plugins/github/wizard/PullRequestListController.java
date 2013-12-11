@@ -146,11 +146,11 @@ public class PullRequestListController implements VelocityController {
         Repository gitRepo = repoMgr.openRepository(gerritRepoName);
         try {
           String ghRepoName = gerritRepoName.get().split("/")[1];
+          GHRepository githubRepo = login.hub.getRepository(gerritRepoName.get());
           List<GHPullRequest> repoPullRequests = Lists.newArrayList();
 
           if (numPullRequests < config.pullRequestListLimit) {
-            for (GHPullRequest ghPullRequest : GHRepository.listPullRequests(
-                login.hub, ghOwner, ghRepoName, GHIssueState.OPEN)) {
+            for (GHPullRequest ghPullRequest : githubRepo.listPullRequests(GHIssueState.OPEN)) {
 
               if (isAnyCommitOfPullRequestToBeImported(db, gitRepo,
                   ghPullRequest)) {

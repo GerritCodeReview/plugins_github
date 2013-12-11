@@ -37,6 +37,7 @@ import org.kohsuke.github.GHPullRequestCommitDetail;
 import org.kohsuke.github.GHPullRequestCommitDetail.Authorship;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GHUser;
+import org.kohsuke.github.GitUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -229,7 +230,7 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
   }
 
   private com.google.gerrit.reviewdb.client.Account.Id getOrRegisterAccount(
-      ReviewDb db, Authorship author) throws BadRequestException,
+      ReviewDb db, GitUser author) throws BadRequestException,
       ResourceConflictException, UnprocessableEntityException, OrmException,
       IOException {
     return getOrRegisterAccount(db, author.getName(), author.getName(),
