@@ -56,7 +56,7 @@
 
 				<h5>Import GitHub SSH Public Keys</h5>
 				<ul>
-				#foreach ( $key in $myself.publicKeys )
+				#foreach ( $key in $myself.publicVerifiedKeys )
 					#if ( $key.key.length() > 45 )
 						<li> <label for="$key.title" style="font-weight: bold;">$key.title :</label> 
 							#set ( $trailStart = $key.key.length() - 10 )

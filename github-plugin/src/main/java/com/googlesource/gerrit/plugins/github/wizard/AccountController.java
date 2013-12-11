@@ -23,8 +23,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.kohsuke.github.GHKey;
 import org.kohsuke.github.GHMyself;
+import org.kohsuke.github.GHVerifiedKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,20 +60,21 @@ public class AccountController implements VelocityController {
       HttpServletRequest req, HttpServletResponse resp, ControllerErrors errors)
       throws ServletException, IOException {
     GHMyself myself = hubLogin.getMyself();
-    List<GHKey> githubKeys = myself.getPublicKeys();
-    HashSet<String> gerritKeys = Sets.newHashSet(getSshKeys(user));
+    List<GHVerifiedKey> githubKeys = myself.getPublicVerifiedKeys();
+    HashSet<String> gerritKeys = Sets.newHashSet(getCurrentGerritSshKeys(user));
     for (GHKey ghKey : githubKeys) {
       String sshKeyCheckedParam = "key_check_" + ghKey.getId();
       String sshKeyWithLabel = ghKey.getKey() + " " + ghKey.getTitle();
       String checked = req.getParameter(sshKeyCheckedParam);
       if (checked != null && checked.equalsIgnoreCase("on")
-          && !gerritKeys.contains(sshKeyWithLabel)) {
+          && !gerritKeys.contains(ghKey.getKey())) {
         addSshKey(user, sshKeyWithLabel);
+        gerritKeys.add(ghKey.getKey());
       }
     }
   }
 
-  private List<String> getSshKeys(final IdentifiedUser user) throws IOException {
+  private List<String> getCurrentGerritSshKeys(final IdentifiedUser user) throws IOException {
     AccountResource res = new AccountResource(user);
     try {
       List<SshKeyInfo> keysInfo = restGetSshKeys.apply(res);
@@ -79,7 +82,7 @@ public class AccountController implements VelocityController {
 
         @Override
         public String apply(SshKeyInfo keyInfo) {
-          return keyInfo.sshPublicKey;
+          return StringUtils.substringBeforeLast(keyInfo.sshPublicKey, " ");
         }
 
       });
