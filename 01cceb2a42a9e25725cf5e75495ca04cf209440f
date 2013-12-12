@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "885d1762_b9f0bf0a",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1012758
+      },
+      "writtenOn": "2013-12-12T08:24:25Z",
+      "side": 1,
+      "message": "Unrelated nit: Extra whitespace",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 6
+      },
+      "revId": "01cceb2a42a9e25725cf5e75495ca04cf209440f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
