@@ -52,4 +52,8 @@ public class InitGitHub implements InitStep {
     auth.set("type", "HTTP");
     httpd.set("filterClass", "com.googlesource.gerrit.plugins.github.oauth.OAuthFilter");
   }
+
+  @Override
+  public void postRun() throws Exception {
+  }
 }
