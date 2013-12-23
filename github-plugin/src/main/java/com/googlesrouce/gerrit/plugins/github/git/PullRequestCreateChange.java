@@ -15,14 +15,12 @@
 package com.googlesrouce.gerrit.plugins.github.git;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
@@ -35,17 +33,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Id;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
 import com.google.gerrit.server.change.ChangeInserter;
@@ -56,6 +53,8 @@ import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.ChangeControlDelegate;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -67,7 +66,6 @@ import com.google.gerrit.server.util.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 public class PullRequestCreateChange {
   private static final Logger LOG = LoggerFactory
@@ -168,8 +166,13 @@ public class PullRequestCreateChange {
           // The change key exists on the destination branch: adding a new
           // patch-set
           Change destChange = destChanges.get(0);
+
+          ChangeControl changeControl =
+              projectControlFactor.controlFor(project.getNameKey()).controlFor(
+                  destChange);
+
           return insertPatchSet(git, revWalk, destChange, pullRequestCommit,
-              refControl, pullRequestOwner, pullRequestMesage, doValidation);
+              changeControl, pullRequestOwner, pullRequestMesage, doValidation);
         } else {
           // Change key not found on destination branch. We can create a new
           // change.
@@ -191,13 +194,13 @@ public class PullRequestCreateChange {
   }
 
   private Change.Id insertPatchSet(Repository git, RevWalk revWalk,
-      Change change, RevCommit cherryPickCommit, RefControl refControl,
+      Change change, RevCommit cherryPickCommit, ChangeControl changeControl,
       Account.Id pullRequestOwnerId, String pullRequestMessage,
       boolean doValidation) throws InvalidChangeOperationException,
       IOException, OrmException, NoSuchChangeException {
     PatchSetInserter patchSetInserter =
-        patchSetInserterFactory.create(git, revWalk, refControl,
-            userFactory.create(pullRequestOwnerId), change, cherryPickCommit);
+        patchSetInserterFactory.create(git, revWalk, ChangeControlDelegate.wrap(changeControl,
+            userFactory.create(pullRequestOwnerId)), cherryPickCommit);
     // This apparently useless method call is made for triggering
     // the creation of patchSet inside PatchSetInserter and thus avoiding a NPE
     patchSetInserter.getPatchSetId();
