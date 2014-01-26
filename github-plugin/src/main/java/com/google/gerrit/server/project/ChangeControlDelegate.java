@@ -37,8 +37,7 @@ public class ChangeControlDelegate extends ChangeControl {
 
   private ChangeControlDelegate(ChangeControl realChangeControl, CurrentUser delegatedUser) {
     // All methods are delegated, super class constructor needs to be invoked anyway with dummy values
-    super(null, null, null);
-
+    super(null, null, null, null);
     this.realChangeControl = realChangeControl;
     this.delegatedUser = delegatedUser;
   }
