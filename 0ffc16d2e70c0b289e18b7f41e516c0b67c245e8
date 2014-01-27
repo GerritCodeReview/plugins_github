@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32f1fea2_ce9963af",
+        "filename": "github-plugin/src/main/java/com/google/gerrit/server/project/ChangeControlDelegate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-27T02:38:55Z",
+      "side": 1,
+      "message": "whitespace",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 4
+      },
+      "revId": "0ffc16d2e70c0b289e18b7f41e516c0b67c245e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32f1fea2_2e6627ff",
+        "filename": "github-plugin/src/main/java/com/google/gerrit/server/project/ChangeControlDelegate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-27T02:38:55Z",
+      "side": 1,
+      "message": "whitespace",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 2
+      },
+      "revId": "0ffc16d2e70c0b289e18b7f41e516c0b67c245e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7207f652_706010e0",
+        "filename": "github-plugin/src/main/java/com/google/gerrit/server/project/ChangeControlDelegate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-27T02:38:55Z",
+      "side": 1,
+      "message": "nit: too many blank lines.",
+      "range": {
+        "startLine": 190,
+        "startChar": 0,
+        "endLine": 191,
+        "endChar": 0
+      },
+      "revId": "0ffc16d2e70c0b289e18b7f41e516c0b67c245e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
