@@ -15,6 +15,8 @@
 package com.googlesrouce.gerrit.plugins.github.git;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -215,7 +217,8 @@ public class PullRequestCreateChange {
       InvalidChangeOperationException, IOException {
     Change change =
         new Change(changeKey, new Change.Id(db.nextChangeId()),
-            pullRequestOwner, new Branch.NameKey(project, destRef.getName()));
+            pullRequestOwner, new Branch.NameKey(project, destRef.getName()),
+            new Timestamp(System.currentTimeMillis()));
     if (topic != null) {
       change.setTopic(topic);
     }
@@ -267,7 +270,8 @@ public class PullRequestCreateChange {
       throws OrmException {
     ChangeMessage cmsg =
         new ChangeMessage(new ChangeMessage.Key(dest.getId(),
-            ChangeUtil.messageUUID(db)), pullRequestAuthorId, null);
+            ChangeUtil.messageUUID(db)), pullRequestAuthorId,
+            new Timestamp(System.currentTimeMillis()), null);
     cmsg.setMessage(pullRequestMessage);
     return cmsg;
   }
