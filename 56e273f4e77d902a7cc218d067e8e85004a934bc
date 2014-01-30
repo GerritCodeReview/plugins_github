@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12d15a3f_152454bd",
+        "filename": "github-plugin/src/main/java/com/googlesrouce/gerrit/plugins/github/git/PullRequestCreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-01-30T01:30:57Z",
+      "side": 1,
+      "message": "Mention this change in the commit message?",
+      "revId": "56e273f4e77d902a7cc218d067e8e85004a934bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
