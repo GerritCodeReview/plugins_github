@@ -51,6 +51,9 @@ limitations under the License.
               <exclude>commons-lang:*:*</exclude>
               <exclude>commons-codec:*:*</exclude>
               <exclude>commons-io:*:*</exclude>
+              <exclude>org.apache.httpcomponents:*:*</exclude>
+              <exclude>commons-logging:*:*</exclude>
+              <exclude>commons-collections:*:*</exclude>
               <exclude>com.google.guava:*</exclude>
               <exclude>org.apache.velocity:velocity:*</exclude>
             </excludes>

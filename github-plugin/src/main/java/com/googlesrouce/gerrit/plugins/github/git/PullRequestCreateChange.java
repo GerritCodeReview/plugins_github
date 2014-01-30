@@ -15,6 +15,8 @@
 package com.googlesrouce.gerrit.plugins.github.git;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 

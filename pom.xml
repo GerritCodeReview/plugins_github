@@ -252,5 +252,9 @@ limitations under the License.
       <id>repo.jenkins-ci.org</id>
       <url>http://repo.jenkins-ci.org/public/</url>
     </repository>
+    <repository>
+      <id>google</id>
+      <url>https://gerrit-api.commondatastorage.googleapis.com/snapshots</url>
+    </repository>
   </repositories>
 </project>
