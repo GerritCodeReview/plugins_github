@@ -149,8 +149,9 @@ public class PullRequestListController implements VelocityController {
           List<GHPullRequest> repoPullRequests = Lists.newArrayList();
 
           if (numPullRequests < config.pullRequestListLimit) {
-            for (GHPullRequest ghPullRequest : GHRepository.listPullRequests(
-                login.hub, ghOwner, ghRepoName, GHIssueState.OPEN)) {
+            List<GHPullRequest> pullRequests =
+                    login.getMyself().getRepository(ghRepoName).getPullRequests(GHIssueState.OPEN);
+            for (GHPullRequest ghPullRequest : pullRequests) {
 
               if (isAnyCommitOfPullRequestToBeImported(db, gitRepo,
                   ghPullRequest)) {
