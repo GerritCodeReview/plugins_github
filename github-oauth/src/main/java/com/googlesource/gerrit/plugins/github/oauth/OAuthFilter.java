@@ -240,7 +240,7 @@ public class OAuthFilter implements Filter {
   }
 
   private Cookie getGerritCookie(HttpServletRequest httpRequest) {
-    for (Cookie cookie : httpRequest.getCookies()) {
+    for (Cookie cookie : getCookies(httpRequest)) {
       if (cookie.getName().equalsIgnoreCase(GERRIT_COOKIE_NAME)) {
         return cookie;
       }
@@ -248,9 +248,14 @@ public class OAuthFilter implements Filter {
     return null;
   }
 
+  private Cookie[] getCookies(HttpServletRequest httpRequest) {
+    Cookie[] cookies = httpRequest.getCookies();
+    return cookies == null ? new Cookie[0]:cookies;
+  }
+
   private OAuthCookie getOAuthCookie(HttpServletRequest request,
       HttpServletResponse response) {
-    for (Cookie cookie : request.getCookies()) {
+    for (Cookie cookie : getCookies(request)) {
       if (cookie.getName().equalsIgnoreCase(OAuthCookie.OAUTH_COOKIE_NAME)
           && !Strings.isNullOrEmpty(cookie.getValue())) {
         try {
