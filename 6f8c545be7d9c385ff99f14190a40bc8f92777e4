@@ -16,6 +16,24 @@
       "revId": "6f8c545be7d9c385ff99f14190a40bc8f92777e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f435582_3e280999",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/wizard/PullRequestListController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-02-11T18:31:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92862a64_51ef7427",
+      "revId": "6f8c545be7d9c385ff99f14190a40bc8f92777e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
