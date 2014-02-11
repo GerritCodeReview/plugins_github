@@ -22,6 +22,30 @@
       "revId": "19f11342ec1b80cbb7cabdbf7ea5f4a8f5d574ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28434b82_fefa21e8",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-02-11T21:33:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "885d1762_39ddcf83",
+      "range": {
+        "startLine": 95,
+        "startChar": 0,
+        "endLine": 95,
+        "endChar": 4
+      },
+      "revId": "19f11342ec1b80cbb7cabdbf7ea5f4a8f5d574ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
