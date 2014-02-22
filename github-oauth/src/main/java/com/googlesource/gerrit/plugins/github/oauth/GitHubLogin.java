@@ -15,10 +15,6 @@
 package com.googlesource.gerrit.plugins.github.oauth;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -49,14 +45,13 @@ public class GitHubLogin {
 
   public AccessToken token;
   public GitHub hub;
-  private SortedSet<Scope> scopesSet = new TreeSet<OAuthProtocol.Scope>();
 
   private transient OAuthProtocol oauth;
 
   private GHMyself myself;
 
   public GHMyself getMyself() {
-    if (isLoggedIn(scopesSet)) {
+    if (isLoggedIn()) {
       return myself;
     } else {
       return null;
@@ -68,18 +63,8 @@ public class GitHubLogin {
     this.oauth = oauth;
   }
 
-  public GitHubLogin(GitHub hub, AccessToken token, Scope... scopes) {
-    this.hub = hub;
-    this.token = token;
-    this.scopesSet = new TreeSet<OAuthProtocol.Scope>(Arrays.asList(scopes));
-  }
-
-  public boolean isLoggedIn(Scope... scopes) {
-    return isLoggedIn(new TreeSet<Scope>(Arrays.asList(scopes)));
-  }
-
-  public boolean isLoggedIn(Set<Scope> scopes) {
-    boolean loggedIn = scopesSet.equals(scopes) && token != null && hub != null;
+  public boolean isLoggedIn() {
+    boolean loggedIn = token != null && hub != null;
     if (loggedIn && myself == null) {
       try {
         myself = hub.getMyself();
@@ -100,16 +85,14 @@ public class GitHubLogin {
 
   public boolean login(HttpServletRequest request,
       HttpServletResponse response, Scope... scopes) throws IOException {
-    if (isLoggedIn(scopes)) {
+    if (isLoggedIn()) {
       return true;
     }
 
-    setScopes(scopes);
-
-    if (oauth.isOAuthFinal(request)) {
-      init(oauth.loginPhase2(request, response));
-      if (isLoggedIn(scopes)) {
-        response.sendRedirect(oauth.getTargetUrl(request));
+    if (OAuthProtocol.isOAuthFinal(request)) {
+      login(oauth.loginPhase2(request, response));
+      if (isLoggedIn()) {
+        response.sendRedirect(OAuthProtocol.getTargetUrl(request));
         return true;
       } else {
         response.sendError(HttpStatus.SC_UNAUTHORIZED);
@@ -122,17 +105,17 @@ public class GitHubLogin {
   }
 
   public void logout() {
-    scopesSet = new TreeSet<OAuthProtocol.Scope>();
     hub = null;
     token = null;
   }
 
-  private void setScopes(Scope... scopes) {
-    this.scopesSet = new TreeSet<Scope>(Arrays.asList(scopes));
+  public OAuthProtocol getOAuthProtocol() {
+    return oauth;
   }
 
-  private void init(GitHubLogin initValues) {
-    this.hub = initValues.hub;
-    this.token = initValues.token;
+  public GitHub login(AccessToken authToken) throws IOException {
+    this.token = authToken;
+    this.hub = GitHub.connectUsingOAuth(authToken.access_token);
+    return this.hub;
   }
 }
