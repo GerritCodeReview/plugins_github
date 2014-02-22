@@ -51,7 +51,7 @@ public class GitHubOAuthFilter implements Filter {
   public void doFilter(ServletRequest request, ServletResponse response,
       FilterChain chain) throws IOException, ServletException {
     GitHubLogin hubLogin = loginProvider.get((HttpServletRequest) request);
-    if (!hubLogin.isLoggedIn(authScopes)) {
+    if (!hubLogin.isLoggedIn()) {
       hubLogin.login(request, response, authScopes);
       return;
     } else {
