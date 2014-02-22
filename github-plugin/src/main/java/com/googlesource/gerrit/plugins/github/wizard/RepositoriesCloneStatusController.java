@@ -24,14 +24,15 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
+import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
 import com.googlesrouce.gerrit.plugins.github.git.GitImporter;
 
 @Singleton
 public class RepositoriesCloneStatusController extends JobStatusController implements VelocityController {
-  private Provider<GitImporter> clonerProvider;
+  private ScopedProvider<GitImporter> clonerProvider;
 
   @Inject
-  public RepositoriesCloneStatusController(Provider<GitImporter> clonerProvider) {
+  public RepositoriesCloneStatusController(ScopedProvider<GitImporter> clonerProvider) {
     this.clonerProvider = clonerProvider;
   }
 
@@ -39,6 +40,6 @@ public class RepositoriesCloneStatusController extends JobStatusController imple
   public void doAction(IdentifiedUser user, GitHubLogin hubLogin,
       HttpServletRequest req, HttpServletResponse resp, ControllerErrors errors)
       throws ServletException, IOException {
-    respondWithJobStatusJson(resp, clonerProvider.get());
+    respondWithJobStatusJson(resp, clonerProvider.get(req));
   }
 }
