@@ -32,13 +32,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
-import com.google.inject.servlet.SessionScoped;
+import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.AccessToken;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
 
-@SessionScoped
 public class GitHubLogin {
   private static final Logger log = LoggerFactory.getLogger(GitHubLogin.class);
+
+  @Singleton
+  public static class Provider extends HttpSessionProvider<GitHubLogin> {
+    @Inject
+    public Provider(com.google.inject.Provider<GitHubLogin> provider) {
+      super(provider);
+    }
+  }
 
   public AccessToken token;
   public GitHub hub;
