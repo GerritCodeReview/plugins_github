@@ -24,15 +24,16 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
+import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
 import com.googlesrouce.gerrit.plugins.github.git.GitImporter;
 
 @Singleton
 public class RepositoriesCloneCancelController implements VelocityController {
 
-  private Provider<GitImporter> clonerProvider;
+  private ScopedProvider<GitImporter> clonerProvider;
 
   @Inject
-  public RepositoriesCloneCancelController(Provider<GitImporter> clonerProvider) {
+  public RepositoriesCloneCancelController(ScopedProvider<GitImporter> clonerProvider) {
     this.clonerProvider = clonerProvider;
   }
 
@@ -40,7 +41,7 @@ public class RepositoriesCloneCancelController implements VelocityController {
   public void doAction(IdentifiedUser user, GitHubLogin hubLogin,
       HttpServletRequest req, HttpServletResponse resp, ControllerErrors errors)
       throws ServletException, IOException {
-    clonerProvider.get().cancel();
+    clonerProvider.get(req).cancel();
   }
 
 }

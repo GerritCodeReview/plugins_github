@@ -23,16 +23,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
+import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
 import com.googlesrouce.gerrit.plugins.github.git.GitImporter;
 
 public class RepositoriesCloneController implements VelocityController {
   private static final String REPO_PARAM_PREFIX = "repo_";
-  private final Provider<GitImporter> cloneProvider;
+  private final ScopedProvider<GitImporter> cloneProvider;
 
   @Inject
-  public RepositoriesCloneController(Provider<GitImporter> cloneProvider) {
+  public RepositoriesCloneController(ScopedProvider<GitImporter> cloneProvider) {
     this.cloneProvider = cloneProvider;
   }
 
@@ -41,7 +41,7 @@ public class RepositoriesCloneController implements VelocityController {
       HttpServletRequest req, HttpServletResponse resp,
       ControllerErrors errorMgr) throws ServletException, IOException {
     
-    GitImporter gitCloner = cloneProvider.get();
+    GitImporter gitCloner = cloneProvider.get(req);
     gitCloner.reset();
     Set<Entry<String, String[]>> params = req.getParameterMap().entrySet();
     for (Entry<String, String[]> param : params) {

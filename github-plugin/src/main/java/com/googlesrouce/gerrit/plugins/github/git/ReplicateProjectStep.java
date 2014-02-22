@@ -18,7 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.github.GitHubURL;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
@@ -31,21 +30,21 @@ public class ReplicateProjectStep extends ImportStep {
 
   public interface Factory {
     ReplicateProjectStep create(@Assisted("organisation") String organisation,
-        @Assisted("name") String repository);
+        @Assisted("name") String repository, @Assisted GitHubLogin ghLogin);
   }
 
 
   @Inject
   public ReplicateProjectStep(final ReplicationConfig replicationConfig,
-      final Provider<GitHubLogin> gitHubLoginProvider,
       @GitHubURL String gitHubUrl,
       @Assisted("organisation") String organisation,
-      @Assisted("name") String repository) {
+      @Assisted("name") String repository,
+      @Assisted GitHubLogin ghLogin) {
     super(gitHubUrl, organisation, repository);
     LOG.debug("Gerrit ReplicateProject " + organisation + "/" + repository);
     this.replicationConfig = replicationConfig;
-    this.authUsername = gitHubLoginProvider.get().getMyself().getLogin();
-    this.authToken = gitHubLoginProvider.get().token.access_token;
+    this.authUsername = ghLogin.getMyself().getLogin();
+    this.authToken = ghLogin.token.access_token;
   }
 
   @Override
