@@ -16,11 +16,14 @@ package com.googlesource.gerrit.plugins.github;
 import org.apache.http.client.HttpClient;
 import org.apache.velocity.runtime.RuntimeInstance;
 
+import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.name.Names;
 import com.google.inject.servlet.ServletModule;
 import com.googlesource.gerrit.plugins.github.filters.GitHubOAuthFilter;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubHttpProvider;
+import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
+import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
 import com.googlesource.gerrit.plugins.github.replication.RemoteSiteUser;
 import com.googlesource.gerrit.plugins.github.velocity.PluginVelocityRuntimeProvider;
 import com.googlesource.gerrit.plugins.github.velocity.VelocityStaticServlet;
@@ -28,6 +31,7 @@ import com.googlesource.gerrit.plugins.github.velocity.VelocityViewServlet;
 import com.googlesource.gerrit.plugins.github.wizard.VelocityControllerServlet;
 import com.googlesrouce.gerrit.plugins.github.git.CreateProjectStep;
 import com.googlesrouce.gerrit.plugins.github.git.GitCloneStep;
+import com.googlesrouce.gerrit.plugins.github.git.GitImporter;
 import com.googlesrouce.gerrit.plugins.github.git.PullRequestImportJob;
 import com.googlesrouce.gerrit.plugins.github.git.ReplicateProjectStep;
 
@@ -36,6 +40,10 @@ public class GuiceHttpModule extends ServletModule {
   @Override
   protected void configureServlets() {
     bind(HttpClient.class).toProvider(GitHubHttpProvider.class);
+
+    bind(new TypeLiteral<ScopedProvider<GitHubLogin>>() {}).to(GitHubLogin.Provider.class);
+    bind(new TypeLiteral<ScopedProvider<GitImporter>>() {}).to(GitImporter.Provider.class);
+
     install(new FactoryModuleBuilder().build(RemoteSiteUser.Factory.class));
 
     install(new FactoryModuleBuilder().implement(GitCloneStep.class,

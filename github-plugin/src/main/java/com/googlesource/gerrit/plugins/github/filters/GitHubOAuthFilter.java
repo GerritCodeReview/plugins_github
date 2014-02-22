@@ -21,22 +21,23 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
+import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
 
 @Singleton
 public class GitHubOAuthFilter implements Filter {
 
-  private final Provider<GitHubLogin> loginProvider;
+  private final ScopedProvider<GitHubLogin> loginProvider;
   private final Scope[] authScopes;
 
   @Inject
-  public GitHubOAuthFilter(final Provider<GitHubLogin> loginProvider,
+  public GitHubOAuthFilter(final ScopedProvider<GitHubLogin> loginProvider,
       final GitHubOAuthConfig githubOAuthConfig) {
     this.loginProvider = loginProvider;
     this.authScopes = githubOAuthConfig.scopes.toArray(new Scope[0]);
@@ -49,7 +50,7 @@ public class GitHubOAuthFilter implements Filter {
   @Override
   public void doFilter(ServletRequest request, ServletResponse response,
       FilterChain chain) throws IOException, ServletException {
-    GitHubLogin hubLogin = loginProvider.get();
+    GitHubLogin hubLogin = loginProvider.get((HttpServletRequest) request);
     if (!hubLogin.isLoggedIn(authScopes)) {
       hubLogin.login(request, response, authScopes);
       return;
