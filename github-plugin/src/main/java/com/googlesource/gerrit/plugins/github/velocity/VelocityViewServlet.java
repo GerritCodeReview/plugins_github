@@ -16,7 +16,6 @@ package com.googlesource.gerrit.plugins.github.velocity;
 import java.io.IOException;
 import java.util.Map.Entry;
 
-import javax.mail.internet.ContentType;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -40,6 +39,7 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import com.googlesource.gerrit.plugins.github.GitHubConfig.NextPage;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
+import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
 
 @Singleton
 public class VelocityViewServlet extends HttpServlet {
@@ -49,14 +49,14 @@ public class VelocityViewServlet extends HttpServlet {
   private static final long serialVersionUID = 529071287765413268L;
   private final RuntimeInstance velocityRuntime;
   private final Provider<PluginVelocityModel> modelProvider;
-  private final Provider<GitHubLogin> loginProvider;
+  private final ScopedProvider<GitHubLogin> loginProvider;
   private final Provider<IdentifiedUser> userProvider;
 
   @Inject
   public VelocityViewServlet(
       @Named("PluginRuntimeInstance") final RuntimeInstance velocityRuntime,
       Provider<PluginVelocityModel> modelProvider,
-      Provider<GitHubLogin> loginProvider, Provider<IdentifiedUser> userProvider) {
+      ScopedProvider<GitHubLogin> loginProvider, Provider<IdentifiedUser> userProvider) {
 
     this.velocityRuntime = velocityRuntime;
     this.modelProvider = modelProvider;
@@ -103,9 +103,10 @@ public class VelocityViewServlet extends HttpServlet {
 
   private PluginVelocityModel initVelocityModel(HttpServletRequest request) {
     PluginVelocityModel model = modelProvider.get();
-    model.put("myself", loginProvider.get().getMyself());
+    GitHubLogin gitHubLogin = loginProvider.get(request);
+    model.put("myself", gitHubLogin.getMyself());
     model.put("user", userProvider.get());
-    model.put("hub", loginProvider.get().hub);
+    model.put("hub", gitHubLogin.hub);
 
     for (Entry<String, String[]> reqPar : request.getParameterMap().entrySet()) {
       model.put(reqPar.getKey(), reqPar.getValue());

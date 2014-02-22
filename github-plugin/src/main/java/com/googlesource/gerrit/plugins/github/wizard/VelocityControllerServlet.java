@@ -14,13 +14,8 @@
 package com.googlesource.gerrit.plugins.github.wizard;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.Map.Entry;
-import java.util.Set;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -38,7 +33,7 @@ import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.GitHubConfig;
 import com.googlesource.gerrit.plugins.github.GitHubConfig.NextPage;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
-import com.googlesource.gerrit.plugins.github.velocity.PluginVelocityModel;
+import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
 
 @Singleton
 public class VelocityControllerServlet extends HttpServlet {
@@ -47,14 +42,14 @@ public class VelocityControllerServlet extends HttpServlet {
       .getLogger(VelocityControllerServlet.class);
   private static final String CONTROLLER_PACKAGE =
       VelocityControllerServlet.class.getPackage().getName();
-  private final Provider<GitHubLogin> loginProvider;
+  private final ScopedProvider<GitHubLogin> loginProvider;
   private final Provider<IdentifiedUser> userProvider;
   private final Injector injector;
   private final Provider<ControllerErrors> errorsProvider;
   private final GitHubConfig githubConfig;
 
   @Inject
-  public VelocityControllerServlet(final Provider<GitHubLogin> loginProvider,
+  public VelocityControllerServlet(final ScopedProvider<GitHubLogin> loginProvider,
       Provider<IdentifiedUser> userProvider, final Injector injector,
       Provider<ControllerErrors> errorsProvider, GitHubConfig githubConfig) {
     this.loginProvider = loginProvider;
@@ -84,7 +79,7 @@ public class VelocityControllerServlet extends HttpServlet {
       return;
     }
 
-    GitHubLogin hubLogin = loginProvider.get();
+    GitHubLogin hubLogin = loginProvider.get(req);
     IdentifiedUser user = userProvider.get();
     WrappedResponse wrappedResp = new WrappedResponse(resp);
     controller.doAction(user, hubLogin, req, wrappedResp, errorsProvider.get());
