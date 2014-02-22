@@ -21,7 +21,6 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
-import org.kohsuke.github.GitHub;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,20 +66,20 @@ public class OAuthProtocol {
   public static class AccessToken {
     public String access_token;
     public String token_type;
-    
+
     public AccessToken() {
     }
-    
-    public AccessToken(String token, String type) {
+
+    public AccessToken(String token, String type, Scope... scopes) {
       this.access_token = token;
       this.token_type = type;
     }
   }
 
   @Inject
-  public OAuthProtocol(GitHubOAuthConfig config, HttpClient httpClient, Gson gson) {
+  public OAuthProtocol(GitHubOAuthConfig config, GitHubHttpProvider httpClientProvider, Gson gson) {
     this.config = config;
-    this.http = httpClient;
+    this.http = httpClientProvider.get();
     this.gson = gson;
   }
 
@@ -112,38 +111,32 @@ public class OAuthProtocol {
     		"scope=" + out.toString();
   }
 
-  public boolean isOAuthFinal(HttpServletRequest request) {
-    return Strings.emptyToNull(request.getParameter("code")) != null
-        && wasInitiatedByMe(request);
+  public static boolean isOAuthFinal(HttpServletRequest request) {
+    return Strings.emptyToNull(request.getParameter("code")) != null;
   }
   
-  public boolean isOAuthFinalForOthers(HttpServletRequest request) {
+  public static boolean isOAuthFinalForOthers(HttpServletRequest request) {
     String targetUrl = getTargetUrl(request);
     if(targetUrl.equals(request.getRequestURI())) {
       return false;
     }
     
-    return Strings.emptyToNull(request.getParameter("code")) != null
-        && !wasInitiatedByMe(request);
+    return Strings.emptyToNull(request.getParameter("code")) != null;
   }
 
   public String me() {
     return "" + hashCode() + ME_SEPARATOR;
   }
 
-  public boolean wasInitiatedByMe(HttpServletRequest request) {
-    return state(request).startsWith(me());
-  }
-
-  public boolean isOAuthLogin(HttpServletRequest request) {
+  public static boolean isOAuthLogin(HttpServletRequest request) {
     return request.getRequestURI().indexOf(GitHubOAuthConfig.OAUTH_LOGIN) >= 0;
   }
 
-  public boolean isOAuthLogout(HttpServletRequest request) {
+  public static boolean isOAuthLogout(HttpServletRequest request) {
     return request.getRequestURI().indexOf(GitHubOAuthConfig.OAUTH_LOGOUT) >= 0;
   }
 
-  public GitHubLogin loginPhase2(HttpServletRequest request,
+  public AccessToken loginPhase2(HttpServletRequest request,
       HttpServletResponse response) throws IOException {
 
     HttpPost post = null;
@@ -175,8 +168,7 @@ public class OAuthProtocol {
       AccessToken token =
           gson.fromJson(new InputStreamReader(postResponse.getEntity()
               .getContent(), "UTF-8"), AccessToken.class);
-      GitHub github = GitHub.connectUsingOAuth(token.access_token);
-      return new GitHubLogin(github, token);
+      return token;
     } catch (IOException e) {
       log.error("POST " + config.gitHubOAuthAccessTokenUrl
           + " request for access token failed", e);
@@ -186,7 +178,7 @@ public class OAuthProtocol {
     }
   }
 
-  private String getURLEncoded(String url) {
+  private static String getURLEncoded(String url) {
     try {
       return URLEncoder.encode(url, "UTF-8");
     } catch (UnsupportedEncodingException e) {
@@ -195,7 +187,7 @@ public class OAuthProtocol {
     }
   }
 
-  public String getTargetUrl(ServletRequest request) {
+  public static String getTargetUrl(ServletRequest request) {
     int meEnd = state(request).indexOf(ME_SEPARATOR);
     if (meEnd > 0) {
       return state(request).substring(meEnd+1);
@@ -204,11 +196,11 @@ public class OAuthProtocol {
     }
   }
 
-  private String state(ServletRequest request) {
+  private static String state(ServletRequest request) {
     return Strings.nullToEmpty(request.getParameter("state"));
   }
 
-  public String getTargetOAuthFinal(HttpServletRequest httpRequest) {
+  public static String getTargetOAuthFinal(HttpServletRequest httpRequest) {
     String targetUrl = getTargetUrl(httpRequest);
     String code = getURLEncoded(httpRequest.getParameter("code"));
     String state = getURLEncoded(httpRequest.getParameter("state"));
