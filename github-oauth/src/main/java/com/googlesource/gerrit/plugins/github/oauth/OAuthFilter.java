@@ -14,7 +14,6 @@
 package com.googlesource.gerrit.plugins.github.oauth;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
@@ -31,21 +30,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.http.client.HttpClient;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.kohsuke.github.GHMyself;
-import org.kohsuke.github.GitHub;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gson.Gson;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.AccessToken;
 
 @Singleton
 public class OAuthFilter implements Filter {
@@ -65,9 +59,9 @@ public class OAuthFilter implements Filter {
       // as this filter is instantiated with a standard Gerrit WebModule
       GitHubLogin.Provider loginProvider) {
     this.config = config;
-    this.cookieProvider = new OAuthCookieProvider(new TokenCipher());
     this.sites = sites;
     this.loginProvider = loginProvider;
+    this.cookieProvider = new OAuthCookieProvider(TokenCipher.get());
   }
 
   @Override
@@ -90,50 +84,15 @@ public class OAuthFilter implements Filter {
 
     Cookie gerritCookie = getGerritCookie(httpRequest);
     try {
+      GitHubLogin ghLogin = loginProvider.get((HttpServletRequest) request);
+
       OAuthCookie authCookie =
           getOAuthCookie(httpRequest, (HttpServletResponse) response);
 
       if(OAuthProtocol.isOAuthLogout((HttpServletRequest) request)) {
-        getGitHubLogin(request).logout();
-        GitHubLogoutServletResponse bufferedResponse = new GitHubLogoutServletResponse((HttpServletResponse) response,
-            config.logoutRedirectUrl);
-        chain.doFilter(httpRequest, bufferedResponse);
-      } else if (((OAuthProtocol.isOAuthLogin(httpRequest) || OAuthProtocol.isOAuthFinal(httpRequest)) && authCookie == null)
-          || (authCookie == null && gerritCookie == null)) {
-        GitHubLogin ghLogin = getGitHubLogin(httpRequest);
-        if (OAuthProtocol.isOAuthFinal(httpRequest)) {
-
-          AccessToken authToken = ghLogin.getOAuthProtocol().loginPhase2(httpRequest, httpResponse);
-          GitHub hub = ghLogin.login(authToken);
-          GHMyself myself =
-              hub.getMyself();
-          String user = myself.getLogin();
-          String email = myself.getEmail();
-          String fullName =
-              Strings.emptyToNull(myself.getName()) == null ? user : myself
-                  .getName();
-
-          updateSecureConfigWithRetry(hub.getMyOrganizations().keySet(), user,
-              ghLogin.token.access_token);
-
-          if (user != null) {
-            OAuthCookie userCookie =
-                cookieProvider.getFromUser(user, email, fullName);
-            httpResponse.addCookie(userCookie);
-            httpResponse.sendRedirect(OAuthProtocol.getTargetUrl(request));
-            return;
-          } else {
-            httpResponse.sendError(HttpURLConnection.HTTP_UNAUTHORIZED,
-                "Login failed");
-          }
-        } else {
-          if (OAuthProtocol.isOAuthLogin(httpRequest)) {
-            ghLogin.getOAuthProtocol().loginPhase1(httpRequest, httpResponse);
-          } else {
-            chain.doFilter(request, response);
-          }
-        }
-        return;
+        logout(request, response, chain, httpRequest);
+      } else if ((OAuthProtocol.isOAuthLogin(httpRequest) || OAuthProtocol.isOAuthFinal(httpRequest)) && !ghLogin.isLoggedIn()) {        
+        login(request, httpRequest, httpResponse, ghLogin);
       } else {
         if (gerritCookie != null && !OAuthProtocol.isOAuthLogin(httpRequest)) {
           if (authCookie != null) {
@@ -169,6 +128,28 @@ public class OAuthFilter implements Filter {
         }
       }
     }
+  }
+
+  private void login(ServletRequest request,
+      HttpServletRequest httpRequest, HttpServletResponse httpResponse,
+      GitHubLogin ghLogin) throws IOException {
+    if(ghLogin.login(httpRequest, httpResponse)) {
+      GHMyself myself =
+          ghLogin.getMyself();
+      String user = myself.getLogin();
+
+      updateSecureConfigWithRetry(ghLogin.hub.getMyOrganizations().keySet(), user,
+          ghLogin.token.access_token);
+    }
+  }
+
+  private void logout(ServletRequest request, ServletResponse response,
+      FilterChain chain, HttpServletRequest httpRequest) throws IOException,
+      ServletException {
+    getGitHubLogin(request).logout();
+    GitHubLogoutServletResponse bufferedResponse = new GitHubLogoutServletResponse((HttpServletResponse) response,
+        config.logoutRedirectUrl);
+    chain.doFilter(httpRequest, bufferedResponse);
   }
 
   private GitHubLogin getGitHubLogin(ServletRequest request) {

@@ -24,6 +24,7 @@ import org.apache.http.protocol.HTTP;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
@@ -74,6 +75,12 @@ public class OAuthProtocol {
       this.access_token = token;
       this.token_type = type;
     }
+
+    @Override
+    public String toString() {
+      return "AccessToken [access_token=" + access_token + ", token_type="
+          + token_type + "]";
+    }
   }
 
   @Inject
@@ -85,15 +92,22 @@ public class OAuthProtocol {
 
   public void loginPhase1(HttpServletRequest request,
       HttpServletResponse response, Scope... scopes) throws IOException {
+    String scopeRequested = request.getParameter("scope");
+    String baseScopeKey = Objects.firstNonNull(scopeRequested, "scopes");
     response.sendRedirect(String.format(
         "%s?client_id=%s%s&redirect_uri=%s&state=%s%s", config.gitHubOAuthUrl,
-        config.gitHubClientId, getScope(scopes),
+        config.gitHubClientId, getScope(baseScopeKey, scopes),
         getURLEncoded(config.oAuthFinalRedirectUrl),
         me(), getURLEncoded(request.getRequestURI().toString())));
   }
 
-  private String getScope(Scope[] scopes) {
-    HashSet<Scope> fullScopes = new HashSet<OAuthProtocol.Scope>(config.scopes);
+  private String getScope(String baseScopeKey, Scope[] scopes) {
+    List<Scope> baseScopes = config.scopes.get(baseScopeKey);
+    if(baseScopes == null) {
+      throw new IllegalArgumentException("Requested OAuth base scope id " + baseScopeKey + " is not configured in gerrit.config");
+    }
+
+    HashSet<Scope> fullScopes = new HashSet<OAuthProtocol.Scope>(baseScopes);
     fullScopes.addAll(Arrays.asList(scopes));
     
     if(fullScopes.size() <= 0) {
@@ -107,8 +121,7 @@ public class OAuthProtocol {
       }
       out.append(scope.getValue());
     }
-    return "&" +
-    		"scope=" + out.toString();
+    return "&" + "scope=" + out.toString();
   }
 
   public static boolean isOAuthFinal(HttpServletRequest request) {
@@ -207,4 +220,10 @@ public class OAuthProtocol {
     return targetUrl + (targetUrl.indexOf('?') < 0 ? '?' : '&') + "code="
         + code + "&state=" + state;
   }
+
+  @Override
+  public String toString() {
+    return "OAuthProtocol";
+  }
+
 }
