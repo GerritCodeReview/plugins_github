@@ -27,13 +27,14 @@ import org.kohsuke.github.GitHub;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.AccessToken;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
 
 public class GitHubLogin {
-  private static final Logger log = LoggerFactory.getLogger(GitHubLogin.class);
+  private static final Logger LOG = LoggerFactory.getLogger(GitHubLogin.class);
 
   @Singleton
   public static class Provider extends HttpSessionProvider<GitHubLogin> {
@@ -49,6 +50,7 @@ public class GitHubLogin {
   private transient OAuthProtocol oauth;
 
   private GHMyself myself;
+  private final OAuthCookieProvider cookieProvider;
 
   public GHMyself getMyself() {
     if (isLoggedIn()) {
@@ -61,6 +63,7 @@ public class GitHubLogin {
   @Inject
   public GitHubLogin(OAuthProtocol oauth) {
     this.oauth = oauth;
+    this.cookieProvider = new OAuthCookieProvider(TokenCipher.get());
   }
 
   public boolean isLoggedIn() {
@@ -69,7 +72,7 @@ public class GitHubLogin {
       try {
         myself = hub.getMyself();
       } catch (Throwable e) {
-        log.error("Connection to GitHub broken: logging out", e);
+        LOG.error("Connection to GitHub broken: logging out", e);
         logout();
         loggedIn = false;
       }
@@ -89,9 +92,23 @@ public class GitHubLogin {
       return true;
     }
 
+    LOG.debug("Login " + this);
+
     if (OAuthProtocol.isOAuthFinal(request)) {
+      LOG.debug("Login-FINAL " + this);
       login(oauth.loginPhase2(request, response));
       if (isLoggedIn()) {
+        LOG.debug("Login-SUCCESS " + this);
+        String user = myself.getLogin();
+        String email = myself.getEmail();
+        String fullName =
+            Strings.emptyToNull(myself.getName()) == null ? user : myself
+                .getName();
+
+        OAuthCookie userCookie =
+            cookieProvider.getFromUser(user, email, fullName);
+        response.addCookie(userCookie);
+
         response.sendRedirect(OAuthProtocol.getTargetUrl(request));
         return true;
       } else {
@@ -99,6 +116,7 @@ public class GitHubLogin {
         return false;
       }
     } else {
+      LOG.debug("Login-PHASE1 " + this);
       oauth.loginPhase1(request, response, scopes);
       return false;
     }
@@ -118,4 +136,10 @@ public class GitHubLogin {
     this.hub = GitHub.connectUsingOAuth(authToken.access_token);
     return this.hub;
   }
+
+  @Override
+  public String toString() {
+    return "GitHubLogin [token=" + token + ", myself=" + myself + "]";
+  }
+
 }

@@ -42,7 +42,9 @@ public class TokenCipher {
   private byte[] IV;
   private SecureRandom sessionRnd = new SecureRandom();
 
-  public TokenCipher() {
+  private static TokenCipher singleton = new TokenCipher();
+
+  private TokenCipher() {
     KeyGenerator kgen;
     try {
       kgen = KeyGenerator.getInstance(ENC_ALGO);
@@ -59,6 +61,10 @@ public class TokenCipher {
       log.error("Cannot find encryption algorithm " + ENC_ALGO);
       throw new IllegalArgumentException(e);
     }
+  }
+
+  public static TokenCipher get() {
+    return singleton;
   }
 
   public String encode(String clearText) throws OAuthTokenException {

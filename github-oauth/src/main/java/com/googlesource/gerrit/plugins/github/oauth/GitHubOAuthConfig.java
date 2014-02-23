@@ -17,11 +17,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.jgit.lib.Config;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
@@ -50,12 +53,12 @@ public class GitHubOAuthConfig {
   public final String oAuthFinalRedirectUrl;
   public final String gitHubOAuthAccessTokenUrl;
   public final boolean enabled;
-  public final List<OAuthProtocol.Scope> scopes;
+  public final Map<String, List<OAuthProtocol.Scope>> scopes;
   public final int fileUpdateMaxRetryCount;
   public final int fileUpdateMaxRetryIntervalMsec;
 
   @Inject
-  public GitHubOAuthConfig(@GerritServerConfig Config config)
+  public GitHubOAuthConfig(CompositeConfig config)
       throws MalformedURLException {
     httpHeader = config.getString("auth", null, "httpHeader");
     httpDisplaynameHeader = config.getString("auth", null, "httpDisplaynameHeader");
@@ -74,17 +77,29 @@ public class GitHubOAuthConfig {
     enabled =
         config.getString("auth", null, "type").equalsIgnoreCase(
             AuthType.HTTP.toString());
-    scopes = parseScopes(config.getString(CONF_SECTION, null, "scopes"));
+    scopes = getScopes(config);
 
     fileUpdateMaxRetryCount = config.getInt(CONF_SECTION, "fileUpdateMaxRetryCount", 3);
     fileUpdateMaxRetryIntervalMsec = config.getInt(CONF_SECTION, "fileUpdateMaxRetryIntervalMsec", 3000);
+  }
+
+  private Map<String, List<Scope>> getScopes(CompositeConfig config) {
+    Map<String, List<Scope>> scopes = Maps.newHashMap();
+    Set<String> configKeys = config.getNames(CONF_SECTION);
+    for (String key : configKeys) {
+      if (key.startsWith("scopes")) {
+        String scopesString = config.getString(CONF_SECTION, null, key);
+        scopes.put(key, parseScopesString(scopesString));
+      }
+    }
+    return scopes;
   }
 
   private String dropTrailingSlash(String url) {
     return (url.endsWith("/") ? url.substring(0, url.length()-1):url);
   }
 
-  private List<Scope> parseScopes(String scopesString) {
+  private List<Scope> parseScopesString(String scopesString) {
     ArrayList<Scope> scopes = new ArrayList<OAuthProtocol.Scope>();
     if(Strings.emptyToNull(scopesString) != null) {
       String[] scopesStrings = scopesString.split(",");
@@ -103,6 +118,14 @@ public class GitHubOAuthConfig {
     } else {
       return baseUrl + (baseUrl.endsWith("/") ? "" : "/")
           + (path.startsWith("/") ? path.substring(1) : path);
+    }
+  }
+
+  public Scope[] getDefaultScopes() {
+    if (scopes == null || scopes.get("scopes") == null) {
+      return new Scope[0];
+    } else {
+      return scopes.get("scopes").toArray(new Scope[0]);
     }
   }
 }

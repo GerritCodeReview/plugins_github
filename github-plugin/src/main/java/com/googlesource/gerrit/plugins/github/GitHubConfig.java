@@ -24,6 +24,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.googlesource.gerrit.plugins.github.oauth.CompositeConfig;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig;
 
 @Singleton
@@ -61,7 +62,7 @@ public class GitHubConfig extends GitHubOAuthConfig {
 
 
   @Inject
-  public GitHubConfig(@GerritServerConfig Config config, final SitePaths site)
+  public GitHubConfig(CompositeConfig config, final SitePaths site)
       throws MalformedURLException {
     super(config);
     String[] wizardFlows =
