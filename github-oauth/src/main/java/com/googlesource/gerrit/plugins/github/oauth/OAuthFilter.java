@@ -89,27 +89,16 @@ public class OAuthFilter implements Filter {
       OAuthCookie authCookie =
           getOAuthCookie(httpRequest, (HttpServletResponse) response);
 
-      if(OAuthProtocol.isOAuthLogout((HttpServletRequest) request)) {
+      if (OAuthProtocol.isOAuthLogout((HttpServletRequest) request)) {
         logout(request, response, chain, httpRequest);
-      } else if ((OAuthProtocol.isOAuthLogin(httpRequest) || OAuthProtocol.isOAuthFinal(httpRequest)) && !ghLogin.isLoggedIn()) {        
+      } else if (OAuthProtocol.isOAuthRequest(httpRequest)) {
         login(request, httpRequest, httpResponse, ghLogin);
       } else {
-        if (gerritCookie != null && !OAuthProtocol.isOAuthLogin(httpRequest)) {
-          if (authCookie != null) {
-            authCookie.setMaxAge(0);
-            authCookie.setValue("");
-            httpResponse.addCookie(authCookie);
-          }
-        } else if (authCookie != null) {
-          httpRequest =
-              new AuthenticatedHttpRequest(httpRequest, config.httpHeader,
-                  authCookie.user, config.httpDisplaynameHeader,
-                  authCookie.fullName, config.httpEmailHeader, authCookie.email);
-        }
+        httpRequest = enrichAuthenticatedRequest(httpRequest, authCookie);
 
         if (OAuthProtocol.isOAuthFinalForOthers(httpRequest)) {
-          httpResponse.sendRedirect(OAuthProtocol.getTargetOAuthFinal(httpRequest));
-          return;
+          httpResponse.sendRedirect(OAuthProtocol
+              .getTargetOAuthFinal(httpRequest));
         } else {
           chain.doFilter(httpRequest, response);
         }
@@ -130,16 +119,24 @@ public class OAuthFilter implements Filter {
     }
   }
 
-  private void login(ServletRequest request,
-      HttpServletRequest httpRequest, HttpServletResponse httpResponse,
-      GitHubLogin ghLogin) throws IOException {
-    if(ghLogin.login(httpRequest, httpResponse)) {
-      GHMyself myself =
-          ghLogin.getMyself();
+  private HttpServletRequest enrichAuthenticatedRequest(
+      HttpServletRequest httpRequest, OAuthCookie authCookie) {
+    httpRequest =
+        authCookie == null ? httpRequest : new AuthenticatedHttpRequest(
+            httpRequest, config.httpHeader, authCookie.user,
+            config.httpDisplaynameHeader, authCookie.fullName,
+            config.httpEmailHeader, authCookie.email);
+    return httpRequest;
+  }
+
+  private void login(ServletRequest request, HttpServletRequest httpRequest,
+      HttpServletResponse httpResponse, GitHubLogin ghLogin) throws IOException {
+    if (ghLogin.login(httpRequest, httpResponse)) {
+      GHMyself myself = ghLogin.getMyself();
       String user = myself.getLogin();
 
-      updateSecureConfigWithRetry(ghLogin.hub.getMyOrganizations().keySet(), user,
-          ghLogin.token.access_token);
+      updateSecureConfigWithRetry(ghLogin.hub.getMyOrganizations().keySet(),
+          user, ghLogin.token.access_token);
     }
   }
 

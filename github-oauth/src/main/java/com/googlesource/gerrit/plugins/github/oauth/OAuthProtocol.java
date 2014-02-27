@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -56,8 +57,7 @@ public class OAuthProtocol {
     }
   }
   private static final String ME_SEPARATOR = ",";
-
-  private static final Logger log = LoggerFactory
+  private static final Logger LOG = LoggerFactory
       .getLogger(OAuthProtocol.class);
 
   private final GitHubOAuthConfig config;
@@ -91,31 +91,24 @@ public class OAuthProtocol {
   }
 
   public void loginPhase1(HttpServletRequest request,
-      HttpServletResponse response, Scope... scopes) throws IOException {
-    String scopeRequested = request.getParameter("scope");
-    String baseScopeKey = Objects.firstNonNull(scopeRequested, "scopes");
+      HttpServletResponse response, Set<Scope> scopes) throws IOException {
+
+    String scopesString = getScope(scopes);
+    LOG.debug("Initiating GitHub Login for ClientId=" + config.gitHubClientId + " Scopes=" + scopesString);
     response.sendRedirect(String.format(
         "%s?client_id=%s%s&redirect_uri=%s&state=%s%s", config.gitHubOAuthUrl,
-        config.gitHubClientId, getScope(baseScopeKey, scopes),
+        config.gitHubClientId, scopesString,
         getURLEncoded(config.oAuthFinalRedirectUrl),
         me(), getURLEncoded(request.getRequestURI().toString())));
   }
 
-  private String getScope(String baseScopeKey, Scope[] scopes) {
-    List<Scope> baseScopes = config.scopes.get(baseScopeKey);
-    if(baseScopes == null) {
-      throw new IllegalArgumentException("Requested OAuth base scope id " + baseScopeKey + " is not configured in gerrit.config");
-    }
-
-    HashSet<Scope> fullScopes = new HashSet<OAuthProtocol.Scope>(baseScopes);
-    fullScopes.addAll(Arrays.asList(scopes));
-    
-    if(fullScopes.size() <= 0) {
+  private String getScope(Set<Scope> scopes) {
+    if(scopes.size() <= 0) {
       return "";
     }
     
     StringBuilder out = new StringBuilder();
-    for (Scope scope : fullScopes) {
+    for (Scope scope : scopes) {
       if(out.length() > 0) {
         out.append(",");
       }
@@ -149,6 +142,10 @@ public class OAuthProtocol {
     return request.getRequestURI().indexOf(GitHubOAuthConfig.OAUTH_LOGOUT) >= 0;
   }
 
+  public static boolean isOAuthRequest(HttpServletRequest httpRequest) {
+    return OAuthProtocol.isOAuthLogin(httpRequest) || OAuthProtocol.isOAuthFinal(httpRequest);
+  }
+
   public AccessToken loginPhase2(HttpServletRequest request,
       HttpServletResponse response) throws IOException {
 
@@ -169,7 +166,7 @@ public class OAuthProtocol {
     try {
       HttpResponse postResponse = http.execute(post);
       if (postResponse.getStatusLine().getStatusCode() != HttpURLConnection.HTTP_OK) {
-        log.error("POST " + config.gitHubOAuthAccessTokenUrl
+        LOG.error("POST " + config.gitHubOAuthAccessTokenUrl
             + " request for access token failed with status "
             + postResponse.getStatusLine());
         response.sendError(HttpURLConnection.HTTP_UNAUTHORIZED,
@@ -183,7 +180,7 @@ public class OAuthProtocol {
               .getContent(), "UTF-8"), AccessToken.class);
       return token;
     } catch (IOException e) {
-      log.error("POST " + config.gitHubOAuthAccessTokenUrl
+      LOG.error("POST " + config.gitHubOAuthAccessTokenUrl
           + " request for access token failed", e);
       response.sendError(HttpURLConnection.HTTP_UNAUTHORIZED,
           "Request for access token not authorised");
