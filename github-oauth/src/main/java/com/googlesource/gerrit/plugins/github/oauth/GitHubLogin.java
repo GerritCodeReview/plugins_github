@@ -15,9 +15,16 @@
 package com.googlesource.gerrit.plugins.github.oauth;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,6 +34,7 @@ import org.kohsuke.github.GitHub;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -42,6 +50,13 @@ public class GitHubLogin {
     public Provider(com.google.inject.Provider<GitHubLogin> provider) {
       super(provider);
     }
+
+    @Override
+    public GitHubLogin get(HttpServletRequest req) {
+      GitHubLogin login = super.get(req);
+      login.initOAuthCookie(req);
+      return login;
+    }
   }
 
   public AccessToken token;
@@ -50,7 +65,10 @@ public class GitHubLogin {
   private transient OAuthProtocol oauth;
 
   private GHMyself myself;
+  private SortedSet<Scope> loginScopes;
   private final OAuthCookieProvider cookieProvider;
+  private final GitHubOAuthConfig config;
+  private OAuthCookie oAuthCookie;
 
   public GHMyself getMyself() {
     if (isLoggedIn()) {
@@ -61,9 +79,10 @@ public class GitHubLogin {
   }
 
   @Inject
-  public GitHubLogin(OAuthProtocol oauth) {
+  public GitHubLogin(final OAuthProtocol oauth, final GitHubOAuthConfig config) {
     this.oauth = oauth;
     this.cookieProvider = new OAuthCookieProvider(TokenCipher.get());
+    this.config = config;
   }
 
   public boolean isLoggedIn() {
@@ -78,6 +97,25 @@ public class GitHubLogin {
       }
     }
     return loggedIn;
+  }
+
+  private void initOAuthCookie(HttpServletRequest request) {
+    for (Cookie cookie : getCookies(request)) {
+      if (cookie.getName().equalsIgnoreCase(OAuthCookie.OAUTH_COOKIE_NAME)
+          && !Strings.isNullOrEmpty(cookie.getValue())) {
+        try {
+          oAuthCookie = cookieProvider.getFromCookie(cookie);
+          loginScopes = oAuthCookie.scopes;
+        } catch (OAuthTokenException e) {
+          LOG.warn("Invalid cookie detected", e);
+        }
+      }
+    }
+  }
+
+  private Cookie[] getCookies(HttpServletRequest httpRequest) {
+    Cookie[] cookies = httpRequest.getCookies();
+    return cookies == null ? new Cookie[0] : cookies;
   }
 
   public boolean login(ServletRequest request, ServletResponse response,
@@ -106,7 +144,7 @@ public class GitHubLogin {
                 .getName();
 
         OAuthCookie userCookie =
-            cookieProvider.getFromUser(user, email, fullName);
+            cookieProvider.getFromUser(user, email, fullName, loginScopes);
         response.addCookie(userCookie);
 
         response.sendRedirect(OAuthProtocol.getTargetUrl(request));
@@ -116,8 +154,9 @@ public class GitHubLogin {
         return false;
       }
     } else {
+      this.loginScopes = getScopes(getScopesKey(request), scopes);
       LOG.debug("Login-PHASE1 " + this);
-      oauth.loginPhase1(request, response, scopes);
+      oauth.loginPhase1(request, response, loginScopes);
       return false;
     }
   }
@@ -139,7 +178,23 @@ public class GitHubLogin {
 
   @Override
   public String toString() {
-    return "GitHubLogin [token=" + token + ", myself=" + myself + "]";
+    return "GitHubLogin [token=" + token + ", myself=" + myself + ", scopes="
+        + loginScopes + "]";
+  }
+
+  private String getScopesKey(HttpServletRequest request) {
+    String scopeRequested = request.getParameter("scope");
+    return Objects.firstNonNull(scopeRequested, "scopes");
+  }
+
+  private SortedSet<Scope> getScopes(String baseScopeKey, Scope... scopes) {
+    HashSet<Scope> fullScopes =
+        oAuthCookie == null ? new HashSet<Scope>(
+            config.scopes.get(baseScopeKey)) : new HashSet<Scope>(
+            oAuthCookie.scopes);
+    fullScopes.addAll(Arrays.asList(scopes));
+
+    return new TreeSet<Scope>(fullScopes);
   }
 
 }
