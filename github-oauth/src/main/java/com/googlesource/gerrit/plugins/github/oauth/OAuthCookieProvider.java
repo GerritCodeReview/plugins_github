@@ -13,17 +13,11 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.oauth;
 
-import java.net.URLEncoder;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
+import java.util.SortedSet;
 
-import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
 import javax.servlet.http.Cookie;
 
-import org.slf4j.Logger;
+import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
 
 public class OAuthCookieProvider {
 
@@ -33,9 +27,9 @@ public class OAuthCookieProvider {
     this.cipher = cipher;
   }
 
-  public OAuthCookie getFromUser(String username, String email, String fullName) {
+  public OAuthCookie getFromUser(String username, String email, String fullName, SortedSet<Scope> scopes) {
     try {
-      return new OAuthCookie(cipher, username, email, fullName);
+      return new OAuthCookie(cipher, username, email, fullName, scopes);
     } catch (OAuthTokenException e) {
       return null;
     }
