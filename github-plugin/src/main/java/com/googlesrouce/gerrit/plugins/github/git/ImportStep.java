@@ -18,24 +18,24 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import com.googlesource.gerrit.plugins.github.GitHubURL;
 
 public abstract class ImportStep {
-  protected String gitHubUrl;
   private final GitHubRepository gitHubRepository;
 
-  public ImportStep(@GitHubURL String gitHubUrl, String organisation, String repository) {
-    this.gitHubRepository = new GitHubRepository(gitHubUrl, organisation, repository);
-    this.gitHubUrl = gitHubUrl;
+  public ImportStep(@GitHubURL String gitHubUrl, String organisation,
+      String repository, GitHubRepository.Factory ghRepoFactory) {
+    this.gitHubRepository =
+        ghRepoFactory.create(organisation, repository);
   }
 
   protected String getSourceUri() {
-    return gitHubRepository.cloneUrl;
+    return gitHubRepository.getCloneUrl();
   }
-  
+
   public String getOrganisation() {
-    return gitHubRepository.organisation;
+    return gitHubRepository.getOrganisation();
   }
 
   public String getRepository() {
-    return gitHubRepository.repository;
+    return gitHubRepository.getRepository();
   }
 
   public abstract void doImport(ProgressMonitor progress) throws Exception;
