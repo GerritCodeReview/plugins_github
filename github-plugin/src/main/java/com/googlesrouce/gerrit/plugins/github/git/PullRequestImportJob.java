@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.eclipse.jgit.api.FetchCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -70,6 +72,7 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.github.GitHubURL;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
+import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
 import com.googlesrouce.gerrit.plugins.github.git.GitJobStatus.Code;
 
 public class PullRequestImportJob implements GitJob, ProgressMonitor {
@@ -106,17 +109,19 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
   private AccountImpoter accountImporter;
 
   @Inject
-  public PullRequestImportJob(@GitHubURL String gitHubUrl, GitHubLogin ghLogin,
+  public PullRequestImportJob(@GitHubURL String gitHubUrl,
       GitRepositoryManager repoMgr, PullRequestCreateChange createChange,
       ProjectCache projectCache, ProjectControl.Factory projectControlFactory,
       Provider<ReviewDb> schema, AccountImpoter accountImporter,
-      @Assisted("index") int jobIndex,
+      GitHubRepository.Factory gitHubRepoFactory,
+      ScopedProvider<GitHubLogin> ghLoginProvider,
+      HttpServletRequest httpRequest, @Assisted("index") int jobIndex,
       @Assisted("organisation") String organisation,
       @Assisted("name") String repoName, @Assisted int pullRequestId,
       @Assisted PullRequestImportType importType) {
     this.jobIndex = jobIndex;
     this.repoMgr = repoMgr;
-    this.ghLogin = ghLogin;
+    this.ghLogin = ghLoginProvider.get(httpRequest);
     this.organisation = organisation;
     this.repoName = repoName;
     this.importType = importType;
@@ -124,7 +129,7 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
     this.createChange = createChange;
     this.projectControlFactory = projectControlFactory;
     this.project = fetchGerritProject(projectCache, organisation, repoName);
-    this.ghRepository = new GitHubRepository(gitHubUrl, organisation, repoName);
+    this.ghRepository = gitHubRepoFactory.create(organisation, repoName);
     this.status = new GitJobStatus(jobIndex);
     this.schema = schema;
     this.accountImporter = accountImporter;
@@ -276,7 +281,7 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
 
     Git git = Git.wrap(gitRepo);
     FetchCommand fetch = git.fetch();
-    fetch.setRemote(ghRepository.cloneUrl);
+    fetch.setRemote(ghRepository.getCloneUrl());
     fetch.setRefSpecs(new RefSpec("+refs/pull/" + pr.getNumber()
         + "/head:refs/remotes/origin/pr/" + pr.getNumber()));
     fetch.setProgressMonitor(this);

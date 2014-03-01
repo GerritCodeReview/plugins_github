@@ -31,6 +31,7 @@ import com.googlesource.gerrit.plugins.github.velocity.VelocityViewServlet;
 import com.googlesource.gerrit.plugins.github.wizard.VelocityControllerServlet;
 import com.googlesrouce.gerrit.plugins.github.git.CreateProjectStep;
 import com.googlesrouce.gerrit.plugins.github.git.GitCloneStep;
+import com.googlesrouce.gerrit.plugins.github.git.GitHubRepository;
 import com.googlesrouce.gerrit.plugins.github.git.GitImporter;
 import com.googlesrouce.gerrit.plugins.github.git.PullRequestImportJob;
 import com.googlesrouce.gerrit.plugins.github.git.ReplicateProjectStep;
@@ -54,6 +55,8 @@ public class GuiceHttpModule extends ServletModule {
         ReplicateProjectStep.class).build(ReplicateProjectStep.Factory.class));
     install(new FactoryModuleBuilder().implement(PullRequestImportJob.class,
         PullRequestImportJob.class).build(PullRequestImportJob.Factory.class));
+    install(new FactoryModuleBuilder().implement(GitHubRepository.class,
+        GitHubRepository.class).build(GitHubRepository.Factory.class));
 
     bind(RuntimeInstance.class).annotatedWith(
         Names.named("PluginRuntimeInstance")).toProvider(

@@ -13,6 +13,8 @@
 // limitations under the License.
 package com.googlesrouce.gerrit.plugins.github.git;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,12 +23,14 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.github.GitHubURL;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
+import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
 
 public class ReplicateProjectStep extends ImportStep {
   private static final Logger LOG = LoggerFactory.getLogger(ReplicateProjectStep.class);
   private final ReplicationConfig replicationConfig;
   private final String authUsername;
   private final String authToken;
+  private final String gitHubUrl;
 
   public interface Factory {
     ReplicateProjectStep create(@Assisted("organisation") String organisation,
@@ -36,15 +40,19 @@ public class ReplicateProjectStep extends ImportStep {
 
   @Inject
   public ReplicateProjectStep(final ReplicationConfig replicationConfig,
+      final GitHubRepository.Factory gitHubRepoFactory,
+      final ScopedProvider<GitHubLogin> ghLoginProvider,
+      final HttpServletRequest httpRequest,
       @GitHubURL String gitHubUrl,
       @Assisted("organisation") String organisation,
-      @Assisted("name") String repository,
-      @Assisted GitHubLogin ghLogin) {
-    super(gitHubUrl, organisation, repository);
+      @Assisted("name") String repository) {
+    super(gitHubUrl, organisation, repository, gitHubRepoFactory);
     LOG.debug("Gerrit ReplicateProject " + organisation + "/" + repository);
     this.replicationConfig = replicationConfig;
+    GitHubLogin ghLogin = ghLoginProvider.get(httpRequest);
     this.authUsername = ghLogin.getMyself().getLogin();
     this.authToken = ghLogin.token.access_token;
+    this.gitHubUrl = gitHubUrl;
   }
 
   @Override
