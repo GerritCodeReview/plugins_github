@@ -15,7 +15,6 @@ package com.googlesrouce.gerrit.plugins.github.git;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.CloneCommand;
@@ -46,11 +45,12 @@ public class GitCloneStep extends ImportStep {
       MetaDataUpdate.User metaDataUpdateFactory, 
       GroupBackend groupBackend,
       ProjectCache projectCache,
+      GitHubRepository.Factory gitHubRepoFactory,
       @Assisted("organisation") String organisation,
       @Assisted("name") String repository)
       throws GitDestinationAlreadyExistsException,
       GitDestinationNotWritableException {
-    super(gitConfig.gitHubUrl, organisation, repository);
+    super(gitConfig.gitHubUrl, organisation, repository, gitHubRepoFactory);
     LOG.debug("GitHub Clone " + organisation + "/" + repository);
     this.gitDir = gitConfig.gitDir;
     this.destinationDirectory =

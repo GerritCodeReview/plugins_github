@@ -13,9 +13,13 @@
 // limitations under the License.
 package com.googlesrouce.gerrit.plugins.github.git;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.github.GitHubURL;
+import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
+import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
 
 public class GitHubRepository {
   public interface Factory {
@@ -23,16 +27,34 @@ public class GitHubRepository {
         @Assisted("repository") String repository);
   }
 
-  public final String cloneUrl;
-  public final String organisation;
-  public final String repository;
+
+  private final String organisation;
+  private final String repository;
+  private final GitHubLogin ghLogin;
+  private final String cloneUrl;
+
+  public String getCloneUrl() {
+    return cloneUrl.replace("://", "://" + ghLogin.getMyself().getLogin() + ":"
+        + ghLogin.token.access_token + "@");
+  }
+
+  public String getOrganisation() {
+    return organisation;
+  }
+
+  public String getRepository() {
+    return repository;
+  }
+
 
   @Inject
-  public GitHubRepository(@GitHubURL String gitHubUrl,
+  public GitHubRepository(ScopedProvider<GitHubLogin> ghLoginProvider, HttpServletRequest httpRequest,
+      @GitHubURL String gitHubUrl,
       @Assisted("organisation") String organisation,
       @Assisted("repository") String repository) {
     this.cloneUrl = gitHubUrl + "/" + organisation + "/" + repository + ".git";
     this.organisation = organisation;
     this.repository = repository;
+    this.ghLogin = ghLoginProvider.get(httpRequest);
   }
 }
