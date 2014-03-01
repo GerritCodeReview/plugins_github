@@ -13,8 +13,6 @@
 // limitations under the License.
 package com.googlesrouce.gerrit.plugins.github.git;
 
-import javax.servlet.http.HttpServletRequest;
-
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.github.GitHubURL;
@@ -48,13 +46,13 @@ public class GitHubRepository {
 
 
   @Inject
-  public GitHubRepository(ScopedProvider<GitHubLogin> ghLoginProvider, HttpServletRequest httpRequest,
+  public GitHubRepository(ScopedProvider<GitHubLogin> ghLoginProvider,
       @GitHubURL String gitHubUrl,
       @Assisted("organisation") String organisation,
       @Assisted("repository") String repository) {
     this.cloneUrl = gitHubUrl + "/" + organisation + "/" + repository + ".git";
     this.organisation = organisation;
     this.repository = repository;
-    this.ghLogin = ghLoginProvider.get(httpRequest);
+    this.ghLogin = ghLoginProvider.get();
   }
 }

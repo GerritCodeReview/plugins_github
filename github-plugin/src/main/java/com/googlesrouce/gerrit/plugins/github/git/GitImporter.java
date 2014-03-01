@@ -24,12 +24,7 @@ import com.googlesource.gerrit.plugins.github.oauth.HttpSessionProvider;
 public class GitImporter extends BatchImporter {
 
   @Singleton
-  public static class Provider extends HttpSessionProvider<GitImporter> {
-    @Inject
-    public Provider(com.google.inject.Provider<GitImporter> provider) {
-      super(provider);
-    }
-  }
+  public static class Provider extends HttpSessionProvider<GitImporter> {}
 
   private static final Logger log = LoggerFactory.getLogger(GitImporter.class);
   private final GitCloneStep.Factory cloneFactory;
