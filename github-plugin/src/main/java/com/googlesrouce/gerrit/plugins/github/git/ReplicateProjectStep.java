@@ -34,7 +34,7 @@ public class ReplicateProjectStep extends ImportStep {
 
   public interface Factory {
     ReplicateProjectStep create(@Assisted("organisation") String organisation,
-        @Assisted("name") String repository, @Assisted GitHubLogin ghLogin);
+        @Assisted("name") String repository);
   }
 
 

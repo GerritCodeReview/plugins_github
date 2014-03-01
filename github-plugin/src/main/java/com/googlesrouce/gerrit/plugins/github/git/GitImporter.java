@@ -13,17 +13,13 @@
 // limitations under the License.
 package com.googlesrouce.gerrit.plugins.github.git;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.HttpSessionProvider;
-import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
 
 public class GitImporter extends BatchImporter {
 
@@ -39,20 +35,17 @@ public class GitImporter extends BatchImporter {
   private final GitCloneStep.Factory cloneFactory;
   private final CreateProjectStep.Factory projectFactory;
   private final ReplicateProjectStep.Factory replicateFactory;
-  private final GitHubLogin githubLogin;
 
 
   @Inject
   public GitImporter(GitCloneStep.Factory cloneFactory,
       CreateProjectStep.Factory projectFactory,
       ReplicateProjectStep.Factory replicateFactory, JobExecutor executor,
-      IdentifiedUser user, ScopedProvider<GitHubLogin> githubLoginProvider,
-      HttpServletRequest req) {
+      IdentifiedUser user) {
     super(executor, user);
     this.cloneFactory = cloneFactory;
     this.projectFactory = projectFactory;
     this.replicateFactory = replicateFactory;
-    this.githubLogin = githubLoginProvider.get(req);
   }
 
   public void clone(int idx, String organisation, String repository,
@@ -63,7 +56,7 @@ public class GitImporter extends BatchImporter {
           projectFactory.create(organisation, repository, description,
               user.getUserName());
       ReplicateProjectStep replicateStep =
-          replicateFactory.create(organisation, repository, githubLogin);
+          replicateFactory.create(organisation, repository);
       GitImportJob gitCloneJob =
           new GitImportJob(idx, organisation, repository, cloneStep,
               projectStep, replicateStep);
