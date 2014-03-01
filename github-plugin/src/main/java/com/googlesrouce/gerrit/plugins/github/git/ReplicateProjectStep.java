@@ -13,8 +13,6 @@
 // limitations under the License.
 package com.googlesrouce.gerrit.plugins.github.git;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,14 +40,13 @@ public class ReplicateProjectStep extends ImportStep {
   public ReplicateProjectStep(final ReplicationConfig replicationConfig,
       final GitHubRepository.Factory gitHubRepoFactory,
       final ScopedProvider<GitHubLogin> ghLoginProvider,
-      final HttpServletRequest httpRequest,
       @GitHubURL String gitHubUrl,
       @Assisted("organisation") String organisation,
       @Assisted("name") String repository) {
     super(gitHubUrl, organisation, repository, gitHubRepoFactory);
     LOG.debug("Gerrit ReplicateProject " + organisation + "/" + repository);
     this.replicationConfig = replicationConfig;
-    GitHubLogin ghLogin = ghLoginProvider.get(httpRequest);
+    GitHubLogin ghLogin = ghLoginProvider.get();
     this.authUsername = ghLogin.getMyself().getLogin();
     this.authToken = ghLogin.token.access_token;
     this.gitHubUrl = gitHubUrl;
