@@ -17,8 +17,6 @@ package com.googlesource.gerrit.plugins.github.oauth;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -46,15 +44,10 @@ public class GitHubLogin {
 
   @Singleton
   public static class Provider extends HttpSessionProvider<GitHubLogin> {
-    @Inject
-    public Provider(com.google.inject.Provider<GitHubLogin> provider) {
-      super(provider);
-    }
-
     @Override
-    public GitHubLogin get(HttpServletRequest req) {
-      GitHubLogin login = super.get(req);
-      login.initOAuthCookie(req);
+    public GitHubLogin get(HttpServletRequest request) {
+      GitHubLogin login = super.get(request);
+      login.initOAuthCookie(request);
       return login;
     }
   }
