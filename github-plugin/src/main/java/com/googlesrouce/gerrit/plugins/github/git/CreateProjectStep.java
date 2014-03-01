@@ -13,8 +13,6 @@
 // limitations under the License.
 package com.googlesrouce.gerrit.plugins.github.git;
 
-import java.net.MalformedURLException;
-
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,11 +65,12 @@ public class CreateProjectStep extends ImportStep {
       MetaDataUpdate.User metaDataUpdateFactory, 
       GroupBackend groupBackend,
       ProjectCache projectCache,
+      GitHubRepository.Factory ghRepoFactory,
       @Assisted("organisation") String organisation,
       @Assisted("name") String repository,
       @Assisted("description") String description,
       @Assisted("username") String username) {
-    super(gitHubUrl, organisation, repository);
+    super(gitHubUrl, organisation, repository, ghRepoFactory);
     LOG.debug("Gerrit CreateProject " + organisation + "/" + repository);
 
     this.organisation = organisation;
