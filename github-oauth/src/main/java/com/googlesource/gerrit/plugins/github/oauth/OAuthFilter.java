@@ -84,7 +84,7 @@ public class OAuthFilter implements Filter {
 
     Cookie gerritCookie = getGerritCookie(httpRequest);
     try {
-      GitHubLogin ghLogin = loginProvider.get((HttpServletRequest) request);
+      GitHubLogin ghLogin = loginProvider.get(httpRequest);
 
       OAuthCookie authCookie =
           getOAuthCookie(httpRequest, (HttpServletResponse) response);

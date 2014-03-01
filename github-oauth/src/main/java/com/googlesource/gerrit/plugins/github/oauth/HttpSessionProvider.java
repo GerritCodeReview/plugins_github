@@ -18,14 +18,18 @@ import javax.servlet.http.HttpSession;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 
 public abstract class HttpSessionProvider<T> implements ScopedProvider<T> {
 
-  private final Provider<T> provider;
+  @Inject
+  private Provider<T> provider;
 
-  public HttpSessionProvider(Provider<T> provider) {
-    this.provider = provider;
+  @Inject
+  private Provider<HttpServletRequest> httpRequestProvider;
+
+  @Override
+  public T get() {
+    return get(httpRequestProvider.get());
   }
 
   @Override
@@ -42,5 +46,10 @@ public abstract class HttpSessionProvider<T> implements ScopedProvider<T> {
       }
       return instance;
     }
+  }
+
+  @Override
+  public HttpServletRequest getScopedRequest() {
+    return httpRequestProvider.get();
   }
 }

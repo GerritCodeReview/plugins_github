@@ -14,19 +14,13 @@
 package com.googlesrouce.gerrit.plugins.github.git;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.jgit.api.FetchCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
-import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.api.errors.TransportException;
-import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
@@ -36,7 +30,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
 import org.kohsuke.github.GHPullRequest;
 import org.kohsuke.github.GHPullRequestCommitDetail;
-import org.kohsuke.github.GHPullRequestCommitDetail.Authorship;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GHUser;
 import org.kohsuke.github.GitUser;
@@ -44,7 +37,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
-import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -53,16 +45,10 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
-import com.google.gerrit.reviewdb.server.AccountAccess;
 import com.google.gerrit.reviewdb.server.AccountExternalIdAccess;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountImpoter;
-import com.google.gerrit.server.account.CreateAccount;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.MergeException;
-import com.google.gerrit.server.project.InvalidChangeOperationException;
-import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
@@ -115,13 +101,13 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
       Provider<ReviewDb> schema, AccountImpoter accountImporter,
       GitHubRepository.Factory gitHubRepoFactory,
       ScopedProvider<GitHubLogin> ghLoginProvider,
-      HttpServletRequest httpRequest, @Assisted("index") int jobIndex,
+      @Assisted("index") int jobIndex,
       @Assisted("organisation") String organisation,
       @Assisted("name") String repoName, @Assisted int pullRequestId,
       @Assisted PullRequestImportType importType) {
     this.jobIndex = jobIndex;
     this.repoMgr = repoMgr;
-    this.ghLogin = ghLoginProvider.get(httpRequest);
+    this.ghLogin = ghLoginProvider.get();
     this.organisation = organisation;
     this.repoName = repoName;
     this.importType = importType;
