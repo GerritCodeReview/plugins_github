@@ -67,6 +67,7 @@
                 <script type="text/template" id="repo-sync-template">
                     <li>
                         <input class="keycheckbox" type="checkbox" name="repo_<%= index %>" />
+                        <span class="private_<%= repo.private %>"><%= repo.private ? "PRIVATE":"PUBLIC" %></span>
                         <label class="repository"><%= repo.organisation %> / <b><%= repo.name %></b></label>
                         <input type="hidden" name="repo_<%= index %>_organisation" value="<%= repo.organisation %>" />
                         <input type="hidden" class="name" name="repo_<%= index %>_repository" value="<%= repo.name %>" />
