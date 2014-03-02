@@ -46,7 +46,7 @@
                       <input class="keycheckbox" type="checkbox" id="selectallcheckbox" checked="checked"/>
                       <select id="organisation" name="organisation">
                       <option selected="selected">$myself.login</option>
-                      #foreach( $organisation in $myself.organizations )
+                      #foreach( $organisation in $myself.allOrganizations )
                           <option>$organisation.login</option>
                       #end
                       </select><label class="repository"> / Repository name</label>
