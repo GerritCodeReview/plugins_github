@@ -34,8 +34,12 @@ public abstract class ImportStep {
     return gitHubRepository.getOrganisation();
   }
 
-  public String getRepository() {
+  public String getRepositoryName() {
     return gitHubRepository.getRepository();
+  }
+
+  public GitHubRepository getRepository() {
+    return gitHubRepository;
   }
 
   public abstract void doImport(ProgressMonitor progress) throws Exception;
