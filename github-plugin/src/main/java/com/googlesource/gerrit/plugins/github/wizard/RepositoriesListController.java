@@ -71,6 +71,7 @@ public class RepositoriesListController implements VelocityController {
             "description",
             new JsonPrimitive(
                 Strings.nullToEmpty(ghRepository.getDescription())));
+        repository.add("private", new JsonPrimitive(ghRepository.isPrivate()));
         jsonRepos.add(repository);
         numRepos++;
       }
