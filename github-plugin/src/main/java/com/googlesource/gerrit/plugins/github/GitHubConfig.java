@@ -19,10 +19,14 @@ import java.util.HashMap;
 
 import org.eclipse.jgit.lib.Config;
 
+import com.google.common.base.Objects;
 import com.google.common.collect.Maps;
+import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.CompositeConfig;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig;
@@ -42,6 +46,8 @@ public class GitHubConfig extends GitHubOAuthConfig {
       "repositoryListPageSize";
   private static final String CONF_REPOSITORY_LIST_LIMIT =
       "repositoryListLimit";
+  private static final String CONF_PUBLIC_BASE_PROJECT = "publicBaseProject";
+  private static final String CONF_PRIVATE_BASE_PROJECT = "privateBaseProject";
 
   public final File gitDir;
   public final int jobPoolLimit;
@@ -49,6 +55,9 @@ public class GitHubConfig extends GitHubOAuthConfig {
   public final int pullRequestListLimit;
   public final int repositoryListPageSize;
   public final int repositoryListLimit;
+  public final String privateBaseProject;
+  public final String publicBaseProject;
+  public final String allProjectsName;
 
   public static class NextPage {
     public final String uri;
@@ -62,7 +71,7 @@ public class GitHubConfig extends GitHubOAuthConfig {
 
 
   @Inject
-  public GitHubConfig(CompositeConfig config, final SitePaths site)
+  public GitHubConfig(CompositeConfig config, final SitePaths site, AllProjectsNameProvider allProjectsNameProvider)
       throws MalformedURLException {
     super(config);
     String[] wizardFlows =
@@ -90,6 +99,12 @@ public class GitHubConfig extends GitHubOAuthConfig {
     if (gitDir == null) {
       throw new IllegalStateException("gerrit.basePath must be configured");
     }
+
+    privateBaseProject =
+        config.getString(CONF_SECTION, null, CONF_PRIVATE_BASE_PROJECT);
+    publicBaseProject =
+        config.getString(CONF_SECTION, null, CONF_PUBLIC_BASE_PROJECT);
+    allProjectsName = allProjectsNameProvider.get().toString();
   }
 
   private String getSeparator(boolean redirect) {
@@ -108,5 +123,10 @@ public class GitHubConfig extends GitHubOAuthConfig {
 
   public NextPage getNextPage(String sourcePage) {
     return wizardFromTo.get(sourcePage);
+  }
+
+  public String getBaseProject(boolean isPrivateProject) {
+    return Objects.firstNonNull(isPrivateProject ? privateBaseProject
+        : publicBaseProject, allProjectsName);
   }
 }
