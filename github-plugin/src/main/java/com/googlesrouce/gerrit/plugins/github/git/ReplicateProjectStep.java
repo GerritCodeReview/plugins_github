@@ -56,7 +56,7 @@ public class ReplicateProjectStep extends ImportStep {
   public void doImport(ProgressMonitor progress) throws Exception {
     progress.beginTask("Setting up Gerrit replication", 2);
 
-    String repositoryName = getOrganisation() + "/" + getRepository();
+    String repositoryName = getOrganisation() + "/" + getRepositoryName();
     progress.update(1);
     replicationConfig.addSecureCredentials(getOrganisation(), authUsername,
         authToken);

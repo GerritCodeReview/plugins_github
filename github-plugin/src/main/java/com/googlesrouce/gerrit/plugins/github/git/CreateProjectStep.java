@@ -34,6 +34,7 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.googlesource.gerrit.plugins.github.GitHubConfig;
 import com.googlesource.gerrit.plugins.github.GitHubURL;
 
 public class CreateProjectStep extends ImportStep {
@@ -50,8 +51,9 @@ public class CreateProjectStep extends ImportStep {
   private String description;
   private GroupBackend groupBackend;
   private String username;
-  private ProjectConfig config;
+  private ProjectConfig projectConfig;
   private ProjectCache projectCache;
+  private GitHubConfig config;
 
   public interface Factory {
     CreateProjectStep create(@Assisted("organisation") String organisation,
@@ -66,6 +68,7 @@ public class CreateProjectStep extends ImportStep {
       GroupBackend groupBackend,
       ProjectCache projectCache,
       GitHubRepository.Factory ghRepoFactory,
+      GitHubConfig gitHubConfig,
       @Assisted("organisation") String organisation,
       @Assisted("name") String repository,
       @Assisted("description") String description,
@@ -80,6 +83,7 @@ public class CreateProjectStep extends ImportStep {
     this.groupBackend = groupBackend;
     this.projectCache = projectCache;
     this.username = username;
+    this.config = gitHubConfig;
   }
   
   private void setProjectPermissions() {
@@ -115,7 +119,7 @@ public class CreateProjectStep extends ImportStep {
   }
   
   private void addPermissions(String refSpec, String... permissions) {
-    AccessSection accessSection = config.getAccessSection(refSpec, true);
+    AccessSection accessSection = projectConfig.getAccessSection(refSpec, true);
     for (String permission : permissions) {
       String[] permParts = permission.split("=");
       String action = permParts[0];
@@ -131,14 +135,14 @@ public class CreateProjectStep extends ImportStep {
   }
 
   private void addPermission(String refSpec, String action, PermissionRule rule) {
-    config.getAccessSection(refSpec, true).getPermission(action, true)
+    projectConfig.getAccessSection(refSpec, true).getPermission(action, true)
         .add(rule);
   }
   
   private GroupReference getMyGroup() {
     GroupDescription.Basic g =
         groupBackend.get(AccountGroup.UUID.parse("user:" + username));
-    return config.resolve(GroupReference.forGroup(g));
+    return projectConfig.resolve(GroupReference.forGroup(g));
   }
 
   private NameKey getProjectNameKey() {
@@ -150,14 +154,14 @@ public class CreateProjectStep extends ImportStep {
     MetaDataUpdate md = null;
     try {
       md = metaDataUpdateFactory.create(getProjectNameKey());
-      config = ProjectConfig.read(md);
+      projectConfig = ProjectConfig.read(md);
       progress.beginTask("Configure Gerrit project", 2);
       setProjectSettings();
       progress.update(1);
       setProjectPermissions();
       progress.update(1);
       md.setMessage("Imported from " + getSourceUri());
-      config.commit(md);
+      projectConfig.commit(md);
       projectCache.onCreateProject(getProjectNameKey());
     } finally {
       if(md != null) { 
@@ -168,7 +172,8 @@ public class CreateProjectStep extends ImportStep {
   }
   
   private void setProjectSettings() {
-    Project project = config.getProject();
+    Project project = projectConfig.getProject();
+    project.setParentName(config.getBaseProject(getRepository().isPrivate()));
     project.setDescription(description);
     project.setSubmitType(SubmitType.MERGE_IF_NECESSARY);
     project.setUseContributorAgreements(InheritableBoolean.INHERIT);
