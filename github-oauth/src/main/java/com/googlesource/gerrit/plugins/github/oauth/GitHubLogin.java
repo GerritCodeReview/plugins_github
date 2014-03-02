@@ -41,6 +41,7 @@ import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
 
 public class GitHubLogin {
   private static final Logger LOG = LoggerFactory.getLogger(GitHubLogin.class);
+  private static final int SCOPE_COOKIE_NEVER_EXPIRES = 50 * 365 * 24 * 3600;
 
   @Singleton
   public static class Provider extends HttpSessionProvider<GitHubLogin> {
@@ -147,7 +148,7 @@ public class GitHubLogin {
         return false;
       }
     } else {
-      this.loginScopes = getScopes(getScopesKey(request), scopes);
+      this.loginScopes = getScopes(getScopesKey(request, response), scopes);
       LOG.debug("Login-PHASE1 " + this);
       oauth.loginPhase1(request, response, loginScopes);
       return false;
@@ -175,9 +176,29 @@ public class GitHubLogin {
         + loginScopes + "]";
   }
 
-  private String getScopesKey(HttpServletRequest request) {
+  private String getScopesKey(HttpServletRequest request, HttpServletResponse response) {
     String scopeRequested = request.getParameter("scope");
+    if(scopeRequested == null) {
+      scopeRequested = getScopesKeyFromCookie(request);
+    }
+
+    if(scopeRequested != null) {
+      Cookie scopeCookie = new Cookie("scope", scopeRequested);
+      scopeCookie.setPath("/");
+      scopeCookie.setMaxAge(SCOPE_COOKIE_NEVER_EXPIRES);
+      response.addCookie(scopeCookie);
+    }
+
     return Objects.firstNonNull(scopeRequested, "scopes");
+  }
+
+  private String getScopesKeyFromCookie(HttpServletRequest request) {
+    for(Cookie cookie : request.getCookies()) {
+      if(cookie.getName().equalsIgnoreCase("scope")) {
+        return cookie.getValue();
+      }
+    }
+    return null;
   }
 
   private SortedSet<Scope> getScopes(String baseScopeKey, Scope... scopes) {
