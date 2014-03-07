@@ -71,7 +71,12 @@ public class OAuthProtocol {
     public AccessToken() {
     }
 
+    public AccessToken(String token) {
+      this(token, "");
+    }
+
     public AccessToken(String token, String type, Scope... scopes) {
+      this();
       this.access_token = token;
       this.token_type = type;
     }
@@ -80,6 +85,33 @@ public class OAuthProtocol {
     public String toString() {
       return "AccessToken [access_token=" + access_token + ", token_type="
           + token_type + "]";
+    }
+
+    @Override
+    public int hashCode() {
+      final int prime = 31;
+      int result = 1;
+      result =
+          prime * result
+              + ((access_token == null) ? 0 : access_token.hashCode());
+      result =
+          prime * result + ((token_type == null) ? 0 : token_type.hashCode());
+      return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj) return true;
+      if (obj == null) return false;
+      if (getClass() != obj.getClass()) return false;
+      AccessToken other = (AccessToken) obj;
+      if (access_token == null) {
+        if (other.access_token != null) return false;
+      } else if (!access_token.equals(other.access_token)) return false;
+      if (token_type == null) {
+        if (other.token_type != null) return false;
+      } else if (!token_type.equals(other.token_type)) return false;
+      return true;
     }
   }
 
