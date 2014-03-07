@@ -170,6 +170,7 @@ public class GitHubLogin {
   public GitHub login(AccessToken authToken) throws IOException {
     this.token = authToken;
     this.hub = GitHub.connectUsingOAuth(authToken.access_token);
+    this.myself = hub.getMyself();
     return this.hub;
   }
 
