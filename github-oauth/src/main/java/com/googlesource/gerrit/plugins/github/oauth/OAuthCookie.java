@@ -23,6 +23,7 @@ import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
 public class OAuthCookie extends Cookie {
   private static final long serialVersionUID = 2771690299147135167L;
   public static final String OAUTH_COOKIE_NAME = "GerritOAuth";
+  public static final OAuthCookie ANONYMOUS = new OAuthCookie();
 
   public final String user;
   public final String email;
@@ -55,6 +56,14 @@ public class OAuthCookie extends Cookie {
       clearTextCookie.append(scope);
     }
     return clearTextCookie.toString();
+  }
+
+  private OAuthCookie() {
+    super(OAUTH_COOKIE_NAME, "");
+    this.user = "";
+    this.scopes = null;
+    this.fullName = "";
+    this.email = "";
   }
 
   public OAuthCookie(TokenCipher cipher, Cookie cookie)
