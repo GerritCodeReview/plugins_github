@@ -194,7 +194,12 @@ public class GitHubLogin {
   }
 
   private String getScopesKeyFromCookie(HttpServletRequest request) {
-    for(Cookie cookie : request.getCookies()) {
+    Cookie[] cookies = request.getCookies();
+    if(cookies == null) {
+      return null;
+    }
+
+    for(Cookie cookie : cookies) {
       if(cookie.getName().equalsIgnoreCase("scope")) {
         return cookie.getValue();
       }

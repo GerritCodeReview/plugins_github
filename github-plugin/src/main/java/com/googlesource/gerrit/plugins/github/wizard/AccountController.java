@@ -16,6 +16,7 @@ package com.googlesource.gerrit.plugins.github.wizard;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
@@ -34,12 +35,23 @@ import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.restapi.RawInput;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountException;
+import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AddSshKey;
+import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.GetSshKeys;
+import com.google.gerrit.server.account.PutPreferred;
 import com.google.gerrit.server.account.GetSshKeys.SshKeyInfo;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 
 public class AccountController implements VelocityController {
@@ -48,17 +60,46 @@ public class AccountController implements VelocityController {
       .getLogger(VelocityControllerServlet.class);
   private final AddSshKey restAddSshKey;
   private final GetSshKeys restGetSshKeys;
+  private final AccountManager accountManager;
+  private final Provider<ReviewDb> dbProvider;
+  private final AccountCache accountCache;
 
   @Inject
   public AccountController(final AddSshKey restAddSshKey,
-      final GetSshKeys restGetSshKeys) {
+      final GetSshKeys restGetSshKeys, final AccountManager accountManager,
+      final Provider<ReviewDb> dbProvider, final AccountCache accountCache) {
     this.restAddSshKey = restAddSshKey;
     this.restGetSshKeys = restGetSshKeys;
+    this.accountManager = accountManager;
+    this.dbProvider = dbProvider;
+    this.accountCache = accountCache;
   }
 
   public void doAction(IdentifiedUser user, GitHubLogin hubLogin,
       HttpServletRequest req, HttpServletResponse resp, ControllerErrors errors)
       throws ServletException, IOException {
+    setAccountIdentity(user, req);
+    setAccoutPublicKeys(user, hubLogin, req);
+  }
+
+  private void setAccountIdentity(IdentifiedUser user, HttpServletRequest req) throws ServletException {
+    String fullName = req.getParameter("fullname");
+    String email = req.getParameter("email");
+    try {
+      accountManager.link(user.getAccountId(), AuthRequest.forEmail(email));
+      Account a = dbProvider.get().accounts().get(user.getAccountId());
+      a.setPreferredEmail(email);
+      a.setFullName(fullName);
+      dbProvider.get().accounts().update(Collections.singleton(a));
+      accountCache.evict(user.getAccountId());
+    } catch (AccountException | OrmException e) {
+      throw new ServletException("Cannot associated email '" + email
+          + "' to current user '" + user + "'", e);
+    }
+  }
+
+  private void setAccoutPublicKeys(IdentifiedUser user, GitHubLogin hubLogin,
+      HttpServletRequest req) throws IOException {
     GHMyself myself = hubLogin.getMyself();
     List<GHVerifiedKey> githubKeys = myself.getPublicVerifiedKeys();
     HashSet<String> gerritKeys = Sets.newHashSet(getCurrentGerritSshKeys(user));
@@ -74,7 +115,8 @@ public class AccountController implements VelocityController {
     }
   }
 
-  private List<String> getCurrentGerritSshKeys(final IdentifiedUser user) throws IOException {
+  private List<String> getCurrentGerritSshKeys(final IdentifiedUser user)
+      throws IOException {
     AccountResource res = new AccountResource(user);
     try {
       List<SshKeyInfo> keysInfo = restGetSshKeys.apply(res);

@@ -51,7 +51,15 @@
 						value="$!myself.name" readonly="readonly" /></li>
 
 					<li><label for="eMail">e-Mail:</label> 
-							<input maxlength="50" value="$!myself.email" type="text" name="email" readonly="readonly" /></li>
+						<select id="email" name="email">
+						#foreach ( $email in $myself.emails )
+							#if ( $email == $!myself.email )
+							<option selected="selected">$email</option>
+							#else
+							<option>$email</option>
+							#end
+						#end
+						</select>
 				</ul>
 
 				<h5>Import GitHub SSH Public Keys</h5>
