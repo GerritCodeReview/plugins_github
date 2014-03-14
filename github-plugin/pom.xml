@@ -178,8 +178,24 @@ limitations under the License.
   </dependencies>
   <repositories>
     <repository>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <id>gerritforge</id>
+      <url>http://gerritforge.com/snapshot/</url>
+    </repository>
+    <repository>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
       <id>gerrit-api-repository</id>
-      <url>https://gerrit-api.commondatastorage.googleapis.com/snapshot/</url>
+      <url>https://gerrit-api.commondatastorage.googleapis.com/release/</url>
     </repository>
   </repositories>
 </project>
