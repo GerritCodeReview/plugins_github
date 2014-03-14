@@ -187,10 +187,4 @@ limitations under the License.
       <scope>test</scope>
     </dependency>
   </dependencies>
-  <repositories>
-    <repository>
-      <id>gerrit-api-repository</id>
-      <url>https://gerrit-api.commondatastorage.googleapis.com/snapshot/</url>
-    </repository>
-  </repositories>
 </project>
