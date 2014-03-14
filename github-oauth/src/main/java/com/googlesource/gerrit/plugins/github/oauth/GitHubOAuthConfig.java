@@ -47,8 +47,6 @@ public class GitHubOAuthConfig {
   public final String gitHubClientSecret;
   public final String logoutRedirectUrl;
   public final String httpHeader;
-  public final String httpDisplaynameHeader;
-  public final String httpEmailHeader;
   public final String gitHubOAuthUrl;
   public final String oAuthFinalRedirectUrl;
   public final String gitHubOAuthAccessTokenUrl;
@@ -61,8 +59,6 @@ public class GitHubOAuthConfig {
   public GitHubOAuthConfig(CompositeConfig config)
       throws MalformedURLException {
     httpHeader = config.getString("auth", null, "httpHeader");
-    httpDisplaynameHeader = config.getString("auth", null, "httpDisplaynameHeader");
-    httpEmailHeader = config.getString("auth", null, "httpEmailHeader");
     gitHubUrl = dropTrailingSlash(
         Objects.firstNonNull(config.getString(CONF_SECTION, null, "url"),
             GITHUB_URL));

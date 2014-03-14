@@ -119,9 +119,7 @@ public class OAuthWebFilter implements Filter {
       HttpServletRequest httpRequest, OAuthCookie authCookie) {
     httpRequest =
         authCookie == null ? httpRequest : new AuthenticatedHttpRequest(
-            httpRequest, config.httpHeader, authCookie.user,
-            config.httpDisplaynameHeader, authCookie.fullName,
-            config.httpEmailHeader, authCookie.email);
+            httpRequest, config.httpHeader, authCookie.user);
     return httpRequest;
   }
 
