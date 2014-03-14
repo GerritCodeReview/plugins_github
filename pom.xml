@@ -252,5 +252,25 @@ limitations under the License.
       <id>repo.jenkins-ci.org</id>
       <url>http://repo.jenkins-ci.org/public/</url>
     </repository>
+    <repository>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <id>gerritforge</id>
+      <url>http://gerritforge.com/snapshot/</url>
+    </repository>
+    <repository>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>gerrit-api-repository</id>
+      <url>https://gerrit-api.commondatastorage.googleapis.com/release/</url>
+    </repository>
   </repositories>
 </project>
