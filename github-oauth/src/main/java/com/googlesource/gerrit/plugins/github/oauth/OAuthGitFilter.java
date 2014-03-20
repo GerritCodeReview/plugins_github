@@ -139,7 +139,7 @@ public class OAuthGitFilter implements Filter {
     this.accountCache = accountCache;
     this.httpClientProvider = httpClientProvider;
     this.config = config;
-    this.cookieProvider = new OAuthCookieProvider(TokenCipher.get());
+    this.cookieProvider = new OAuthCookieProvider(TokenCipher.get(), config);
     this.xGerritAuth = xGerritAuth;
   }
 

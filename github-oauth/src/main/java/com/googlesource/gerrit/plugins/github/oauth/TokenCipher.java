@@ -14,6 +14,8 @@
 
 package com.googlesource.gerrit.plugins.github.oauth;
 
+import static java.util.concurrent.TimeUnit.HOURS;
+
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.security.NoSuchAlgorithmException;
@@ -36,7 +38,8 @@ public class TokenCipher {
   private static final String ENC_ALGO = "AES";
   private static final Logger log = org.slf4j.LoggerFactory
       .getLogger(OAuthCookieProvider.class);
-  public static final Long COOKIE_TIMEOUT = 15 * 60 * 1000L;
+  public static final Long MAX_COOKIE_TIMEOUT = HOURS.toSeconds(12);
+
   
   private SecretKey aesKey;
   private byte[] IV;
@@ -117,7 +120,7 @@ public class TokenCipher {
     }
 
     long ts = Long.parseLong(clearTextParts[1]);
-    if ((System.currentTimeMillis() - ts) > COOKIE_TIMEOUT) {
+    if ((System.currentTimeMillis() - ts) > MAX_COOKIE_TIMEOUT) {
       throw new OAuthTokenException("Session token " + sessionToken
           + " has expired");
     }

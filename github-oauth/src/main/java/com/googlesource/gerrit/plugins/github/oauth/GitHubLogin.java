@@ -78,7 +78,7 @@ public class GitHubLogin {
   @Inject
   public GitHubLogin(final OAuthProtocol oauth, final GitHubOAuthConfig config) {
     this.oauth = oauth;
-    this.cookieProvider = new OAuthCookieProvider(TokenCipher.get());
+    this.cookieProvider = new OAuthCookieProvider(TokenCipher.get(), config);
     this.config = config;
   }
 
