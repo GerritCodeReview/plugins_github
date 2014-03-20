@@ -54,10 +54,13 @@ public class GitHubOAuthConfig {
   public final Map<String, List<OAuthProtocol.Scope>> scopes;
   public final int fileUpdateMaxRetryCount;
   public final int fileUpdateMaxRetryIntervalMsec;
+  public final CompositeConfig gerritConfig;
 
   @Inject
   public GitHubOAuthConfig(CompositeConfig config)
       throws MalformedURLException {
+    this.gerritConfig = config;
+
     httpHeader = config.getString("auth", null, "httpHeader");
     gitHubUrl = dropTrailingSlash(
         Objects.firstNonNull(config.getString(CONF_SECTION, null, "url"),
