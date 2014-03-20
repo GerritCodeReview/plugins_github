@@ -31,13 +31,13 @@ public class OAuthCookie extends Cookie {
   public final SortedSet<Scope> scopes;
 
   public OAuthCookie(TokenCipher cipher, final String user, final String email,
-      final String fullName, final SortedSet<Scope> scopes) throws OAuthTokenException {
+      final String fullName, final SortedSet<Scope> scopes, final long maxAgeSeconds) throws OAuthTokenException {
     super(OAUTH_COOKIE_NAME, cipher.encode(getClearTextCookie(user, email, fullName, scopes)));
     this.user = user;
     this.email = email;
     this.fullName = fullName;
     this.scopes = scopes;
-    setMaxAge((int) (TokenCipher.COOKIE_TIMEOUT/1000L));
+    setMaxAge((int) maxAgeSeconds);
     setHttpOnly(true);
     setPath("/");
   }

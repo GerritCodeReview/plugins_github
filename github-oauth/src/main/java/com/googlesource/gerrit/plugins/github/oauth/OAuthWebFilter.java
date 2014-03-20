@@ -62,7 +62,7 @@ public class OAuthWebFilter implements Filter {
     this.config = config;
     this.sites = sites;
     this.loginProvider = loginProvider;
-    this.cookieProvider = new OAuthCookieProvider(TokenCipher.get());
+    this.cookieProvider = new OAuthCookieProvider(TokenCipher.get(), config);
   }
 
   @Override
