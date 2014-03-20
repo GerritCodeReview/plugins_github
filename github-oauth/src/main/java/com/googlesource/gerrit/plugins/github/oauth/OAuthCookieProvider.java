@@ -13,23 +13,31 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.oauth;
 
+import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 import java.util.SortedSet;
 
 import javax.servlet.http.Cookie;
 
+import com.google.gerrit.server.config.ConfigUtil;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
 
 public class OAuthCookieProvider {
+  private static final String CACHE_NAME = "web_sessions";
 
   private TokenCipher cipher;
+  private GitHubOAuthConfig config;
 
-  public OAuthCookieProvider(TokenCipher cipher) {
+
+  public OAuthCookieProvider(TokenCipher cipher, GitHubOAuthConfig config) {
     this.cipher = cipher;
+    this.config = config;
   }
 
   public OAuthCookie getFromUser(String username, String email, String fullName, SortedSet<Scope> scopes) {
     try {
-      return new OAuthCookie(cipher, username, email, fullName, scopes);
+      return new OAuthCookie(cipher, username, email, fullName, scopes, getGerritSessionMaxAgeMillis());
     } catch (OAuthTokenException e) {
       return null;
     }
@@ -39,4 +47,8 @@ public class OAuthCookieProvider {
       return new OAuthCookie(cipher, cookie);
   }
 
+  private long getGerritSessionMaxAgeMillis() {
+    return ConfigUtil.getTimeUnit(config.gerritConfig, "cache", CACHE_NAME,
+        "maxAge", TokenCipher.MAX_COOKIE_TIMEOUT, SECONDS);
+  }
 }
