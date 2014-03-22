@@ -16,7 +16,9 @@ package com.googlesource.gerrit.plugins.github.oauth;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -41,6 +43,7 @@ import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
 
 public class GitHubLogin {
   private static final Logger LOG = LoggerFactory.getLogger(GitHubLogin.class);
+  private static final List<Scope> DEFAULT_SCOPES = Arrays.asList(Scope.PUBLIC_REPO, Scope.USER_EMAIL);
   private static final int SCOPE_COOKIE_NEVER_EXPIRES = 50 * 365 * 24 * 3600;
 
   @Singleton
@@ -210,11 +213,14 @@ public class GitHubLogin {
   private SortedSet<Scope> getScopes(String baseScopeKey, Scope... scopes) {
     HashSet<Scope> fullScopes =
         oAuthCookie == null ? new HashSet<Scope>(
-            config.scopes.get(baseScopeKey)) : new HashSet<Scope>(
+            scopesForKey(baseScopeKey)) : new HashSet<Scope>(
             oAuthCookie.scopes);
     fullScopes.addAll(Arrays.asList(scopes));
 
     return new TreeSet<Scope>(fullScopes);
   }
 
+  private List<Scope> scopesForKey(String baseScopeKey) {
+    return Objects.firstNonNull(config.scopes.get(baseScopeKey), DEFAULT_SCOPES);
+  }
 }
