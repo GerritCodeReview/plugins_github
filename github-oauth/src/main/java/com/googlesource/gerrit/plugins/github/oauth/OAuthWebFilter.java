@@ -16,6 +16,7 @@ package com.googlesource.gerrit.plugins.github.oauth;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Random;
 import java.util.Set;
@@ -31,6 +32,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
@@ -38,6 +40,8 @@ import org.kohsuke.github.GHMyself;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Sets;
+import com.google.gerrit.httpd.XGerritAuth;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -47,6 +51,9 @@ public class OAuthWebFilter implements Filter {
   private static final org.slf4j.Logger log = LoggerFactory
       .getLogger(OAuthWebFilter.class);
   public static final String GERRIT_COOKIE_NAME = "GerritAccount";
+  private static final Set<String> GERRIT_STATIC_RESOURCES_EXTS = Sets
+      .newHashSet(Arrays.asList("css", "png", "jpg", "woff", "otf", "ttf",
+          "map"));
 
   private final GitHubOAuthConfig config;
   private final OAuthCookieProvider cookieProvider;
@@ -75,6 +82,13 @@ public class OAuthWebFilter implements Filter {
 
     HttpServletRequest httpRequest = (HttpServletRequest) request;
     HttpServletResponse httpResponse = (HttpServletResponse) response;
+
+    if (isAuthenticatedRestCall(httpRequest) || isStaticResource(httpRequest)
+        || isRpcCall(httpRequest)) {
+      chain.doFilter(httpRequest, httpResponse);
+      return;
+    }
+
     log.debug("OAuthWebFilter(" + httpRequest.getRequestURL() + ") code="
         + request.getParameter("code"));
 
@@ -118,6 +132,26 @@ public class OAuthWebFilter implements Filter {
         }
       }
     }
+  }
+
+  private boolean isStaticResource(HttpServletRequest httpRequest) {
+    String pathExt =
+        StringUtils.substringAfterLast(httpRequest.getRequestURI(), ".");
+    if (StringUtils.isEmpty(pathExt)) {
+      return false;
+    }
+
+    return GERRIT_STATIC_RESOURCES_EXTS.contains(pathExt.toLowerCase());
+  }
+
+  private boolean isAuthenticatedRestCall(HttpServletRequest httpRequest) {
+    Cookie gerritCookie = getGerritCookie(httpRequest);
+    String xGerritAuth = httpRequest.getHeader(XGerritAuth.X_GERRIT_AUTH);
+    return gerritCookie != null && xGerritAuth != null;
+  }
+
+  private boolean isRpcCall(HttpServletRequest httpRequest) {
+    return httpRequest.getRequestURI().indexOf("/rpc/") >= 0;
   }
 
   private HttpServletRequest enrichAuthenticatedRequest(
