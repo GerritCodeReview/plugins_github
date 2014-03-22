@@ -14,6 +14,8 @@
 package com.googlesource.gerrit.plugins.github.oauth;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import javax.servlet.Filter;
@@ -24,9 +26,12 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.collect.Sets;
 import com.google.gerrit.httpd.GitOverHttpServlet;
+import com.google.gerrit.httpd.XGerritAuth;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
@@ -37,6 +42,9 @@ public class OAuthFilter implements Filter {
       .getLogger(OAuthFilter.class);
   private static Pattern GIT_HTTP_REQUEST_PATTERN = Pattern
       .compile(GitOverHttpServlet.URL_REGEX);
+  private static final Set<String> GERRIT_STATIC_RESOURCES_EXTS = Sets
+      .newHashSet(Arrays.asList("css", "png", "jpg", "gif", "woff", "otf",
+          "ttf", "map", "js", "swf", "txt"));
 
   private final GitHubOAuthConfig config;
   private final OAuthGitFilter gitFilter;
@@ -60,18 +68,39 @@ public class OAuthFilter implements Filter {
   @Override
   public void doFilter(ServletRequest request, ServletResponse response,
       FilterChain chain) throws IOException, ServletException {
+    HttpServletRequest httpRequest = (HttpServletRequest) request;
 
-    if (!config.enabled) {
+    if (!config.enabled || isStaticResource(httpRequest)
+        || isRpcCall(httpRequest) || isAuthenticatedRestCall(httpRequest)) {
       chain.doFilter(request, response);
       return;
     }
 
-    String requestUrl = ((HttpServletRequest) request).getRequestURI();
+    String requestUrl = httpRequest.getRequestURI();
     if (GIT_HTTP_REQUEST_PATTERN.matcher(requestUrl).matches()) {
       gitFilter.doFilter(request, response, chain);
     } else {
       webFilter.doFilter(request, response, chain);
     }
+  }
+
+  private boolean isAuthenticatedRestCall(HttpServletRequest httpRequest) {
+    return !StringUtils.isEmpty(httpRequest
+        .getHeader(XGerritAuth.X_GERRIT_AUTH));
+  }
+
+  private boolean isStaticResource(HttpServletRequest httpRequest) {
+    String pathExt =
+        StringUtils.substringAfterLast(httpRequest.getRequestURI(), ".");
+    if (StringUtils.isEmpty(pathExt)) {
+      return false;
+    }
+
+    return GERRIT_STATIC_RESOURCES_EXTS.contains(pathExt.toLowerCase());
+  }
+
+  private boolean isRpcCall(HttpServletRequest httpRequest) {
+    return httpRequest.getRequestURI().indexOf("/rpc/") >= 0;
   }
 
   @Override
