@@ -44,7 +44,6 @@ public class AccountImporter {
     this.schema = schema;
   }
 
-  @SuppressWarnings("unchecked")
   public Account.Id importAccount(String login, String name, String email)
       throws IOException, BadRequestException, ResourceConflictException,
       UnprocessableEntityException, OrmException {
