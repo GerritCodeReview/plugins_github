@@ -43,7 +43,6 @@ import com.google.inject.Injector;
 public class Destination {
   private final RemoteConfig remote;
   private final ProjectControl.Factory projectControlFactory;
-  private final GitRepositoryManager gitManager;
   private final String remoteNameStyle;
   private final CurrentUser remoteUser;
 
@@ -54,7 +53,6 @@ public class Destination {
       final GitRepositoryManager gitRepositoryManager,
       final GroupBackend groupBackend) {
     remote = rc;
-    gitManager = gitRepositoryManager;
 
     remoteNameStyle =
         Objects.firstNonNull(
