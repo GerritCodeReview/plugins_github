@@ -19,10 +19,10 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Charsets;
 import com.google.common.base.Strings;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
@@ -186,11 +186,7 @@ public class OAuthProtocol {
     nvps.add(new BasicNameValuePair("client_id", config.gitHubClientId));
     nvps.add(new BasicNameValuePair("client_secret", config.gitHubClientSecret));
     nvps.add(new BasicNameValuePair("code", request.getParameter("code")));
-    try {
-      post.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
-    } catch (UnsupportedEncodingException e) {
-      // Will never happen
-    }
+    post.setEntity(new UrlEncodedFormEntity(nvps, Charsets.UTF_8));
 
     try {
       HttpResponse postResponse = http.execute(post);
