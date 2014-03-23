@@ -33,12 +33,12 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class AccountImpoter {
+public class AccountImporter {
   private final Factory createAccountFactory;
   private final Provider<ReviewDb> schema;
 
   @Inject
-  public AccountImpoter(final CreateAccount.Factory createAccountFactory,
+  public AccountImporter(final CreateAccount.Factory createAccountFactory,
       final Provider<ReviewDb> schema) {
     this.createAccountFactory = createAccountFactory;
     this.schema = schema;
