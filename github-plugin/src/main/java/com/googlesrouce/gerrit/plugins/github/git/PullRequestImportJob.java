@@ -47,7 +47,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.reviewdb.server.AccountExternalIdAccess;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.account.AccountImpoter;
+import com.google.gerrit.server.account.AccountImporter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
@@ -92,13 +92,13 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
 
   private com.google.gerrit.server.account.CreateAccount.Factory createAccountFactory;
 
-  private AccountImpoter accountImporter;
+  private AccountImporter accountImporter;
 
   @Inject
   public PullRequestImportJob(@GitHubURL String gitHubUrl,
       GitRepositoryManager repoMgr, PullRequestCreateChange createChange,
       ProjectCache projectCache, ProjectControl.Factory projectControlFactory,
-      Provider<ReviewDb> schema, AccountImpoter accountImporter,
+      Provider<ReviewDb> schema, AccountImporter accountImporter,
       GitHubRepository.Factory gitHubRepoFactory,
       ScopedProvider<GitHubLogin> ghLoginProvider,
       @Assisted("index") int jobIndex,
