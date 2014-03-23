@@ -27,7 +27,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
-import org.joda.time.Seconds;
 import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GitHub;
 import org.slf4j.Logger;
