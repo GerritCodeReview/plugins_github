@@ -17,10 +17,8 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import org.apache.http.HttpStatus;
-import org.kohsuke.github.GHUser;
 
 import com.google.common.base.Objects;
-import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;

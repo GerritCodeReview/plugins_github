@@ -21,7 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
