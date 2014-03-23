@@ -15,7 +15,6 @@ package com.googlesource.gerrit.plugins.github.oauth;
 
 import java.util.concurrent.ExecutionException;
 
-import com.google.common.cache.Cache;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.gerrit.server.cache.CacheModule;
