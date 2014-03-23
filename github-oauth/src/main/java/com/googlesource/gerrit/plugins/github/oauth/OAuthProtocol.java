@@ -19,6 +19,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -196,7 +197,7 @@ public class OAuthProtocol {
             + postResponse.getStatusLine());
         response.sendError(HttpURLConnection.HTTP_UNAUTHORIZED,
             "Request for access token not authorised");
-        postResponse.getEntity().consumeContent();
+        EntityUtils.consume(postResponse.getEntity());
         return null;
       }
 
