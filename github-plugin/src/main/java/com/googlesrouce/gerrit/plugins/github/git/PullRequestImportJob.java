@@ -50,7 +50,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountImporter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -79,41 +78,33 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
   private final GitHubLogin ghLogin;
   private final String organisation;
   private final String repoName;
-  private final PullRequestImportType importType;
   private final int prId;
   private final GitRepositoryManager repoMgr;
   private final int jobIndex;
   private PullRequestCreateChange createChange;
-  private com.google.gerrit.server.project.ProjectControl.Factory projectControlFactory;
   private Project project;
   private GitJobStatus status;
   private boolean cancelRequested;
   private Provider<ReviewDb> schema;
-
-  private com.google.gerrit.server.account.CreateAccount.Factory createAccountFactory;
-
   private AccountImporter accountImporter;
 
   @Inject
   public PullRequestImportJob(@GitHubURL String gitHubUrl,
       GitRepositoryManager repoMgr, PullRequestCreateChange createChange,
-      ProjectCache projectCache, ProjectControl.Factory projectControlFactory,
+      ProjectCache projectCache,
       Provider<ReviewDb> schema, AccountImporter accountImporter,
       GitHubRepository.Factory gitHubRepoFactory,
       ScopedProvider<GitHubLogin> ghLoginProvider,
       @Assisted("index") int jobIndex,
       @Assisted("organisation") String organisation,
-      @Assisted("name") String repoName, @Assisted int pullRequestId,
-      @Assisted PullRequestImportType importType) {
+      @Assisted("name") String repoName, @Assisted int pullRequestId) {
     this.jobIndex = jobIndex;
     this.repoMgr = repoMgr;
     this.ghLogin = ghLoginProvider.get();
     this.organisation = organisation;
     this.repoName = repoName;
-    this.importType = importType;
     this.prId = pullRequestId;
     this.createChange = createChange;
-    this.projectControlFactory = projectControlFactory;
     this.project = fetchGerritProject(projectCache, organisation, repoName);
     this.ghRepository = gitHubRepoFactory.create(organisation, repoName);
     this.status = new GitJobStatus(jobIndex);
