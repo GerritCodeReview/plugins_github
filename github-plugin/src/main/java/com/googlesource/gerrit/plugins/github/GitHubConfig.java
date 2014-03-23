@@ -17,16 +17,11 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 
-import org.eclipse.jgit.lib.Config;
-
 import com.google.common.base.Objects;
 import com.google.common.collect.Maps;
-import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.CompositeConfig;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig;
