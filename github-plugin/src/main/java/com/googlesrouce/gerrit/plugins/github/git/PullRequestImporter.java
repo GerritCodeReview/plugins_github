@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.servlet.SessionScoped;
 
 @SessionScoped

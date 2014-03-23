@@ -27,7 +27,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.LoggerFactory;
 
 import com.google.gerrit.httpd.GitOverHttpServlet;
-import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
