@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c026dbc_988bb50c",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-03-23T14:53:33Z",
+      "side": 1,
+      "message": "Why should we logout at this point ?\nEven if the OAuth cookie is not there, possibly the request does not need to be authenticated and if an active GitHub session is out there ... we should keep it anyway.",
+      "range": {
+        "startLine": 92,
+        "startChar": 6,
+        "endLine": 94,
+        "endChar": 7
+      },
+      "revId": "a6e2351c575f3e2a7ea8e9bcafcb3c9790afba33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c026dbc_f890f135",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-03-23T14:53:33Z",
+      "side": 1,
+      "message": "this check would actually trigger an OAuth login when:\ngerritCookie !\u003d null AND authCookie \u003d\u003d null\n\nThis is BAD as we would risk to request OAuth handshake to any HTTP request that comes through this filter.\n\nOAuth should be triggered ONLY when we need to:\n- Authenticate to Gerrit (/login)\n- Access GitHub API\n\nThe \"|| gerritCookie !\u003d null\" must go.",
+      "range": {
+        "startLine": 98,
+        "startChar": 16,
+        "endLine": 99,
+        "endChar": 32
+      },
+      "revId": "a6e2351c575f3e2a7ea8e9bcafcb3c9790afba33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
