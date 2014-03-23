@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c0769cb_978b840c",
+        "filename": "pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-03-23T14:12:00Z",
+      "side": 1,
+      "message": "Agreed, good patch but not related to the change.",
+      "revId": "7a8a69a9195a8151b6a30c28e31a36b22e6961bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
