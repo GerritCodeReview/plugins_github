@@ -38,9 +38,8 @@ public class TokenCipher {
   private static final String ENC_ALGO = "AES";
   private static final Logger log = org.slf4j.LoggerFactory
       .getLogger(OAuthCookieProvider.class);
-  public static final Long MAX_COOKIE_TIMEOUT = HOURS.toSeconds(12);
+  public static final Long MAX_COOKIE_TIMEOUT_SECS = HOURS.toSeconds(12);
 
-  
   private SecretKey aesKey;
   private byte[] IV;
   private SecureRandom sessionRnd = new SecureRandom();
@@ -120,7 +119,7 @@ public class TokenCipher {
     }
 
     long ts = Long.parseLong(clearTextParts[1]);
-    if ((System.currentTimeMillis() - ts) > MAX_COOKIE_TIMEOUT) {
+    if (((System.currentTimeMillis() - ts) / 1000) > MAX_COOKIE_TIMEOUT_SECS) {
       throw new OAuthTokenException("Session token " + sessionToken
           + " has expired");
     }

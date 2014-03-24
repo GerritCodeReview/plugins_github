@@ -48,6 +48,6 @@ public class OAuthCookieProvider {
 
   private long getGerritSessionMaxAgeMillis() {
     return ConfigUtil.getTimeUnit(config.gerritConfig, "cache", CACHE_NAME,
-        "maxAge", TokenCipher.MAX_COOKIE_TIMEOUT, SECONDS);
+        "maxAge", TokenCipher.MAX_COOKIE_TIMEOUT_SECS, SECONDS);
   }
 }
