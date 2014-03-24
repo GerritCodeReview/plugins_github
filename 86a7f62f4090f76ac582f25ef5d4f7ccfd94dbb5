@@ -22,6 +22,30 @@
       "revId": "86a7f62f4090f76ac582f25ef5d4f7ccfd94dbb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c026dbc_3b46e370",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/TokenCipher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-03-24T21:50:26Z",
+      "side": 1,
+      "message": "I thought about that ... but honestly a method call every time ? :-D\nThis is a very trivial conversion IMHO ;-)",
+      "parentUuid": "5c0769cb_9aba89e9",
+      "range": {
+        "startLine": 122,
+        "startChar": 43,
+        "endLine": 122,
+        "endChar": 49
+      },
+      "revId": "86a7f62f4090f76ac582f25ef5d4f7ccfd94dbb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
