@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c0769cb_9aba89e9",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/TokenCipher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-24T21:42:51Z",
+      "side": 1,
+      "message": "Use TimeUnit.MILLISECONDS.toSeconds() ?",
+      "range": {
+        "startLine": 122,
+        "startChar": 43,
+        "endLine": 122,
+        "endChar": 49
+      },
+      "revId": "86a7f62f4090f76ac582f25ef5d4f7ccfd94dbb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
