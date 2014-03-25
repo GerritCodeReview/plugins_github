@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc7b055f_e2f946ee",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthFilter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-03-25T01:07:35Z",
+      "side": 1,
+      "message": "nit: trailing whitespace here",
+      "range": {
+        "startLine": 54,
+        "startChar": 46,
+        "endLine": 54,
+        "endChar": 47
+      },
+      "revId": "58af39174610c4cea8e8a14ba9826be0b5e89ba6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
