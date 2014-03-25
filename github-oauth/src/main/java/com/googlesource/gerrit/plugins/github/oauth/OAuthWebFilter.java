@@ -87,7 +87,8 @@ public class OAuthWebFilter implements Filter {
 
       if (OAuthProtocol.isOAuthLogout(httpRequest)) {
         logout(request, response, chain, httpRequest);
-      } else if (OAuthProtocol.isOAuthRequest(httpRequest)) {
+      } else if (OAuthProtocol.isOAuthRequest(httpRequest)
+          && !ghLogin.isLoggedIn()) {
         login(request, httpRequest, httpResponse, ghLogin);
       } else {
         httpRequest = enrichAuthenticatedRequest(httpRequest, authCookie);
