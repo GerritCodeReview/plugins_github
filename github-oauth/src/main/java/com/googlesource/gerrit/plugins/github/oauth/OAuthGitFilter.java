@@ -24,7 +24,6 @@ import java.net.URL;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.TreeSet;
 import java.util.concurrent.ExecutionException;
 
 import javax.servlet.Filter;
@@ -55,7 +54,6 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.AccessToken;
-import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
 
 @Singleton
 public class OAuthGitFilter implements Filter {
@@ -71,8 +69,8 @@ public class OAuthGitFilter implements Filter {
   private final AccountCache accountCache;
   private final GitHubHttpProvider httpClientProvider;
   private final GitHubOAuthConfig config;
-  private final OAuthCookieProvider cookieProvider;
   private final XGerritAuth xGerritAuth;
+  private ScopedProvider<GitHubLogin> ghLoginProvider;
 
   public static class BasicAuthHttpRequest extends HttpServletRequestWrapper {
     private HashMap<String, String> headers = new HashMap<String, String>();
@@ -122,12 +120,12 @@ public class OAuthGitFilter implements Filter {
     this.accountCache = accountCache;
     this.httpClientProvider = httpClientProvider;
     this.config = config;
-    this.cookieProvider = new OAuthCookieProvider(TokenCipher.get(), config);
     this.xGerritAuth = xGerritAuth;
   }
 
   @Override
   public void init(FilterConfig filterConfig) throws ServletException {
+    this.ghLoginProvider = new GitHubLogin.Provider();
   }
 
   @Override
@@ -137,32 +135,29 @@ public class OAuthGitFilter implements Filter {
     HttpServletRequest httpRequest = (HttpServletRequest) request;
     HttpServletResponse httpResponse =
         new OAuthGitWrappedResponse((HttpServletResponse) response);
-    log.debug("OAuthGitFilter(" + httpRequest.getRequestURL() + ") code="
-        + request.getParameter("code"));
+    GitHubLogin ghLogin = ghLoginProvider.get(httpRequest);
+    log.debug("OAuthGitFilter(" + httpRequest.getRequestURL() + ") ghLogin="
+        + ghLogin);
 
-    OAuthCookie oAuthCookie =
-        getAuthenticationCookieFromGitRequestUsingOAuthToken(httpRequest,
+    String username =
+        getAuthenticatedUserFromGitRequestUsingOAuthToken(httpRequest,
             httpResponse);
-    if (oAuthCookie == null) {
+    if (username == null) {
       return;
     }
     String gerritPassword =
-        oAuthCookie == OAuthCookie.ANONYMOUS ? null : accountCache
-            .getByUsername(oAuthCookie.user).getPassword(oAuthCookie.user);
+        accountCache.getByUsername(username).getPassword(username);
 
-    if (gerritPassword == null && oAuthCookie != OAuthCookie.ANONYMOUS) {
+    if (gerritPassword == null) {
       gerritPassword =
-          generateRandomGerritPassword(oAuthCookie, httpRequest, httpResponse,
+          generateRandomGerritPassword(username, httpRequest, httpResponse,
               chain);
       httpResponse.sendRedirect(getRequestPathWithQueryString(httpRequest));
       return;
     }
 
-    if (oAuthCookie != OAuthCookie.ANONYMOUS) {
-      httpRequest =
-          new BasicAuthHttpRequest(httpRequest, oAuthCookie.user,
-              gerritPassword);
-    }
+    httpRequest =
+        new BasicAuthHttpRequest(httpRequest, username, gerritPassword);
 
     chain.doFilter(httpRequest, httpResponse);
   }
@@ -175,21 +170,20 @@ public class OAuthGitFilter implements Filter {
     return requestPathWithQueryString;
   }
 
-  private String generateRandomGerritPassword(OAuthCookie oAuthCookie,
+  private String generateRandomGerritPassword(String username,
       HttpServletRequest httpRequest, HttpServletResponse httpResponse,
       FilterChain chain) throws IOException, ServletException {
-    log.warn("User " + oAuthCookie.user + " has not a Gerrit HTTP password: "
+    log.warn("User " + username + " has not a Gerrit HTTP password: "
         + "generating a random one in order to be able to use Git over HTTP");
     Cookie gerritCookie =
-        getGerritLoginCookie(oAuthCookie.user, httpRequest, httpResponse, chain);
+        getGerritLoginCookie(username, httpRequest, httpResponse, chain);
     String xGerritAuthValue = xGerritAuth.getAuthValue(gerritCookie);
 
     HttpPut putRequest =
         new HttpPut(getRequestUrlWithAlternatePath(httpRequest,
             "/accounts/self/password.http"));
     putRequest.setHeader("Cookie",
-        gerritCookie.getName() + "=" + gerritCookie.getValue() + "; "
-            + oAuthCookie.getName() + "=" + oAuthCookie.getValue());
+        gerritCookie.getName() + "=" + gerritCookie.getValue());
     putRequest.setHeader(XGerritAuth.X_GERRIT_AUTH, xGerritAuthValue);
 
     putRequest.setEntity(new StringEntity("{\"generate\":true}",
@@ -197,12 +191,10 @@ public class OAuthGitFilter implements Filter {
     HttpResponse putResponse = httpClientProvider.get().execute(putRequest);
     if (putResponse.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
       throw new ServletException(
-          "Cannot generate HTTP password for authenticating user "
-              + oAuthCookie.user);
+          "Cannot generate HTTP password for authenticating user " + username);
     }
 
-    return accountCache.getByUsername(oAuthCookie.user).getPassword(
-        oAuthCookie.user);
+    return accountCache.getByUsername(username).getPassword(username);
   }
 
   private URI getRequestUrlWithAlternatePath(HttpServletRequest httpRequest,
@@ -235,11 +227,11 @@ public class OAuthGitFilter implements Filter {
     return loginResponse.getGerritCookie();
   }
 
-  private OAuthCookie getAuthenticationCookieFromGitRequestUsingOAuthToken(
+  private String getAuthenticatedUserFromGitRequestUsingOAuthToken(
       HttpServletRequest req, HttpServletResponse rsp) throws IOException {
     final String httpBasicAuth = getHttpBasicAuthenticationHeader(req);
     if (httpBasicAuth == null) {
-      return OAuthCookie.ANONYMOUS;
+      return null;
     }
 
     if (isInvalidHttpAuthenticationHeader(httpBasicAuth)) {
@@ -256,7 +248,7 @@ public class OAuthGitFilter implements Filter {
     }
 
     if (!oauthKeyword.equalsIgnoreCase(GITHUB_X_OAUTH_BASIC)) {
-      return OAuthCookie.ANONYMOUS;
+      return null;
     }
 
     boolean loginSuccessful = false;
@@ -275,7 +267,7 @@ public class OAuthGitFilter implements Filter {
       return null;
     }
 
-    return cookieProvider.getFromUser(oauthLogin, "", "", new TreeSet<Scope>());
+    return oauthLogin;
   }
 
 
