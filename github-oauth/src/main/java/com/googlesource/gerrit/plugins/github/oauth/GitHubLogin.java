@@ -14,6 +14,8 @@
 
 package com.googlesource.gerrit.plugins.github.oauth;
 
+import static java.util.concurrent.TimeUnit.DAYS;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -34,26 +36,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Objects;
-import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.AccessToken;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
-import static java.util.concurrent.TimeUnit.*;
 
 public class GitHubLogin {
   private static final Logger LOG = LoggerFactory.getLogger(GitHubLogin.class);
-  private static final List<Scope> DEFAULT_SCOPES = Arrays.asList(Scope.PUBLIC_REPO, Scope.USER_EMAIL);
+  private static final List<Scope> DEFAULT_SCOPES = Arrays.asList(
+      Scope.PUBLIC_REPO, Scope.USER_EMAIL);
   private static final int YEARS = 365;
-  private static final long SCOPE_COOKIE_NEVER_EXPIRES = DAYS.toSeconds(50 * YEARS);
+  private static final long SCOPE_COOKIE_NEVER_EXPIRES = DAYS
+      .toSeconds(50 * YEARS);
 
   @Singleton
   public static class Provider extends HttpSessionProvider<GitHubLogin> {
     @Override
     public GitHubLogin get(HttpServletRequest request) {
-      GitHubLogin login = super.get(request);
-      login.initOAuthCookie(request);
-      return login;
+      return super.get(request);
     }
   }
 
@@ -64,9 +64,7 @@ public class GitHubLogin {
 
   private GHMyself myself;
   private SortedSet<Scope> loginScopes;
-  private final OAuthCookieProvider cookieProvider;
   private final GitHubOAuthConfig config;
-  private OAuthCookie oAuthCookie;
 
   public GHMyself getMyself() {
     if (isLoggedIn()) {
@@ -79,7 +77,6 @@ public class GitHubLogin {
   @Inject
   public GitHubLogin(final OAuthProtocol oauth, final GitHubOAuthConfig config) {
     this.oauth = oauth;
-    this.cookieProvider = new OAuthCookieProvider(TokenCipher.get(), config);
     this.config = config;
   }
 
@@ -95,25 +92,6 @@ public class GitHubLogin {
       }
     }
     return loggedIn;
-  }
-
-  private void initOAuthCookie(HttpServletRequest request) {
-    for (Cookie cookie : getCookies(request)) {
-      if (cookie.getName().equalsIgnoreCase(OAuthCookie.OAUTH_COOKIE_NAME)
-          && !Strings.isNullOrEmpty(cookie.getValue())) {
-        try {
-          oAuthCookie = cookieProvider.getFromCookie(cookie);
-          loginScopes = oAuthCookie.scopes;
-        } catch (OAuthTokenException e) {
-          LOG.warn("Invalid cookie detected", e);
-        }
-      }
-    }
-  }
-
-  private Cookie[] getCookies(HttpServletRequest httpRequest) {
-    Cookie[] cookies = httpRequest.getCookies();
-    return cookies == null ? new Cookie[0] : cookies;
   }
 
   public boolean login(ServletRequest request, ServletResponse response,
@@ -135,16 +113,6 @@ public class GitHubLogin {
       login(oauth.loginPhase2(request, response));
       if (isLoggedIn()) {
         LOG.debug("Login-SUCCESS " + this);
-        String user = myself.getLogin();
-        String email = myself.getEmail();
-        String fullName =
-            Strings.emptyToNull(myself.getName()) == null ? user : myself
-                .getName();
-
-        OAuthCookie userCookie =
-            cookieProvider.getFromUser(user, email, fullName, loginScopes);
-        response.addCookie(userCookie);
-
         response.sendRedirect(OAuthProtocol.getTargetUrl(request));
         return true;
       } else {
@@ -181,13 +149,14 @@ public class GitHubLogin {
         + loginScopes + "]";
   }
 
-  private String getScopesKey(HttpServletRequest request, HttpServletResponse response) {
+  private String getScopesKey(HttpServletRequest request,
+      HttpServletResponse response) {
     String scopeRequested = request.getParameter("scope");
-    if(scopeRequested == null) {
+    if (scopeRequested == null) {
       scopeRequested = getScopesKeyFromCookie(request);
     }
 
-    if(scopeRequested != null) {
+    if (scopeRequested != null) {
       Cookie scopeCookie = new Cookie("scope", scopeRequested);
       scopeCookie.setPath("/");
       scopeCookie.setMaxAge((int) SCOPE_COOKIE_NEVER_EXPIRES);
@@ -199,12 +168,12 @@ public class GitHubLogin {
 
   private String getScopesKeyFromCookie(HttpServletRequest request) {
     Cookie[] cookies = request.getCookies();
-    if(cookies == null) {
+    if (cookies == null) {
       return null;
     }
 
-    for(Cookie cookie : cookies) {
-      if(cookie.getName().equalsIgnoreCase("scope")) {
+    for (Cookie cookie : cookies) {
+      if (cookie.getName().equalsIgnoreCase("scope")) {
         return cookie.getValue();
       }
     }
@@ -212,16 +181,14 @@ public class GitHubLogin {
   }
 
   private SortedSet<Scope> getScopes(String baseScopeKey, Scope... scopes) {
-    HashSet<Scope> fullScopes =
-        oAuthCookie == null ? new HashSet<Scope>(
-            scopesForKey(baseScopeKey)) : new HashSet<Scope>(
-            oAuthCookie.scopes);
+    HashSet<Scope> fullScopes = new HashSet<Scope>(scopesForKey(baseScopeKey));
     fullScopes.addAll(Arrays.asList(scopes));
 
     return new TreeSet<Scope>(fullScopes);
   }
 
   private List<Scope> scopesForKey(String baseScopeKey) {
-    return Objects.firstNonNull(config.scopes.get(baseScopeKey), DEFAULT_SCOPES);
+    return Objects
+        .firstNonNull(config.scopes.get(baseScopeKey), DEFAULT_SCOPES);
   }
 }
