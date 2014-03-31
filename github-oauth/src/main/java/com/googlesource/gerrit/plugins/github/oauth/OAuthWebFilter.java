@@ -38,7 +38,6 @@ import org.eclipse.jgit.util.FS;
 import org.kohsuke.github.GHMyself;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Strings;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -50,7 +49,6 @@ public class OAuthWebFilter implements Filter {
   public static final String GERRIT_COOKIE_NAME = "GerritAccount";
 
   private final GitHubOAuthConfig config;
-  private final OAuthCookieProvider cookieProvider;
   private final Random retryRandom = new Random(System.currentTimeMillis());
   private SitePaths sites;
   private ScopedProvider<GitHubLogin> loginProvider;
@@ -63,7 +61,6 @@ public class OAuthWebFilter implements Filter {
     this.config = config;
     this.sites = sites;
     this.loginProvider = loginProvider;
-    this.cookieProvider = new OAuthCookieProvider(TokenCipher.get(), config);
   }
 
   @Override
@@ -83,16 +80,17 @@ public class OAuthWebFilter implements Filter {
     try {
       GitHubLogin ghLogin = loginProvider.get(httpRequest);
 
-      OAuthCookie authCookie =
-          getOAuthCookie(httpRequest, (HttpServletResponse) response);
-
       if (OAuthProtocol.isOAuthLogout(httpRequest)) {
         logout(request, response, chain, httpRequest);
       } else if (OAuthProtocol.isOAuthRequest(httpRequest)
           && !ghLogin.isLoggedIn()) {
         login(request, httpRequest, httpResponse, ghLogin);
       } else {
-        httpRequest = enrichAuthenticatedRequest(httpRequest, authCookie);
+        if (ghLogin != null && ghLogin.isLoggedIn()) {
+          httpRequest =
+              new AuthenticatedHttpRequest(httpRequest, config.httpHeader,
+                  ghLogin.getMyself().getLogin());
+        }
 
         if (OAuthProtocol.isOAuthFinalForOthers(httpRequest)) {
           httpResponse.sendRedirect(OAuthProtocol
@@ -115,14 +113,6 @@ public class OAuthWebFilter implements Filter {
         }
       }
     }
-  }
-
-  private HttpServletRequest enrichAuthenticatedRequest(
-      HttpServletRequest httpRequest, OAuthCookie authCookie) {
-    httpRequest =
-        authCookie == null ? httpRequest : new AuthenticatedHttpRequest(
-            httpRequest, config.httpHeader, authCookie.user);
-    return httpRequest;
   }
 
   private void login(ServletRequest request, HttpServletRequest httpRequest,
@@ -244,28 +234,6 @@ public class OAuthWebFilter implements Filter {
   private Cookie[] getCookies(HttpServletRequest httpRequest) {
     Cookie[] cookies = httpRequest.getCookies();
     return cookies == null ? new Cookie[0] : cookies;
-  }
-
-  private OAuthCookie getOAuthCookie(HttpServletRequest request,
-      HttpServletResponse response) {
-    for (Cookie cookie : getCookies(request)) {
-      if (cookie.getName().equalsIgnoreCase(OAuthCookie.OAUTH_COOKIE_NAME)
-          && !Strings.isNullOrEmpty(cookie.getValue())) {
-        try {
-          return cookieProvider.getFromCookie(cookie);
-        } catch (OAuthTokenException e) {
-          log.warn(
-              "Invalid cookie detected: cleaning up and sending a reset back to the browser",
-              e);
-          cookie.setValue("");
-          cookie.setPath("/");
-          cookie.setMaxAge(0);
-          response.addCookie(cookie);
-          return null;
-        }
-      }
-    }
-    return null;
   }
 
   @Override
