@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59577b41_b7460870",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthWebFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-03T10:49:19Z",
+      "side": 1,
+      "message": "Not used.",
+      "revId": "c939a997a73c185903418cacc56f6cf4d92cd5b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "396c8714_36531835",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthWebFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-03T10:49:19Z",
+      "side": 1,
+      "message": "Not used.",
+      "revId": "c939a997a73c185903418cacc56f6cf4d92cd5b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
