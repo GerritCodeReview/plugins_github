@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
@@ -211,8 +212,8 @@ public class OAuthWebFilter implements Filter {
       String user, String password) {
     String configUser = config.getString("remote", section, "username");
     String configPassword = config.getString("remote", section, "password");
-    if (configUser == null || !configUser.equals(user)
-        || configPassword.equals(password)) {
+    if (!StringUtils.equals(configUser, user)
+        || StringUtils.equals(configPassword, password)) {
       return false;
     }
 
