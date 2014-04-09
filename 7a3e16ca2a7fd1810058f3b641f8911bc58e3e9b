@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9b1ab0e_fb0f8f16",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-09T13:15:45Z",
+      "side": 1,
+      "message": "It\u0027s moving from 2.9-SNAPSHOT to 2.10-SNAPSHOT, which is only one step.\n\nOr am I misunderstanding?",
+      "range": {
+        "startLine": 9,
+        "startChar": 7,
+        "endLine": 9,
+        "endChar": 21
+      },
+      "revId": "7a3e16ca2a7fd1810058f3b641f8911bc58e3e9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
