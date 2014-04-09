@@ -22,6 +22,30 @@
       "revId": "7a3e16ca2a7fd1810058f3b641f8911bc58e3e9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9dfeb54_cb57551d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-04-09T13:36:18Z",
+      "side": 1,
+      "message": "too late at night ... I meant \"two feet\" as both OAuth and Plugins are now using the 2.10-SNAPSHOT APIs ;-)",
+      "parentUuid": "d9b1ab0e_fb0f8f16",
+      "range": {
+        "startLine": 9,
+        "startChar": 7,
+        "endLine": 9,
+        "endChar": 21
+      },
+      "revId": "7a3e16ca2a7fd1810058f3b641f8911bc58e3e9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
