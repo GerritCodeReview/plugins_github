@@ -29,12 +29,12 @@ import com.googlesource.gerrit.plugins.github.velocity.PluginVelocityRuntimeProv
 import com.googlesource.gerrit.plugins.github.velocity.VelocityStaticServlet;
 import com.googlesource.gerrit.plugins.github.velocity.VelocityViewServlet;
 import com.googlesource.gerrit.plugins.github.wizard.VelocityControllerServlet;
-import com.googlesrouce.gerrit.plugins.github.git.CreateProjectStep;
-import com.googlesrouce.gerrit.plugins.github.git.GitCloneStep;
-import com.googlesrouce.gerrit.plugins.github.git.GitHubRepository;
-import com.googlesrouce.gerrit.plugins.github.git.GitImporter;
-import com.googlesrouce.gerrit.plugins.github.git.PullRequestImportJob;
-import com.googlesrouce.gerrit.plugins.github.git.ReplicateProjectStep;
+import com.googlesource.gerrit.plugins.github.git.CreateProjectStep;
+import com.googlesource.gerrit.plugins.github.git.GitCloneStep;
+import com.googlesource.gerrit.plugins.github.git.GitHubRepository;
+import com.googlesource.gerrit.plugins.github.git.GitImporter;
+import com.googlesource.gerrit.plugins.github.git.PullRequestImportJob;
+import com.googlesource.gerrit.plugins.github.git.ReplicateProjectStep;
 
 public class GuiceHttpModule extends ServletModule {
 

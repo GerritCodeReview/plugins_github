@@ -24,7 +24,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
-import com.googlesrouce.gerrit.plugins.github.git.GitImporter;
+import com.googlesource.gerrit.plugins.github.git.GitImporter;
 
 @Singleton
 public class RepositoriesCloneCancelController implements VelocityController {

@@ -11,29 +11,18 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package com.googlesrouce.gerrit.plugins.github.git;
+package com.googlesource.gerrit.plugins.github.git;
 
-import java.io.IOException;
+public interface GitJob extends Runnable {
 
-public abstract class GitException extends IOException {
-  private static final long serialVersionUID = -1180349547385523064L;
+  GitJobStatus getStatus();
 
-  public GitException() {
-    super();
-  }
+  int getIndex();
 
-  public GitException(String message) {
-    super(message);
-  }
+  String getOrganisation();
 
-  public GitException(Throwable cause) {
-    super(cause);
-  }
+  String getRepository();
 
-  public GitException(String message, Throwable cause) {
-    super(message, cause);
-  }
-
-  public abstract String getErrorDescription();
+  public abstract void cancel();
 
 }

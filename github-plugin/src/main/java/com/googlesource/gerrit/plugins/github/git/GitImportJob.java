@@ -11,11 +11,11 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package com.googlesrouce.gerrit.plugins.github.git;
+package com.googlesource.gerrit.plugins.github.git;
 
 import org.eclipse.jgit.lib.ProgressMonitor;
 
-import com.googlesrouce.gerrit.plugins.github.git.GitJobStatus.Code;
+import com.googlesource.gerrit.plugins.github.git.GitJobStatus.Code;
 
 public class GitImportJob extends AbstractCloneJob implements Runnable,
     ProgressMonitor, GitJob {
@@ -93,7 +93,7 @@ public class GitImportJob extends AbstractCloneJob implements Runnable,
   /*
    * (non-Javadoc)
    * 
-   * @see com.googlesrouce.gerrit.plugins.github.git.CloneJob#getStatus()
+   * @see com.googlesource.gerrit.plugins.github.git.CloneJob#getStatus()
    */
   @Override
   public GitJobStatus getStatus() {

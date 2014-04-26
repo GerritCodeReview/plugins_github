@@ -11,7 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package com.googlesrouce.gerrit.plugins.github.git;
+package com.googlesource.gerrit.plugins.github.git;
 
 import java.io.IOException;
 import java.util.List;
@@ -58,7 +58,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.github.GitHubURL;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
-import com.googlesrouce.gerrit.plugins.github.git.GitJobStatus.Code;
+import com.googlesource.gerrit.plugins.github.git.GitJobStatus.Code;
 
 public class PullRequestImportJob implements GitJob, ProgressMonitor {
 

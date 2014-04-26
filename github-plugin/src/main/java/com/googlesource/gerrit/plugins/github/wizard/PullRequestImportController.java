@@ -25,8 +25,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
-import com.googlesrouce.gerrit.plugins.github.git.PullRequestImportType;
-import com.googlesrouce.gerrit.plugins.github.git.PullRequestImporter;
+import com.googlesource.gerrit.plugins.github.git.PullRequestImportType;
+import com.googlesource.gerrit.plugins.github.git.PullRequestImporter;
 
 @Singleton
 public class PullRequestImportController implements VelocityController {

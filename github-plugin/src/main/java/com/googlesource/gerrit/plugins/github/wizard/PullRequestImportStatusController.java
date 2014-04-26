@@ -23,7 +23,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
-import com.googlesrouce.gerrit.plugins.github.git.PullRequestImporter;
+import com.googlesource.gerrit.plugins.github.git.PullRequestImporter;
 
 public class PullRequestImportStatusController extends JobStatusController
     implements VelocityController {

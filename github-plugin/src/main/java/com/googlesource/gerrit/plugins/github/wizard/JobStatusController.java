@@ -22,9 +22,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonWriter;
-import com.googlesrouce.gerrit.plugins.github.git.BatchImporter;
-import com.googlesrouce.gerrit.plugins.github.git.GitJob;
-import com.googlesrouce.gerrit.plugins.github.git.GitJobStatus;
+import com.googlesource.gerrit.plugins.github.git.BatchImporter;
+import com.googlesource.gerrit.plugins.github.git.GitJob;
+import com.googlesource.gerrit.plugins.github.git.GitJobStatus;
 
 
 

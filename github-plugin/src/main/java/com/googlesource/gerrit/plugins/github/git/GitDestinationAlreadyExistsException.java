@@ -11,18 +11,20 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package com.googlesrouce.gerrit.plugins.github.git;
+package com.googlesource.gerrit.plugins.github.git;
 
-public interface GitJob extends Runnable {
+import java.io.File;
 
-  GitJobStatus getStatus();
+public class GitDestinationAlreadyExistsException extends GitException {
+  private static final long serialVersionUID = -6202681486717426148L;
 
-  int getIndex();
+  public GitDestinationAlreadyExistsException(File destDirectory) {
+    super("Output Git destination " + destDirectory
+        + " already exists and cannot be overwritten");
+  }
 
-  String getOrganisation();
-
-  String getRepository();
-
-  public abstract void cancel();
-
+  @Override
+  public String getErrorDescription() {
+    return "A repository with the same name already exists";
+  }
 }

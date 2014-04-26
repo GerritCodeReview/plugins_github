@@ -25,7 +25,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
-import com.googlesrouce.gerrit.plugins.github.git.GitImporter;
+import com.googlesource.gerrit.plugins.github.git.GitImporter;
 
 public class RepositoriesCloneController implements VelocityController {
   private static final String REPO_PARAM_PREFIX = "repo_";
