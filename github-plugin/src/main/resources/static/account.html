@@ -53,10 +53,10 @@
 					<li><label for="eMail">e-Mail:</label> 
 						<select id="email" name="email">
 						#foreach ( $email in $myself.emails )
-							#if ( $email == $!myself.email )
-							<option selected="selected">$email</option>
+							#if ( $email.email == $!myself.email || $email.primary )
+							<option selected="selected">$email.email</option>
 							#else
-							<option>$email</option>
+							<option>$email.email</option>
 							#end
 						#end
 						</select>
