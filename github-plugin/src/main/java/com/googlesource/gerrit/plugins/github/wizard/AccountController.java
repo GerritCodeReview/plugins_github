@@ -75,8 +75,15 @@ public class AccountController implements VelocityController {
   public void doAction(IdentifiedUser user, GitHubLogin hubLogin,
       HttpServletRequest req, HttpServletResponse resp, ControllerErrors errors)
       throws ServletException, IOException {
-    setAccountIdentity(user, req);
-    setAccoutPublicKeys(user, hubLogin, req);
+    try {
+      setAccountIdentity(user, req);
+      setAccoutPublicKeys(user, hubLogin, req);
+
+      resp.getWriter().println("Created account.");
+    } catch (IOException e) {
+      resp.getWriter().println("Account creation failed: " + e.getCause());
+      throw e;
+    }
   }
 
   private void setAccountIdentity(IdentifiedUser user, HttpServletRequest req) throws ServletException {
@@ -90,7 +97,7 @@ public class AccountController implements VelocityController {
       dbProvider.get().accounts().update(Collections.singleton(a));
       accountCache.evict(user.getAccountId());
     } catch (AccountException | OrmException e) {
-      throw new ServletException("Cannot associated email '" + email
+      throw new ServletException("Cannot associate email '" + email
           + "' to current user '" + user + "'", e);
     }
   }
