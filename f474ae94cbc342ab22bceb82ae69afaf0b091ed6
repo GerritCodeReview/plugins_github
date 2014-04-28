@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "656f3377_69840549",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-04-28T00:21:34Z",
+      "side": 1,
+      "message": "This seems like two separate fixes.  It might be better to put them in separate commits, particularly if one of them introduces the dependency on a newer github-api version.",
+      "revId": "f474ae94cbc342ab22bceb82ae69afaf0b091ed6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
