@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a6380f2_a90c9d58",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/wizard/AccountController.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-01T16:37:26Z",
+      "side": 1,
+      "message": "Useless as anyway the controller do stuff but at the end redirect somewhere else if successful.\n\nThere is no body associated to a doAction() but a redirect to the next step.",
+      "range": {
+        "startLine": 82,
+        "startChar": 6,
+        "endLine": 82,
+        "endChar": 51
+      },
+      "revId": "a13a4e0c3a3cace4a14f647eb2a13ec8d72a7634",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1d4c5e_d40f7c4c",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/wizard/AccountController.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-01T16:37:26Z",
+      "side": 1,
+      "message": "Better to put that information on the Server log rather than on the user\u0027s screen.",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 14
+      },
+      "revId": "a13a4e0c3a3cace4a14f647eb2a13ec8d72a7634",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
