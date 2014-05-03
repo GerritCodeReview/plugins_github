@@ -115,17 +115,17 @@ public class OAuthGitFilter implements Filter {
   @Inject
   public OAuthGitFilter(OAuthCache oauthCache, AccountCache accountCache,
       GitHubHttpProvider httpClientProvider, GitHubOAuthConfig config,
-      XGerritAuth xGerritAuth) {
+      XGerritAuth xGerritAuth, GitHubLogin.Provider ghLoginProvider) {
     this.oauthCache = oauthCache;
     this.accountCache = accountCache;
     this.httpClientProvider = httpClientProvider;
     this.config = config;
     this.xGerritAuth = xGerritAuth;
+    this.ghLoginProvider = ghLoginProvider;
   }
 
   @Override
   public void init(FilterConfig filterConfig) throws ServletException {
-    this.ghLoginProvider = new GitHubLogin.Provider();
   }
 
   @Override
@@ -142,22 +142,21 @@ public class OAuthGitFilter implements Filter {
     String username =
         getAuthenticatedUserFromGitRequestUsingOAuthToken(httpRequest,
             httpResponse);
-    if (username == null) {
-      return;
-    }
-    String gerritPassword =
-        accountCache.getByUsername(username).getPassword(username);
+    if (username != null) {
+      String gerritPassword =
+          accountCache.getByUsername(username).getPassword(username);
 
-    if (gerritPassword == null) {
-      gerritPassword =
-          generateRandomGerritPassword(username, httpRequest, httpResponse,
-              chain);
-      httpResponse.sendRedirect(getRequestPathWithQueryString(httpRequest));
-      return;
-    }
+      if (gerritPassword == null) {
+        gerritPassword =
+            generateRandomGerritPassword(username, httpRequest, httpResponse,
+                chain);
+        httpResponse.sendRedirect(getRequestPathWithQueryString(httpRequest));
+        return;
+      }
 
-    httpRequest =
-        new BasicAuthHttpRequest(httpRequest, username, gerritPassword);
+      httpRequest =
+          new BasicAuthHttpRequest(httpRequest, username, gerritPassword);
+    }
 
     chain.doFilter(httpRequest, httpResponse);
   }
