@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "0aae8465_06f93ae9",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/wizard/AccountController.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-05-04T18:41:22Z",
+      "side": 1,
+      "message": "You need to configure the transitions you want to trigger: \n\nThe sample below would redirect to repositories on accounts confirmation.\n  [github]\n   wizardFlow \u003d account.gh \u003d\u003e repositories.html",
+      "parentUuid": "4ab4fcaf_e8e6334e",
+      "range": {
+        "startLine": 82,
+        "startChar": 6,
+        "endLine": 82,
+        "endChar": 51
+      },
+      "revId": "a13a4e0c3a3cace4a14f647eb2a13ec8d72a7634",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca1d4c5e_d40f7c4c",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/wizard/AccountController.java",
         "patchSetId": 2
