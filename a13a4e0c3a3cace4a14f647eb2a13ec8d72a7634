@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4ab4fcaf_e8e6334e",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/wizard/AccountController.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1015997
+      },
+      "writtenOn": "2014-05-04T07:19:33Z",
+      "side": 1,
+      "message": "For some reason, mine never redirects and I didn\u0027t see where in the code it was supposed to. I just see a blank page.",
+      "parentUuid": "6a6380f2_a90c9d58",
+      "range": {
+        "startLine": 82,
+        "startChar": 6,
+        "endLine": 82,
+        "endChar": 51
+      },
+      "revId": "a13a4e0c3a3cace4a14f647eb2a13ec8d72a7634",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca1d4c5e_d40f7c4c",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/wizard/AccountController.java",
         "patchSetId": 2
