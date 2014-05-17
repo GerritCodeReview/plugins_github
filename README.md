@@ -50,7 +50,7 @@ to be used for the code-review authenticated session.
 The initial Gerrit registration page can be customised to import
 GitHub SSH Keys directly into Gerrit.
 
-### Push-Pull replication. (WIP - Change-Id: I596b2e80b4d9519668a1ab289d6c950139d6a922)
+### Push-Pull replication. (DONE - Change-Id: I596b2e80b4d9519668a1ab289d6c950139d6a922)
 
 Existing GitHub repositories are automatically replicated to Gerrit
 for the purpose of performing code-review and pushing back changes
@@ -66,14 +66,14 @@ a Change in Gerrit submitted for review.
 How to build this plugin
 ------------------------
 
-### Gerrit 2.8 build
+### Gerrit 2.10 build
 
-GitHub plugin is designed to work with Gerrit 2.8 (currently in development).
-In order to build the GitHub plugin you need to have a working Gerrit 2.8
+GitHub plugin is designed to work with Gerrit 2.10 (currently in development).
+In order to build the GitHub plugin you need to have a working Gerrit 2.10
 build in place.
 
 See https://gerrit-review.googlesource.com/Documentation/dev-buck.html for a
-reference on how to build Gerrit 2.8 (master branch) using BUCK.
+reference on how to build Gerrit 2.10 (master branch) using BUCK.
 
 ### GitHub API
 
@@ -86,7 +86,7 @@ GitHub plugin for Gerrit.
 Example:
   git clone https://github.com/lucamilanesio/github-api.git
   cd github-api
-  mvn install
+  mvn install -DskipTests=true
 
 ### singleusergroup plugin
 
@@ -94,13 +94,13 @@ You need to clone, build and install the singleusergroup plugin for Gerrit
 (see https://gerrit-review.googlesource.com/#/admin/projects/plugins/singleusergroup).
 
 This plugin is needed to allow Gerrit to use individual users as Groups for being
-used in Gerrit ACLs.
+used in Gerrit ACLs. As of Gerrit 2.10 singleuserplugin is a core plugin and
+included in Gerrit tree (if it was cloned recursively).
 
 Example:
-  git clone https://gerrit.googlesource.com/plugins/singleusergroup
-  cd singleusergroup
-  mvn install
-  cp target/singleusergroup-*.jar $GERRIT_SITE/plugins/.
+  cd gerrit
+  buck build plugins/singleusergroup
+  cp buck-out/gen/plugins/singleusergroup/singleusergroup.jar $GERRIT_SITE/plugins/.
 
 ### Building GitHub integration for Gerrit
 
@@ -113,9 +113,32 @@ Example:
   git clone https://gerrit.googlesource.com/plugins/github
   cd github
   mvn install
-  cp target/github-oauth/target/github-oauth-*.jar $GERRIT_SITE/lib
-  cp target/github-plugin/target/github-plugin-*.jar $GERRIT_SITE/plugins
+  cp github-oauth/target/github-oauth-*.jar $GERRIT_SITE/lib
+  cp github-plugin/target/github-plugin-*.jar $GERRIT_SITE/plugins
 
+### Register Gerrit as a Github OAuth application ###
 
+* login to Github
+* open the URL: https://github.com/settings/applications/new
+* Application name: Gerrit
+* Homepage URL: https://review.my-domain.org
+* Authorization callback URL: https://review.my-domain.org/oauth
 
+Note: Client ID & Client Secret are generated that used in the next step.
+
+### Running Gerrit init to configure GitHub OAuth
+
+* java -jar buck-out/gen/gerrit.war `$gerrit_site`
+* User Authentication
+* Authentication methodi []: HTTP
+* Ger username from custom HTTP header [Y/n]? Y
+* Username HTTP header []: GITHUB_USER
+* SSO logout URL : /oauth/reset
+
+* GitHub Integration
+
+* GitHub URL: [https://github.com]: <confirm>
+* Use GitHub for Gerrit login? [Y/n] Y
+* ClientId []: <provided client id from previous step>
+* ClientSecret []: <provided client secret from previous step>
 
