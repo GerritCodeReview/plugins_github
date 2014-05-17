@@ -103,7 +103,7 @@ public class VelocityStaticServlet extends HttpServlet {
   }
 
   private Resource local(final HttpServletRequest req) {
-    final String name = req.getServletPath();
+    final String name = req.getPathInfo();
     if (name.length() < 2 || !name.startsWith("/") || isUnreasonableName(name)) {
       // Too short to be a valid file name, or doesn't start with
       // the path info separator like we expected.

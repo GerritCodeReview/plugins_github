@@ -93,7 +93,7 @@ public class VelocityControllerServlet extends HttpServlet {
   private String getControllerClassName(HttpServletRequest req) {
     String reqServletName;
     StringBuilder controllerName = new StringBuilder();
-    reqServletName = req.getServletPath();
+    reqServletName = req.getPathInfo();
     reqServletName = trimFromChar(reqServletName, '/');
     reqServletName = trimUpToChar(reqServletName, '.');
     String[] controllerNameParts = reqServletName.split("-");

@@ -71,7 +71,7 @@ public class VelocityViewServlet extends HttpServlet {
     HttpServletRequest req = (HttpServletRequest) request;
     HttpServletResponse resp = (HttpServletResponse) response;
 
-    String servletPath = req.getServletPath();
+    String servletPath = req.getPathInfo();
     NextPage nextPage = (NextPage) req.getAttribute("destUrl");
     String destUrl = null;
     if (nextPage != null && !nextPage.uri.startsWith("/")) {
