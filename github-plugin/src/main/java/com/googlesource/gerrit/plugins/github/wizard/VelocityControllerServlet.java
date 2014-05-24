@@ -121,8 +121,10 @@ public class VelocityControllerServlet extends HttpServlet {
 
   private void redirectToNextStep(HttpServletRequest req,
       HttpServletResponse resp) throws IOException, ServletException {
-    String sourcePath = req.getRequestURI();
-    String sourcePage = sourcePath.substring(sourcePath.lastIndexOf('/') + 1);
+    String sourceUri = req.getRequestURI();
+    int pathPos = sourceUri.lastIndexOf('/') + 1;
+    String sourcePage = sourceUri.substring(pathPos);
+    String sourcePath = sourceUri.substring(0, pathPos);
     int queryStringStart = sourcePage.indexOf('?');
     if (queryStringStart > 0) {
       sourcePage = sourcePage.substring(0, queryStringStart);
@@ -130,14 +132,18 @@ public class VelocityControllerServlet extends HttpServlet {
     NextPage nextPage = githubConfig.getNextPage(sourcePage);
     if (nextPage != null) {
       if (nextPage.redirect) {
-        resp.sendRedirect(nextPage.uri);
+        resp.sendRedirect(nextPageURL(sourcePath, nextPage));
       } else {
         RequestDispatcher requestDispatcher =
-            req.getRequestDispatcher(nextPage.uri);
+            req.getRequestDispatcher(nextPageURL(sourcePath, nextPage));
         req.setAttribute("destUrl", nextPage);
         requestDispatcher.forward(req, resp);
       }
     }
   }
 
+  private String nextPageURL(String sourcePath, NextPage nextPage) {
+    return nextPage.uri.startsWith("/") ? nextPage.uri
+        : sourcePath + nextPage.uri;
+  }
 }
