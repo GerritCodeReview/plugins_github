@@ -50,7 +50,6 @@ import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.MergeException;
-import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.project.ChangeControl;
@@ -75,7 +74,6 @@ public class PullRequestCreateChange {
   private final IdentifiedUser currentUser;
   private final CommitValidators.Factory commitValidatorsFactory;
   private final ChangeInserter.Factory changeInserterFactory;
-  final MergeUtil.Factory mergeUtilFactory;
   private final PatchSetInserter.Factory patchSetInserterFactory;
   private final Factory projectControlFactor;
   private final GenericFactory userFactory;
@@ -85,14 +83,12 @@ public class PullRequestCreateChange {
   PullRequestCreateChange(final IdentifiedUser currentUser,
       final CommitValidators.Factory commitValidatorsFactory,
       final ChangeInserter.Factory changeInserterFactory,
-      final MergeUtil.Factory mergeUtilFactory,
       final PatchSetInserter.Factory patchSetInserterFactory,
       final ProjectControl.Factory projectControlFactory,
       final IdentifiedUser.GenericFactory userFactory) {
     this.currentUser = currentUser;
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.changeInserterFactory = changeInserterFactory;
-    this.mergeUtilFactory = mergeUtilFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.projectControlFactor = projectControlFactory;
     this.userFactory = userFactory;
