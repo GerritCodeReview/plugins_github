@@ -58,7 +58,6 @@ import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.project.ProjectControl.Factory;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.util.TimeUtil;
@@ -75,7 +74,7 @@ public class PullRequestCreateChange {
   private final CommitValidators.Factory commitValidatorsFactory;
   private final ChangeInserter.Factory changeInserterFactory;
   private final PatchSetInserter.Factory patchSetInserterFactory;
-  private final Factory projectControlFactor;
+  private final ProjectControl.Factory projectControlFactory;
   private final GenericFactory userFactory;
 
 
@@ -90,7 +89,7 @@ public class PullRequestCreateChange {
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.changeInserterFactory = changeInserterFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
-    this.projectControlFactor = projectControlFactory;
+    this.projectControlFactory = projectControlFactory;
     this.userFactory = userFactory;
   }
 
@@ -108,7 +107,7 @@ public class PullRequestCreateChange {
     }
 
     RefControl refControl =
-        projectControlFactor.controlFor(project.getNameKey()).controlForRef(
+        projectControlFactory.controlFor(project.getNameKey()).controlForRef(
             destinationBranch);
 
     try {
@@ -164,7 +163,7 @@ public class PullRequestCreateChange {
           Change destChange = destChanges.get(0);
 
           ChangeControl changeControl =
-              projectControlFactor.controlFor(project.getNameKey()).controlFor(
+              projectControlFactory.controlFor(project.getNameKey()).controlFor(
                   destChange);
 
           return insertPatchSet(git, revWalk, destChange, pullRequestCommit,
