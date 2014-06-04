@@ -133,7 +133,7 @@ public class GitHubRepository extends GHRepository {
   }
 
   public List<GHRelease> getReleases() throws IOException {
-    return ghRepository.getReleases();
+    return ghRepository.listReleases().asList();
   }
 
   public boolean hasIssues() {
