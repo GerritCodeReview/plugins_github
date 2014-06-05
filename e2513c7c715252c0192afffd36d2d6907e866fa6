@@ -22,6 +22,30 @@
       "revId": "e2513c7c715252c0192afffd36d2d6907e866fa6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f4d5812_dbee33dd",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/CompositeConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-05T08:39:39Z",
+      "side": 1,
+      "message": "Need the explicit constructor in that case, but still more readable. Thanks for the suggestion.\n\nLove Code-Review :-)",
+      "parentUuid": "bffbfccc_c4217e94",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 36
+      },
+      "revId": "e2513c7c715252c0192afffd36d2d6907e866fa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
