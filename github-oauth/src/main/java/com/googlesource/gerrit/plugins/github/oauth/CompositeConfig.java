@@ -14,6 +14,7 @@
 package com.googlesource.gerrit.plugins.github.oauth;
 
 import java.lang.reflect.Field;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -22,6 +23,8 @@ import org.eclipse.jgit.events.ConfigChangedListener;
 import org.eclipse.jgit.events.ListenerHandle;
 import org.eclipse.jgit.lib.Config;
 
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSet.Builder;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -95,8 +98,10 @@ public class CompositeConfig extends Config {
   public Set<String> getNames(String section, String subsection) {
     Set<String> secureConfigNames = secureConfig.getNames(section, subsection);
     Set<String> gerritConfigNames = gerritConfig.getNames(section, subsection);
-    gerritConfigNames.addAll(secureConfigNames);
-    return gerritConfigNames;
+    ImmutableSet.Builder<String> combinedNamesSet = ImmutableSet.builder();
+    combinedNamesSet.addAll(secureConfigNames);
+    combinedNamesSet.addAll(gerritConfigNames);
+    return combinedNamesSet.build();
   }
 
   public <T> T get(SectionParser<T> parser) {
