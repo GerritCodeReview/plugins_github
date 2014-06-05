@@ -20,10 +20,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.jgit.lib.Config;
+
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.google.gerrit.reviewdb.client.AuthType;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
@@ -51,10 +54,10 @@ public class GitHubOAuthConfig {
   public final Map<String, List<OAuthProtocol.Scope>> scopes;
   public final int fileUpdateMaxRetryCount;
   public final int fileUpdateMaxRetryIntervalMsec;
-  public final CompositeConfig gerritConfig;
+  public final Config gerritConfig;
 
   @Inject
-  public GitHubOAuthConfig(CompositeConfig config)
+  public GitHubOAuthConfig(@GerritServerConfig Config config)
       throws MalformedURLException {
     this.gerritConfig = config;
 
@@ -79,9 +82,9 @@ public class GitHubOAuthConfig {
     fileUpdateMaxRetryIntervalMsec = config.getInt(CONF_SECTION, "fileUpdateMaxRetryIntervalMsec", 3000);
   }
 
-  private Map<String, List<Scope>> getScopes(CompositeConfig config) {
+  private Map<String, List<Scope>> getScopes(Config config) {
     Map<String, List<Scope>> scopes = Maps.newHashMap();
-    Set<String> configKeys = config.getNames(CONF_SECTION);
+    Set<String> configKeys = config.getNames(CONF_SECTION, true);
     for (String key : configKeys) {
       if (key.startsWith("scopes")) {
         String scopesString = config.getString(CONF_SECTION, null, key);
