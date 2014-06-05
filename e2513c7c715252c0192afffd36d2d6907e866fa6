@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bffbfccc_c4217e94",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/CompositeConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-05T08:32:20Z",
+      "side": 1,
+      "message": "Can this be simplified to something like:\n\n return ImmutableSet.builder()\n    .addAll(secureConfig.getNames(section, subsection))\n    .addAll(gerritConfig.getNames(section, subsection))\n    .build();\n\n?\n\nOr does it need to have the explicit construction as `ImmutableSet.Builder\u003cString\u003e`?",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 36
+      },
+      "revId": "e2513c7c715252c0192afffd36d2d6907e866fa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
