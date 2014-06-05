@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bffbfccc_6431aadd",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/CompositeConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-05T08:41:03Z",
+      "side": 1,
+      "message": "move these into the addAll() calls below?",
+      "range": {
+        "startLine": 99,
+        "startChar": 36,
+        "endLine": 99,
+        "endChar": 78
+      },
+      "revId": "ee1e71681558ef533c31b08a44582f9e6ccbef76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
