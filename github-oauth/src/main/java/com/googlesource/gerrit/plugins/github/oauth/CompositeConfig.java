@@ -22,6 +22,7 @@ import org.eclipse.jgit.events.ConfigChangedListener;
 import org.eclipse.jgit.events.ListenerHandle;
 import org.eclipse.jgit.lib.Config;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -93,10 +94,10 @@ public class CompositeConfig extends Config {
   }
 
   public Set<String> getNames(String section, String subsection) {
-    Set<String> secureConfigNames = secureConfig.getNames(section, subsection);
-    Set<String> gerritConfigNames = gerritConfig.getNames(section, subsection);
-    gerritConfigNames.addAll(secureConfigNames);
-    return gerritConfigNames;
+    return new ImmutableSet.Builder<String>()
+        .addAll(secureConfig.getNames(section, subsection))
+        .addAll(gerritConfig.getNames(section, subsection))
+        .build();
   }
 
   public <T> T get(SectionParser<T> parser) {
