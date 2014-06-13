@@ -16,6 +16,7 @@ package com.googlesource.gerrit.plugins.github.git;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.jgit.api.FetchCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -47,6 +48,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.reviewdb.server.AccountExternalIdAccess;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.StringUtil;
 import com.google.gerrit.server.account.AccountImporter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectCache;
@@ -188,16 +190,11 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
       RevCommit revCommit =
           walk.parseCommit(ObjectId.fromString(ghCommitDetail.getSha()));
 
-      Account.Id pullRequestOwner;
-      // It may happen that the user that created the Pull Request has been
-      // removed from GitHub: we assume that the commit author was that user
-      // as there are no other choices.
-      if (pr.getUser() == null) {
-        pullRequestOwner = getOrRegisterAccount(db, ghCommitDetail.getCommit().getAuthor());
-      } else {
-        pullRequestOwner = getOrRegisterAccount(db, pr.getUser());
-      }
+      GHUser prUser = pr.getUser();
+      GitUser commitAuthor = ghCommitDetail.getCommit().getAuthor();
+      GitHubUser gitHubUser = GitHubUser.from(prUser, commitAuthor);
 
+      Account.Id pullRequestOwner = getOrRegisterAccount(db, gitHubUser);
       Id changeId =
           createChange.addCommitToChange(db, project, gitRepo,
               destinationBranch, pullRequestOwner, revCommit,
@@ -212,18 +209,11 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
   }
 
   private com.google.gerrit.reviewdb.client.Account.Id getOrRegisterAccount(
-      ReviewDb db, GitUser author) throws BadRequestException,
+      ReviewDb db, GitHubUser author) throws BadRequestException,
       ResourceConflictException, UnprocessableEntityException, OrmException,
       IOException {
-    return getOrRegisterAccount(db, author.getName(), author.getName(),
+    return getOrRegisterAccount(db, author.getLogin(), author.getName(),
         author.getEmail());
-  }
-
-  private com.google.gerrit.reviewdb.client.Account.Id getOrRegisterAccount(
-      ReviewDb db, GHUser user) throws OrmException, BadRequestException,
-      ResourceConflictException, UnprocessableEntityException, IOException {
-    return getOrRegisterAccount(db, user.getLogin(), user.getName(),
-        user.getEmail());
   }
 
   private com.google.gerrit.reviewdb.client.Account.Id getOrRegisterAccount(
