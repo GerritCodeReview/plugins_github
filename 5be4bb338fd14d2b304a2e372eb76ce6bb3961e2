@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a4485179_a30a7a3c",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/GitHubUser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-18T07:14:30Z",
+      "side": 1,
+      "message": "True, will swap then with else block then.",
+      "parentUuid": "3f2c6c7a_e8faf3db",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 29
+      },
+      "revId": "5be4bb338fd14d2b304a2e372eb76ce6bb3961e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f3760c3_a92b9da3",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/GitHubUser.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2014-06-17T11:52:40Z",
       "side": 1,
       "message": "Is this guaranteed to always return non-null?",
+      "range": {
+        "startLine": 37,
+        "startChar": 33,
+        "endLine": 37,
+        "endChar": 49
+      },
+      "revId": "5be4bb338fd14d2b304a2e372eb76ce6bb3961e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4485179_c30d7658",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/GitHubUser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-18T07:14:30Z",
+      "side": 1,
+      "message": "I would be suprised as Git actually requires the author name as mandatory setting for creating a commit, isn\u0027t it?",
+      "parentUuid": "5f3760c3_a92b9da3",
       "range": {
         "startLine": 37,
         "startChar": 33,
