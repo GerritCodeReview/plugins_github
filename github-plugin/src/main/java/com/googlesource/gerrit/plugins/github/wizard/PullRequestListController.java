@@ -13,6 +13,7 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.wizard;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
@@ -37,6 +38,7 @@ import org.kohsuke.github.GHRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -146,23 +148,13 @@ public class PullRequestListController implements VelocityController {
         Repository gitRepo = repoMgr.openRepository(gerritRepoName);
         try {
           String ghRepoName = gerritRepoName.get().split("/")[1];
-          GHRepository githubRepo = login.hub.getRepository(gerritRepoName.get());
-          List<GHPullRequest> repoPullRequests = Lists.newArrayList();
-
-          if (numPullRequests < config.pullRequestListLimit) {
-            for (GHPullRequest ghPullRequest : githubRepo.listPullRequests(GHIssueState.OPEN)) {
-
-              if (isAnyCommitOfPullRequestToBeImported(db, gitRepo,
-                  ghPullRequest)) {
-                repoPullRequests.add(ghPullRequest);
-                numPullRequests++;
-              }
-            }
-            if (repoPullRequests.size() > 0) {
-              allPullRequests.put(ghRepoName, repoPullRequests);
-            }
-          } else {
-            allPullRequests.put(ghRepoName, null);
+          
+          Optional<GHRepository> githubRepo =
+              getGHRepository(login, gerritRepoName);
+          if (githubRepo.isPresent()) {
+            numPullRequests =
+                collectPullRequestsFromGitHubRepository(numPullRequests, db,
+                    allPullRequests, gitRepo, ghRepoName, githubRepo);
           }
         } finally {
           gitRepo.close();
@@ -171,6 +163,41 @@ public class PullRequestListController implements VelocityController {
       return allPullRequests;
     } finally {
       db.close();
+    }
+  }
+
+  private int collectPullRequestsFromGitHubRepository(int numPullRequests, ReviewDb db,
+      Map<String, List<GHPullRequest>> allPullRequests, Repository gitRepo,
+      String ghRepoName, Optional<GHRepository> githubRepo)
+      throws IncorrectObjectTypeException, IOException {
+    List<GHPullRequest> repoPullRequests = Lists.newArrayList();
+
+    if (numPullRequests < config.pullRequestListLimit) {
+      for (GHPullRequest ghPullRequest : githubRepo.get()
+          .listPullRequests(GHIssueState.OPEN)) {
+
+        if (isAnyCommitOfPullRequestToBeImported(db, gitRepo,
+            ghPullRequest)) {
+          repoPullRequests.add(ghPullRequest);
+          numPullRequests++;
+        }
+      }
+      if (repoPullRequests.size() > 0) {
+        allPullRequests.put(ghRepoName, repoPullRequests);
+      }
+    } else {
+      allPullRequests.put(ghRepoName, null);
+    }
+    return numPullRequests;
+  }
+
+  private Optional<GHRepository> getGHRepository(GitHubLogin login,
+      NameKey gerritRepoName) throws IOException {
+    try {
+      return Optional.of(login.hub.getRepository(gerritRepoName.get()));
+    } catch (FileNotFoundException e) {
+      LOG.debug("GitHub repository {} cannot be found", gerritRepoName.get());
+      return Optional.absent();
     }
   }
 
