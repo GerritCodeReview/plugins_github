@@ -53,7 +53,6 @@ import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.ChangeControlDelegate;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -164,7 +163,7 @@ public class PullRequestCreateChange {
 
           ChangeControl changeControl =
               projectControlFactory.controlFor(project.getNameKey()).controlFor(
-                  destChange);
+                  destChange).forUser(userFactory.create(pullRequestOwner));
 
           return insertPatchSet(git, revWalk, destChange, pullRequestCommit,
               changeControl, pullRequestOwner, pullRequestMesage, doValidation);
@@ -194,8 +193,7 @@ public class PullRequestCreateChange {
       boolean doValidation) throws InvalidChangeOperationException,
       IOException, OrmException, NoSuchChangeException {
     PatchSetInserter patchSetInserter =
-        patchSetInserterFactory.create(git, revWalk, ChangeControlDelegate.wrap(changeControl,
-            userFactory.create(pullRequestOwnerId)), cherryPickCommit);
+        patchSetInserterFactory.create(git, revWalk, changeControl, cherryPickCommit);
     // This apparently useless method call is made for triggering
     // the creation of patchSet inside PatchSetInserter and thus avoiding a NPE
     patchSetInserter.getPatchSetId();
