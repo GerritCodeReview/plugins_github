@@ -36,6 +36,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
@@ -44,6 +45,7 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AddSshKey;
 import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.GetSshKeys;
 import com.google.gerrit.server.account.GetSshKeys.SshKeyInfo;
 import com.google.gwtorm.server.OrmException;
@@ -90,12 +92,18 @@ public class AccountController implements VelocityController {
     String fullName = req.getParameter("fullname");
     String email = req.getParameter("email");
     try {
-      accountManager.link(user.getAccountId(), AuthRequest.forEmail(email));
-      Account a = dbProvider.get().accounts().get(user.getAccountId());
+      Id accountId = user.getAccountId();
+      AuthResult result = accountManager.link(accountId, AuthRequest.forEmail(email));
+      log.debug("Account {} linked to email {}: result = {}", accountId, email, result);
+
+      Account a = dbProvider.get().accounts().get(accountId);
       a.setPreferredEmail(email);
       a.setFullName(fullName);
       dbProvider.get().accounts().update(Collections.singleton(a));
-      accountCache.evict(user.getAccountId());
+      log.debug("Account {} updated with preferredEmail = {} and fullName = {}", accountId, email, fullName);
+
+      accountCache.evict(accountId);
+      log.debug("Account cache evicted for {}", accountId);
     } catch (AccountException | OrmException e) {
       throw new ServletException("Cannot associate email '" + email
           + "' to current user '" + user + "'", e);
