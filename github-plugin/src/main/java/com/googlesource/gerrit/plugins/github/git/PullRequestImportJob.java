@@ -153,10 +153,10 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
       } catch (OrmException e1) {
         LOG.error("Error rolling back transation", e1);
       }
-    } catch (Exception e) {
+    } catch (Throwable e) {
       LOG.error("Pull request " + prId + " into repository " + organisation
           + "/" + repoName + " was failed", e);
-      status.update(GitJobStatus.Code.FAILED, "Failed", getErrorDescription(e));
+      status.update(GitJobStatus.Code.FAILED, "Failed",  e.getLocalizedMessage());
       try {
         db.rollback();
       } catch (OrmException e1) {
@@ -165,10 +165,6 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
     } finally {
       db.close();
     }
-  }
-
-  private String getErrorDescription(Exception e) {
-    return e.getLocalizedMessage();
   }
 
   private List<Id> addPullRequestToChange(ReviewDb db, GHPullRequest pr,
