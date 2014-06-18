@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0424bda2_b63c08dd",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/GitHubUser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-18T10:02:15Z",
+      "side": 1,
+      "message": "I would rather renamed the getXXX() methods to initXXX() and keep the immutable state on this object :-)",
+      "parentUuid": "5f3760c3_6939a5eb",
+      "range": {
+        "startLine": 28,
+        "startChar": 1,
+        "endLine": 28,
+        "endChar": 9
+      },
+      "revId": "b09e6e980f1141fdd23a49c8a2b955d4b6755c1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f2c6c7a_a852bb1f",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/GitHubUser.java",
         "patchSetId": 4
