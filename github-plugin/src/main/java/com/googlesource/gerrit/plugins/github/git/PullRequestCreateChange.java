@@ -52,6 +52,8 @@ import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ChangeControlDelegate;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -74,6 +76,7 @@ public class PullRequestCreateChange {
   private final CommitValidators.Factory commitValidatorsFactory;
   private final ChangeInserter.Factory changeInserterFactory;
   private final PatchSetInserter.Factory patchSetInserterFactory;
+  private final PatchSetInfoFactory patchSetInfoFactory;
   private final ProjectControl.Factory projectControlFactory;
   private final GenericFactory userFactory;
 
@@ -83,12 +86,14 @@ public class PullRequestCreateChange {
       final CommitValidators.Factory commitValidatorsFactory,
       final ChangeInserter.Factory changeInserterFactory,
       final PatchSetInserter.Factory patchSetInserterFactory,
+      final PatchSetInfoFactory patchSetInfoFactory,
       final ProjectControl.Factory projectControlFactory,
       final IdentifiedUser.GenericFactory userFactory) {
     this.currentUser = currentUser;
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.changeInserterFactory = changeInserterFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
+    this.patchSetInfoFactory = patchSetInfoFactory;
     this.projectControlFactory = projectControlFactory;
     this.userFactory = userFactory;
   }
@@ -99,7 +104,8 @@ public class PullRequestCreateChange {
       final String pullRequestMesage, final String topic, boolean doValidation)
       throws NoSuchChangeException, EmailException, OrmException,
       MissingObjectException, IncorrectObjectTypeException, IOException,
-      InvalidChangeOperationException, MergeException, NoSuchProjectException {
+      InvalidChangeOperationException, MergeException, NoSuchProjectException,
+      PatchSetInfoNotAvailableException {
     Id newChange = null;
     if (destinationBranch == null || destinationBranch.length() == 0) {
       throw new InvalidChangeOperationException(
@@ -212,7 +218,7 @@ public class PullRequestCreateChange {
       Ref destRef, Account.Id pullRequestOwner, RevCommit pullRequestCommit,
       RefControl refControl, String pullRequestMessage, String topic,
       boolean doValidation) throws OrmException,
-      InvalidChangeOperationException, IOException {
+      InvalidChangeOperationException, IOException, PatchSetInfoNotAvailableException {
     Change change =
         new Change(changeKey, new Change.Id(db.nextChangeId()),
             pullRequestOwner, new Branch.NameKey(project, destRef.getName()),
@@ -238,6 +244,8 @@ public class PullRequestCreateChange {
           ru.getResult()));
     }
 
+    change.setCurrentPatchSet(
+        patchSetInfoFactory.get(change, newPatchSet));
     ins.setMessage(
         buildChangeMessage(db, change, newPatchSet, pullRequestOwner, pullRequestMessage))
         .insert();
