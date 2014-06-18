@@ -54,7 +54,7 @@ import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 public class AccountController implements VelocityController {
 
   private static final Logger log = LoggerFactory
-      .getLogger(VelocityControllerServlet.class);
+      .getLogger(AccountController.class);
   private final AddSshKey restAddSshKey;
   private final GetSshKeys restGetSshKeys;
   private final AccountManager accountManager;
