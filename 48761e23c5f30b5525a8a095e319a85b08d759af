@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0424bda2_561c943c",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/wizard/AccountController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-19T07:34:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f2c6c7a_8857b701",
+      "range": {
+        "startLine": 96,
+        "startChar": 6,
+        "endLine": 97,
+        "endChar": 88
+      },
+      "revId": "48761e23c5f30b5525a8a095e319a85b08d759af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f2c6c7a_a85c7b26",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/wizard/AccountController.java",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2014-06-19T05:15:08Z",
       "side": 1,
       "message": "nit: wrap long lines",
+      "revId": "48761e23c5f30b5525a8a095e319a85b08d759af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0424bda2_36111825",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/wizard/AccountController.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-19T07:34:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f2c6c7a_a85c7b26",
       "revId": "48761e23c5f30b5525a8a095e319a85b08d759af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
