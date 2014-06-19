@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f3760c3_8957b901",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/wizard/PullRequestListController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-19T00:32:50Z",
+      "side": 1,
+      "message": "whitespace",
+      "range": {
+        "startLine": 151,
+        "startChar": 0,
+        "endLine": 151,
+        "endChar": 10
+      },
+      "revId": "1108320d74c20aca0d3d8d363943d2ecbeca2e4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
