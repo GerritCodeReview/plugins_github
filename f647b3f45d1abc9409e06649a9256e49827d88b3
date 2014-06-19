@@ -22,6 +22,29 @@
       "revId": "f647b3f45d1abc9409e06649a9256e49827d88b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0424bda2_76a1d09b",
+        "filename": "github-plugin/src/main/resources/static/account.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-19T16:00:39Z",
+      "side": 1,
+      "message": "Be careful with the \"auto-format\" on HTML: in this case you are adding extra blanks and newlines to the text-area.\nPut everything on the same line :-)",
+      "range": {
+        "startLine": 72,
+        "startChar": 18,
+        "endLine": 74,
+        "endChar": 29
+      },
+      "revId": "f647b3f45d1abc9409e06649a9256e49827d88b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
