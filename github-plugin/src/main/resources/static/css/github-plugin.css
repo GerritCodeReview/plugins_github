@@ -1,31 +1,31 @@
 .repo-sync span.status {
-    width: 24px;
-    height: 24px;
-    display: inline-block;
+  width: 24px;
+  height: 24px;
+  display: inline-block;
 }
 
 .repo-sync .sync {
-	background-image: url("../images/spinner-24px.gif");
+  background-image: url("../images/spinner-24px.gif");
 }
 
 .repo-sync .failed {
-	background-image: url("../images/failed.png");
+  background-image: url("../images/failed.png");
 }
 
 .repo-sync .complete {
-	background-image: url("../images/done.png");
+  background-image: url("../images/done.png");
 }
 
 .repo-sync .cancelled {
-    background-image: url("../images/cancelled.png");
+  background-image: url("../images/cancelled.png");
 }
 
 div.loading {
-	margin-left: 30px;
-	background-image: url("../images/spinner-32px.gif");
-	background-repeat: no-repeat;
-	padding-left: 50px;
-	width: 300px;
-	height: 40px;
-	display: inline-block;
+  margin-left: 30px;
+  background-image: url("../images/spinner-32px.gif");
+  background-repeat: no-repeat;
+  padding-left: 50px;
+  width: 300px;
+  height: 40px;
+  display: inline-block;
 }
