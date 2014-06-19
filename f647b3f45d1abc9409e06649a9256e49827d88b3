@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f2c6c7a_488f7f67",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-19T01:05:24Z",
+      "side": 1,
+      "message": "I actually started doing this tidy up last night.  That\u0027s how I found the problem that I fixed with Ie8d421089dd9b81848bf7012373e3c3a94e17672",
+      "range": {
+        "startLine": 16,
+        "startChar": 2,
+        "endLine": 17,
+        "endChar": 60
+      },
+      "revId": "f647b3f45d1abc9409e06649a9256e49827d88b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
