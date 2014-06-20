@@ -45,6 +45,30 @@
       "revId": "f647b3f45d1abc9409e06649a9256e49827d88b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6402d943_31d4d056",
+        "filename": "github-plugin/src/main/resources/static/account.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-20T00:11:51Z",
+      "side": 1,
+      "message": "Yes, I thought that might be the case.  I\u0027ll fix it in the next patch set.\n\nI actually formatted this by hand, not with any kind of automation.  Makes it easier to find missing tags...",
+      "parentUuid": "0424bda2_76a1d09b",
+      "range": {
+        "startLine": 72,
+        "startChar": 18,
+        "endLine": 74,
+        "endChar": 29
+      },
+      "revId": "f647b3f45d1abc9409e06649a9256e49827d88b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
