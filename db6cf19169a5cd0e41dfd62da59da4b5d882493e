@@ -22,6 +22,30 @@
       "revId": "db6cf19169a5cd0e41dfd62da59da4b5d882493e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4faa581_4ce3bf42",
+        "filename": "github-plugin/src/main/resources/static/repositories.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2014-06-20T07:20:22Z",
+      "side": 1,
+      "message": "OK, I see.\n\nMaybe better to move the template fragment down near line 82 then?",
+      "parentUuid": "84cb4d65_a2109e6f",
+      "range": {
+        "startLine": 78,
+        "startChar": 4,
+        "endLine": 78,
+        "endChar": 9
+      },
+      "revId": "db6cf19169a5cd0e41dfd62da59da4b5d882493e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
