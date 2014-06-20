@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84cb4d65_a2109e6f",
+        "filename": "github-plugin/src/main/resources/static/repositories.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-06-20T07:18:04Z",
+      "side": 1,
+      "message": "it is actually better to leave it were it was, next to the opened \u003cul\u003e tag.\nOtherwise you\u0027d be confused but the template \u003cli\u003e part, which is unrelated.\n\nThe template fragment could be anywhere in the page as it is type\u003d\"text/template\" and is then extracted and used via underscore.js",
+      "range": {
+        "startLine": 78,
+        "startChar": 4,
+        "endLine": 78,
+        "endChar": 9
+      },
+      "revId": "db6cf19169a5cd0e41dfd62da59da4b5d882493e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
