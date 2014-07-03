@@ -22,6 +22,30 @@
       "revId": "869f558872cc508effc3a3373bc6af4f348b075d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "248aa19d_3f2d0783",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestCreateChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-07-03T15:04:00Z",
+      "side": 1,
+      "message": "Good point, let me know if I can get the ChangeInserter to manage that.",
+      "parentUuid": "440875ab_88c6f74c",
+      "range": {
+        "startLine": 247,
+        "startChar": 4,
+        "endLine": 248,
+        "endChar": 54
+      },
+      "revId": "869f558872cc508effc3a3373bc6af4f348b075d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
