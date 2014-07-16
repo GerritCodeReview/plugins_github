@@ -274,7 +274,8 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
     if (ghLogin.getMyself().getLogin().equals(organisation)) {
       return ghLogin.getMyself().getRepository(repoName);
     } else {
-      return ghLogin.hub.getOrganization(organisation).getRepository(repoName);
+      return ghLogin.getHub().getOrganization(organisation)
+          .getRepository(repoName);
     }
   }
 

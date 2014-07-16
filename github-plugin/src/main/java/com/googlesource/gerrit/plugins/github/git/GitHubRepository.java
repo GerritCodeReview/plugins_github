@@ -42,7 +42,7 @@ public class GitHubRepository extends GHRepository {
 
   public String getCloneUrl() {
     return cloneUrl.replace("://", "://" + ghLogin.getMyself().getLogin() + ":"
-        + ghLogin.token.access_token + "@");
+        + ghLogin.getToken().access_token + "@");
   }
 
   public String getOrganisation() {
@@ -63,6 +63,6 @@ public class GitHubRepository extends GHRepository {
     this.repository = repository;
     this.ghLogin = ghLoginProvider.get();
     this.ghRepository =
-        ghLogin.hub.getRepository(organisation + "/" + repository);
+        ghLogin.getHub().getRepository(organisation + "/" + repository);
   }
 }

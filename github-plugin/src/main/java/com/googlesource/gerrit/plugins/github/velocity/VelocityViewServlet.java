@@ -108,7 +108,7 @@ public class VelocityViewServlet extends HttpServlet {
     GitHubLogin gitHubLogin = loginProvider.get(request);
     model.put("myself", gitHubLogin.getMyself());
     model.put("user", userProvider.get());
-    model.put("hub", gitHubLogin.hub);
+    model.put("hub", gitHubLogin.getHub());
 
     for (Entry<String, String[]> reqPar : request.getParameterMap().entrySet()) {
       model.put(reqPar.getKey(), reqPar.getValue());
