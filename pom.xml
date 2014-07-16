@@ -279,4 +279,12 @@ limitations under the License.
       <url>https://gerrit-api.commondatastorage.googleapis.com/release/</url>
     </repository>
   </repositories>
+  <dependencies>
+    <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+        <version>1.14.0</version>
+        <scope>provided</scope>
+    </dependency>
+  </dependencies>
 </project>

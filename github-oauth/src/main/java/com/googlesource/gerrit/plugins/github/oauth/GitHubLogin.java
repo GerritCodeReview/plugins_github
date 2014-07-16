@@ -29,6 +29,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import lombok.Getter;
+
 import org.apache.http.HttpStatus;
 import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GitHub;
@@ -57,8 +59,11 @@ public class GitHubLogin {
     }
   }
 
-  public AccessToken token;
-  public GitHub hub;
+  @Getter
+  protected AccessToken token;
+
+  @Getter
+  protected GitHub hub;
 
   private transient OAuthProtocol oauth;
 
