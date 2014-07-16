@@ -18,8 +18,10 @@ import static java.util.concurrent.TimeUnit.DAYS;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -44,7 +46,7 @@ import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.AccessToken;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
 
 public class GitHubLogin {
-  private static final Logger LOG = LoggerFactory.getLogger(GitHubLogin.class);
+  private static final Logger log = LoggerFactory.getLogger(GitHubLogin.class);
   private static final List<Scope> DEFAULT_SCOPES = Arrays.asList(
       Scope.PUBLIC_REPO, Scope.USER_EMAIL);
   private static final int YEARS = 365;
@@ -65,9 +67,10 @@ public class GitHubLogin {
   @Getter
   protected GitHub hub;
 
+  protected GHMyself myself;
+
   private transient OAuthProtocol oauth;
 
-  private GHMyself myself;
   private SortedSet<Scope> loginScopes;
   private final GitHubOAuthConfig config;
 
@@ -76,6 +79,14 @@ public class GitHubLogin {
       return myself;
     } else {
       return null;
+    }
+  }
+
+  public Set<String> getMyOrganisationsLogins() throws IOException {
+    if (isLoggedIn()) {
+      return hub.getMyOrganizations().keySet();
+    } else {
+      return Collections.emptySet();
     }
   }
 
@@ -91,7 +102,7 @@ public class GitHubLogin {
       try {
         myself = hub.getMyself();
       } catch (Throwable e) {
-        LOG.error("Connection to GitHub broken: logging out", e);
+        log.error("Connection to GitHub broken: logging out", e);
         logout();
         loggedIn = false;
       }
@@ -111,13 +122,13 @@ public class GitHubLogin {
       return true;
     }
 
-    LOG.debug("Login " + this);
+    log.debug("Login " + this);
 
     if (OAuthProtocol.isOAuthFinal(request)) {
-      LOG.debug("Login-FINAL " + this);
+      log.debug("Login-FINAL " + this);
       login(oauth.loginPhase2(request, response));
       if (isLoggedIn()) {
-        LOG.debug("Login-SUCCESS " + this);
+        log.debug("Login-SUCCESS " + this);
         response.sendRedirect(OAuthProtocol.getTargetUrl(request));
         return true;
       } else {
@@ -126,7 +137,7 @@ public class GitHubLogin {
       }
     } else {
       this.loginScopes = getScopes(getScopesKey(request, response), scopes);
-      LOG.debug("Login-PHASE1 " + this);
+      log.debug("Login-PHASE1 " + this);
       oauth.loginPhase1(request, response, loginScopes);
       return false;
     }
@@ -142,6 +153,7 @@ public class GitHubLogin {
   }
 
   public GitHub login(AccessToken authToken) throws IOException {
+    log.debug("Logging in using access token {}", authToken.access_token);
     this.token = authToken;
     this.hub = GitHub.connectUsingOAuth(authToken.access_token);
     this.myself = hub.getMyself();
