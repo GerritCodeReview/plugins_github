@@ -18,8 +18,10 @@ import static java.util.concurrent.TimeUnit.DAYS;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -65,9 +67,10 @@ public class GitHubLogin {
   @Getter
   protected GitHub hub;
 
+  protected GHMyself myself;
+
   private transient OAuthProtocol oauth;
 
-  private GHMyself myself;
   private SortedSet<Scope> loginScopes;
   private final GitHubOAuthConfig config;
 
@@ -76,6 +79,14 @@ public class GitHubLogin {
       return myself;
     } else {
       return null;
+    }
+  }
+
+  public Set<String> getMyOrganisationsLogins() throws IOException {
+    if (isLoggedIn()) {
+      return hub.getMyOrganizations().keySet();
+    } else {
+      return Collections.emptySet();
     }
   }
 
