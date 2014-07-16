@@ -129,7 +129,7 @@ public class PullRequestListController implements VelocityController {
     if (organisation.equals(hubLogin.getMyself().getLogin())) {
       ghOwner = hubLogin.getMyself();
     } else {
-      ghOwner = hubLogin.hub.getOrganization(organisation);
+      ghOwner = hubLogin.getHub().getOrganization(organisation);
     }
     return getPullRequests(
         hubLogin,
@@ -193,7 +193,7 @@ public class PullRequestListController implements VelocityController {
   private Optional<GHRepository> getGHRepository(GitHubLogin login,
       NameKey gerritRepoName) throws IOException {
     try {
-      return Optional.of(login.hub.getRepository(gerritRepoName.get()));
+      return Optional.of(login.getHub().getRepository(gerritRepoName.get()));
     } catch (FileNotFoundException e) {
       LOG.debug("GitHub repository {} cannot be found", gerritRepoName.get());
       return Optional.absent();
