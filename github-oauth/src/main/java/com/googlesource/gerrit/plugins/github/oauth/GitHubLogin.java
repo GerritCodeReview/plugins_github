@@ -65,9 +65,10 @@ public class GitHubLogin {
   @Getter
   protected GitHub hub;
 
+  protected GHMyself myself;
+
   private transient OAuthProtocol oauth;
 
-  private GHMyself myself;
   private SortedSet<Scope> loginScopes;
   private final GitHubOAuthConfig config;
 

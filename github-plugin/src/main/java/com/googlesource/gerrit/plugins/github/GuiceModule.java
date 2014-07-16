@@ -16,11 +16,17 @@ package com.googlesource.gerrit.plugins.github;
 
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.TopMenu;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.inject.AbstractModule;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 public class GuiceModule extends AbstractModule {
   @Override
   protected void configure() {
     DynamicSet.bind(binder(), TopMenu.class).to(GitHubTopMenu.class);
+    DynamicSet.bind(binder(), GroupBackend.class).to(GitHubGroupBackend.class);
+
+    install(new FactoryModuleBuilder()
+        .build(GitHubOrganisationGroup.Factory.class));
   }
 }
