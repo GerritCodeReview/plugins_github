@@ -22,6 +22,30 @@
       "revId": "b744f222f186b49272f53a31213ceb3523f14f5b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f3481c_ded36540",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-07-18T10:03:55Z",
+      "side": 1,
+      "message": ":o) was too cautious about it ;-)",
+      "parentUuid": "39900c99_2f33690b",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 49
+      },
+      "revId": "b744f222f186b49272f53a31213ceb3523f14f5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
