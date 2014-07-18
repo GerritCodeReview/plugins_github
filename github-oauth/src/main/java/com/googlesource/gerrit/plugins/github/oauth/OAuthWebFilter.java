@@ -47,6 +47,7 @@ public class OAuthWebFilter implements Filter {
   private static final org.slf4j.Logger log = LoggerFactory
       .getLogger(OAuthWebFilter.class);
   public static final String GERRIT_COOKIE_NAME = "GerritAccount";
+  public static final String GITHUB_EXT_ID = "github_oauth:";
 
   private final GitHubOAuthConfig config;
   private final Random retryRandom = new Random(System.currentTimeMillis());
@@ -89,7 +90,9 @@ public class OAuthWebFilter implements Filter {
         if (ghLogin != null && ghLogin.isLoggedIn()) {
           httpRequest =
               new AuthenticatedHttpRequest(httpRequest, config.httpHeader,
-                  ghLogin.getMyself().getLogin());
+                  ghLogin.getMyself().getLogin(),
+                  config.oauthHttpHeader,
+                  GITHUB_EXT_ID + ghLogin.getToken().access_token);
         }
 
         if (OAuthProtocol.isOAuthFinalForOthers(httpRequest)) {
