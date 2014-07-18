@@ -55,6 +55,7 @@ public class GitHubOAuthConfig {
   public final int fileUpdateMaxRetryCount;
   public final int fileUpdateMaxRetryIntervalMsec;
   public final Config gerritConfig;
+  public final String oauthHttpHeader;
 
   @Inject
   public GitHubOAuthConfig(@GerritServerConfig Config config)
@@ -62,6 +63,7 @@ public class GitHubOAuthConfig {
     this.gerritConfig = config;
 
     httpHeader = config.getString("auth", null, "httpHeader");
+    oauthHttpHeader = config.getString("auth", null, "httpExternalIdHeader");
     gitHubUrl = dropTrailingSlash(
         Objects.firstNonNull(config.getString(CONF_SECTION, null, "url"),
             GITHUB_URL));
