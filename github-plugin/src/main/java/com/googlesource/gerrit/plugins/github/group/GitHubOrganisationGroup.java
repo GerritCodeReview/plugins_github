@@ -24,45 +24,23 @@ import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-public class GitHubOrganisationGroup implements Basic {
-  public static final String UUID_PREFIX = "github:";
-  public static final String NAME_PREFIX = "github/";
-
+public class GitHubOrganisationGroup extends GitHubGroup implements Basic {
   public interface Factory {
     GitHubOrganisationGroup get(@Assisted("orgName") String orgName,
         @Assisted("orgUrl") @Nullable String orgUrl);
   }
 
   private final String orgName;
-  private final UUID uuid;
-  private final String url;
-
   @Inject
   GitHubOrganisationGroup(@Assisted("orgName") String orgName,
       @Assisted("orgUrl") @Nullable String orgUrl) {
+    super(uuid(orgName), orgUrl);
     this.orgName = orgName;
-    this.uuid = uuid(orgName);
-    this.url = orgUrl;
-  }
-
-  @Override
-  public String getEmailAddress() {
-    return "";
-  }
-
-  @Override
-  public UUID getGroupUUID() {
-    return uuid;
   }
 
   @Override
   public String getName() {
     return NAME_PREFIX + orgName;
-  }
-
-  @Override
-  public String getUrl() {
-    return url;
   }
 
   public static GitHubOrganisationGroup fromUUID(UUID uuid) {
