@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.github.group;
 import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSet.Builder;
 import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.inject.Inject;
@@ -30,12 +31,20 @@ public class GitHubGroupMembership implements GroupMembership {
   }
 
   @Inject
-  public GitHubGroupMembership(GitHubOrganisationsCache ghOrganisationCache,
+  public GitHubGroupMembership(GitHubOrganisationsCache ghOrgCache,
       @Assisted String username) {
-    this.groups =
-        new ImmutableSet.Builder<UUID>().addAll(
-            ghOrganisationCache.getOrganisationsGroupsForUsername(username))
-            .build();
+    Builder<UUID> groupsBuilder = new ImmutableSet.Builder<UUID>();
+
+    for (String org : ghOrgCache.getOrgsForUser(username)) {
+      groupsBuilder.add(GitHubOrganisationGroup.uuid(org));
+
+      for (String team : ghOrgCache.getTeamsForOrgUser(org, username)) {
+        groupsBuilder.add(GitHubTeamGroup.uuid(
+            GitHubOrganisationGroup.uuid(org), team));
+      }
+    }
+
+    this.groups = groupsBuilder.build();
   }
 
   @Override
