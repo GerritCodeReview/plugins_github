@@ -46,6 +46,30 @@
       "revId": "869f558872cc508effc3a3373bc6af4f348b075d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19f3481c_1e3f8d41",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestCreateChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-07-22T23:13:45Z",
+      "side": 1,
+      "message": "I have actually checked and ChangeInserter is already setting the current patch set. However the way I create the patch-set here is a bit different: ChangeInserter assumes he is the one creating and managing it, whilst I am explicitly creating and managing the patch-set here\n\nI need then as well to explicitly link my patch-set to the Change created, otherwise it will stay linked to a ghost patch-set.",
+      "parentUuid": "248aa19d_3f2d0783",
+      "range": {
+        "startLine": 247,
+        "startChar": 4,
+        "endLine": 248,
+        "endChar": 54
+      },
+      "revId": "869f558872cc508effc3a3373bc6af4f348b075d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
