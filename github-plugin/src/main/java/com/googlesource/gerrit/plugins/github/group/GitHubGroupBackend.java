@@ -80,15 +80,33 @@ public class GitHubGroupBackend implements GroupBackend {
       log.debug("Listing user's organisations starting with '{}'",
           orgNamePrefix);
 
-      String orgNamePrefixLowercase = orgNamePrefix.toLowerCase();
-      Set<String> ghOrgs = ghOrganisationCache.getOrganisationsForCurrentUser();
+      String[] namePrefixParts = orgNamePrefix.toLowerCase().split("/");
+      String orgNamePrefixLowercase =
+          namePrefixParts.length > 0 ? namePrefixParts[0] : "";
+      String teamNameLowercase =
+          namePrefixParts.length > 1 ? namePrefixParts[1] : "";
+
+      Set<String> ghOrgs = ghOrganisationCache.getOrganizationsForCurrentUser();
       log.debug("Full list of user's organisations: {}", ghOrgs);
 
       Builder<GroupReference> orgGroups =
           new ImmutableSet.Builder<GroupReference>();
       for (String ghOrg : ghOrgs) {
         if (ghOrg.toLowerCase().startsWith(orgNamePrefixLowercase)) {
-          orgGroups.add(GitHubOrganisationGroup.groupReference(ghOrg));
+          GroupReference teamGroupRef =
+              GitHubOrganisationGroup.groupReference(ghOrg);
+
+          if ((orgNamePrefixLowercase.length() > 0 && orgNamePrefix
+              .endsWith("/")) || teamNameLowercase.length() > 0) {
+            for (String teamName : ghOrganisationCache.getTeamsForCurrentUser(ghOrg)) {
+              if (teamName.toLowerCase().startsWith(teamNameLowercase)) {
+                orgGroups.add(GitHubTeamGroup.groupReference(teamGroupRef,
+                    teamName));
+              }
+            }
+          } else {
+            orgGroups.add(teamGroupRef);
+          }
         }
       }
       return orgGroups.build();
