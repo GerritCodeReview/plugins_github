@@ -34,8 +34,7 @@ public class GitHubGroupMembership implements GroupMembership {
       @Assisted String username) {
     this.groups =
         new ImmutableSet.Builder<UUID>().addAll(
-            ghOrganisationCache.getOrganisationsGroupsForUsername(username))
-            .build();
+            ghOrganisationCache.getAllGroupsForUser(username)).build();
   }
 
   @Override
