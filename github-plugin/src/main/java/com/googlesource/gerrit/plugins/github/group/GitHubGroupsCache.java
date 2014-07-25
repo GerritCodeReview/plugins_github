@@ -44,14 +44,14 @@ import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.UserScopedProvider;
 
 @Singleton
-public class GitHubOrganisationsCache {
+public class GitHubGroupsCache {
   private static final Logger log = LoggerFactory
-      .getLogger(GitHubOrganisationsCache.class);
-  private static final String ORGS_CACHE_NAME = "org-teams";
-  protected static final long GROUPS_CACHE_TTL_MINS = 15;
+      .getLogger(GitHubGroupsCache.class);
+  private static final String ORGS_CACHE_NAME = "groups";
+  protected static final long GROUPS_CACHE_TTL_MINS = 60;
 
   public static class OrganisationLoader extends
-      CacheLoader<String, Multimap<String,String>> {
+      CacheLoader<String, Multimap<String, String>> {
     private static final Logger log = LoggerFactory
         .getLogger(OrganisationLoader.class);
     private final UserScopedProvider<GitHubLogin> ghLoginProvider;
@@ -88,26 +88,26 @@ public class GitHubOrganisationsCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        cache(ORGS_CACHE_NAME, String.class, new TypeLiteral<Multimap<String,String>>() {})
-            .expireAfterWrite(GROUPS_CACHE_TTL_MINS, MINUTES).loader(
-                OrganisationLoader.class);
-        bind(GitHubOrganisationsCache.class);
+        cache(ORGS_CACHE_NAME, String.class,
+            new TypeLiteral<Multimap<String, String>>() {}).expireAfterWrite(
+            GROUPS_CACHE_TTL_MINS, MINUTES).loader(OrganisationLoader.class);
+        bind(GitHubGroupsCache.class);
       }
     };
   }
 
-  private final LoadingCache<String, Multimap<String,String>> orgTeamsByUsername;
+  private final LoadingCache<String, Multimap<String, String>> orgTeamsByUsername;
   private final Provider<IdentifiedUser> userProvider;
 
   @Inject
-  public GitHubOrganisationsCache(
-      @Named(ORGS_CACHE_NAME) LoadingCache<String, Multimap<String,String>> byUsername,
+  GitHubGroupsCache(
+      @Named(ORGS_CACHE_NAME) LoadingCache<String, Multimap<String, String>> byUsername,
       Provider<IdentifiedUser> userProvider) {
     this.orgTeamsByUsername = byUsername;
     this.userProvider = userProvider;
   }
 
-  public Set<String> getOrganizationsForUser(String username) {
+  Set<String> getOrganizationsForUser(String username) {
     try {
       return orgTeamsByUsername.get(username).keySet();
     } catch (ExecutionException e) {
@@ -116,35 +116,35 @@ public class GitHubOrganisationsCache {
     }
   }
 
-  public Set<String> getOrganizationsForCurrentUser() throws ExecutionException {
+  Set<String> getOrganizationsForCurrentUser() throws ExecutionException {
     return orgTeamsByUsername.get(userProvider.get().getUserName()).keySet();
   }
 
-  public Set<String> getTeamsForUser(String organizationName, String username) {
+  Set<String> getTeamsForUser(String organizationName, String username) {
     try {
       return new ImmutableSet.Builder<String>().addAll(
           orgTeamsByUsername.get(username).get(organizationName)).build();
     } catch (ExecutionException e) {
-      log.warn("Cannot get Teams membership for organisation '" + organizationName
-          + "' and user '" + username + "'", e);
+      log.warn("Cannot get Teams membership for organisation '"
+          + organizationName + "' and user '" + username + "'", e);
       return Collections.emptySet();
     }
   }
 
-  public Set<String> getTeamsForCurrentUser(String organizationName) {
+  Set<String> getTeamsForCurrentUser(String organizationName) {
     return getTeamsForUser(organizationName, userProvider.get().getUserName());
   }
 
-  public Set<UUID> getAllGroupsForUser(String username) {
+  public Set<UUID> getGroupsForUser(String username) {
     ImmutableSet.Builder<UUID> groupsBuilder = new ImmutableSet.Builder<>();
-      for (String org : getOrganizationsForUser(username)) {
-        groupsBuilder.add(GitHubOrganisationGroup.uuid(org));
+    for (String org : getOrganizationsForUser(username)) {
+      groupsBuilder.add(GitHubOrganisationGroup.uuid(org));
 
-        for (String team : getTeamsForUser(org, username)) {
-          groupsBuilder.add(GitHubTeamGroup.uuid(
-              GitHubOrganisationGroup.uuid(org), team));
-        }
+      for (String team : getTeamsForUser(org, username)) {
+        groupsBuilder.add(GitHubTeamGroup.uuid(
+            GitHubOrganisationGroup.uuid(org), team));
       }
-      return groupsBuilder.build();
+    }
+    return groupsBuilder.build();
   }
 }

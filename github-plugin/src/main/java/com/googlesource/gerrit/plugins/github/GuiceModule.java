@@ -22,7 +22,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.googlesource.gerrit.plugins.github.group.GitHubGroupBackend;
 import com.googlesource.gerrit.plugins.github.group.GitHubGroupMembership;
-import com.googlesource.gerrit.plugins.github.group.GitHubOrganisationsCache;
+import com.googlesource.gerrit.plugins.github.group.GitHubGroupsCache;
 import com.googlesource.gerrit.plugins.github.group.GitHubOrganisationGroup;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.IdentifiedUserGitHubLoginProvider;
@@ -34,7 +34,7 @@ public class GuiceModule extends AbstractModule {
     bind(new TypeLiteral<UserScopedProvider<GitHubLogin>>() {}).to(
         IdentifiedUserGitHubLoginProvider.class);
 
-    install(GitHubOrganisationsCache.module());
+    install(GitHubGroupsCache.module());
 
     DynamicSet.bind(binder(), TopMenu.class).to(GitHubTopMenu.class);
     DynamicSet.bind(binder(), GroupBackend.class).to(GitHubGroupBackend.class);

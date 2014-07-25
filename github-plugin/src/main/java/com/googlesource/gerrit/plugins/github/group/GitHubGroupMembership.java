@@ -30,11 +30,11 @@ public class GitHubGroupMembership implements GroupMembership {
   }
 
   @Inject
-  public GitHubGroupMembership(GitHubOrganisationsCache ghOrganisationCache,
+  GitHubGroupMembership(GitHubGroupsCache ghOrganisationCache,
       @Assisted String username) {
     this.groups =
         new ImmutableSet.Builder<UUID>().addAll(
-            ghOrganisationCache.getAllGroupsForUser(username)).build();
+            ghOrganisationCache.getGroupsForUser(username)).build();
   }
 
   @Override

@@ -43,13 +43,13 @@ public class GitHubGroupBackend implements GroupBackend {
   private static final Logger log = LoggerFactory
       .getLogger(GitHubGroupBackend.class);
   private final GitHubGroupMembership.Factory ghMembershipProvider;
-  private final GitHubOrganisationsCache ghOrganisationCache;
+  private final GitHubGroupsCache ghOrganisationCache;
 
   @Inject
-  public GitHubGroupBackend(
+  GitHubGroupBackend(
       UserScopedProvider<GitHubLogin> ghLogin,
       GitHubGroupMembership.Factory ghMembershipProvider,
-      GitHubOrganisationsCache ghOrganisationCache) {
+      GitHubGroupsCache ghOrganisationCache) {
     this.ghMembershipProvider = ghMembershipProvider;
     this.ghOrganisationCache = ghOrganisationCache;
   }
@@ -91,14 +91,14 @@ public class GitHubGroupBackend implements GroupBackend {
 
       Builder<GroupReference> orgGroups =
           new ImmutableSet.Builder<GroupReference>();
-      for (String ghOrg : ghOrgs) {
-        if (ghOrg.toLowerCase().startsWith(orgNamePrefixLowercase)) {
+      for (String organizationName : ghOrgs) {
+        if (organizationName.toLowerCase().startsWith(orgNamePrefixLowercase)) {
           GroupReference teamGroupRef =
-              GitHubOrganisationGroup.groupReference(ghOrg);
+              GitHubOrganisationGroup.groupReference(organizationName);
 
           if ((orgNamePrefixLowercase.length() > 0 && orgNamePrefix
               .endsWith("/")) || teamNameLowercase.length() > 0) {
-            for (String teamName : ghOrganisationCache.getTeamsForCurrentUser(ghOrg)) {
+            for (String teamName : ghOrganisationCache.getTeamsForCurrentUser(organizationName)) {
               if (teamName.toLowerCase().startsWith(teamNameLowercase)) {
                 orgGroups.add(GitHubTeamGroup.groupReference(teamGroupRef,
                     teamName));
