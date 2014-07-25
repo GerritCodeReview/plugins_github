@@ -31,6 +31,7 @@ public class GitHubOrganisationGroup extends GitHubGroup implements Basic {
   }
 
   private final String orgName;
+
   @Inject
   GitHubOrganisationGroup(@Assisted("orgName") String orgName,
       @Assisted("orgUrl") @Nullable String orgUrl) {
