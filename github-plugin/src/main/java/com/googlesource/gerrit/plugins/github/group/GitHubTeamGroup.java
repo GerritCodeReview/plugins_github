@@ -18,6 +18,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
+import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 public class GitHubTeamGroup extends GitHubGroup {
@@ -29,9 +30,10 @@ public class GitHubTeamGroup extends GitHubGroup {
   private final GitHubOrganisationGroup orgGroup;
   private final String teamName;
 
-  public GitHubTeamGroup(@Assisted GitHubOrganisationGroup orgGroup,
+  @Inject
+  GitHubTeamGroup(@Assisted GitHubOrganisationGroup orgGroup,
       @Assisted String teamName, @Nullable String teamUrl) {
-    super(uuid(orgGroup.uuid, teamName), teamUrl);
+    super(uuid(orgGroup.getGroupUUID(), teamName), teamUrl);
     this.orgGroup = orgGroup;
     this.teamName = teamName;
   }
