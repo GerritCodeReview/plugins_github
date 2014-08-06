@@ -113,6 +113,30 @@
     },
     {
       "key": {
+        "uuid": "36573b43_176414ed",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthProtocol.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-06T09:41:47Z",
+      "side": 1,
+      "message": "| This class is the result of a JSON de-serialisation and names of the fields must match the JSON ones.\n\nNope, they must not. Json serializer that you are using is smart enough to translate them from underscore_case to CamelCase.  You should be polite enough and ask him to do so, or even use the Utility method from RestApi to create one in constructor.\n\n  OutputFormat.JSON.newGson().fromJson(json, type);\n\nNote how  OutputFormat.JSON.newGson() is constructed:\n\n  /** @return a new Gson instance configured according to the format. */\n  public GsonBuilder newGsonBuilder() {\n    if (!isJson()) {\n      throw new IllegalStateException(String.format(\"%s is not JSON\", this));\n    }\n    GsonBuilder gb \u003d new GsonBuilder()\n      .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)\n      .registerTypeAdapter(Timestamp.class, new SqlTimestampDeserializer());\n    if (this \u003d\u003d OutputFormat.JSON) {\n      gb.setPrettyPrinting();\n    }\n    return gb;\n  }\n\nSo what you want, it to fix this in its own change: set correct FieldNamingPolicy in Gson class and rename all fields to CamelCase and this would just work.",
+      "parentUuid": "36573b43_d790dc8b",
+      "range": {
+        "startLine": 72,
+        "startChar": 18,
+        "endLine": 73,
+        "endChar": 28
+      },
+      "revId": "6ed234ba1e1605d4c0ee50837bd49c7ec4692375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36573b43_97866455",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthProtocol.java",
         "patchSetId": 1
