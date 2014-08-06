@@ -36,7 +36,7 @@ public class GitHubOAuthConfig {
   protected static final String CONF_SECTION = "github";
   private static final String LOGIN_OAUTH_AUTHORIZE = "/login/oauth/authorize";
   private static final String GITHUB_URL = "https://github.com";
-  public static final String OAUTH_FINAL = "/oauth";
+  public static final String OAUTH_FINAL = "oauth";
   public static final String LOGIN_OAUTH_ACCESS_TOKEN =
       "/login/oauth/access_token";
   public static final String OAUTH_LOGIN = "/login";
@@ -110,14 +110,9 @@ public class GitHubOAuthConfig {
     return scopes;
   }
 
-  public String getUrl(String baseUrl, String path)
+  private static String getUrl(String baseUrl, String path)
       throws MalformedURLException {
-    if (baseUrl.indexOf("://") > 0) {
       return new URL(new URL(baseUrl), path).toExternalForm();
-    } else {
-      return baseUrl + (baseUrl.endsWith("/") ? "" : "/")
-          + (path.startsWith("/") ? path.substring(1) : path);
-    }
   }
 
   public Scope[] getDefaultScopes() {
