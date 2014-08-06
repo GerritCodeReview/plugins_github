@@ -16,6 +16,24 @@
       "revId": "6acea8e33e768f447648f8bb7da9e32c4baf1936",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36573b43_77a750da",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-08-06T18:10:04Z",
+      "side": 1,
+      "message": "Not really because in reality from where it was called from the else {} block was never used. I will actually just remove them as it is actually useless.\n\nThe problem was on the new URL() part where the heading \u0027/\u0027 removes the context path in the initial URL (i.e. exactly the situation where Gerrit as a suffix from a reverse proxy config).",
+      "parentUuid": "166cf713_16c9bc90",
+      "revId": "6acea8e33e768f447648f8bb7da9e32c4baf1936",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
