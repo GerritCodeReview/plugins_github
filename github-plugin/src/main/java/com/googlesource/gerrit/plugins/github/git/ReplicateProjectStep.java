@@ -48,7 +48,7 @@ public class ReplicateProjectStep extends ImportStep {
     this.replicationConfig = replicationConfig;
     GitHubLogin ghLogin = ghLoginProvider.get();
     this.authUsername = ghLogin.getMyself().getLogin();
-    this.authToken = ghLogin.getToken().access_token;
+    this.authToken = ghLogin.getToken().accessToken;
     this.gitHubUrl = gitHubUrl;
   }
 

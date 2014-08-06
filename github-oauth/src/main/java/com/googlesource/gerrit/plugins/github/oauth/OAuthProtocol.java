@@ -1,10 +1,12 @@
 package com.googlesource.gerrit.plugins.github.oauth;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -25,6 +27,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Strings;
+import com.google.common.io.CharStreams;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -63,8 +66,11 @@ public class OAuthProtocol {
   private final Gson gson;
 
   public static class AccessToken {
-    public String access_token;
-    public String token_type;
+    public String accessToken;
+    public String tokenType;
+    public String error;
+    public String errorDescription;
+    public String errorUri;
 
     public AccessToken() {
     }
@@ -75,14 +81,19 @@ public class OAuthProtocol {
 
     public AccessToken(String token, String type, Scope... scopes) {
       this();
-      this.access_token = token;
-      this.token_type = type;
+      this.accessToken = token;
+      this.tokenType = type;
     }
 
     @Override
     public String toString() {
-      return "AccessToken [access_token=" + access_token + ", token_type="
-          + token_type + "]";
+      if (isError()) {
+        return "Error AcessToken [error=" + error + ", error_description="
+            + errorDescription + ", error_uri=" + errorUri + "]";
+      } else {
+        return "AccessToken [access_token=" + accessToken + ", token_type="
+            + tokenType + "]";
+      }
     }
 
     @Override
@@ -91,9 +102,9 @@ public class OAuthProtocol {
       int result = 1;
       result =
           prime * result
-              + ((access_token == null) ? 0 : access_token.hashCode());
+              + ((accessToken == null) ? 0 : accessToken.hashCode());
       result =
-          prime * result + ((token_type == null) ? 0 : token_type.hashCode());
+          prime * result + ((tokenType == null) ? 0 : tokenType.hashCode());
       return result;
     }
 
@@ -103,21 +114,29 @@ public class OAuthProtocol {
       if (obj == null) return false;
       if (getClass() != obj.getClass()) return false;
       AccessToken other = (AccessToken) obj;
-      if (access_token == null) {
-        if (other.access_token != null) return false;
-      } else if (!access_token.equals(other.access_token)) return false;
-      if (token_type == null) {
-        if (other.token_type != null) return false;
-      } else if (!token_type.equals(other.token_type)) return false;
+      if (accessToken == null) {
+        if (other.accessToken != null) return false;
+      } else if (!accessToken.equals(other.accessToken)) return false;
+      if (tokenType == null) {
+        if (other.tokenType != null) return false;
+      } else if (!tokenType.equals(other.tokenType)) return false;
       return true;
+    }
+
+    public boolean isError() {
+      return !Strings.isNullOrEmpty(error);
     }
   }
 
   @Inject
-  public OAuthProtocol(GitHubOAuthConfig config, GitHubHttpProvider httpClientProvider, Gson gson) {
+  public OAuthProtocol(GitHubOAuthConfig config, GitHubHttpProvider httpClientProvider, 
+      /* We need to explicitly tell Guice which Provider<> we need as this class may be
+         instantiated outside the standard Guice Module set-up (e.g. initial Servlet login
+         filter) */
+      GsonProvider gsonProvider) {
     this.config = config;
     this.http = httpClientProvider.get();
-    this.gson = gson;
+    this.gson = gsonProvider.get();
   }
 
   public void loginPhase1(HttpServletRequest request,
@@ -195,21 +214,22 @@ public class OAuthProtocol {
         LOG.error("POST " + config.gitHubOAuthAccessTokenUrl
             + " request for access token failed with status "
             + postResponse.getStatusLine());
-        response.sendError(HttpURLConnection.HTTP_UNAUTHORIZED,
-            "Request for access token not authorised");
         EntityUtils.consume(postResponse.getEntity());
         return null;
       }
 
-      AccessToken token =
-          gson.fromJson(new InputStreamReader(postResponse.getEntity()
-              .getContent(), "UTF-8"), AccessToken.class);
+      InputStream content = postResponse.getEntity().getContent();
+      String tokenJsonString =
+          CharStreams.toString(new InputStreamReader(content,
+              StandardCharsets.UTF_8));
+      AccessToken token = gson.fromJson(tokenJsonString, AccessToken.class);
+      if(token.isError()) {
+        LOG.error("POST " + config.gitHubOAuthAccessTokenUrl + " returned an error token: " + token);
+      }
       return token;
     } catch (IOException e) {
       LOG.error("POST " + config.gitHubOAuthAccessTokenUrl
           + " request for access token failed", e);
-      response.sendError(HttpURLConnection.HTTP_UNAUTHORIZED,
-          "Request for access token not authorised");
       return null;
     }
   }
