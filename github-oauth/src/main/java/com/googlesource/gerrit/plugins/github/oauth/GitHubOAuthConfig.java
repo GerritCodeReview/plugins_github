@@ -36,7 +36,7 @@ public class GitHubOAuthConfig {
   protected static final String CONF_SECTION = "github";
   private static final String LOGIN_OAUTH_AUTHORIZE = "/login/oauth/authorize";
   private static final String GITHUB_URL = "https://github.com";
-  public static final String OAUTH_FINAL = "/oauth";
+  public static final String OAUTH_FINAL = "oauth";
   public static final String LOGIN_OAUTH_ACCESS_TOKEN =
       "/login/oauth/access_token";
   public static final String OAUTH_LOGIN = "/login";
