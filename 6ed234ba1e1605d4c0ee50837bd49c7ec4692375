@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36573b43_5785ec4a",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubLogin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-06T08:51:16Z",
+      "side": 1,
+      "message": "Nit: missing blank.",
+      "range": {
+        "startLine": 119,
+        "startChar": 8,
+        "endLine": 119,
+        "endChar": 9
+      },
+      "revId": "6ed234ba1e1605d4c0ee50837bd49c7ec4692375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36573b43_b789e867",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthProtocol.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-06T08:51:16Z",
+      "side": 1,
+      "message": "trailing blank.",
+      "revId": "6ed234ba1e1605d4c0ee50837bd49c7ec4692375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "166cf713_d690e48b",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthProtocol.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-06T08:51:16Z",
+      "side": 1,
+      "message": "I see, this naming convention is consistent in this file. But we are actually using CamelCase naming convention for server code and underscore_case for client code.",
+      "range": {
+        "startLine": 72,
+        "startChar": 18,
+        "endLine": 73,
+        "endChar": 28
+      },
+      "revId": "6ed234ba1e1605d4c0ee50837bd49c7ec4692375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36573b43_97866455",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthProtocol.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-06T08:51:16Z",
+      "side": 1,
+      "message": "Nit: missing blank.",
+      "range": {
+        "startLine": 222,
+        "startChar": 8,
+        "endLine": 222,
+        "endChar": 9
+      },
+      "revId": "6ed234ba1e1605d4c0ee50837bd49c7ec4692375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
