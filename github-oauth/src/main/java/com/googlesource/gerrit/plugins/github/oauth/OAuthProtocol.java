@@ -1,10 +1,12 @@
 package com.googlesource.gerrit.plugins.github.oauth;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -25,6 +27,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Strings;
+import com.google.common.io.CharStreams;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -65,6 +68,9 @@ public class OAuthProtocol {
   public static class AccessToken {
     public String access_token;
     public String token_type;
+    public String error;
+    public String error_description;
+    public String error_uri;
 
     public AccessToken() {
     }
@@ -81,8 +87,13 @@ public class OAuthProtocol {
 
     @Override
     public String toString() {
-      return "AccessToken [access_token=" + access_token + ", token_type="
-          + token_type + "]";
+      if (isError()) {
+        return "Error AcessToken [error=" + error + ", error_description="
+            + error_description + ", error_uri=" + error_uri + "]";
+      } else {
+        return "AccessToken [access_token=" + access_token + ", token_type="
+            + token_type + "]";
+      }
     }
 
     @Override
@@ -110,6 +121,10 @@ public class OAuthProtocol {
         if (other.token_type != null) return false;
       } else if (!token_type.equals(other.token_type)) return false;
       return true;
+    }
+
+    public boolean isError() {
+      return !Strings.isNullOrEmpty(error);
     }
   }
 
@@ -195,21 +210,22 @@ public class OAuthProtocol {
         LOG.error("POST " + config.gitHubOAuthAccessTokenUrl
             + " request for access token failed with status "
             + postResponse.getStatusLine());
-        response.sendError(HttpURLConnection.HTTP_UNAUTHORIZED,
-            "Request for access token not authorised");
         EntityUtils.consume(postResponse.getEntity());
         return null;
       }
 
-      AccessToken token =
-          gson.fromJson(new InputStreamReader(postResponse.getEntity()
-              .getContent(), "UTF-8"), AccessToken.class);
+      InputStream content = postResponse.getEntity().getContent();
+      String tokenJsonString =
+          CharStreams.toString(new InputStreamReader(content,
+              StandardCharsets.UTF_8));
+      AccessToken token = gson.fromJson(tokenJsonString, AccessToken.class);
+      if(token.isError()) {
+        LOG.error("POST " + config.gitHubOAuthAccessTokenUrl + " returned an error token: " + token);
+      }
       return token;
     } catch (IOException e) {
       LOG.error("POST " + config.gitHubOAuthAccessTokenUrl
           + " request for access token failed", e);
-      response.sendError(HttpURLConnection.HTTP_UNAUTHORIZED,
-          "Request for access token not authorised");
       return null;
     }
   }

@@ -114,8 +114,12 @@ public class GitHubLogin {
     LOG.debug("Login " + this);
 
     if (OAuthProtocol.isOAuthFinal(request)) {
-      LOG.debug("Login-FINAL " + this);
-      login(oauth.loginPhase2(request, response));
+      log.debug("Login-FINAL " + this);
+      AccessToken loginAccessToken = oauth.loginPhase2(request, response);
+      if(loginAccessToken != null && !loginAccessToken.isError()) {
+        login(loginAccessToken);
+      }
+
       if (isLoggedIn()) {
         LOG.debug("Login-SUCCESS " + this);
         response.sendRedirect(OAuthProtocol.getTargetUrl(request));
