@@ -65,6 +65,30 @@
     },
     {
       "key": {
+        "uuid": "36573b43_d790dc8b",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthProtocol.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2014-08-06T09:14:09Z",
+      "side": 1,
+      "message": "Actually the fields names are decided by GitHub and not me :-(\nThis class is the result of a JSON de-serialisation and names of the fields must match the JSON ones.",
+      "parentUuid": "166cf713_d690e48b",
+      "range": {
+        "startLine": 72,
+        "startChar": 18,
+        "endLine": 73,
+        "endChar": 28
+      },
+      "revId": "6ed234ba1e1605d4c0ee50837bd49c7ec4692375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36573b43_97866455",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthProtocol.java",
         "patchSetId": 1
