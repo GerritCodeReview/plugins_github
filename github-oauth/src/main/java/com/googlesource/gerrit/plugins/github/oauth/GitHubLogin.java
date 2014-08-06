@@ -126,7 +126,11 @@ public class GitHubLogin {
 
     if (OAuthProtocol.isOAuthFinal(request)) {
       log.debug("Login-FINAL " + this);
-      login(oauth.loginPhase2(request, response));
+      AccessToken loginAccessToken = oauth.loginPhase2(request, response);
+      if(loginAccessToken != null && !loginAccessToken.isError()) {
+        login(loginAccessToken);
+      }
+
       if (isLoggedIn()) {
         log.debug("Login-SUCCESS " + this);
         response.sendRedirect(OAuthProtocol.getTargetUrl(request));
@@ -153,9 +157,9 @@ public class GitHubLogin {
   }
 
   public GitHub login(AccessToken authToken) throws IOException {
-    log.debug("Logging in using access token {}", authToken.access_token);
+    log.debug("Logging in using access token {}", authToken.accessToken);
     this.token = authToken;
-    this.hub = GitHub.connectUsingOAuth(authToken.access_token);
+    this.hub = GitHub.connectUsingOAuth(authToken.accessToken);
     this.myself = hub.getMyself();
     return this.hub;
   }

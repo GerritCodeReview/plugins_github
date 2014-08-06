@@ -92,7 +92,7 @@ public class OAuthWebFilter implements Filter {
               new AuthenticatedHttpRequest(httpRequest, config.httpHeader,
                   ghLogin.getMyself().getLogin(),
                   config.oauthHttpHeader,
-                  GITHUB_EXT_ID + ghLogin.getToken().access_token);
+                  GITHUB_EXT_ID + ghLogin.getToken().accessToken);
         }
 
         if (OAuthProtocol.isOAuthFinalForOthers(httpRequest)) {
@@ -125,7 +125,7 @@ public class OAuthWebFilter implements Filter {
       String user = myself.getLogin();
 
       updateSecureConfigWithRetry(ghLogin.hub.getMyOrganizations().keySet(),
-          user, ghLogin.token.access_token);
+          user, ghLogin.token.accessToken);
     }
   }
 
