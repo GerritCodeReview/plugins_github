@@ -89,6 +89,30 @@
     },
     {
       "key": {
+        "uuid": "166cf713_76591039",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthProtocol.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-06T09:32:28Z",
+      "side": 1,
+      "message": "Ahh, i see.",
+      "parentUuid": "36573b43_d790dc8b",
+      "range": {
+        "startLine": 72,
+        "startChar": 18,
+        "endLine": 73,
+        "endChar": 28
+      },
+      "revId": "6ed234ba1e1605d4c0ee50837bd49c7ec4692375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36573b43_97866455",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthProtocol.java",
         "patchSetId": 1
