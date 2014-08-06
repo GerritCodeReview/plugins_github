@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "166cf713_16c9bc90",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1016317
+      },
+      "writtenOn": "2014-08-06T14:26:58Z",
+      "side": 1,
+      "message": "It seems to me like the removal of the slash has no effect because its dealt with here no?",
+      "revId": "6acea8e33e768f447648f8bb7da9e32c4baf1936",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
