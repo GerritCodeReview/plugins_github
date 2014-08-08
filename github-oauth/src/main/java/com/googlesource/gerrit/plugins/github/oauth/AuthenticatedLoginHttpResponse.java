@@ -15,6 +15,7 @@ package com.googlesource.gerrit.plugins.github.oauth;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.Collections;
@@ -174,7 +175,8 @@ public class AuthenticatedLoginHttpResponse extends HttpServletResponseWrapper {
 
   @Override
   public PrintWriter getWriter() throws IOException {
-    return new PrintWriter(outputStream);
+    return new PrintWriter(new OutputStreamWriter(outputStream,
+        characterEncoding));
   }
 
   @Override
