@@ -150,7 +150,12 @@ public class OAuthGitFilter implements Filter {
         gerritPassword =
             generateRandomGerritPassword(username, httpRequest, httpResponse,
                 chain);
-        httpResponse.sendRedirect(getRequestPathWithQueryString(httpRequest));
+        if (Strings.isNullOrEmpty(gerritPassword)) {
+          httpResponse.sendError(SC_FORBIDDEN,
+              "Unable to generate Gerrit password for Git Basic-Auth");
+        } else {
+          httpResponse.sendRedirect(getRequestPathWithQueryString(httpRequest));
+        }
         return;
       }
 
