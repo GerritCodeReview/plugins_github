@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "961c67fc_7a54b9df",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthProtocol.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-13T09:12:11Z",
+      "side": 1,
+      "message": "What\u0027s that? This wasn\u0027t introduced in this change, but this should be cleaned up.",
+      "range": {
+        "startLine": 82,
+        "startChar": 50,
+        "endLine": 82,
+        "endChar": 65
+      },
+      "revId": "426019239db23e54e405f9c64ecee1b3d98dec51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "961c67fc_5a5775e5",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthProtocol.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2014-08-13T09:12:11Z",
+      "side": 1,
+      "message": "You changed var names. Adjust the variable name in message as well ()Camel case instead of low_Case_with_underscore)? Alternatively don\u0027t repeat word \"error\" all the time, as you already said error\u003dfoo, so may be just:\n\n* description: bar \n* URI: baz\n* type: qux",
+      "range": {
+        "startLine": 91,
+        "startChar": 56,
+        "endLine": 91,
+        "endChar": 73
+      },
+      "revId": "426019239db23e54e405f9c64ecee1b3d98dec51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
