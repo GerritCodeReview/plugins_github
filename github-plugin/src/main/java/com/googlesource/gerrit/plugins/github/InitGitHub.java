@@ -13,9 +13,9 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github;
 
-import com.google.gerrit.pgm.init.InitStep;
-import com.google.gerrit.pgm.init.Section;
-import com.google.gerrit.pgm.util.ConsoleUI;
+import com.google.gerrit.pgm.init.api.ConsoleUI;
+import com.google.gerrit.pgm.init.api.InitStep;
+import com.google.gerrit.pgm.init.api.Section;
 import com.google.inject.Inject;
 
 public class InitGitHub implements InitStep {
