@@ -247,6 +247,15 @@ limitations under the License.
       </plugin>
     </plugins>
   </build>
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <version>3.0.0</version>
+      </plugin>
+    </plugins>
+  </reporting>
   <repositories>
     <repository>
       <releases>
