@@ -269,7 +269,7 @@ limitations under the License.
     </repository>
     <repository>
       <releases>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
       </releases>
       <snapshots>
         <enabled>true</enabled>
