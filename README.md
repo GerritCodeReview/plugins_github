@@ -142,3 +142,19 @@ Note: Client ID & Client Secret are generated that used in the next step.
 * ClientId []: <provided client id from previous step>
 * ClientSecret []: <provided client secret from previous step>
 
+### Contributing to GitHub plugin
+
+GitHub plugin is using lombok library, that adds 'handlers' that know how
+to build and compile simple, boilerplate-free, not-quite-java code.
+
+Lombok Eclipse integration must be installed to understnd these handlers.
+To install, download lombok.jar from http://projectlombok.org/ and install:
+
+
+```
+  java -jar lombok.jar
+```
+
+Follow the instruction to select your Eclipse installation when the
+installer cannot detect it on its own. After the installation, Eclipse
+must be restarted and compilation errors should disappear.
