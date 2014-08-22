@@ -17,6 +17,10 @@ import java.io.IOException;
 
 import lombok.experimental.Delegate;
 
+import org.eclipse.jgit.errors.UnsupportedCredentialItem;
+import org.eclipse.jgit.transport.CredentialItem;
+import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.transport.URIish;
 import org.kohsuke.github.GHRepository;
 
 import com.google.inject.Inject;
@@ -41,8 +45,7 @@ public class GitHubRepository extends GHRepository {
   private GHRepository ghRepository;
 
   public String getCloneUrl() {
-    return cloneUrl.replace("://", "://" + ghLogin.getMyself().getLogin() + ":"
-        + ghLogin.getToken().accessToken + "@");
+    return cloneUrl.replace("://", "://" + ghLogin.getMyself().getLogin() + "@");
   }
 
   public String getOrganisation() {
@@ -64,5 +67,57 @@ public class GitHubRepository extends GHRepository {
     this.ghLogin = ghLoginProvider.get();
     this.ghRepository =
         ghLogin.getHub().getRepository(organisation + "/" + repository);
+  }
+
+  public CredentialsProvider getCredentialsProvider() {
+    return new CredentialsProvider() {
+
+      @Override
+      public boolean supports(CredentialItem... items) {
+        for (CredentialItem i : items) {
+          if (i instanceof CredentialItem.Username) {
+            continue;
+          } else if (i instanceof CredentialItem.Password) {
+            continue;
+          } else {
+            return false;
+          }
+        }
+        return true;
+      }
+
+      @Override
+      public boolean isInteractive() {
+        return false;
+      }
+
+      @Override
+      public boolean get(URIish uri, CredentialItem... items)
+          throws UnsupportedCredentialItem {
+        String username = uri.getUser();
+        if (username == null) {
+          username = ghLogin.getMyself().getLogin();
+        }
+        if (username == null) {
+          return false;
+        }
+
+        String password = ghLogin.getToken().accessToken;
+        if (password == null) {
+          return false;
+        }
+
+        for (CredentialItem i : items) {
+          if (i instanceof CredentialItem.Username) {
+            ((CredentialItem.Username) i).setValue(username);
+          } else if (i instanceof CredentialItem.Password) {
+            ((CredentialItem.Password) i).setValue(password.toCharArray());
+          } else {
+            throw new UnsupportedCredentialItem(uri, i.getPromptText());
+          }
+        }
+        return true;
+      }
+    };
   }
 }
