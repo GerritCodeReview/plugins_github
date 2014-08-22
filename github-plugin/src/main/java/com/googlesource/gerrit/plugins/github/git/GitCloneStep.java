@@ -79,6 +79,7 @@ public class GitCloneStep extends ImportStep {
   public void doImport(ProgressMonitor progress) throws GitCloneFailedException,
       GitDestinationAlreadyExistsException, GitDestinationNotWritableException {
     CloneCommand clone = new CloneCommand();
+    clone.setCredentialsProvider(getRepository().getCredentialsProvider());
     String sourceUri = getSourceUri();
     clone.setURI(sourceUri);
     clone.setBare(true);

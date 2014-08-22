@@ -246,6 +246,7 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
     fetch.setRefSpecs(new RefSpec("+refs/pull/" + pr.getNumber()
         + "/head:refs/remotes/origin/pr/" + pr.getNumber()));
     fetch.setProgressMonitor(this);
+    fetch.setCredentialsProvider(ghRepository.getCredentialsProvider());
     fetch.call();
   }
 
