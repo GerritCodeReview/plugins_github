@@ -19,6 +19,7 @@ import java.util.Arrays;
 import org.apache.http.HttpStatus;
 
 import com.google.common.base.Objects;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -57,7 +58,7 @@ public class AccountImporter {
         (Response<AccountInfo>) createAccount.apply(TopLevelResource.INSTANCE,
             accountInput);
     if (accountResponse.statusCode() == HttpStatus.SC_CREATED) {
-      Id accountId = accountResponse.value()._id;
+      Id accountId = new Account.Id(accountResponse.value()._accountId);
       db.accountExternalIds().insert(
           Arrays
               .asList(new AccountExternalId(accountId,
