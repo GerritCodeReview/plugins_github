@@ -60,6 +60,7 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.ssh.NoSshInfo;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
