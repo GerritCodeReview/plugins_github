@@ -26,7 +26,7 @@ public class GitJobStatus {
 
     public String toString() {
       return name().toLowerCase();
-    };
+    }
   }
 
   public final int index;
