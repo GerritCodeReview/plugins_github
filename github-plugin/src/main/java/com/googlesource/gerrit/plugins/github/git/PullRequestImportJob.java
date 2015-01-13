@@ -40,9 +40,9 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.reviewdb.client.Change.Id;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gerrit.reviewdb.client.Change.Id;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.reviewdb.server.AccountExternalIdAccess;
@@ -56,9 +56,9 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.github.GitHubURL;
+import com.googlesource.gerrit.plugins.github.git.GitJobStatus.Code;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
-import com.googlesource.gerrit.plugins.github.git.GitJobStatus.Code;
 
 public class PullRequestImportJob implements GitJob, ProgressMonitor {
 

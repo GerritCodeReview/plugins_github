@@ -14,6 +14,10 @@
 
 package com.googlesource.gerrit.plugins.github.replication;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Set;
+
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.CurrentUser;
@@ -21,10 +25,6 @@ import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Set;
 
 public class RemoteSiteUser extends CurrentUser {
   public interface Factory {

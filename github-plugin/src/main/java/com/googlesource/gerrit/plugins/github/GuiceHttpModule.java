@@ -21,6 +21,12 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.name.Names;
 import com.google.inject.servlet.ServletModule;
 import com.googlesource.gerrit.plugins.github.filters.GitHubOAuthFilter;
+import com.googlesource.gerrit.plugins.github.git.CreateProjectStep;
+import com.googlesource.gerrit.plugins.github.git.GitCloneStep;
+import com.googlesource.gerrit.plugins.github.git.GitHubRepository;
+import com.googlesource.gerrit.plugins.github.git.GitImporter;
+import com.googlesource.gerrit.plugins.github.git.PullRequestImportJob;
+import com.googlesource.gerrit.plugins.github.git.ReplicateProjectStep;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubHttpProvider;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
@@ -29,12 +35,6 @@ import com.googlesource.gerrit.plugins.github.velocity.PluginVelocityRuntimeProv
 import com.googlesource.gerrit.plugins.github.velocity.VelocityStaticServlet;
 import com.googlesource.gerrit.plugins.github.velocity.VelocityViewServlet;
 import com.googlesource.gerrit.plugins.github.wizard.VelocityControllerServlet;
-import com.googlesource.gerrit.plugins.github.git.CreateProjectStep;
-import com.googlesource.gerrit.plugins.github.git.GitCloneStep;
-import com.googlesource.gerrit.plugins.github.git.GitHubRepository;
-import com.googlesource.gerrit.plugins.github.git.GitImporter;
-import com.googlesource.gerrit.plugins.github.git.PullRequestImportJob;
-import com.googlesource.gerrit.plugins.github.git.ReplicateProjectStep;
 
 public class GuiceHttpModule extends ServletModule {
 

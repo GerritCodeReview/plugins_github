@@ -16,13 +16,13 @@ package com.googlesource.gerrit.plugins.github.git;
 
 import java.io.IOException;
 
+import lombok.Getter;
+
 import org.kohsuke.github.GHUser;
 import org.kohsuke.github.GitUser;
 
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
-
-import lombok.Getter;
 
 public class GitHubUser {
   @Getter

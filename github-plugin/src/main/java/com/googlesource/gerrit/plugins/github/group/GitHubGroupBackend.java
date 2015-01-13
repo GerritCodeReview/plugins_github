@@ -15,8 +15,8 @@
 package com.googlesource.gerrit.plugins.github.group;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.googlesource.gerrit.plugins.github.group.GitHubOrganisationGroup.NAME_PREFIX;
-import static com.googlesource.gerrit.plugins.github.group.GitHubOrganisationGroup.UUID_PREFIX;
+import static com.googlesource.gerrit.plugins.github.group.GitHubGroup.NAME_PREFIX;
+import static com.googlesource.gerrit.plugins.github.group.GitHubGroup.UUID_PREFIX;
 
 import java.util.Collection;
 import java.util.Collections;
