@@ -18,7 +18,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 
 public class GitHubLogoutServletResponse extends HttpServletResponseWrapper {
   private String redirectUrl;
@@ -30,6 +30,6 @@ public class GitHubLogoutServletResponse extends HttpServletResponseWrapper {
 
   @Override
   public void sendRedirect(String location) throws IOException {
-    super.sendRedirect(Objects.firstNonNull(redirectUrl, location));
+    super.sendRedirect(MoreObjects.firstNonNull(redirectUrl, location));
   }
 }

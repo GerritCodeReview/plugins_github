@@ -46,7 +46,7 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterators;
 import com.google.gerrit.httpd.XGerritAuth;
@@ -280,7 +280,7 @@ public class OAuthGitFilter implements Filter {
   }
 
   static String encoding(HttpServletRequest req) {
-    return Objects.firstNonNull(req.getCharacterEncoding(), "UTF-8");
+    return MoreObjects.firstNonNull(req.getCharacterEncoding(), "UTF-8");
   }
 
   private String getHttpBasicAuthenticationHeader(final HttpServletRequest req)

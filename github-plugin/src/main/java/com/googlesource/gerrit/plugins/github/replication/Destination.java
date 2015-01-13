@@ -22,7 +22,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GroupReference;
@@ -55,7 +55,7 @@ public class Destination {
     remote = rc;
 
     remoteNameStyle =
-        Objects.firstNonNull(
+        MoreObjects.firstNonNull(
             cfg.getString("remote", rc.getName(), "remoteNameStyle"), "slash");
 
     String[] authGroupNames =

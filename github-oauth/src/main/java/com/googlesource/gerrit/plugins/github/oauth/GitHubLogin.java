@@ -39,7 +39,7 @@ import org.kohsuke.github.GitHub;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.AccessToken;
@@ -184,7 +184,7 @@ public class GitHubLogin {
       response.addCookie(scopeCookie);
     }
 
-    return Objects.firstNonNull(scopeRequested, "scopes");
+    return MoreObjects.firstNonNull(scopeRequested, "scopes");
   }
 
   private String getScopesKeyFromCookie(HttpServletRequest request) {
@@ -209,7 +209,7 @@ public class GitHubLogin {
   }
 
   private List<Scope> scopesForKey(String baseScopeKey) {
-    return Objects
+    return MoreObjects
         .firstNonNull(config.scopes.get(baseScopeKey), DEFAULT_SCOPES);
   }
 }

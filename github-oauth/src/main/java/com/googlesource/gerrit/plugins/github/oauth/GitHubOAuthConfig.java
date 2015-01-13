@@ -22,7 +22,7 @@ import java.util.Set;
 
 import org.eclipse.jgit.lib.Config;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.google.gerrit.reviewdb.client.AuthType;
@@ -65,7 +65,7 @@ public class GitHubOAuthConfig {
     httpHeader = config.getString("auth", null, "httpHeader");
     oauthHttpHeader = config.getString("auth", null, "httpExternalIdHeader");
     gitHubUrl = dropTrailingSlash(
-        Objects.firstNonNull(config.getString(CONF_SECTION, null, "url"),
+        MoreObjects.firstNonNull(config.getString(CONF_SECTION, null, "url"),
             GITHUB_URL));
     gitHubClientId = config.getString(CONF_SECTION, null, "clientId");
     gitHubClientSecret = config.getString(CONF_SECTION, null, "clientSecret");

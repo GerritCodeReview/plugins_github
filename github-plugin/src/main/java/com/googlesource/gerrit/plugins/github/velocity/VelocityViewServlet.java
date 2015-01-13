@@ -32,7 +32,7 @@ import org.apache.velocity.runtime.RuntimeInstance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -81,7 +81,7 @@ public class VelocityViewServlet extends HttpServlet {
               + nextPage.uri;
     }
 
-    String pathInfo = Objects.firstNonNull(destUrl, servletPath);
+    String pathInfo = MoreObjects.firstNonNull(destUrl, servletPath);
     if (!pathInfo.startsWith(STATIC_PREFIX)) {
       resp.sendError(HttpStatus.SC_NOT_FOUND);
     }

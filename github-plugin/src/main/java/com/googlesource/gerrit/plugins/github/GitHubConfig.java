@@ -19,7 +19,7 @@ import java.util.HashMap;
 
 import org.eclipse.jgit.lib.Config;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.Maps;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -123,7 +123,7 @@ public class GitHubConfig extends GitHubOAuthConfig {
   }
 
   public String getBaseProject(boolean isPrivateProject) {
-    return Objects.firstNonNull(isPrivateProject ? privateBaseProject
+    return MoreObjects.firstNonNull(isPrivateProject ? privateBaseProject
         : publicBaseProject, allProjectsName);
   }
 }

@@ -18,7 +18,7 @@ import java.util.Arrays;
 
 import org.apache.http.HttpStatus;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -53,7 +53,7 @@ public class AccountImporter {
     CreateAccount.Input accountInput = new CreateAccount.Input();
     accountInput.email = email;
     accountInput.username = login;
-    accountInput.name = Objects.firstNonNull(name, login);
+    accountInput.name = MoreObjects.firstNonNull(name, login);
     Response<AccountInfo> accountResponse =
         (Response<AccountInfo>) createAccount.apply(TopLevelResource.INSTANCE,
             accountInput);
