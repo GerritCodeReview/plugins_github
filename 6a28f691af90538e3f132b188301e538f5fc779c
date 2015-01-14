@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "ee49514e_f27bc8aa",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/group/GitHubGroupBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-01-14T08:07:14Z",
+      "side": 1,
+      "message": "True, thanx",
+      "parentUuid": "aed03989_6830a304",
+      "range": {
+        "startLine": 19,
+        "startChar": 38,
+        "endLine": 19,
+        "endChar": 45
+      },
+      "revId": "6a28f691af90538e3f132b188301e538f5fc779c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cedbadab_8946b981",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/replication/RemoteSiteUser.java",
         "patchSetId": 1
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "I used the Eclipse \"Organize Imports\" tool.\n\nThe settings for the import ordering are not controlled by the GoogleFormat settings; there is a separate setting panel.\n\nIn the gerrit project the order is customized.  I can change it for the plugin, but because the whole .settings folder is ignored the changes won\u0027t be committed and it will be set to the default order for anyone who sets up a new project in Eclipse.\n\nI thought it was better to change only the one file that is not consistent with the rest.\n\nThe alternative is to add the relevant setting file to the git repository and make all the files follow that, which will result in changes in 61 files.",
       "parentUuid": "cedbadab_8946b981",
+      "range": {
+        "startLine": 17,
+        "startChar": 7,
+        "endLine": 17,
+        "endChar": 11
+      },
+      "revId": "6a28f691af90538e3f132b188301e538f5fc779c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee49514e_12812c28",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/replication/RemoteSiteUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-01-14T08:07:14Z",
+      "side": 1,
+      "message": "The whole commit is named \"Organise imports\" so it makes sense to include even just imports moves. Good to me.",
+      "parentUuid": "aed03989_482ddfac",
       "range": {
         "startLine": 17,
         "startChar": 7,
