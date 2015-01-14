@@ -141,6 +141,30 @@
       "revId": "6a28f691af90538e3f132b188301e538f5fc779c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aed03989_485f9f30",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/replication/RemoteSiteUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-01-14T08:09:59Z",
+      "side": 1,
+      "message": "I think Martin\u0027s point was that this ordering is different to the order configured for the gerrit project.\n\nSee the RFC change that I just uploaded [1].  If I import those settings and then organize imports again, it will undo this change but change several other files to move the java.* imports to after the com.google.* imports.\n\n[1] https://gerrit-review.googlesource.com/63245",
+      "parentUuid": "ee49514e_12812c28",
+      "range": {
+        "startLine": 17,
+        "startChar": 7,
+        "endLine": 17,
+        "endChar": 11
+      },
+      "revId": "6a28f691af90538e3f132b188301e538f5fc779c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
