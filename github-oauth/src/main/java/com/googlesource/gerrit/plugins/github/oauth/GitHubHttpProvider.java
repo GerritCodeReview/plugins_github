@@ -13,6 +13,9 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.oauth;
 
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
+
 import org.apache.http.HttpHost;
 import org.apache.http.client.HttpClient;
 import org.apache.http.conn.routing.HttpRoute;
@@ -22,9 +25,6 @@ import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.PoolingClientConnectionManager;
-
-import com.google.inject.Provider;
-import com.google.inject.Singleton;
 
 @Singleton
 public class GitHubHttpProvider implements Provider<HttpClient> {

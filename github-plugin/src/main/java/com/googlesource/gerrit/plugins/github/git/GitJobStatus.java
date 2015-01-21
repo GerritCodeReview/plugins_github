@@ -13,10 +13,10 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
-import java.io.PrintWriter;
-
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonWriter;
+
+import java.io.PrintWriter;
 
 
 public class GitJobStatus {

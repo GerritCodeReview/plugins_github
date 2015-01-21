@@ -13,17 +13,6 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.wizard;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.kohsuke.github.GHOrganization;
-import org.kohsuke.github.GHRepository;
-import org.kohsuke.github.PagedIterable;
-import org.kohsuke.github.PagedIterator;
-
 import com.google.common.base.Strings;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
@@ -33,8 +22,20 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
 import com.googlesource.gerrit.plugins.github.GitHubConfig;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
+
+import org.kohsuke.github.GHOrganization;
+import org.kohsuke.github.GHRepository;
+import org.kohsuke.github.PagedIterable;
+import org.kohsuke.github.PagedIterator;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Singleton
 public class RepositoriesListController implements VelocityController {

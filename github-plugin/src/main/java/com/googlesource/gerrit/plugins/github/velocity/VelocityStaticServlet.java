@@ -14,6 +14,20 @@
 
 package com.googlesource.gerrit.plugins.github.velocity;
 
+import com.google.common.collect.Maps;
+import com.google.gwtexpui.server.CacheHeaders;
+import com.google.gwtjsonrpc.server.RPCServletUtils;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
+import com.google.inject.name.Named;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.velocity.runtime.RuntimeInstance;
+import org.apache.velocity.runtime.resource.Resource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,20 +39,6 @@ import java.util.zip.GZIPOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.velocity.runtime.RuntimeInstance;
-import org.apache.velocity.runtime.resource.Resource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.common.collect.Maps;
-import com.google.gwtexpui.server.CacheHeaders;
-import com.google.gwtjsonrpc.server.RPCServletUtils;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.Singleton;
-import com.google.inject.name.Named;
 
 /** Sends static content using Velocity resource resolver */
 @SuppressWarnings("serial")

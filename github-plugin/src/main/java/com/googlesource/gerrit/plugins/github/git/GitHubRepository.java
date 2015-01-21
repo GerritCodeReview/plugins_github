@@ -13,9 +13,12 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
-import java.io.IOException;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 
-import lombok.experimental.Delegate;
+import com.googlesource.gerrit.plugins.github.GitHubURL;
+import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
+import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
 
 import org.eclipse.jgit.errors.UnsupportedCredentialItem;
 import org.eclipse.jgit.transport.CredentialItem;
@@ -23,11 +26,9 @@ import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.URIish;
 import org.kohsuke.github.GHRepository;
 
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
-import com.googlesource.gerrit.plugins.github.GitHubURL;
-import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
-import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
+import java.io.IOException;
+
+import lombok.experimental.Delegate;
 
 public class GitHubRepository extends GHRepository {
   public interface Factory {

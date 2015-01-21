@@ -13,17 +13,18 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.wizard;
 
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+
+import com.googlesource.gerrit.plugins.github.git.PullRequestImporter;
+import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
+
 import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.google.gerrit.server.IdentifiedUser;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.googlesource.gerrit.plugins.github.git.PullRequestImporter;
-import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 
 public class PullRequestImportStatusController extends JobStatusController
     implements VelocityController {

@@ -13,13 +13,11 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github;
 
-import org.apache.http.client.HttpClient;
-import org.apache.velocity.runtime.RuntimeInstance;
-
 import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.name.Names;
 import com.google.inject.servlet.ServletModule;
+
 import com.googlesource.gerrit.plugins.github.filters.GitHubOAuthFilter;
 import com.googlesource.gerrit.plugins.github.git.CreateProjectStep;
 import com.googlesource.gerrit.plugins.github.git.GitCloneStep;
@@ -35,6 +33,9 @@ import com.googlesource.gerrit.plugins.github.velocity.PluginVelocityRuntimeProv
 import com.googlesource.gerrit.plugins.github.velocity.VelocityStaticServlet;
 import com.googlesource.gerrit.plugins.github.velocity.VelocityViewServlet;
 import com.googlesource.gerrit.plugins.github.wizard.VelocityControllerServlet;
+
+import org.apache.http.client.HttpClient;
+import org.apache.velocity.runtime.RuntimeInstance;
 
 public class GuiceHttpModule extends ServletModule {
 

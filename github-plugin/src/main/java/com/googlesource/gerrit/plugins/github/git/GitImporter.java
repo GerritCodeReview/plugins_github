@@ -13,13 +13,14 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
 import com.googlesource.gerrit.plugins.github.oauth.HttpSessionProvider;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GitImporter extends BatchImporter {
 

@@ -13,10 +13,6 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 import com.google.gerrit.extensions.annotations.Listen;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.webui.TopMenu;
@@ -25,6 +21,10 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 @Listen
 @Singleton

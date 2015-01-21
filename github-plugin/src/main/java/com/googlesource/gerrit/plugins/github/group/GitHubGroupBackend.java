@@ -18,14 +18,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.googlesource.gerrit.plugins.github.group.GitHubGroup.NAME_PREFIX;
 import static com.googlesource.gerrit.plugins.github.group.GitHubGroup.UUID_PREFIX;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Set;
-import java.util.concurrent.ExecutionException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSet.Builder;
 import com.google.gerrit.common.data.GroupDescription.Basic;
@@ -36,8 +28,17 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
+
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.UserScopedProvider;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 public class GitHubGroupBackend implements GroupBackend {
   private static final Logger log = LoggerFactory

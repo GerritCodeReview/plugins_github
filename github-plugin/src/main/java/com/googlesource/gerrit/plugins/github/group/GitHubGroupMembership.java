@@ -14,13 +14,13 @@
 
 package com.googlesource.gerrit.plugins.github.group;
 
-import java.util.Set;
-
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+
+import java.util.Set;
 
 public class GitHubGroupMembership implements GroupMembership {
   private final Set<UUID> groups;

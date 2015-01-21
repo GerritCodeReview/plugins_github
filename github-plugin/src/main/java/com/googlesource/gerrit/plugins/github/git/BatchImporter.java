@@ -13,10 +13,10 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
+import com.google.gerrit.server.IdentifiedUser;
+
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
-
-import com.google.gerrit.server.IdentifiedUser;
 
 public class BatchImporter {
 

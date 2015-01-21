@@ -13,31 +13,6 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.wizard;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.kohsuke.github.GHIssueState;
-import org.kohsuke.github.GHPerson;
-import org.kohsuke.github.GHPullRequest;
-import org.kohsuke.github.GHPullRequestCommitDetail;
-import org.kohsuke.github.GHRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
@@ -57,8 +32,34 @@ import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+
 import com.googlesource.gerrit.plugins.github.GitHubConfig;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
+
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.kohsuke.github.GHIssueState;
+import org.kohsuke.github.GHPerson;
+import org.kohsuke.github.GHPullRequest;
+import org.kohsuke.github.GHPullRequestCommitDetail;
+import org.kohsuke.github.GHRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Singleton
 public class PullRequestListController implements VelocityController {

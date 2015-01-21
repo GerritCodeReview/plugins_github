@@ -16,6 +16,19 @@ package com.googlesource.gerrit.plugins.github.oauth;
 
 import static java.util.concurrent.TimeUnit.DAYS;
 
+import com.google.common.base.MoreObjects;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
+import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.AccessToken;
+import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
+
+import org.apache.http.HttpStatus;
+import org.kohsuke.github.GHMyself;
+import org.kohsuke.github.GitHub;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
@@ -32,18 +45,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import lombok.Getter;
-
-import org.apache.http.HttpStatus;
-import org.kohsuke.github.GHMyself;
-import org.kohsuke.github.GitHub;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.common.base.MoreObjects;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.AccessToken;
-import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
 
 public class GitHubLogin {
   private static final Logger log = LoggerFactory.getLogger(GitHubLogin.class);

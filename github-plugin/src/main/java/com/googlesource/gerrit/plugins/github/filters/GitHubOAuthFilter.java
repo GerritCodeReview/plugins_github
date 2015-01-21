@@ -13,6 +13,17 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.filters;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
+import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
+import com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig;
+import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
+import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 
 import javax.servlet.Filter;
@@ -22,16 +33,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
-import com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig;
-import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
-import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
 
 @Singleton
 public class GitHubOAuthFilter implements Filter {

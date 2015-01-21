@@ -13,9 +13,9 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
-import org.eclipse.jgit.lib.ProgressMonitor;
-
 import com.googlesource.gerrit.plugins.github.GitHubURL;
+
+import org.eclipse.jgit.lib.ProgressMonitor;
 
 public abstract class ImportStep {
   private final GitHubRepository gitHubRepository;

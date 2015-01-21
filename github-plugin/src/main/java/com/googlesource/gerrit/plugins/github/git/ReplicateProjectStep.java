@@ -13,15 +13,16 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
-import org.eclipse.jgit.lib.ProgressMonitor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+
 import com.googlesource.gerrit.plugins.github.GitHubURL;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
+
+import org.eclipse.jgit.lib.ProgressMonitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ReplicateProjectStep extends ImportStep {
   private static final Logger LOG = LoggerFactory.getLogger(ReplicateProjectStep.class);

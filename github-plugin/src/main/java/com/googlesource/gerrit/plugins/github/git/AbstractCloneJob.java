@@ -13,10 +13,10 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
+import com.google.inject.ProvisionException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.inject.ProvisionException;
 
 public class AbstractCloneJob {
   private static final Logger LOG = LoggerFactory.getLogger(AbstractCloneJob.class);

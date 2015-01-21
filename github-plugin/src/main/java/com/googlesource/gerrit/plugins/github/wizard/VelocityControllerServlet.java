@@ -13,6 +13,21 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.wizard;
 
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
+
+import com.googlesource.gerrit.plugins.github.GitHubConfig;
+import com.googlesource.gerrit.plugins.github.GitHubConfig.NextPage;
+import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
+import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
+
+import org.apache.http.HttpStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
@@ -20,20 +35,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.http.HttpStatus;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.gerrit.server.IdentifiedUser;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-import com.google.inject.Provider;
-import com.google.inject.Singleton;
-import com.googlesource.gerrit.plugins.github.GitHubConfig;
-import com.googlesource.gerrit.plugins.github.GitHubConfig.NextPage;
-import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
-import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
 
 @Singleton
 public class VelocityControllerServlet extends HttpServlet {

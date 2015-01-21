@@ -13,14 +13,14 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.oauth;
 
+import com.google.common.collect.Iterators;
+
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
-
-import com.google.common.collect.Iterators;
 
 public class AuthenticatedHttpRequest extends HttpServletRequestWrapper {
   private HashMap<String, String> headers = new HashMap<String, String>();

@@ -13,11 +13,6 @@
 // limitations under the License.
 package com.google.gerrit.server.account;
 
-import java.io.IOException;
-import java.util.Arrays;
-
-import org.apache.http.HttpStatus;
-
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -33,6 +28,11 @@ import com.google.gerrit.server.account.CreateAccount.Factory;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+
+import org.apache.http.HttpStatus;
+
+import java.io.IOException;
+import java.util.Arrays;
 
 public class AccountImporter {
   private final Factory createAccountFactory;

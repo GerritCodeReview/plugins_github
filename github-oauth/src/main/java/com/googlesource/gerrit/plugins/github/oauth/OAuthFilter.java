@@ -13,6 +13,16 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.oauth;
 
+import com.google.common.collect.Sets;
+import com.google.gerrit.httpd.GitOverHttpServlet;
+import com.google.gerrit.httpd.XGerritAuth;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.Singleton;
+
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Set;
@@ -25,16 +35,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.LoggerFactory;
-
-import com.google.common.collect.Sets;
-import com.google.gerrit.httpd.GitOverHttpServlet;
-import com.google.gerrit.httpd.XGerritAuth;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-import com.google.inject.Singleton;
 
 @Singleton
 public class OAuthFilter implements Filter {

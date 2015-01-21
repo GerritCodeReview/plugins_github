@@ -13,18 +13,19 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.wizard;
 
+import com.google.common.collect.Lists;
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonWriter;
+
+import com.googlesource.gerrit.plugins.github.git.BatchImporter;
+import com.googlesource.gerrit.plugins.github.git.GitJob;
+import com.googlesource.gerrit.plugins.github.git.GitJobStatus;
+
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
-
-import com.google.common.collect.Lists;
-import com.google.gson.Gson;
-import com.google.gson.stream.JsonWriter;
-import com.googlesource.gerrit.plugins.github.git.BatchImporter;
-import com.googlesource.gerrit.plugins.github.git.GitJob;
-import com.googlesource.gerrit.plugins.github.git.GitJobStatus;
 
 
 

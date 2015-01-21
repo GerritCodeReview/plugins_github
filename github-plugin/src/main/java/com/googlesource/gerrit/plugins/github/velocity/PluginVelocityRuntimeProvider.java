@@ -13,14 +13,6 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.velocity;
 
-import java.io.File;
-import java.util.Properties;
-
-import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.RuntimeInstance;
-import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
-import org.apache.velocity.runtime.resource.loader.JarResourceLoader;
-
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.mail.VelocityRuntimeProvider.Slf4jLogChute;
@@ -28,6 +20,14 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
+
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.RuntimeInstance;
+import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
+import org.apache.velocity.runtime.resource.loader.JarResourceLoader;
+
+import java.io.File;
+import java.util.Properties;
 
 @Singleton
 public class PluginVelocityRuntimeProvider implements Provider<RuntimeInstance> {

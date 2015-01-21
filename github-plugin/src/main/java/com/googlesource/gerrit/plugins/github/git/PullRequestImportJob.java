@@ -13,8 +13,30 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
-import java.io.IOException;
-import java.util.List;
+import com.google.common.collect.Lists;
+import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gerrit.reviewdb.client.Change.Id;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
+import com.google.gerrit.reviewdb.server.AccountExternalIdAccess;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.account.AccountImporter;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
+import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.assistedinject.Assisted;
+
+import com.googlesource.gerrit.plugins.github.GitHubURL;
+import com.googlesource.gerrit.plugins.github.git.GitJobStatus.Code;
+import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
+import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
 
 import org.eclipse.jgit.api.FetchCommand;
 import org.eclipse.jgit.api.Git;
@@ -36,29 +58,8 @@ import org.kohsuke.github.GitUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.Lists;
-import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
-import com.google.gerrit.reviewdb.client.Change.Id;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.NameKey;
-import com.google.gerrit.reviewdb.server.AccountExternalIdAccess;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.account.AccountImporter;
-import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
-import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.assistedinject.Assisted;
-import com.googlesource.gerrit.plugins.github.GitHubURL;
-import com.googlesource.gerrit.plugins.github.git.GitJobStatus.Code;
-import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
-import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
+import java.io.IOException;
+import java.util.List;
 
 public class PullRequestImportJob implements GitJob, ProgressMonitor {
 

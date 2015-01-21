@@ -13,15 +13,6 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.oauth;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.eclipse.jgit.lib.Config;
-
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
@@ -29,7 +20,17 @@ import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
+
+import org.eclipse.jgit.lib.Config;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Singleton
 public class GitHubOAuthConfig {

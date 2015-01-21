@@ -16,18 +16,6 @@ package com.googlesource.gerrit.plugins.github.group;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.concurrent.ExecutionException;
-
-import org.kohsuke.github.GHTeam;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.HashMultimap;
@@ -42,8 +30,21 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
+
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.UserScopedProvider;
+
+import org.kohsuke.github.GHTeam;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 @Singleton
 public class GitHubGroupsCache {

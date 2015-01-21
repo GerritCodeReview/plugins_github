@@ -13,6 +13,25 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.velocity;
 
+import com.google.common.base.MoreObjects;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
+import com.google.inject.name.Named;
+
+import com.googlesource.gerrit.plugins.github.GitHubConfig.NextPage;
+import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
+import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
+
+import org.apache.http.HttpStatus;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.runtime.RuntimeInstance;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map.Entry;
@@ -23,24 +42,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.http.HttpStatus;
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.exception.ResourceNotFoundException;
-import org.apache.velocity.runtime.RuntimeInstance;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.common.base.MoreObjects;
-import com.google.gerrit.server.IdentifiedUser;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.Singleton;
-import com.google.inject.name.Named;
-import com.googlesource.gerrit.plugins.github.GitHubConfig.NextPage;
-import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
-import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
 
 @Singleton
 public class VelocityViewServlet extends HttpServlet {

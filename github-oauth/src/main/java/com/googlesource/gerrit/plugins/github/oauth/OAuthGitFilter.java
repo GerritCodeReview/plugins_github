@@ -16,6 +16,25 @@ package com.googlesource.gerrit.plugins.github.oauth;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
+import com.google.common.collect.Iterators;
+import com.google.gerrit.httpd.XGerritAuth;
+import com.google.gerrit.server.account.AccountCache;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
+import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.AccessToken;
+
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang.StringUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -36,24 +55,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.lang.StringUtils;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
-import org.slf4j.LoggerFactory;
-
-import com.google.common.base.MoreObjects;
-import com.google.common.base.Strings;
-import com.google.common.collect.Iterators;
-import com.google.gerrit.httpd.XGerritAuth;
-import com.google.gerrit.server.account.AccountCache;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.AccessToken;
 
 @Singleton
 public class OAuthGitFilter implements Filter {

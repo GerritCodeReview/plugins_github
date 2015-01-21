@@ -14,24 +14,6 @@
 
 package com.googlesource.gerrit.plugins.github.git;
 
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
-
-import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.FooterKey;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.transport.ReceiveCommand;
-import org.eclipse.jgit.util.ChangeIdUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -63,6 +45,24 @@ import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
+
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.FooterKey;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
+import org.eclipse.jgit.util.ChangeIdUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
 
 public class PullRequestCreateChange {
   private static final Logger LOG = LoggerFactory

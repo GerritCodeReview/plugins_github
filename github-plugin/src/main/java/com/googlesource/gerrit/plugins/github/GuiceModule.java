@@ -20,6 +20,7 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
+
 import com.googlesource.gerrit.plugins.github.group.GitHubGroupBackend;
 import com.googlesource.gerrit.plugins.github.group.GitHubGroupMembership;
 import com.googlesource.gerrit.plugins.github.group.GitHubGroupsCache;

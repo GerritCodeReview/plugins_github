@@ -13,24 +13,6 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.wizard;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang.StringUtils;
-import org.kohsuke.github.GHKey;
-import org.kohsuke.github.GHMyself;
-import org.kohsuke.github.GHVerifiedKey;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -51,7 +33,26 @@ import com.google.gerrit.server.account.GetSshKeys.SshKeyInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
+
+import org.apache.commons.lang.StringUtils;
+import org.kohsuke.github.GHKey;
+import org.kohsuke.github.GHMyself;
+import org.kohsuke.github.GHVerifiedKey;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class AccountController implements VelocityController {
 

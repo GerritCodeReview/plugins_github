@@ -13,20 +13,21 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.wizard;
 
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
+
+import com.googlesource.gerrit.plugins.github.git.PullRequestImportType;
+import com.googlesource.gerrit.plugins.github.git.PullRequestImporter;
+import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
+
 import java.io.IOException;
 import java.util.Map.Entry;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.google.gerrit.server.IdentifiedUser;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.Singleton;
-import com.googlesource.gerrit.plugins.github.git.PullRequestImportType;
-import com.googlesource.gerrit.plugins.github.git.PullRequestImporter;
-import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 
 @Singleton
 public class PullRequestImportController implements VelocityController {

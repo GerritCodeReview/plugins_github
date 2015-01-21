@@ -13,10 +13,6 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
-import org.eclipse.jgit.lib.ProgressMonitor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
@@ -34,8 +30,13 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+
 import com.googlesource.gerrit.plugins.github.GitHubConfig;
 import com.googlesource.gerrit.plugins.github.GitHubURL;
+
+import org.eclipse.jgit.lib.ProgressMonitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CreateProjectStep extends ImportStep {
   private static final Logger LOG = LoggerFactory.getLogger(CreateProjectStep.class);

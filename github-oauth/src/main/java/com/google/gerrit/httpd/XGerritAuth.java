@@ -13,13 +13,13 @@
 // limitations under the License.
 package com.google.gerrit.httpd;
 
-import javax.servlet.http.Cookie;
-
 import com.google.common.cache.Cache;
 import com.google.gerrit.httpd.WebSessionManager.Val;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+
+import javax.servlet.http.Cookie;
 
 @Singleton
 public class XGerritAuth {

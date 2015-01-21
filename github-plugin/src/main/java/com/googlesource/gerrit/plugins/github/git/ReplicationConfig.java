@@ -13,19 +13,19 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.google.gerrit.server.config.SitePaths;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 
-import com.google.gerrit.server.config.SitePaths;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Singleton
 public class ReplicationConfig {
