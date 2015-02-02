@@ -107,7 +107,7 @@ limitations under the License.
     <dependency>
       <groupId>org.kohsuke</groupId>
       <artifactId>github-api</artifactId>
-      <version>1.50</version>
+      <version>1.59</version>
     </dependency>
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
