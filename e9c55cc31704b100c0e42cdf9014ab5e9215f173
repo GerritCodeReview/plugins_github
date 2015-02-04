@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "d73267d2_aa4e2f7c",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OpenId2OAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2015-02-04T13:54:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5726779d_0602da36",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 35
+      },
+      "revId": "e9c55cc31704b100c0e42cdf9014ab5e9215f173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c21e895_15ee1410",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OpenId2OAuthFilter.java",
         "patchSetId": 1
@@ -59,6 +83,30 @@
       "writtenOn": "2015-02-04T00:35:07Z",
       "side": 1,
       "message": "nit: line wrap after the `\u003d`",
+      "range": {
+        "startLine": 57,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 5
+      },
+      "revId": "e9c55cc31704b100c0e42cdf9014ab5e9215f173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d73267d2_ea482772",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OpenId2OAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2015-02-04T13:54:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c21e895_15ee1410",
       "range": {
         "startLine": 57,
         "startChar": 4,
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "d73267d2_0a5e5b2d",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OpenId2OAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2015-02-04T13:54:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c21e895_35e91008",
+      "range": {
+        "startLine": 64,
+        "startChar": 6,
+        "endLine": 65,
+        "endChar": 40
+      },
+      "revId": "e9c55cc31704b100c0e42cdf9014ab5e9215f173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c21e895_f5027836",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OpenId2OAuthFilter.java",
         "patchSetId": 1
@@ -105,6 +177,30 @@
       "writtenOn": "2015-02-04T00:35:07Z",
       "side": 1,
       "message": "Local variable is not necessary.  Instead, here we can just do:\n\n return true;",
+      "range": {
+        "startLine": 78,
+        "startChar": 8,
+        "endLine": 79,
+        "endChar": 14
+      },
+      "revId": "e9c55cc31704b100c0e42cdf9014ab5e9215f173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d73267d2_2a5b1f3e",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OpenId2OAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2015-02-04T13:54:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c21e895_f5027836",
       "range": {
         "startLine": 78,
         "startChar": 8,
@@ -140,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "d73267d2_4a58533f",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OpenId2OAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2015-02-04T13:54:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5726779d_26ffd6bd",
+      "range": {
+        "startLine": 83,
+        "startChar": 4,
+        "endLine": 83,
+        "endChar": 17
+      },
+      "revId": "e9c55cc31704b100c0e42cdf9014ab5e9215f173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c21e895_d5ff7cba",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OpenId2OAuthFilter.java",
         "patchSetId": 1
@@ -151,6 +271,30 @@
       "writtenOn": "2015-02-04T00:35:07Z",
       "side": 1,
       "message": "Remove this if not needed.",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 95,
+        "endChar": 7
+      },
+      "revId": "e9c55cc31704b100c0e42cdf9014ab5e9215f173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d73267d2_6a551704",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OpenId2OAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2015-02-04T13:54:45Z",
+      "side": 1,
+      "message": "Hope to get help on how to successfully do a sendRedirect(...), so will leave to now.",
+      "parentUuid": "3c21e895_d5ff7cba",
       "range": {
         "startLine": 92,
         "startChar": 0,
@@ -203,6 +347,30 @@
     },
     {
       "key": {
+        "uuid": "972c6f7c_88b09711",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OpenId2OAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2015-02-04T13:54:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5726779d_66f9ced5",
+      "range": {
+        "startLine": 113,
+        "startChar": 14,
+        "endLine": 113,
+        "endChar": 32
+      },
+      "revId": "e9c55cc31704b100c0e42cdf9014ab5e9215f173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5726779d_46fcd2c6",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OpenId2OAuthFilter.java",
         "patchSetId": 1
@@ -237,6 +405,24 @@
     },
     {
       "key": {
+        "uuid": "d73267d2_8ab08b11",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OpenId2OAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2015-02-04T13:54:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5726779d_86140a71",
+      "revId": "e9c55cc31704b100c0e42cdf9014ab5e9215f173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c21e895_75142871",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OpenId2OAuthFilter.java",
         "patchSetId": 1
@@ -248,6 +434,30 @@
       "writtenOn": "2015-02-04T00:35:07Z",
       "side": 1,
       "message": "nit: missing space after `\u003d`",
+      "range": {
+        "startLine": 119,
+        "startChar": 31,
+        "endLine": 119,
+        "endChar": 32
+      },
+      "revId": "e9c55cc31704b100c0e42cdf9014ab5e9215f173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "972c6f7c_a8b55b00",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OpenId2OAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2015-02-04T13:54:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c21e895_75142871",
       "range": {
         "startLine": 119,
         "startChar": 31,
@@ -283,6 +493,30 @@
     },
     {
       "key": {
+        "uuid": "972c6f7c_c8ba8fef",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OpenId2OAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2015-02-04T13:54:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5726779d_a61906aa",
+      "range": {
+        "startLine": 130,
+        "startChar": 15,
+        "endLine": 130,
+        "endChar": 20
+      },
+      "revId": "e9c55cc31704b100c0e42cdf9014ab5e9215f173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c21e895_95f904d7",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OpenId2OAuthFilter.java",
         "patchSetId": 1
@@ -294,6 +528,30 @@
       "writtenOn": "2015-02-04T00:35:07Z",
       "side": 1,
       "message": "Explicitly import this, and then only refer to OrmException here",
+      "range": {
+        "startLine": 139,
+        "startChar": 12,
+        "endLine": 139,
+        "endChar": 49
+      },
+      "revId": "e9c55cc31704b100c0e42cdf9014ab5e9215f173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "972c6f7c_e8bf53dc",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OpenId2OAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2015-02-04T13:54:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c21e895_95f904d7",
       "range": {
         "startLine": 139,
         "startChar": 12,
