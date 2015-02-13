@@ -22,6 +22,29 @@
       "revId": "c3f1baaed17a22bd4d14af9eecad2dea6f905225",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f654d1b2_23014aaa",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestCreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-02-13T23:27:45Z",
+      "side": 0,
+      "message": "This method wa removed on master. Instead you supposed to use InternalChangeQuery. Well, finals were removed as well.",
+      "range": {
+        "startLine": 149,
+        "startChar": 17,
+        "endLine": 149,
+        "endChar": 28
+      },
+      "revId": "c3f1baaed17a22bd4d14af9eecad2dea6f905225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
