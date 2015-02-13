@@ -41,10 +41,13 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -75,21 +78,23 @@ public class PullRequestCreateChange {
   private final PatchSetInserter.Factory patchSetInserterFactory;
   private final ProjectControl.Factory projectControlFactory;
   private final GenericFactory userFactory;
-
+  private final Provider<InternalChangeQuery> queryProvider;
 
   @Inject
-  PullRequestCreateChange(final IdentifiedUser currentUser,
-      final CommitValidators.Factory commitValidatorsFactory,
-      final ChangeInserter.Factory changeInserterFactory,
-      final PatchSetInserter.Factory patchSetInserterFactory,
-      final ProjectControl.Factory projectControlFactory,
-      final IdentifiedUser.GenericFactory userFactory) {
+  PullRequestCreateChange(IdentifiedUser currentUser,
+      CommitValidators.Factory commitValidatorsFactory,
+      ChangeInserter.Factory changeInserterFactory,
+      PatchSetInserter.Factory patchSetInserterFactory,
+      ProjectControl.Factory projectControlFactory,
+      IdentifiedUser.GenericFactory userFactory,
+      Provider<InternalChangeQuery> queryProvider) {
     this.currentUser = currentUser;
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.changeInserterFactory = changeInserterFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.projectControlFactory = projectControlFactory;
     this.userFactory = userFactory;
+    this.queryProvider = queryProvider;
   }
 
   public Change.Id addCommitToChange(final ReviewDb db, final Project project,
@@ -144,11 +149,10 @@ public class PullRequestCreateChange {
           changeKey = new Change.Key("I" + computedChangeId.name());
         }
 
-        List<Change> destChanges =
-            db.changes()
-                .byBranchKey(
-                    new Branch.NameKey(project.getNameKey(), destRef.getName()),
-                    changeKey).toList();
+        List<ChangeData> destChanges =
+            queryProvider.get().byBranchKey(
+                new Branch.NameKey(project.getNameKey(), destRef.getName()),
+                changeKey);
 
         if (destChanges.size() > 1) {
           throw new InvalidChangeOperationException(
@@ -159,7 +163,7 @@ public class PullRequestCreateChange {
         } else if (destChanges.size() == 1) {
           // The change key exists on the destination branch: adding a new
           // patch-set
-          Change destChange = destChanges.get(0);
+          Change destChange = destChanges.get(0).change();
 
           ChangeControl changeControl =
               projectControlFactory.controlFor(project.getNameKey()).controlFor(
