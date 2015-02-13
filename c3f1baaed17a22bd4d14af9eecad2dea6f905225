@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f654d1b2_03044eb9",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestCreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-13T23:24:35Z",
+      "side": 0,
+      "message": "I approve the change ... but this is not for fixing a build problem on master, isn\u0027t it? ;-)",
+      "range": {
+        "startLine": 81,
+        "startChar": 26,
+        "endLine": 81,
+        "endChar": 32
+      },
+      "revId": "c3f1baaed17a22bd4d14af9eecad2dea6f905225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
