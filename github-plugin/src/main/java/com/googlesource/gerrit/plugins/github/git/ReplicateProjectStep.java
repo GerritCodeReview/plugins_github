@@ -13,6 +13,8 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
+import java.io.IOException;
+
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -43,7 +45,7 @@ public class ReplicateProjectStep extends ImportStep {
       final ScopedProvider<GitHubLogin> ghLoginProvider,
       @GitHubURL String gitHubUrl,
       @Assisted("organisation") String organisation,
-      @Assisted("name") String repository) {
+      @Assisted("name") String repository) throws IOException {
     super(gitHubUrl, organisation, repository, gitHubRepoFactory);
     LOG.debug("Gerrit ReplicateProject " + organisation + "/" + repository);
     this.replicationConfig = replicationConfig;

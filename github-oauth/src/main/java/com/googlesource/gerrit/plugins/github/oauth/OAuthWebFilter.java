@@ -51,16 +51,20 @@ public class OAuthWebFilter implements Filter {
 
   private final GitHubOAuthConfig config;
   private final Random retryRandom = new Random(System.currentTimeMillis());
-  private SitePaths sites;
-  private ScopedProvider<GitHubLogin> loginProvider;
+  private final SitePaths sites;
+  private final ScopedProvider<GitHubLogin> loginProvider;
+  private final OAuthProtocol oauth;
 
   @Inject
-  public OAuthWebFilter(GitHubOAuthConfig config, SitePaths sites,
+  public OAuthWebFilter(GitHubOAuthConfig config, 
+      SitePaths sites,
+      OAuthProtocol oauth,
   // We need to explicitly tell Guice the correct implementation
   // as this filter is instantiated with a standard Gerrit WebModule
       GitHubLogin.Provider loginProvider) {
     this.config = config;
     this.sites = sites;
+    this.oauth = oauth;
     this.loginProvider = loginProvider;
   }
 
@@ -120,12 +124,12 @@ public class OAuthWebFilter implements Filter {
 
   private void login(ServletRequest request, HttpServletRequest httpRequest,
       HttpServletResponse httpResponse, GitHubLogin ghLogin) throws IOException {
-    if (ghLogin.login(httpRequest, httpResponse)) {
+    if (ghLogin.login(httpRequest, httpResponse, oauth)) {
       GHMyself myself = ghLogin.getMyself();
       String user = myself.getLogin();
 
-      updateSecureConfigWithRetry(ghLogin.hub.getMyOrganizations().keySet(),
-          user, ghLogin.token.accessToken);
+      updateSecureConfigWithRetry(ghLogin.getHub().getMyOrganizations().keySet(),
+          user, ghLogin.getToken().accessToken);
     }
   }
 
