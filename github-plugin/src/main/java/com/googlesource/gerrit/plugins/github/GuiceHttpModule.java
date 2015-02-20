@@ -17,7 +17,6 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.name.Names;
 import com.google.inject.servlet.ServletModule;
-
 import com.googlesource.gerrit.plugins.github.filters.GitHubOAuthFilter;
 import com.googlesource.gerrit.plugins.github.git.CreateProjectStep;
 import com.googlesource.gerrit.plugins.github.git.GitCloneStep;
@@ -25,8 +24,8 @@ import com.googlesource.gerrit.plugins.github.git.GitHubRepository;
 import com.googlesource.gerrit.plugins.github.git.GitImporter;
 import com.googlesource.gerrit.plugins.github.git.PullRequestImportJob;
 import com.googlesource.gerrit.plugins.github.git.ReplicateProjectStep;
-import com.googlesource.gerrit.plugins.github.oauth.GitHubHttpProvider;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
+import com.googlesource.gerrit.plugins.github.oauth.PooledHttpClientProvider;
 import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
 import com.googlesource.gerrit.plugins.github.replication.RemoteSiteUser;
 import com.googlesource.gerrit.plugins.github.velocity.PluginVelocityRuntimeProvider;
@@ -41,7 +40,7 @@ public class GuiceHttpModule extends ServletModule {
 
   @Override
   protected void configureServlets() {
-    bind(HttpClient.class).toProvider(GitHubHttpProvider.class);
+    bind(HttpClient.class).toProvider(PooledHttpClientProvider.class);
 
     bind(new TypeLiteral<ScopedProvider<GitHubLogin>>() {}).to(GitHubLogin.Provider.class);
     bind(new TypeLiteral<ScopedProvider<GitImporter>>() {}).to(GitImporter.Provider.class);
@@ -68,9 +67,9 @@ public class GuiceHttpModule extends ServletModule {
 
     serve("*.css", "*.js", "*.png", "*.jpg", "*.woff", "*.gif", "*.ttf").with(
         VelocityStaticServlet.class);
-    serve("*.html").with(VelocityViewServlet.class);
     serve("*.gh").with(VelocityControllerServlet.class);
 
+    serve("/static/*").with(VelocityViewServlet.class);
     filter("*").through(GitHubOAuthFilter.class);
   }
 }

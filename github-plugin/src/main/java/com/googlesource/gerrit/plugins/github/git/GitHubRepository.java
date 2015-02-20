@@ -25,6 +25,7 @@ import org.eclipse.jgit.transport.CredentialItem;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.URIish;
 import org.kohsuke.github.GHRepository;
+import org.kohsuke.github.GitHub;
 
 import java.io.IOException;
 
@@ -39,14 +40,15 @@ public class GitHubRepository extends GHRepository {
 
   private final String organisation;
   private final String repository;
-  private final GitHubLogin ghLogin;
   private final String cloneUrl;
+  private final String username;
+  private final String password;
 
   @Delegate
   private GHRepository ghRepository;
 
   public String getCloneUrl() {
-    return cloneUrl.replace("://", "://" + ghLogin.getMyself().getLogin() + "@");
+    return cloneUrl.replace("://", "://" + username + "@");
   }
 
   public String getOrganisation() {
@@ -65,9 +67,12 @@ public class GitHubRepository extends GHRepository {
     this.cloneUrl = gitHubUrl + "/" + organisation + "/" + repository + ".git";
     this.organisation = organisation;
     this.repository = repository;
-    this.ghLogin = ghLoginProvider.get();
+    GitHubLogin ghLogin = ghLoginProvider.get();
+    GitHub gh = ghLogin.getHub();
+    this.username = ghLogin.getMyself().getLogin();
+    this.password = ghLogin.getToken().accessToken;
     this.ghRepository =
-        ghLogin.getHub().getRepository(organisation + "/" + repository);
+        gh.getRepository(organisation + "/" + repository);
   }
 
   public CredentialsProvider getCredentialsProvider() {
@@ -97,13 +102,13 @@ public class GitHubRepository extends GHRepository {
           throws UnsupportedCredentialItem {
         String username = uri.getUser();
         if (username == null) {
-          username = ghLogin.getMyself().getLogin();
+          username = GitHubRepository.this.username;
         }
         if (username == null) {
           return false;
         }
 
-        String password = ghLogin.getToken().accessToken;
+        String password = GitHubRepository.this.password;
         if (password == null) {
           return false;
         }

@@ -22,14 +22,15 @@ import com.google.common.collect.Iterators;
 import com.google.gerrit.httpd.XGerritAuth;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.AccessToken;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
@@ -68,7 +69,7 @@ public class OAuthGitFilter implements Filter {
 
   private final OAuthCache oauthCache;
   private final AccountCache accountCache;
-  private final GitHubHttpProvider httpClientProvider;
+  private final Provider<HttpClient> httpClientProvider;
   private final GitHubOAuthConfig config;
   private final XGerritAuth xGerritAuth;
   private ScopedProvider<GitHubLogin> ghLoginProvider;
@@ -115,7 +116,7 @@ public class OAuthGitFilter implements Filter {
 
   @Inject
   public OAuthGitFilter(OAuthCache oauthCache, AccountCache accountCache,
-      GitHubHttpProvider httpClientProvider, GitHubOAuthConfig config,
+      PooledHttpClientProvider httpClientProvider, GitHubOAuthConfig config,
       XGerritAuth xGerritAuth, GitHubLogin.Provider ghLoginProvider) {
     this.oauthCache = oauthCache;
     this.accountCache = accountCache;
