@@ -14,36 +14,41 @@
 package com.googlesource.gerrit.plugins.github.oauth;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.CharMatcher;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.google.gerrit.reviewdb.client.AuthType;
+import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
 
 import org.eclipse.jgit.lib.Config;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 @Singleton
-public class GitHubOAuthConfig {
-  protected static final String CONF_SECTION = "github";
-  private static final String LOGIN_OAUTH_AUTHORIZE = "/login/oauth/authorize";
-  private static final String GITHUB_URL = "https://github.com";
-  public static final String OAUTH_FINAL = "oauth";
-  public static final String LOGIN_OAUTH_ACCESS_TOKEN =
+public
+class GitHubOAuthConfig {
+  public static final String CONF_SECTION = "github";
+  public static final String GITHUB_OAUTH_AUTHORIZE = "/login/oauth/authorize";
+  public static final String GITHUB_OAUTH_ACCESS_TOKEN =
       "/login/oauth/access_token";
-  public static final String OAUTH_LOGIN = "/login";
-  public static final String OAUTH_LOGOUT = "/logout";
+  public static final String GITHUB_GET_USER = "/user";
+  public static final String GERRIT_OAUTH_FINAL = "/oauth";
+  public static final String GITHUB_URL_DEFAULT = "https://github.com";
+  public static final String GITHUB_API_URL_DEFAULT = "https://api.github.com";
+  public static final String GERRIT_LOGIN = "/login";
+  public static final String GERRIT_LOGOUT = "/logout";
 
   public final String gitHubUrl;
+  public final String gitHubApiUrl;
   public final String gitHubClientId;
   public final String gitHubClientSecret;
   public final String logoutRedirectUrl;
@@ -55,34 +60,49 @@ public class GitHubOAuthConfig {
   public final Map<String, List<OAuthProtocol.Scope>> scopes;
   public final int fileUpdateMaxRetryCount;
   public final int fileUpdateMaxRetryIntervalMsec;
-  public final Config gerritConfig;
   public final String oauthHttpHeader;
 
   @Inject
-  public GitHubOAuthConfig(@GerritServerConfig Config config)
-      throws MalformedURLException {
-    this.gerritConfig = config;
+  protected
+  GitHubOAuthConfig(@GerritServerConfig Config config,
+      @CanonicalWebUrl String canonicalWebUrl, AuthConfig authConfig) {
+    httpHeader =
+        Preconditions.checkNotNull(
+            config.getString("auth", null, "httpHeader"),
+            "HTTP Header for GitHub user must be provided");
+    gitHubUrl =
+        trimTrailingSlash(MoreObjects.firstNonNull(
+            config.getString(CONF_SECTION, null, "url"), GITHUB_URL_DEFAULT));
+    gitHubApiUrl =
+        trimTrailingSlash(MoreObjects.firstNonNull(
+            config.getString(CONF_SECTION, null, "apiUrl"),
+            GITHUB_API_URL_DEFAULT));
+    gitHubClientId =
+        Preconditions.checkNotNull(
+            config.getString(CONF_SECTION, null, "clientId"),
+            "GitHub `clientId` must be provided");
+    gitHubClientSecret =
+        Preconditions.checkNotNull(
+            config.getString(CONF_SECTION, null, "clientSecret"),
+            "GitHub `clientSecret` must be provided");
 
-    httpHeader = config.getString("auth", null, "httpHeader");
     oauthHttpHeader = config.getString("auth", null, "httpExternalIdHeader");
-    gitHubUrl = dropTrailingSlash(
-        MoreObjects.firstNonNull(config.getString(CONF_SECTION, null, "url"),
-            GITHUB_URL));
-    gitHubClientId = config.getString(CONF_SECTION, null, "clientId");
-    gitHubClientSecret = config.getString(CONF_SECTION, null, "clientSecret");
-    gitHubOAuthUrl = getUrl(gitHubUrl, LOGIN_OAUTH_AUTHORIZE);
-    gitHubOAuthAccessTokenUrl = getUrl(gitHubUrl, LOGIN_OAUTH_ACCESS_TOKEN);
-    logoutRedirectUrl = config.getString(CONF_SECTION, null, "logoutRedirectUrl");
+    gitHubOAuthUrl = gitHubUrl + GITHUB_OAUTH_AUTHORIZE;
+    gitHubOAuthAccessTokenUrl = gitHubUrl + GITHUB_OAUTH_ACCESS_TOKEN;
+    logoutRedirectUrl =
+        config.getString(CONF_SECTION, null, "logoutRedirectUrl");
     oAuthFinalRedirectUrl =
-        getUrl(config.getString("gerrit", null, "canonicalWebUrl"), OAUTH_FINAL);
+        trimTrailingSlash(canonicalWebUrl) + GERRIT_OAUTH_FINAL;
 
     enabled =
         config.getString("auth", null, "type").equalsIgnoreCase(
             AuthType.HTTP.toString());
     scopes = getScopes(config);
 
-    fileUpdateMaxRetryCount = config.getInt(CONF_SECTION, "fileUpdateMaxRetryCount", 3);
-    fileUpdateMaxRetryIntervalMsec = config.getInt(CONF_SECTION, "fileUpdateMaxRetryIntervalMsec", 3000);
+    fileUpdateMaxRetryCount =
+        config.getInt(CONF_SECTION, "fileUpdateMaxRetryCount", 3);
+    fileUpdateMaxRetryIntervalMsec =
+        config.getInt(CONF_SECTION, "fileUpdateMaxRetryIntervalMsec", 3000);
   }
 
   private Map<String, List<Scope>> getScopes(Config config) {
@@ -97,13 +117,13 @@ public class GitHubOAuthConfig {
     return scopes;
   }
 
-  private String dropTrailingSlash(String url) {
-    return (url.endsWith("/") ? url.substring(0, url.length()-1):url);
+  private String trimTrailingSlash(String url) {
+    return CharMatcher.is('/').trimTrailingFrom(url);
   }
 
   private List<Scope> parseScopesString(String scopesString) {
     ArrayList<Scope> scopes = new ArrayList<OAuthProtocol.Scope>();
-    if(Strings.emptyToNull(scopesString) != null) {
+    if (Strings.emptyToNull(scopesString) != null) {
       String[] scopesStrings = scopesString.split(",");
       for (String scope : scopesStrings) {
         scopes.add(Enum.valueOf(Scope.class, scope));
@@ -111,11 +131,6 @@ public class GitHubOAuthConfig {
     }
 
     return scopes;
-  }
-
-  private static String getUrl(String baseUrl, String path)
-      throws MalformedURLException {
-      return new URL(new URL(baseUrl), path).toExternalForm();
   }
 
   public Scope[] getDefaultScopes() {
