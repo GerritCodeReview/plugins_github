@@ -82,10 +82,7 @@ public class VelocityViewServlet extends HttpServlet {
               + nextPage.uri;
     }
 
-    String pathInfo = MoreObjects.firstNonNull(destUrl, servletPath);
-    if (!pathInfo.startsWith(STATIC_PREFIX)) {
-      resp.sendError(HttpStatus.SC_NOT_FOUND);
-    }
+    String pathInfo = STATIC_PREFIX + MoreObjects.firstNonNull(destUrl, servletPath);
 
     try {
       Template template = velocityRuntime.getTemplate(pathInfo, "UTF-8");
@@ -104,7 +101,7 @@ public class VelocityViewServlet extends HttpServlet {
     }
   }
 
-  private PluginVelocityModel initVelocityModel(HttpServletRequest request) {
+  private PluginVelocityModel initVelocityModel(HttpServletRequest request) throws IOException {
     PluginVelocityModel model = modelProvider.get();
     GitHubLogin gitHubLogin = loginProvider.get(request);
     model.put("myself", gitHubLogin.getMyself());
