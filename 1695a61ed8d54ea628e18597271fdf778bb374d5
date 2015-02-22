@@ -16,6 +16,29 @@
       "revId": "1695a61ed8d54ea628e18597271fdf778bb374d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2819a630_b50fa05d",
+        "filename": "github-oauth/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-22T20:47:38Z",
+      "side": 1,
+      "message": "Why 1.59? Latest is 1.62 :-)",
+      "range": {
+        "startLine": 110,
+        "startChar": 15,
+        "endLine": 110,
+        "endChar": 19
+      },
+      "revId": "1695a61ed8d54ea628e18597271fdf778bb374d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
