@@ -45,6 +45,30 @@
       "revId": "23e07141667ef035e450ec68e8564aafe7199582",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08fdc2e8_1cfcb5c1",
+        "filename": "github-oauth/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-02-23T08:06:43Z",
+      "side": 1,
+      "message": "The separate change is still there; I just rebased it below this.",
+      "parentUuid": "481c1a1f_560bb44b",
+      "range": {
+        "startLine": 110,
+        "startChar": 15,
+        "endLine": 110,
+        "endChar": 19
+      },
+      "revId": "23e07141667ef035e450ec68e8564aafe7199582",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
