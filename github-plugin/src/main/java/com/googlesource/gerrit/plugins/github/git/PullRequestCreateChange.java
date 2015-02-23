@@ -222,8 +222,8 @@ public class PullRequestCreateChange {
     if (topic != null) {
       change.setTopic(topic);
     }
-    ChangeInserter ins =
-        changeInserterFactory.create(refControl, change, pullRequestCommit);
+    ChangeInserter ins = changeInserterFactory.create(
+        refControl.getProjectControl(), change, pullRequestCommit);
     PatchSet newPatchSet = ins.getPatchSet();
 
     if (doValidation) {

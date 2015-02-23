@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSet.Builder;
 import com.google.gerrit.common.data.GroupDescription.Basic;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
@@ -53,6 +54,11 @@ public class GitHubGroupBackend implements GroupBackend {
       GitHubGroupsCache ghOrganisationCache) {
     this.ghMembershipProvider = ghMembershipProvider;
     this.ghOrganisationCache = ghOrganisationCache;
+  }
+
+  @Override
+  public boolean isVisibleToAll(AccountGroup.UUID uuid) {
+    return true;
   }
 
   @Override
