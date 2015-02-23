@@ -79,7 +79,8 @@ public class GitHubDestinations {
     replicationUserFactory = ruf;
     gitRepositoryManager = grm;
     groupBackend = gb;
-    configs = getDestinations(new File(site.etc_dir, "replication.config"));
+    configs = getDestinations(new File(site.etc_dir.toFile(),
+        "replication.config"));
     organisations = getOrganisations(configs);
   }
 

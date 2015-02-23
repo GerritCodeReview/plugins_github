@@ -183,8 +183,8 @@ public class OAuthWebFilter implements Filter {
       String user, String access_token) throws IOException,
       ConfigInvalidException {
     FileBasedConfig currentSecureConfig =
-        new FileBasedConfig(sites.secure_config, FS.DETECTED);
-    long currentSecureConfigUpdateTs = sites.secure_config.lastModified();
+        new FileBasedConfig(sites.secure_config.toFile(), FS.DETECTED);
+    long currentSecureConfigUpdateTs = sites.secure_config.toFile().lastModified();
     currentSecureConfig.load();
 
     boolean configUpdate =
@@ -202,10 +202,10 @@ public class OAuthWebFilter implements Filter {
     log.info("Updating " + sites.secure_config + " credentials for user "
         + user);
 
-    if (sites.secure_config.lastModified() != currentSecureConfigUpdateTs) {
+    if (sites.secure_config.toFile().lastModified() != currentSecureConfigUpdateTs) {
       throw new ConcurrentFileBasedConfigWriteException("File "
           + sites.secure_config + " was written at "
-          + formatTS(sites.secure_config.lastModified())
+          + formatTS(sites.secure_config.toFile().lastModified())
           + " while was trying to update security for user " + user);
     }
     currentSecureConfig.save();

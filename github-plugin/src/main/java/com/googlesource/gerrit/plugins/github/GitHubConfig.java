@@ -98,7 +98,7 @@ public class GitHubConfig extends GitHubOAuthConfig {
     repositoryListLimit =
         config.getInt(CONF_SECTION, CONF_REPOSITORY_LIST_LIMIT, 50);
 
-    gitDir = site.resolve(config.getString("gerrit", null, "basePath"));
+    gitDir = site.resolve(config.getString("gerrit", null, "basePath")).toFile();
     if (gitDir == null) {
       throw new IllegalStateException("gerrit.basePath must be configured");
     }

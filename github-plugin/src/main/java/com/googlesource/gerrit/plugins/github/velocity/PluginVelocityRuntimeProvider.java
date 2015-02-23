@@ -65,13 +65,13 @@ public class PluginVelocityRuntimeProvider implements Provider<RuntimeInstance> 
     p.setProperty(VELOCITY_FILE_RESOURCE_LOADER_CLASS, pkg
         + ".FileResourceLoader");
     p.setProperty(VELOCITY_FILE_RESOURCE_LOADER_PATH,
-        new File(site.static_dir.getAbsolutePath(), "..").getAbsolutePath());
+        new File(site.static_dir.toAbsolutePath().toFile(), "..").getAbsolutePath());
     p.setProperty(VELOCITY_CLASS_RESOURCE_LOADER_CLASS,
         ClasspathResourceLoader.class.getName());
     p.setProperty(VELOCITY_JAR_RESOURCE_LOADER_CLASS,
         JarResourceLoader.class.getName());
     p.setProperty(VELOCITY_JAR_RESOURCE_LOADER_PATH, "jar:file:"
-        + new File(site.plugins_dir, pluginName + ".jar").getAbsolutePath());
+        + new File(site.plugins_dir.toFile(), pluginName + ".jar").getAbsolutePath());
 
     RuntimeInstance ri = new RuntimeInstance();
     try {
