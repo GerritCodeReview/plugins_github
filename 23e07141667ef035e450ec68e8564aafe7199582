@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2819a630_3504303e",
+        "filename": "github-oauth/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-23T08:01:17Z",
+      "side": 1,
+      "message": "I wanted to stick on 2.11 for this change, then create a stable-2.11 and only after that to go on 2.12-SNAPSHOT. People would need to use this plugin on 2.11 once OpenID will be dismissed on Google.com",
+      "range": {
+        "startLine": 24,
+        "startChar": 16,
+        "endLine": 24,
+        "endChar": 17
+      },
+      "revId": "23e07141667ef035e450ec68e8564aafe7199582",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "481c1a1f_560bb44b",
+        "filename": "github-oauth/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-02-23T08:01:17Z",
+      "side": 1,
+      "message": "I had already a separate change for that ;-)",
+      "range": {
+        "startLine": 110,
+        "startChar": 15,
+        "endLine": 110,
+        "endChar": 19
+      },
+      "revId": "23e07141667ef035e450ec68e8564aafe7199582",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
