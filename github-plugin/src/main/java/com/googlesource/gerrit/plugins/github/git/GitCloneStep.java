@@ -53,7 +53,7 @@ public class GitCloneStep extends ImportStep {
       GitDestinationNotWritableException {
     super(gitConfig.gitHubUrl, organisation, repository, gitHubRepoFactory);
     LOG.debug("GitHub Clone " + organisation + "/" + repository);
-    this.gitDir = gitConfig.gitDir;
+    this.gitDir = gitConfig.gitDir.toFile();
     this.destinationDirectory =
         getDestinationDirectory(organisation, repository);
   }

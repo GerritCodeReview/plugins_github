@@ -35,9 +35,9 @@ public class ReplicationConfig {
   @Inject
   public ReplicationConfig(final SitePaths site) {
     replicationConf =
-        new FileBasedConfig(new File(site.etc_dir, "replication.config"),
+        new FileBasedConfig(new File(site.etc_dir.toFile(), "replication.config"),
             FS.DETECTED);
-    secureConf = new FileBasedConfig(site.secure_config, FS.DETECTED);
+    secureConf = new FileBasedConfig(site.secure_config.toFile(), FS.DETECTED);
   }
 
   public synchronized void addSecureCredentials(String organisation,

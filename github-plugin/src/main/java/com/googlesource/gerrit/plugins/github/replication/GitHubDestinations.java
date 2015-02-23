@@ -34,9 +34,10 @@ import org.eclipse.jgit.util.FS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -79,7 +80,7 @@ public class GitHubDestinations {
     replicationUserFactory = ruf;
     gitRepositoryManager = grm;
     groupBackend = gb;
-    configs = getDestinations(new File(site.etc_dir, "replication.config"));
+    configs = getDestinations(site.etc_dir.resolve("replication.config"));
     organisations = getOrganisations(configs);
   }
 
@@ -94,13 +95,13 @@ public class GitHubDestinations {
     return organisations;
   }
 
-  private List<Destination> getDestinations(File cfgPath)
+  private List<Destination> getDestinations(Path cfgPath)
       throws ConfigInvalidException, IOException {
-    FileBasedConfig cfg = new FileBasedConfig(cfgPath, FS.DETECTED);
-    if (!cfg.getFile().exists() || cfg.getFile().length() == 0) {
+    if (!Files.exists(cfgPath) || Files.size(cfgPath) == 0) {
       return Collections.emptyList();
-    }
-
+    }    
+    
+    FileBasedConfig cfg = new FileBasedConfig(cfgPath.toFile(), FS.DETECTED);
     try {
       cfg.load();
     } catch (ConfigInvalidException e) {

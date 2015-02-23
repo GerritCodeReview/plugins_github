@@ -26,8 +26,8 @@ import com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig;
 
 import org.eclipse.jgit.lib.Config;
 
-import java.io.File;
 import java.net.MalformedURLException;
+import java.nio.file.Path;
 import java.util.HashMap;
 
 @Singleton
@@ -48,7 +48,7 @@ public class GitHubConfig extends GitHubOAuthConfig {
   private static final String CONF_PUBLIC_BASE_PROJECT = "publicBaseProject";
   private static final String CONF_PRIVATE_BASE_PROJECT = "privateBaseProject";
 
-  public final File gitDir;
+  public final Path gitDir;
   public final int jobPoolLimit;
   public final int jobExecTimeout;
   public final int pullRequestListLimit;

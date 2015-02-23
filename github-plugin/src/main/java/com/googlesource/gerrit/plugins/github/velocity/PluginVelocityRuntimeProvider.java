@@ -26,7 +26,6 @@ import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.apache.velocity.runtime.resource.loader.JarResourceLoader;
 
-import java.io.File;
 import java.util.Properties;
 
 @Singleton
@@ -65,13 +64,14 @@ public class PluginVelocityRuntimeProvider implements Provider<RuntimeInstance> 
     p.setProperty(VELOCITY_FILE_RESOURCE_LOADER_CLASS, pkg
         + ".FileResourceLoader");
     p.setProperty(VELOCITY_FILE_RESOURCE_LOADER_PATH,
-        new File(site.static_dir.getAbsolutePath(), "..").getAbsolutePath());
+        site.static_dir.getParent().toAbsolutePath().toString());
     p.setProperty(VELOCITY_CLASS_RESOURCE_LOADER_CLASS,
         ClasspathResourceLoader.class.getName());
     p.setProperty(VELOCITY_JAR_RESOURCE_LOADER_CLASS,
         JarResourceLoader.class.getName());
     p.setProperty(VELOCITY_JAR_RESOURCE_LOADER_PATH, "jar:file:"
-        + new File(site.plugins_dir, pluginName + ".jar").getAbsolutePath());
+        + site.plugins_dir.resolve(pluginName + ".jar").toAbsolutePath()
+            .toString());
 
     RuntimeInstance ri = new RuntimeInstance();
     try {

@@ -26,8 +26,8 @@ import org.kohsuke.github.GHMyself;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.nio.file.Files;
+import java.nio.file.attribute.FileTime;
 import java.util.Random;
 import java.util.Set;
 
@@ -183,8 +183,8 @@ public class OAuthWebFilter implements Filter {
       String user, String access_token) throws IOException,
       ConfigInvalidException {
     FileBasedConfig currentSecureConfig =
-        new FileBasedConfig(sites.secure_config, FS.DETECTED);
-    long currentSecureConfigUpdateTs = sites.secure_config.lastModified();
+        new FileBasedConfig(sites.secure_config.toFile(), FS.DETECTED);
+    FileTime currentSecureConfigUpdateTs = Files.getLastModifiedTime(sites.secure_config);
     currentSecureConfig.load();
 
     boolean configUpdate =
@@ -202,17 +202,15 @@ public class OAuthWebFilter implements Filter {
     log.info("Updating " + sites.secure_config + " credentials for user "
         + user);
 
-    if (sites.secure_config.lastModified() != currentSecureConfigUpdateTs) {
+    FileTime secureConfigCurrentModifiedTime =
+        Files.getLastModifiedTime(sites.secure_config);
+    if (!secureConfigCurrentModifiedTime.equals(currentSecureConfigUpdateTs)) {
       throw new ConcurrentFileBasedConfigWriteException("File "
           + sites.secure_config + " was written at "
-          + formatTS(sites.secure_config.lastModified())
+          + secureConfigCurrentModifiedTime
           + " while was trying to update security for user " + user);
     }
     currentSecureConfig.save();
-  }
-
-  private String formatTS(long ts) {
-    return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(ts));
   }
 
   private boolean updateConfigSection(FileBasedConfig config, String section,
