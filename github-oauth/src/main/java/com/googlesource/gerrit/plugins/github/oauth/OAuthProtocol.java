@@ -50,7 +50,8 @@ public class OAuthProtocol {
     REPO_STATUS("repo_status"),
     DELETE_REPO("delete_repo"),
     NOTIFICATIONS("notifications"),
-    GIST("gist");
+    GIST("gist"),
+    READ_ORG("read:org");
 
     private final String value;
 
