@@ -122,7 +122,7 @@ public class VelocityControllerServlet extends HttpServlet {
 
   private void redirectToNextStep(HttpServletRequest req,
       HttpServletResponse resp) throws IOException, ServletException {
-    String sourceUri = req.getRequestURI();
+    String sourceUri = req.getPathInfo();
     int pathPos = sourceUri.lastIndexOf('/') + 1;
     String sourcePage = sourceUri.substring(pathPos);
     String sourcePath = sourceUri.substring(0, pathPos);
@@ -137,7 +137,7 @@ public class VelocityControllerServlet extends HttpServlet {
       } else {
         RequestDispatcher requestDispatcher =
             req.getRequestDispatcher(nextPageURL(sourcePath, nextPage));
-        req.setAttribute("destUrl", nextPage);
+        req.setAttribute("destUrl", nextPage.uri);
         requestDispatcher.forward(req, resp);
       }
     }

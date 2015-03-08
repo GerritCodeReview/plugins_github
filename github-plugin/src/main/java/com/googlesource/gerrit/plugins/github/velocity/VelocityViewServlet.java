@@ -19,8 +19,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-
-import com.googlesource.gerrit.plugins.github.GitHubConfig.NextPage;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
 
@@ -47,7 +45,7 @@ import javax.servlet.http.HttpServletResponse;
 public class VelocityViewServlet extends HttpServlet {
   private static final Logger log = LoggerFactory
       .getLogger(VelocityViewServlet.class);
-  private static final String STATIC_PREFIX = "/static";
+  private static final String STATIC_PREFIX = "/static/";
   private static final long serialVersionUID = 529071287765413268L;
   private final RuntimeInstance velocityRuntime;
   private final Provider<PluginVelocityModel> modelProvider;
@@ -73,16 +71,11 @@ public class VelocityViewServlet extends HttpServlet {
     HttpServletRequest req = (HttpServletRequest) request;
     HttpServletResponse resp = (HttpServletResponse) response;
 
-    String servletPath = req.getPathInfo();
-    NextPage nextPage = (NextPage) req.getAttribute("destUrl");
-    String destUrl = null;
-    if (nextPage != null && !nextPage.uri.startsWith("/")) {
-      destUrl =
-          servletPath.substring(0, servletPath.lastIndexOf("/")) + "/"
-              + nextPage.uri;
-    }
-
-    String pathInfo = STATIC_PREFIX + MoreObjects.firstNonNull(destUrl, servletPath);
+    String pathInfo =
+        STATIC_PREFIX
+            + MoreObjects.firstNonNull(
+                (String) req.getAttribute("destUrl"),
+                req.getPathInfo());
 
     try {
       Template template = velocityRuntime.getTemplate(pathInfo, "UTF-8");
