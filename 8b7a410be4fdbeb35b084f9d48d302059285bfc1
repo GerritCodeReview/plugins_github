@@ -22,6 +22,30 @@
       "revId": "8b7a410be4fdbeb35b084f9d48d302059285bfc1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85527d4f_3b3ae3f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-03-08T11:28:10Z",
+      "side": 1,
+      "message": "That would be quite complex, I would keep as unique change coming from Gerrit mainstream I86fb8fab3",
+      "parentUuid": "451a45b5_49e72532",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 24
+      },
+      "revId": "8b7a410be4fdbeb35b084f9d48d302059285bfc1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
