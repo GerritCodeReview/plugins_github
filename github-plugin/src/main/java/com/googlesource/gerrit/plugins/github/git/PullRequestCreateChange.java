@@ -181,7 +181,7 @@ public class PullRequestCreateChange {
                   doValidation));
         }
       } finally {
-        revWalk.release();
+        revWalk.close();
         if (newChange == null) {
           db.rollback();
         }
