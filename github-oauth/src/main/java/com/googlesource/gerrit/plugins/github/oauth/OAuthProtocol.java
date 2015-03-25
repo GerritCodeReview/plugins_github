@@ -31,10 +31,11 @@ import com.google.common.io.CharStreams;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.google.gerrit.extensions.auth.oauth.OAuthToken;
+import com.google.gerrit.extensions.auth.oauth.OAuthVerifier;
 
 @Singleton
 public class OAuthProtocol {
-
   public static enum Scope {
     DEFAULT(""),
     USER("user"),
@@ -71,6 +72,7 @@ public class OAuthProtocol {
     public String error;
     public String errorDescription;
     public String errorUri;
+    public String raw;
 
     public AccessToken() {
     }
@@ -79,7 +81,7 @@ public class OAuthProtocol {
       this(token, "");
     }
 
-    public AccessToken(String token, String type, Scope... scopes) {
+    public AccessToken(String token, String type) {
       this();
       this.accessToken = token;
       this.tokenType = type;
@@ -126,6 +128,18 @@ public class OAuthProtocol {
     public boolean isError() {
       return !Strings.isNullOrEmpty(error);
     }
+
+    public String getRaw() {
+      return raw;
+    }
+
+    public void setRaw(String raw) {
+      this.raw = raw;
+    }
+
+    public OAuthToken toOAuthToken() {
+      return new OAuthToken(accessToken, null, getRaw());
+    }
   }
 
   @Inject
@@ -139,23 +153,27 @@ public class OAuthProtocol {
     this.gson = gsonProvider.get();
   }
 
+  public String getAuthorizationUrl(String scopesString, String state) {
+    return config.gitHubOAuthUrl + "?client_id=" + config.gitHubClientId
+        + getURLEncodedParameter("&scope=", scopesString)
+        + getURLEncodedParameter("&redirect_uri=", config.oAuthFinalRedirectUrl)
+        + getURLEncodedParameter("&state=", state);
+  }
+
   public void loginPhase1(HttpServletRequest request,
       HttpServletResponse response, Set<Scope> scopes) throws IOException {
 
     String scopesString = getScope(scopes);
     LOG.debug("Initiating GitHub Login for ClientId=" + config.gitHubClientId + " Scopes=" + scopesString);
-    response.sendRedirect(String.format(
-        "%s?client_id=%s%s&redirect_uri=%s&state=%s%s", config.gitHubOAuthUrl,
-        config.gitHubClientId, scopesString,
-        getURLEncoded(config.oAuthFinalRedirectUrl),
-        me(), getURLEncoded(request.getRequestURI().toString())));
+    response.sendRedirect(getAuthorizationUrl(scopesString, 
+        me() + request.getRequestURI().toString()));
   }
 
-  private String getScope(Set<Scope> scopes) {
+  public String getScope(Set<Scope> scopes) {
     if(scopes.size() <= 0) {
       return "";
     }
-    
+
     StringBuilder out = new StringBuilder();
     for (Scope scope : scopes) {
       if(out.length() > 0) {
@@ -163,13 +181,13 @@ public class OAuthProtocol {
       }
       out.append(scope.getValue());
     }
-    return "&" + "scope=" + out.toString();
+    return out.toString();
   }
 
   public static boolean isOAuthFinal(HttpServletRequest request) {
     return Strings.emptyToNull(request.getParameter("code")) != null;
   }
-  
+
   public static boolean isOAuthFinalForOthers(HttpServletRequest request) {
     String targetUrl = getTargetUrl(request);
     if(targetUrl.equals(request.getRequestURI())) {
@@ -197,47 +215,46 @@ public class OAuthProtocol {
 
   public AccessToken loginPhase2(HttpServletRequest request,
       HttpServletResponse response) throws IOException {
+    return getAccessToken(new OAuthVerifier(request.getParameter("code")));
+  }
 
-    HttpPost post = null;
-
-    post = new HttpPost(config.gitHubOAuthAccessTokenUrl);
+  public AccessToken getAccessToken(OAuthVerifier code) throws IOException {
+    HttpPost post = new HttpPost(config.gitHubOAuthAccessTokenUrl);
     post.setHeader("Accept", "application/json");
     List<NameValuePair> nvps = new ArrayList<NameValuePair>();
     nvps.add(new BasicNameValuePair("client_id", config.gitHubClientId));
     nvps.add(new BasicNameValuePair("client_secret", config.gitHubClientSecret));
-    nvps.add(new BasicNameValuePair("code", request.getParameter("code")));
+    nvps.add(new BasicNameValuePair("code", code.getValue()));
     post.setEntity(new UrlEncodedFormEntity(nvps, Charsets.UTF_8));
 
-    try {
-      HttpResponse postResponse = http.execute(post);
-      if (postResponse.getStatusLine().getStatusCode() != HttpURLConnection.HTTP_OK) {
-        LOG.error("POST " + config.gitHubOAuthAccessTokenUrl
-            + " request for access token failed with status "
-            + postResponse.getStatusLine());
-        EntityUtils.consume(postResponse.getEntity());
-        return null;
-      }
-
-      InputStream content = postResponse.getEntity().getContent();
-      String tokenJsonString =
-          CharStreams.toString(new InputStreamReader(content,
-              StandardCharsets.UTF_8));
-      AccessToken token = gson.fromJson(tokenJsonString, AccessToken.class);
-      if (token.isError()) {
-        LOG.error("POST " + config.gitHubOAuthAccessTokenUrl
-            + " returned an error token: " + token);
-      }
-      return token;
-    } catch (IOException e) {
+    HttpResponse postResponse = http.execute(post);
+    if (postResponse.getStatusLine().getStatusCode() != HttpURLConnection.HTTP_OK) {
       LOG.error("POST " + config.gitHubOAuthAccessTokenUrl
-          + " request for access token failed", e);
+          + " request for access token failed with status "
+          + postResponse.getStatusLine());
+      EntityUtils.consume(postResponse.getEntity());
       return null;
     }
+
+    InputStream content = postResponse.getEntity().getContent();
+    String tokenJsonString =
+        CharStreams.toString(new InputStreamReader(content,
+            StandardCharsets.UTF_8));
+    AccessToken token = gson.fromJson(tokenJsonString, AccessToken.class);
+    token.setRaw(tokenJsonString);
+    if (token.isError()) {
+      LOG.error("POST " + config.gitHubOAuthAccessTokenUrl
+          + " returned an error token: " + token);
+      throw new IOException("Invalid GitHub OAuth token");
+    }
+    
+    return token;
   }
 
-  private static String getURLEncoded(String url) {
+  private static String getURLEncodedParameter(String prefix, String url) {
     try {
-      return URLEncoder.encode(url, "UTF-8");
+      return Strings.isNullOrEmpty(url) ? 
+          "" : (prefix + URLEncoder.encode(url,"UTF-8"));
     } catch (UnsupportedEncodingException e) {
       // UTF-8 is hardcoded, cannot fail
       return null;
@@ -259,10 +276,9 @@ public class OAuthProtocol {
 
   public static String getTargetOAuthFinal(HttpServletRequest httpRequest) {
     String targetUrl = getTargetUrl(httpRequest);
-    String code = getURLEncoded(httpRequest.getParameter("code"));
-    String state = getURLEncoded(httpRequest.getParameter("state"));
-    return targetUrl + (targetUrl.indexOf('?') < 0 ? '?' : '&') + "code="
-        + code + "&state=" + state;
+    String code = getURLEncodedParameter("code=", httpRequest.getParameter("code"));
+    String state = getURLEncodedParameter("&state=", httpRequest.getParameter("state"));
+    return targetUrl + (targetUrl.indexOf('?') < 0 ? '?' : '&') + code + state;
   }
 
   @Override
