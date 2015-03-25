@@ -20,8 +20,10 @@ import java.util.List;
 import com.google.gerrit.extensions.annotations.Listen;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.webui.TopMenu;
+import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -29,12 +31,14 @@ import com.google.inject.Singleton;
 @Listen
 @Singleton
 public class GitHubTopMenu implements TopMenu {
-  private List<MenuEntry> menuEntries;
-  private Provider<CurrentUser> userProvider;
+  private final List<MenuEntry> menuEntries;
+  private final Provider<CurrentUser> userProvider;
+  private final AuthConfig authConfig;
 
   @Inject
-  public GitHubTopMenu(final @PluginName String pluginName,
-      final Provider<CurrentUser> userProvider) {
+  public GitHubTopMenu(@PluginName String pluginName,
+      Provider<CurrentUser> userProvider,
+      AuthConfig authConfig) {
     String baseUrl = "/plugins/" + pluginName;
     this.menuEntries =
         Arrays.asList(new MenuEntry("GitHub", Arrays.asList(
@@ -42,6 +46,7 @@ public class GitHubTopMenu implements TopMenu {
             getItem("Repositories", baseUrl + "/static/repositories.html"),
             getItem("Pull Requests", baseUrl + "/static/pullrequests.html"))));
     this.userProvider = userProvider;
+    this.authConfig = authConfig;
   }
 
   private MenuItem getItem(String anchorName, String urlPath) {
@@ -50,7 +55,9 @@ public class GitHubTopMenu implements TopMenu {
 
   @Override
   public List<MenuEntry> getEntries() {
-    if (userProvider.get() instanceof IdentifiedUser) {
+    if (userProvider.get() instanceof IdentifiedUser &&
+        // Only with HTTP authentication we can transparently trigger OAuth if needed
+        authConfig.getAuthType().equals(AuthType.HTTP)) {
       return menuEntries;
     } else {
       return Collections.emptyList();
