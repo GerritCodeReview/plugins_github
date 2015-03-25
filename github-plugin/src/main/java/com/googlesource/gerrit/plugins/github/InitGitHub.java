@@ -22,7 +22,15 @@ public class InitGitHub implements InitStep {
   private final ConsoleUI ui;
   private final Section auth;
   private final Section httpd;
-  private Section github;
+  private final Section github;
+  
+  public enum OAuthType {
+    /* Legacy Gerrit/HTTP authentication for GitHub through HTTP Header enrichment */
+    HTTP,
+    
+    /* New native Gerrit/OAuth authentication provider */
+    OAUTH
+  }
 
   @Inject
   InitGitHub(final ConsoleUI ui, final Section.Factory sections) {
@@ -45,12 +53,18 @@ public class InitGitHub implements InitStep {
   }
 
   private void configureAuth() {
-    github.string("ClientId", "clientId", null);
-    github.string("ClientSecret", "clientSecret", null);
-
-    auth.string("HTTP Authentication Header", "httpHeader", "GITHUB_USER");
-    auth.set("type", "HTTP");
-    httpd.set("filterClass", "com.googlesource.gerrit.plugins.github.oauth.OAuthFilter");
+    github.string("GitHub Client ID", "clientId", null);
+    github.passwordForKey("GitHub Client Secret", "clientSecret");
+    
+    OAuthType authType = auth.select("Gerrit OAuth implementation", "type", OAuthType.HTTP);
+    if (authType.equals(OAuthType.HTTP)) {
+      auth.string("HTTP Authentication Header", "httpHeader", "GITHUB_USER");
+      httpd.set("filterClass",
+          "com.googlesource.gerrit.plugins.github.oauth.OAuthFilter");
+    } else {
+      httpd.unset("filterClass");
+      httpd.unset("httpHeader");
+    }
   }
 
   @Override
