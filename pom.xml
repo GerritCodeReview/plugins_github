@@ -18,7 +18,7 @@ limitations under the License.
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.googlesource.gerrit.plugins.github</groupId>
   <artifactId>github-parent</artifactId>
-  <version>2.11-SNAPSHOT</version>
+  <version>2.11</version>
   <name>Gerrit Code Review - GitHub integration</name>
   <url>http://www.gerritforge.com</url>
   <packaging>pom</packaging>
