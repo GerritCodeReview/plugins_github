@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "10a256bf_c0d97e72",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthProtocol.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-04-23T07:25:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "505f6e27_4a9bd372",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 39,
+        "endChar": 81
+      },
+      "revId": "a5bb05e862c7c763c7a2d5db171dd9216eece27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "505f6e27_2a909f4a",
         "filename": "github-plugin/pom.xml",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2015-04-15T04:23:51Z",
       "side": 1,
       "message": "Wait for 2.10.3?",
+      "range": {
+        "startLine": 23,
+        "startChar": 13,
+        "endLine": 23,
+        "endChar": 19
+      },
+      "revId": "a5bb05e862c7c763c7a2d5db171dd9216eece27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "309bda8e_a1de7e56",
+        "filename": "github-plugin/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-04-23T07:25:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "505f6e27_2a909f4a",
       "range": {
         "startLine": 23,
         "startChar": 13,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "10a256bf_80f496d2",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/GitHubOAuthServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-04-23T07:25:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "505f6e27_0a95db3a",
+      "range": {
+        "startLine": 36,
+        "startChar": 40,
+        "endLine": 36,
+        "endChar": 53
+      },
+      "revId": "a5bb05e862c7c763c7a2d5db171dd9216eece27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70471268_834e5e95",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/GitHubOAuthServiceProvider.java",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2015-04-15T04:23:51Z",
       "side": 1,
       "message": "Every parameter appears on its own line in ctors annotated with @Inject",
+      "range": {
+        "startLine": 46,
+        "startChar": 6,
+        "endLine": 46,
+        "endChar": 50
+      },
+      "revId": "a5bb05e862c7c763c7a2d5db171dd9216eece27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10a256bf_60f192e0",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/GitHubOAuthServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-04-23T07:25:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70471268_834e5e95",
       "range": {
         "startLine": 46,
         "startChar": 6,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "309bda8e_81f49ad2",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/GitHubOAuthServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-04-23T07:25:01Z",
+      "side": 1,
+      "message": "GitHub plugin historically used the HTTP authentication scheme which uses SCHEME_GERRIT + login as external id.\n\nIf I start using another ID people moving from HTTP authentication to GitHub authentication would not be able to reuse the same identity and will be created as new users.\n\nWe would rather need the OAuth extension point to allow to specify additional external ids at login instead of returning a single one in OAuthUserInfo. Should I submit a patch for that? :-)",
+      "parentUuid": "505f6e27_ea896729",
+      "range": {
+        "startLine": 74,
+        "startChar": 29,
+        "endLine": 74,
+        "endChar": 68
+      },
+      "revId": "a5bb05e862c7c763c7a2d5db171dd9216eece27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "505f6e27_ca86a317",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/GuiceHttpModule.java",
         "patchSetId": 2
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "309bda8e_41ee9204",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/GuiceHttpModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-04-23T07:25:01Z",
+      "side": 1,
+      "message": "OMG ... I just realised that the OAuth extension doesn\u0027t allow to have two plugins to register as OAuth provider?\n\n  private void pickSSOServiceProvider()\n      throws ServletException {\n    SortedSet\u003cString\u003e plugins \u003d oauthServiceProviders.plugins();\n    if (plugins.isEmpty()) {\n      throw new ServletException(\n          \"OAuth service provider wasn\u0027t installed\");\n    }\n    if (plugins.size() \u003d\u003d 1) {\n      SortedMap\u003cString, Provider\u003cOAuthServiceProvider\u003e\u003e services \u003d\n          oauthServiceProviders.byPlugin(Iterables.getOnlyElement(plugins));\n      if (services.size() \u003d\u003d 1) {\n        ssoProvider \u003d Iterables.getOnlyElement(services.values()).get();\n      }\n    }\n  }\n\nWhy that? It does make sense to have multiple plugins to provide multiple OAuth choices, isn\u0027t it?\n\nIn this case, I agree with you, the exported name has no valid use here, as the GitHub plugin exposes only GitHub authentication :-)",
+      "parentUuid": "505f6e27_ca86a317",
+      "range": {
+        "startLine": 71,
+        "startChar": 22,
+        "endLine": 71,
+        "endChar": 37
+      },
+      "revId": "a5bb05e862c7c763c7a2d5db171dd9216eece27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "505f6e27_aa836f05",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/InitGitHub.java",
         "patchSetId": 2
@@ -151,6 +295,30 @@
       "writtenOn": "2015-04-15T04:23:51Z",
       "side": 1,
       "message": "Is this needed? It is only set in another branch of this if?",
+      "range": {
+        "startLine": 65,
+        "startChar": 6,
+        "endLine": 65,
+        "endChar": 32
+      },
+      "revId": "a5bb05e862c7c763c7a2d5db171dd9216eece27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "309bda8e_21eb8ef4",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/InitGitHub.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-04-23T07:25:01Z",
+      "side": 1,
+      "message": "Yes, it is.\n\nImagine that you are switching from GitHub/HTTP to GitHub/OAuth: you have already set the filterClass to the GitHub/OAuth filter and when switching to the native Gerrit/OAuth you DO NEED to remove that filter.",
+      "parentUuid": "505f6e27_aa836f05",
       "range": {
         "startLine": 65,
         "startChar": 6,
