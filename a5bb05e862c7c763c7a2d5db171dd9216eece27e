@@ -237,6 +237,30 @@
     },
     {
       "key": {
+        "uuid": "10a256bf_000be65e",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/GitHubOAuthServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-23T08:05:44Z",
+      "side": 1,
+      "message": "I would prefer to keep the extension point as simple as possible. Can\u0027t that (and other Github-plugin specific logic) be implemented in plugin itself? Another option would provider some migration option (database?) outside the plugin, when one site migrate from HTTP to OAuth extension point. For the new sites, who start using GitHub plugin directly after it moved to using OAuth extension point, this complication is not needed.",
+      "parentUuid": "309bda8e_81f49ad2",
+      "range": {
+        "startLine": 74,
+        "startChar": 29,
+        "endLine": 74,
+        "endChar": 68
+      },
+      "revId": "a5bb05e862c7c763c7a2d5db171dd9216eece27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "505f6e27_ca86a317",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/GuiceHttpModule.java",
         "patchSetId": 2
@@ -272,6 +296,30 @@
       "side": 1,
       "message": "OMG ... I just realised that the OAuth extension doesn\u0027t allow to have two plugins to register as OAuth provider?\n\n  private void pickSSOServiceProvider()\n      throws ServletException {\n    SortedSet\u003cString\u003e plugins \u003d oauthServiceProviders.plugins();\n    if (plugins.isEmpty()) {\n      throw new ServletException(\n          \"OAuth service provider wasn\u0027t installed\");\n    }\n    if (plugins.size() \u003d\u003d 1) {\n      SortedMap\u003cString, Provider\u003cOAuthServiceProvider\u003e\u003e services \u003d\n          oauthServiceProviders.byPlugin(Iterables.getOnlyElement(plugins));\n      if (services.size() \u003d\u003d 1) {\n        ssoProvider \u003d Iterables.getOnlyElement(services.values()).get();\n      }\n    }\n  }\n\nWhy that? It does make sense to have multiple plugins to provide multiple OAuth choices, isn\u0027t it?\n\nIn this case, I agree with you, the exported name has no valid use here, as the GitHub plugin exposes only GitHub authentication :-)",
       "parentUuid": "505f6e27_ca86a317",
+      "range": {
+        "startLine": 71,
+        "startChar": 22,
+        "endLine": 71,
+        "endChar": 37
+      },
+      "revId": "a5bb05e862c7c763c7a2d5db171dd9216eece27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10a256bf_40ee8e04",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/GuiceHttpModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-23T08:05:44Z",
+      "side": 1,
+      "message": "I think you have misread the code. The code you quoted takes care of special case: only one OAuth plugin is available (called SSO), in which case the selection form mustn\u0027t be rendered. You can have hundreds OAuth plugins that expose thousands of OAuth providers. The only requirements they must have unique names. Also note, that single plugin can expose different OAuth providers. In fact gerrit-oauth-provider exposes two providers. GitHub and Google. When github-plugin exposes GitHub OAuth provider as well and these plugins deployed on the same site, then the user could pick either from the providers to authenticate against GitHub.\n\nOn the selection page the user would be presented with tree rows:\n\n* gerrit-oauth-provider-github-oauth\n* gerrit-oauth-provider-google-oauth\n* github-plugin-github-oauth",
+      "parentUuid": "309bda8e_41ee9204",
       "range": {
         "startLine": 71,
         "startChar": 22,
