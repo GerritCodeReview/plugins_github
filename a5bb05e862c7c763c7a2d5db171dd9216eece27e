@@ -285,6 +285,30 @@
     },
     {
       "key": {
+        "uuid": "10a256bf_60fcf2b1",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/GitHubOAuthServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-04-23T08:47:25Z",
+      "side": 1,
+      "message": "I tried to create the situation that I was talking about ... even me is me (lucamilanesio) when logging in with OAuth (but a different provider) I got:\n\n[2015-04-23 09:43:20,277] ERROR com.google.gerrit.server.account.AccountManager : Cannot assign user name \"lucamilanesio\" to account 1000001; name already in use.\n\nIt is something we need to think about :-)",
+      "parentUuid": "10a256bf_c014de79",
+      "range": {
+        "startLine": 74,
+        "startChar": 29,
+        "endLine": 74,
+        "endChar": 68
+      },
+      "revId": "a5bb05e862c7c763c7a2d5db171dd9216eece27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "505f6e27_ca86a317",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/GuiceHttpModule.java",
         "patchSetId": 2
