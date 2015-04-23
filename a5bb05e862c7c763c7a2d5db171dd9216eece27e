@@ -309,6 +309,30 @@
     },
     {
       "key": {
+        "uuid": "10a256bf_80fff6a6",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/GitHubOAuthServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-23T08:53:50Z",
+      "side": 1,
+      "message": "Your use case is valid, but i wonder if extension point must be really extended to achieve that? There is a Gerrit way to solve multi-user identity linking from the UI:\n\n* Login with OAuth identity foo, provider bar\n* Click User \u003d\u003e Settings \u003d\u003e Identity \u003d\u003e Link Another Identity link\n* Select different OAuth provider baz\n* login with identity qux\n* Consent the authentication\n* Done\n\nNow the account qux@baz is linked to foo@bar. So that you can use your primary OAuth provider, and when it is down, you have plan \"B\".\n\nNote that the series that implements this linking feature is still pending for review, for both Hybrid OpenID/OAuth and native OAuth schemes:\n\n* https://gerrit-review.googlesource.com/#/q/status:open+project:gerrit+branch:stable-2.10+topic:oauth-authentication-provider\n* https://gerrit-review.googlesource.com/#/q/status:open+project:gerrit+branch:stable-2.10+topic:hybrid-openid-oauth-authentication-provider",
+      "parentUuid": "10a256bf_c014de79",
+      "range": {
+        "startLine": 74,
+        "startChar": 29,
+        "endLine": 74,
+        "endChar": 68
+      },
+      "revId": "a5bb05e862c7c763c7a2d5db171dd9216eece27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "505f6e27_ca86a317",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/GuiceHttpModule.java",
         "patchSetId": 2
@@ -392,6 +416,30 @@
       "side": 1,
       "message": "Ah, OK that makes sense then. Thank you for clarifying.\nWith regards to your plugin that exposes both Google and GitHub OAuth ... it can become a bit misleading for the user though.\n\nWhy don\u0027t you split the plugin into two separate ones?\nAt the end of the day most of the people would like just to migrate from OpenID to OAuth and keep the Google ID authentication: why should they be bothered about GitHub then?",
       "parentUuid": "10a256bf_40ee8e04",
+      "range": {
+        "startLine": 71,
+        "startChar": 22,
+        "endLine": 71,
+        "endChar": 37
+      },
+      "revId": "a5bb05e862c7c763c7a2d5db171dd9216eece27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10a256bf_4009ee5d",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/GuiceHttpModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-23T08:53:50Z",
+      "side": 1,
+      "message": "Well, there are many reasons to keep different providers in one plugin: KISS. Compare it to OpenID for a site with diverse user base:\n\nyou install gerrit.war and it just works. Now your users can connect to Gerrit using different OpenID providers:\n\n* Launchpad\n* Fedoraproject\n* Google\n* Yahoo!\n* ...\n\nWhy unnecessary make things complex? Deploy one plugin and you are done, except that the protocol used is OAuth and not OpenID.\n\nGiven how hard to setup Buck and compile a plugin (just check issues on gerrit-provider-plugin GH page) and given that the actual OAuth magic is done in scribe library anyway, and that the plugin specific implementation is less then 40 lines, it\u0027s overkill to provide dedicated OAuth plugin for each provider.",
+      "parentUuid": "10a256bf_a019dab1",
       "range": {
         "startLine": 71,
         "startChar": 22,
