@@ -39,15 +39,12 @@ public class GitHubOAuthServiceProvider implements OAuthServiceProvider {
 
   private final GitHubOAuthConfig config;
   private final OAuthProtocol oauth;
-  private final String name;
 
   @Inject
   public GitHubOAuthServiceProvider(GitHubOAuthConfig config,
-      OAuthProtocol oauth,
-      @PluginName String name) {
+      OAuthProtocol oauth) {
     this.config = config;
     this.oauth = oauth;
-    this.name = name;
   }
 
   @Override
@@ -83,6 +80,6 @@ public class GitHubOAuthServiceProvider implements OAuthServiceProvider {
 
   @Override
   public String getName() {
-    return name;
+    return "GitHub";
   }
 }
