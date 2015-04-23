@@ -261,6 +261,30 @@
     },
     {
       "key": {
+        "uuid": "10a256bf_c014de79",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/GitHubOAuthServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-04-23T08:30:11Z",
+      "side": 1,
+      "message": "It is not only related to the GitHub-specific logic but even to a more generic \"multi-OAuth\" authentication.\n\nImagine that you are you with a specific username (e.g. lucamilanesio) but at a specific point in time you are authenticating with GitHub that assigns you ID#1234. If today GitHub is down (or under DDoS that happens unfortunately quite often) you may want to authenticate with BitBucket ... but you are still you and nobody else :-)\n\nIf a OAuth plugin could provide the list of external-ids associated to you (for GitHub could be both the GitHub-UserID and the GitHub-Username) you can then reuse them for associating the same user to other OAuth providers if and when needed.\n\nSomething similar to the hybrid auth you\u0027ve implemented with OpenID / OAuth 2.0 for Google ID.",
+      "parentUuid": "10a256bf_000be65e",
+      "range": {
+        "startLine": 74,
+        "startChar": 29,
+        "endLine": 74,
+        "endChar": 68
+      },
+      "revId": "a5bb05e862c7c763c7a2d5db171dd9216eece27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "505f6e27_ca86a317",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/GuiceHttpModule.java",
         "patchSetId": 2
@@ -320,6 +344,30 @@
       "side": 1,
       "message": "I think you have misread the code. The code you quoted takes care of special case: only one OAuth plugin is available (called SSO), in which case the selection form mustn\u0027t be rendered. You can have hundreds OAuth plugins that expose thousands of OAuth providers. The only requirements they must have unique names. Also note, that single plugin can expose different OAuth providers. In fact gerrit-oauth-provider exposes two providers. GitHub and Google. When github-plugin exposes GitHub OAuth provider as well and these plugins deployed on the same site, then the user could pick either from the providers to authenticate against GitHub.\n\nOn the selection page the user would be presented with tree rows:\n\n* gerrit-oauth-provider-github-oauth\n* gerrit-oauth-provider-google-oauth\n* github-plugin-github-oauth",
       "parentUuid": "309bda8e_41ee9204",
+      "range": {
+        "startLine": 71,
+        "startChar": 22,
+        "endLine": 71,
+        "endChar": 37
+      },
+      "revId": "a5bb05e862c7c763c7a2d5db171dd9216eece27e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10a256bf_a019dab1",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/GuiceHttpModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-04-23T08:30:11Z",
+      "side": 1,
+      "message": "Ah, OK that makes sense then. Thank you for clarifying.\nWith regards to your plugin that exposes both Google and GitHub OAuth ... it can become a bit misleading for the user though.\n\nWhy don\u0027t you split the plugin into two separate ones?\nAt the end of the day most of the people would like just to migrate from OpenID to OAuth and keep the Google ID authentication: why should they be bothered about GitHub then?",
+      "parentUuid": "10a256bf_40ee8e04",
       "range": {
         "startLine": 71,
         "startChar": 22,
