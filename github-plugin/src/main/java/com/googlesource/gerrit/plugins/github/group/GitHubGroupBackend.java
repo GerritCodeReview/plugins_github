@@ -26,6 +26,7 @@ import java.util.concurrent.ExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSet.Builder;
 import com.google.gerrit.common.data.GroupDescription.Basic;
@@ -120,6 +121,11 @@ public class GitHubGroupBackend implements GroupBackend {
 
   @Override
   public GroupMembership membershipsOf(IdentifiedUser user) {
-    return ghMembershipProvider.get(user.getUserName());
+    String username = user.getUserName();
+    if (Strings.isNullOrEmpty(username)) {
+      return GroupMembership.EMPTY;
+    } else {
+      return ghMembershipProvider.get(username);
+    }
   }
 }
