@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9051e6aa_9c666525",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/group/GitHubGroupBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-04-27T13:33:21Z",
+      "side": 1,
+      "message": "username",
+      "range": {
+        "startLine": 128,
+        "startChar": 38,
+        "endLine": 128,
+        "endChar": 56
+      },
+      "revId": "f46bcc54879beadc3f5e4b76af486068bde89910",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
