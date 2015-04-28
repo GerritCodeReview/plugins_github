@@ -69,8 +69,9 @@ public class GitHubOAuthServiceProvider implements OAuthServiceProvider {
     GitHub hub = GitHub.connectUsingOAuth(oauthToken);
     GHMyself myself = hub.getMyself();
     String login = myself.getLogin();
+    int gitHubId = myself.getId();
     return new OAuthUserInfo(AccountExternalId.SCHEME_GERRIT + login, login,
-        myself.getEmail(), myself.getName(), null);
+        myself.getEmail(), myself.getName(), Integer.toString(gitHubId));
   }
 
   @Override
