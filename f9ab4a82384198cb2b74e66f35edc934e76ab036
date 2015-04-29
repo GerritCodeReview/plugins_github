@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "707ab234_eb61d10f",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/GitHubOAuthServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-04-29T11:40:47Z",
+      "side": 1,
+      "message": "Well, this is an ugly hack. I just added a comment to this issue: [1]. Moreover, when i would switch in my plugin to extended external_id \"oath:github:\u003cgithub-id\u003e\" This would stop to work.\n\nMay be it helps to understand why I added this claimed-identity-handshake phase linking feature to the OAuth API in the first place:\n\n  Only because of Google OpenID shutdown migration\n\nOnly because you cannot (ever) sign in anymore into your Gerrit OpenID account,\nyou cannot (ever) activate User \u003d\u003e Settings \u003d\u003e Identities \u003d\u003e Link to another identity. It sucks. That why Google engineers come up with new scope \u003d opened and with openid.realm request attribute and with openid_id  JWT token response part. With this information the only way to link it automagically is in handshake phase! Why\u003d Because otherwise, a new account would be created and already screwed up, the only way out here is merging account.\n\nGithub is completely free from all these problems, no matter, which plugin provider is used. As I already comment in another change the right way to achieve linking with non-deprecated OAuth providers, is through the UI, and not through the automatic linking during hand shake phase.\n\nIn your case, this change is not needed, just connect with your or my provider, and click on \"User \u003d\u003e Settings \u003d\u003e Identities \u003d\u003e Link to another identity\". Done.\n\n* [1] https://github.com/davido/gerrit-oauth-provider/issues/33",
+      "range": {
+        "startLine": 72,
+        "startChar": 4,
+        "endLine": 74,
+        "endChar": 73
+      },
+      "revId": "f9ab4a82384198cb2b74e66f35edc934e76ab036",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
