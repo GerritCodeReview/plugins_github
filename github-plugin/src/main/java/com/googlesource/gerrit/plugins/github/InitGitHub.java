@@ -32,6 +32,14 @@ public class InitGitHub implements InitStep {
   private final Section httpd;
   private final Section github;
   private final Section gerrit;
+  
+  public enum OAuthType {
+    /* Legacy Gerrit/HTTP authentication for GitHub through HTTP Header enrichment */
+    HTTP,
+    
+    /* New native Gerrit/OAuth authentication provider */
+    OAUTH
+  }
 
   @Inject
   InitGitHub(final ConsoleUI ui, final Section.Factory sections) {
@@ -45,12 +53,6 @@ public class InitGitHub implements InitStep {
   @Override
   public void run() throws Exception {
     ui.header("GitHub Integration");
-
-    auth.set("httpHeader", "GITHUB_USER");
-    auth.set("httpExternalIdHeader", "GITHUB_OAUTH_TOKEN");
-    auth.set("loginUrl","/login");
-    auth.set("loginText", "Sign-in with GitHub");
-    auth.set("registerPageUrl", "/#/register");
 
     github.string("GitHub URL", "url", GITHUB_URL);
     github.string("GitHub API URL", "apiUrl", GITHUB_API_URL);
@@ -71,9 +73,20 @@ public class InitGitHub implements InitStep {
 
     github.string("GitHub Client ID", "clientId", null);
     github.passwordForKey("GitHub Client Secret", "clientSecret");
-    auth.string("HTTP Authentication Header", "httpHeader", "GITHUB_USER");
-    auth.set("type", "HTTP");
-    httpd.set("filterClass", "com.googlesource.gerrit.plugins.github.oauth.OAuthFilter");
+    
+    OAuthType authType = auth.select("Gerrit OAuth implementation", "type", OAuthType.HTTP);
+    if (authType.equals(OAuthType.HTTP)) {
+      auth.string("HTTP Authentication Header", "httpHeader", "GITHUB_USER");
+      httpd.set("filterClass",
+          "com.googlesource.gerrit.plugins.github.oauth.OAuthFilter");
+      auth.set("httpExternalIdHeader", "GITHUB_OAUTH_TOKEN");
+      auth.set("loginUrl","/login");
+      auth.set("loginText", "Sign-in with GitHub");
+      auth.set("registerPageUrl", "/#/register");
+    } else {
+      httpd.unset("filterClass");
+      httpd.unset("httpHeader");
+    }
   }
 
   private String getAssumedCanonicalWebUrl() {

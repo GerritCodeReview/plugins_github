@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.googlesource.gerrit.plugins.github.group.GitHubGroup.NAME_PREFIX;
 import static com.googlesource.gerrit.plugins.github.group.GitHubGroup.UUID_PREFIX;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSet.Builder;
 import com.google.gerrit.common.data.GroupDescription.Basic;
@@ -127,6 +128,11 @@ public class GitHubGroupBackend implements GroupBackend {
 
   @Override
   public GroupMembership membershipsOf(IdentifiedUser user) {
-    return ghMembershipProvider.get(user.getUserName());
+    String username = user.getUserName();
+    if (Strings.isNullOrEmpty(username)) {
+      return GroupMembership.EMPTY;
+    } else {
+      return ghMembershipProvider.get(username);
+    }
   }
 }

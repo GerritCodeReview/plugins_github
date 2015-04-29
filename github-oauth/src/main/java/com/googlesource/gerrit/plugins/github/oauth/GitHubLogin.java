@@ -101,7 +101,7 @@ public class GitHubLogin implements Serializable {
     log.debug("Login " + this);
     if (OAuthProtocol.isOAuthFinal(request)) {
       log.debug("Login-FINAL " + this);
-      login(oauth.loginPhase2(request, state));
+      login(oauth.loginPhase2(request, response, state));
       this.state = ""; // Make sure state is used only once
 
       if (isLoggedIn()) {
