@@ -22,6 +22,30 @@
       "revId": "f9ab4a82384198cb2b74e66f35edc934e76ab036",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "707ab234_cb43b573",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/GitHubOAuthServiceProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-04-29T12:43:05Z",
+      "side": 1,
+      "message": "Yes, after having verified the \"link account\" feature this change becomes redundant.\n\nAdditionally it is linked to the gerrit-oauth-provider specific external ID format (which is subject to change) and then really sucks :-)\n\nWill just abandon this change then, the link identity button would definitely suffice for this purpose.",
+      "parentUuid": "707ab234_eb61d10f",
+      "range": {
+        "startLine": 72,
+        "startChar": 4,
+        "endLine": 74,
+        "endChar": 73
+      },
+      "revId": "f9ab4a82384198cb2b74e66f35edc934e76ab036",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
