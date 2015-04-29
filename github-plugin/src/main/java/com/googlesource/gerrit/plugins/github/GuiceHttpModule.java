@@ -13,6 +13,11 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github;
 
+import org.apache.http.client.HttpClient;
+import org.apache.velocity.runtime.RuntimeInstance;
+
+import com.google.gerrit.extensions.annotations.Exports;
+import com.google.gerrit.extensions.auth.oauth.OAuthServiceProvider;
 import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.name.Names;
@@ -64,6 +69,9 @@ public class GuiceHttpModule extends ServletModule {
 
     bind(String.class).annotatedWith(GitHubURL.class).toProvider(
         GitHubURLProvider.class);
+
+    bind(OAuthServiceProvider.class).annotatedWith(
+        Exports.named("github")).to(GitHubOAuthServiceProvider.class);
 
     serve("*.css", "*.js", "*.png", "*.jpg", "*.woff", "*.gif", "*.ttf").with(
         VelocityStaticServlet.class);

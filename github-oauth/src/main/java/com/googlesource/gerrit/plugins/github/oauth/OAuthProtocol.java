@@ -37,9 +37,27 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Charsets;
+import com.google.common.base.Strings;
+import com.google.common.io.CharStreams;
+import com.google.gson.Gson;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.google.gerrit.extensions.auth.oauth.OAuthToken;
+import com.google.gerrit.extensions.auth.oauth.OAuthVerifier;
+
 @Singleton
 public class OAuthProtocol {
-
   public static enum Scope {
     DEFAULT(""),
     USER("user"),
@@ -78,6 +96,7 @@ public class OAuthProtocol {
     public String error;
     public String errorDescription;
     public String errorUri;
+    public String raw;
 
     public AccessToken() {
     }
@@ -86,7 +105,7 @@ public class OAuthProtocol {
       this(token, "");
     }
 
-    public AccessToken(String token, String type, Scope... scopes) {
+    public AccessToken(String token, String type) {
       this();
       this.accessToken = token;
       this.tokenType = type;
@@ -117,6 +136,18 @@ public class OAuthProtocol {
     public boolean isError() {
       return !Strings.isNullOrEmpty(error);
     }
+
+    public String getRaw() {
+      return raw;
+    }
+
+    public void setRaw(String raw) {
+      this.raw = raw;
+    }
+
+    public OAuthToken toOAuthToken() {
+      return new OAuthToken(accessToken, null, getRaw());
+    }
   }
 
   @Inject
@@ -142,21 +173,26 @@ public class OAuthProtocol {
     }
   }
 
+  public String getAuthorizationUrl(String scopesString, String state) {
+    return config.gitHubOAuthUrl + "?client_id=" + config.gitHubClientId
+        + getURLEncodedParameter("&scope=", scopesString)
+        + getURLEncodedParameter("&redirect_uri=", config.oAuthFinalRedirectUrl)
+        + getURLEncodedParameter("&state=", state);
+  }
+
   public String loginPhase1(HttpServletRequest request,
       HttpServletResponse response, Set<Scope> scopes) throws IOException {
     String scopesString = getScope(scopes);
     log.debug("Initiating GitHub Login for ClientId=" + config.gitHubClientId
         + " Scopes=" + scopesString);
     String state = newRandomState(request.getRequestURI().toString());
-    response.sendRedirect(String.format(
-        "%s?client_id=%s%s&redirect_uri=%s&state=%s",
-        config.gitHubOAuthUrl, config.gitHubClientId, scopesString,
-        getURLEncoded(config.oAuthFinalRedirectUrl), getURLEncoded(state)));
+    log.debug("Initiating GitHub Login for ClientId=" + config.gitHubClientId + " Scopes=" + scopesString);
+    response.sendRedirect(getAuthorizationUrl(scopesString, state));
     return state;
   }
 
-  private String getScope(Set<Scope> scopes) {
-    if (scopes.size() <= 0) {
+  public String getScope(Set<Scope> scopes) {
+    if(scopes.size() <= 0) {
       return "";
     }
 
@@ -167,13 +203,13 @@ public class OAuthProtocol {
       }
       out.append(scope.getValue());
     }
-    return "&" + "scope=" + out.toString();
+    return out.toString();
   }
 
   public static boolean isOAuthFinal(HttpServletRequest request) {
     return Strings.emptyToNull(request.getParameter("code")) != null;
   }
-  
+
   public static boolean isOAuthFinalForOthers(HttpServletRequest request) {
     String targetUrl = getTargetUrl(request);
     if(targetUrl.equals(request.getRequestURI())) {
@@ -201,20 +237,23 @@ public class OAuthProtocol {
     return OAuthProtocol.isOAuthLogin(httpRequest) || OAuthProtocol.isOAuthFinal(httpRequest);
   }
 
-  public AccessToken loginPhase2(HttpServletRequest request, String state)
-      throws IOException {
-
+  public AccessToken loginPhase2(HttpServletRequest request,
+      HttpServletResponse response, String state) throws IOException {
     String requestState = request.getParameter("state");
     if (!Objects.equals(state, requestState)) {
       throw new IOException("Invalid authentication state");
     }
 
+    return getAccessToken(new OAuthVerifier(request.getParameter("code")));
+  }
+
+  public AccessToken getAccessToken(OAuthVerifier code) throws IOException {
     HttpPost post = new HttpPost(config.gitHubOAuthAccessTokenUrl);
     post.setHeader("Accept", "application/json");
     List<NameValuePair> nvps = new ArrayList<NameValuePair>();
     nvps.add(new BasicNameValuePair("client_id", config.gitHubClientId));
     nvps.add(new BasicNameValuePair("client_secret", config.gitHubClientSecret));
-    nvps.add(new BasicNameValuePair("code", request.getParameter("code")));
+    nvps.add(new BasicNameValuePair("code", code.getValue()));
     post.setEntity(new UrlEncodedFormEntity(nvps, Charsets.UTF_8));
 
     HttpResponse postResponse = httpProvider.get().execute(post);
@@ -236,12 +275,14 @@ public class OAuthProtocol {
           + " returned an error token: " + token);
       throw new IOException("Invalid GitHub OAuth token");
     }
+
     return token;
   }
 
-  private static String getURLEncoded(String url) {
+  private static String getURLEncodedParameter(String prefix, String url) {
     try {
-      return URLEncoder.encode(url, "UTF-8");
+      return Strings.isNullOrEmpty(url) ? 
+          "" : (prefix + URLEncoder.encode(url,"UTF-8"));
     } catch (UnsupportedEncodingException e) {
       throw new IllegalStateException("Cannot find UTF-8 encoding", e);
     }
@@ -262,10 +303,9 @@ public class OAuthProtocol {
 
   public static String getTargetOAuthFinal(HttpServletRequest httpRequest) {
     String targetUrl = getTargetUrl(httpRequest);
-    String code = getURLEncoded(httpRequest.getParameter("code"));
-    String state = getURLEncoded(httpRequest.getParameter("state"));
-    return targetUrl + (targetUrl.indexOf('?') < 0 ? '?' : '&') + "code="
-        + code + "&state=" + state;
+    String code = getURLEncodedParameter("code=", httpRequest.getParameter("code"));
+    String state = getURLEncodedParameter("&state=", httpRequest.getParameter("state"));
+    return targetUrl + (targetUrl.indexOf('?') < 0 ? '?' : '&') + code + state;
   }
 
   @Override
