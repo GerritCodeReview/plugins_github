@@ -136,7 +136,7 @@ public class GitHubLogin implements Serializable {
   }
 
   public GitHub getHub() throws IOException {
-    return GitHub.connectUsingOAuth(this.token.accessToken);
+    return GitHub.connectUsingOAuth(config.gitHubApiUrl, token.accessToken);
   }
 
   private String getScopesKey(HttpServletRequest request,
