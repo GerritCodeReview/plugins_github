@@ -22,6 +22,30 @@
       "revId": "8e2dc562a0e5bc387802c8d3061d5ce4472abe85",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4db515d9_1a5c5d59",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/wizard/RepositoriesListController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-05-15T13:55:25Z",
+      "side": 1,
+      "message": "You are actually right, I should only check the Push access IMHO. Let me check the GitHub API code.",
+      "parentUuid": "2d86212e_691925ae",
+      "range": {
+        "startLine": 69,
+        "startChar": 6,
+        "endLine": 69,
+        "endChar": 73
+      },
+      "revId": "8e2dc562a0e5bc387802c8d3061d5ce4472abe85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
