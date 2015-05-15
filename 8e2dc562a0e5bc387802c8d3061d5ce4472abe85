@@ -46,6 +46,30 @@
       "revId": "8e2dc562a0e5bc387802c8d3061d5ce4472abe85",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4db515d9_3a612110",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/wizard/RepositoriesListController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-05-15T14:03:23Z",
+      "side": 1,
+      "message": "GitHub API do not explicitly say what they are ... but assuming from the names that:\n- pull access \u003d\u003e you can clone / fetch the repo\n- push access \u003d\u003e you can push to the repo\n\nFor importing into Gerrit and configure for replication we need to:\n- clone the repo (then pull access)\n- push to the repo during replication (then push access)\n\nIt should be correct IMHO",
+      "parentUuid": "4db515d9_1a5c5d59",
+      "range": {
+        "startLine": 69,
+        "startChar": 6,
+        "endLine": 69,
+        "endChar": 73
+      },
+      "revId": "8e2dc562a0e5bc387802c8d3061d5ce4472abe85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
