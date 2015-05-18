@@ -61,10 +61,9 @@ public class ReplicateProjectStep extends ImportStep {
 
     String repositoryName = getOrganisation() + "/" + getRepositoryName();
     progress.update(1);
-    replicationConfig.addSecureCredentials(getOrganisation(), authUsername,
-        authToken);
+    replicationConfig.addSecureCredentials(authUsername, authToken);
     progress.update(1);
-    replicationConfig.addReplicationRemote(getOrganisation(), gitHubUrl
+    replicationConfig.addReplicationRemote(authUsername, gitHubUrl
         + "/${name}.git", repositoryName);
     progress.endTask();
   }
