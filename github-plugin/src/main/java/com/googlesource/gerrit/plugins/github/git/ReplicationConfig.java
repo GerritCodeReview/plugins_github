@@ -40,26 +40,24 @@ public class ReplicationConfig {
     secureConf = new FileBasedConfig(site.secure_config.toFile(), FS.DETECTED);
   }
 
-  public synchronized void addSecureCredentials(String organisation,
-      String authUsername, String authToken) throws IOException,
+  public synchronized void addSecureCredentials(String authUsername, String authToken) throws IOException,
       ConfigInvalidException {
     secureConf.load();
-    secureConf.setString("remote", organisation, "username", authUsername);
-    secureConf.setString("remote", organisation, "password", authToken);
+    secureConf.setString("remote", authUsername, "username", authUsername);
+    secureConf.setString("remote", authUsername, "password", authToken);
     secureConf.save();
   }
 
-  public synchronized void addReplicationRemote(String organisation,
-      String url, String projectName) throws IOException,
-      ConfigInvalidException {
+  public synchronized void addReplicationRemote(String username, String url,
+      String projectName) throws IOException, ConfigInvalidException {
     replicationConf.load();
-    replicationConf.setString("remote", organisation, "url", url);
+    replicationConf.setString("remote", username, "url", url);
     List<String> projects =
         new ArrayList<String>(Arrays.asList(replicationConf.getStringList(
-            "remote", organisation, "projects")));
+            "remote", username, "projects")));
     projects.add(projectName);
-    replicationConf.setStringList("remote", organisation, "projects", projects);
-    replicationConf.setString("remote", organisation, "push", "refs/*:refs/*");
+    replicationConf.setStringList("remote", username, "projects", projects);
+    replicationConf.setString("remote", username, "push", "refs/*:refs/*");
     replicationConf.save();
   }
 
