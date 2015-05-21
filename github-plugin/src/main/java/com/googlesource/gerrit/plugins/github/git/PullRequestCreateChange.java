@@ -114,8 +114,7 @@ public class PullRequestCreateChange {
         projectControlFactory.controlFor(project.getNameKey()).controlForRef(
             destinationBranch);
 
-    try {
-      RevWalk revWalk = new RevWalk(git);
+    try (RevWalk revWalk = new RevWalk(git)) {
       try {
         Ref destRef = git.getRef(destinationBranch);
         if (destRef == null) {
@@ -181,7 +180,6 @@ public class PullRequestCreateChange {
                   doValidation));
         }
       } finally {
-        revWalk.release();
         if (newChange == null) {
           db.rollback();
         }

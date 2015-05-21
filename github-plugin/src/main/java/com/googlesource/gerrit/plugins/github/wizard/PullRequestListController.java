@@ -205,30 +205,31 @@ public class PullRequestListController implements VelocityController {
       Repository gitRepo, GHPullRequest ghPullRequest)
       throws IncorrectObjectTypeException, IOException {
     boolean pullRequestToImport = false;
-    RevWalk gitWalk = new RevWalk(gitRepo);
-    for (GHPullRequestCommitDetail pullRequestCommit : ghPullRequest
-        .listCommits()) {
-      ObjectId pullRequestHeadObjectId =
-          ObjectId.fromString(pullRequestCommit.getSha());
-
-      try {
-        gitWalk.parseCommit(pullRequestHeadObjectId);
-
-        ResultSet<PatchSet> patchSets;
+    try (RevWalk gitWalk = new RevWalk(gitRepo)) {
+      for (GHPullRequestCommitDetail pullRequestCommit : ghPullRequest
+          .listCommits()) {
+        ObjectId pullRequestHeadObjectId =
+            ObjectId.fromString(pullRequestCommit.getSha());
+  
         try {
-          patchSets =
-              db.patchSets().byRevision(new RevId(pullRequestCommit.getSha()));
-        } catch (OrmException e) {
-          LOG.error("Error whilst fetching patch-sets from DB associated to commit "
-              + pullRequestCommit.getSha());
-          return false;
+          gitWalk.parseCommit(pullRequestHeadObjectId);
+  
+          ResultSet<PatchSet> patchSets;
+          try {
+            patchSets =
+                db.patchSets().byRevision(new RevId(pullRequestCommit.getSha()));
+          } catch (OrmException e) {
+            LOG.error("Error whilst fetching patch-sets from DB associated to commit "
+                + pullRequestCommit.getSha());
+            return false;
+          }
+          pullRequestToImport = !patchSets.iterator().hasNext();
+          patchSets.close();
+        } catch (MissingObjectException e) {
+          pullRequestToImport = true;
         }
-        pullRequestToImport = !patchSets.iterator().hasNext();
-        patchSets.close();
-      } catch (MissingObjectException e) {
-        pullRequestToImport = true;
       }
+      return pullRequestToImport;
     }
-    return pullRequestToImport;
   }
 }

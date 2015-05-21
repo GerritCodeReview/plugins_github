@@ -173,34 +173,35 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
     ObjectId baseObjectId = ObjectId.fromString(pr.getBase().getSha());
     ObjectId prHeadObjectId = ObjectId.fromString(pr.getHead().getSha());
 
-    RevWalk walk = new RevWalk(gitRepo);
-    walk.markUninteresting(walk.lookupCommit(baseObjectId));
-    walk.markStart(walk.lookupCommit(prHeadObjectId));
-    walk.sort(RevSort.REVERSE);
-
-    int patchNr = 1;
-    for (GHPullRequestCommitDetail ghCommitDetail : pr.listCommits()) {
-      status.update(Code.SYNC, "Patch #" + patchNr, "Patch#" + patchNr
-          + ": Inserting PullRequest into Gerrit");
-      RevCommit revCommit =
-          walk.parseCommit(ObjectId.fromString(ghCommitDetail.getSha()));
-
-      GHUser prUser = pr.getUser();
-      GitUser commitAuthor = ghCommitDetail.getCommit().getAuthor();
-      GitHubUser gitHubUser = GitHubUser.from(prUser, commitAuthor);
-
-      Account.Id pullRequestOwner = getOrRegisterAccount(db, gitHubUser);
-      Id changeId =
-          createChange.addCommitToChange(db, project, gitRepo,
-              destinationBranch, pullRequestOwner, revCommit,
-              getChangeMessage(pr),
-              String.format(TOPIC_FORMAT, pr.getNumber()), false);
-      if (changeId != null) {
-        prChanges.add(changeId);
+    try (RevWalk walk = new RevWalk(gitRepo)) {
+      walk.markUninteresting(walk.lookupCommit(baseObjectId));
+      walk.markStart(walk.lookupCommit(prHeadObjectId));
+      walk.sort(RevSort.REVERSE);
+  
+      int patchNr = 1;
+      for (GHPullRequestCommitDetail ghCommitDetail : pr.listCommits()) {
+        status.update(Code.SYNC, "Patch #" + patchNr, "Patch#" + patchNr
+            + ": Inserting PullRequest into Gerrit");
+        RevCommit revCommit =
+            walk.parseCommit(ObjectId.fromString(ghCommitDetail.getSha()));
+  
+        GHUser prUser = pr.getUser();
+        GitUser commitAuthor = ghCommitDetail.getCommit().getAuthor();
+        GitHubUser gitHubUser = GitHubUser.from(prUser, commitAuthor);
+  
+        Account.Id pullRequestOwner = getOrRegisterAccount(db, gitHubUser);
+        Id changeId =
+            createChange.addCommitToChange(db, project, gitRepo,
+                destinationBranch, pullRequestOwner, revCommit,
+                getChangeMessage(pr),
+                String.format(TOPIC_FORMAT, pr.getNumber()), false);
+        if (changeId != null) {
+          prChanges.add(changeId);
+        }
       }
+  
+      return prChanges;
     }
-
-    return prChanges;
   }
 
   private com.google.gerrit.reviewdb.client.Account.Id getOrRegisterAccount(
