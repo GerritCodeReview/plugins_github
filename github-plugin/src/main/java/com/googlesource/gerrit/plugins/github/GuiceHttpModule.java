@@ -38,9 +38,6 @@ import com.googlesource.gerrit.plugins.github.velocity.VelocityStaticServlet;
 import com.googlesource.gerrit.plugins.github.velocity.VelocityViewServlet;
 import com.googlesource.gerrit.plugins.github.wizard.VelocityControllerServlet;
 
-import org.apache.http.client.HttpClient;
-import org.apache.velocity.runtime.RuntimeInstance;
-
 public class GuiceHttpModule extends ServletModule {
 
   @Override
