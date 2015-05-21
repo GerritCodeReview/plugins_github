@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d58ede6_24d39256",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-05-21T16:57:39Z",
+      "side": 1,
+      "message": "Already present in stable-2.11",
+      "range": {
+        "startLine": 11,
+        "startChar": 2,
+        "endLine": 11,
+        "endChar": 51
+      },
+      "revId": "7b555fd77d64f93c89568224e21c0907863442d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d58ede6_04d69645",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-05-21T16:57:39Z",
+      "side": 1,
+      "message": "Already present in stable-2.11",
+      "range": {
+        "startLine": 12,
+        "startChar": 2,
+        "endLine": 12,
+        "endChar": 48
+      },
+      "revId": "7b555fd77d64f93c89568224e21c0907863442d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d58ede6_64c98aa6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-05-21T16:57:39Z",
+      "side": 1,
+      "message": "This issue was that the OAuthServiceProvider implementation on stable-2.11 was quite different than the one on stable-2.10 as the code structure wasn\u0027t the same.\n\nAs the \"unusual merge\" has been done already with I45d0855 I would find risky to merge this commit again :-(",
+      "range": {
+        "startLine": 13,
+        "startChar": 2,
+        "endLine": 13,
+        "endChar": 47
+      },
+      "revId": "7b555fd77d64f93c89568224e21c0907863442d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4de0b53c_c2b7021a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-05-21T16:57:39Z",
+      "side": 1,
+      "message": "Exactly ... and as I needed to massively amend the change then Git doesn\u0027t consider it a real merge-commit :-(\n\n2.10 branch is quite old anyway, I\u0027m focusing now on 2.11 and master development for the GitHub plugin.\n\nI would port stuff from 2.10 just by cherry-pick and if really critical.",
+      "revId": "7b555fd77d64f93c89568224e21c0907863442d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
