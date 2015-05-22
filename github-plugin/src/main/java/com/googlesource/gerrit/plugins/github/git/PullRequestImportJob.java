@@ -177,18 +177,18 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
       walk.markUninteresting(walk.lookupCommit(baseObjectId));
       walk.markStart(walk.lookupCommit(prHeadObjectId));
       walk.sort(RevSort.REVERSE);
-
+  
       int patchNr = 1;
       for (GHPullRequestCommitDetail ghCommitDetail : pr.listCommits()) {
         status.update(Code.SYNC, "Patch #" + patchNr, "Patch#" + patchNr
             + ": Inserting PullRequest into Gerrit");
         RevCommit revCommit =
             walk.parseCommit(ObjectId.fromString(ghCommitDetail.getSha()));
-
+  
         GHUser prUser = pr.getUser();
         GitUser commitAuthor = ghCommitDetail.getCommit().getAuthor();
         GitHubUser gitHubUser = GitHubUser.from(prUser, commitAuthor);
-
+  
         Account.Id pullRequestOwner = getOrRegisterAccount(db, gitHubUser);
         Id changeId =
             createChange.addCommitToChange(db, project, gitRepo,
@@ -199,7 +199,7 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
           prChanges.add(changeId);
         }
       }
-
+  
       return prChanges;
     }
   }
