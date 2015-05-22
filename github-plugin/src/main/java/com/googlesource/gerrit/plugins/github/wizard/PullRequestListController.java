@@ -210,10 +210,10 @@ public class PullRequestListController implements VelocityController {
           .listCommits()) {
         ObjectId pullRequestHeadObjectId =
             ObjectId.fromString(pullRequestCommit.getSha());
-
+  
         try {
           gitWalk.parseCommit(pullRequestHeadObjectId);
-
+  
           ResultSet<PatchSet> patchSets;
           try {
             patchSets =
