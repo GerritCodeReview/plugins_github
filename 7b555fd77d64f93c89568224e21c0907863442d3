@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "ad9cd1d8_8dbc01fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-05-22T00:36:40Z",
+      "side": 1,
+      "message": "As I wrote in the cover message, we are not merging it again.  The merge here is done with \u0027-s ours\u0027 which means it takes everything from the stable-2.11 branch.  There is no risk.\n\nThis is how the previous merge should have been done.  Doing a merge with a plain commit means git does not know about the merge and will cause conflict on any subsequent merge attempt.",
+      "parentUuid": "8d58ede6_64c98aa6",
+      "range": {
+        "startLine": 13,
+        "startChar": 2,
+        "endLine": 13,
+        "endChar": 47
+      },
+      "revId": "7b555fd77d64f93c89568224e21c0907863442d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4de0b53c_c2b7021a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
