@@ -14,13 +14,14 @@
 
 package com.googlesource.gerrit.plugins.github;
 
+import com.google.gerrit.common.EventListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.TopMenu;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.inject.AbstractModule;
+import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
-
 import com.googlesource.gerrit.plugins.github.group.GitHubGroupBackend;
 import com.googlesource.gerrit.plugins.github.group.GitHubGroupMembership;
 import com.googlesource.gerrit.plugins.github.group.GitHubGroupsCache;
@@ -28,6 +29,9 @@ import com.googlesource.gerrit.plugins.github.group.GitHubOrganisationGroup;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.IdentifiedUserGitHubLoginProvider;
 import com.googlesource.gerrit.plugins.github.oauth.UserScopedProvider;
+import com.googlesource.gerrit.plugins.github.replication.ReplicationErrorListener;
+import com.googlesource.gerrit.plugins.github.replication.ReplicationStatusFlatFile;
+import com.googlesource.gerrit.plugins.github.replication.ReplicationStatusStore;
 
 public class GuiceModule extends AbstractModule {
   @Override
@@ -39,10 +43,15 @@ public class GuiceModule extends AbstractModule {
 
     DynamicSet.bind(binder(), TopMenu.class).to(GitHubTopMenu.class);
     DynamicSet.bind(binder(), GroupBackend.class).to(GitHubGroupBackend.class);
+    DynamicSet.bind(binder(), EventListener.class).to(ReplicationErrorListener.class);
+
 
     install(new FactoryModuleBuilder()
         .build(GitHubOrganisationGroup.Factory.class));
     install(new FactoryModuleBuilder()
         .build(GitHubGroupMembership.Factory.class));
+
+    bind(ReplicationStatusStore.class).to(ReplicationStatusFlatFile.class)
+        .in(Scopes.SINGLETON);
   }
 }
