@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "edd32994_e73e82db",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/replication/ReplicationErrorListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-05-24T23:45:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d7f014e_01c70a97",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "95d2aeec9d1a88937b47d218ecdcace5d16d044d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4dd7d57e_aae0cf15",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/replication/ReplicationErrorListener.java",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "edd32994_c7437e71",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/replication/ReplicationErrorListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-05-24T23:45:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4dd7d57e_aae0cf15",
+      "range": {
+        "startLine": 70,
+        "startChar": 33,
+        "endLine": 70,
+        "endChar": 39
+      },
+      "revId": "95d2aeec9d1a88937b47d218ecdcace5d16d044d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d7f014e_21cc0eb7",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/replication/ReplicationErrorListener.java",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2015-05-23T12:30:57Z",
       "side": 1,
       "message": "unnecessary",
+      "range": {
+        "startLine": 74,
+        "startChar": 8,
+        "endLine": 74,
+        "endChar": 14
+      },
+      "revId": "95d2aeec9d1a88937b47d218ecdcace5d16d044d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dd15d8c_086da7fe",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/replication/ReplicationErrorListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-05-24T23:45:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d7f014e_21cc0eb7",
       "range": {
         "startLine": 74,
         "startChar": 8,
