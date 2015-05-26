@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0dd15d8c_881d1767",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/GuiceModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-26T09:54:38Z",
+      "side": 1,
+      "message": "It\u0027s already used in singleton listener, so the instance is already singleton, but may be make it eve clearer:\n\n  .in(Scopes.SINGLETON);",
+      "revId": "02a9751e7a9c9f7080dfb0abd8fbdf940f6e2f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "edd32994_87c6a64a",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/replication/ReplicationErrorListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-26T09:54:38Z",
+      "side": 1,
+      "message": "For all REST API endpoint the Gson instance is instantiated with this helper:\n\n  OutputFormat.newGson()\n\nthat is implemented as following:\n\n  /** @return a new Gson instance configured according to the format. */\n  public GsonBuilder newGsonBuilder() {\n    if (!isJson()) {\n      throw new IllegalStateException(String.format(\"%s is not JSON\", this));\n    }\n    GsonBuilder gb \u003d new GsonBuilder()\n      .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)\n      .registerTypeAdapter(Timestamp.class, new SqlTimestampDeserializer());\n    if (this \u003d\u003d OutputFormat.JSON) {\n      gb.setPrettyPrinting();\n    }\n    return gb;\n  }\n\nWhy not to re-use the same helper method here, instead of using default ctor?",
+      "range": {
+        "startLine": 42,
+        "startChar": 6,
+        "endLine": 42,
+        "endChar": 15
+      },
+      "revId": "02a9751e7a9c9f7080dfb0abd8fbdf940f6e2f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dd15d8c_e812d354",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/replication/ReplicationStatusFlatFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-26T09:54:38Z",
+      "side": 1,
+      "message": "Remove the interface and only annotate with:\n\n  @Singleton\n  public class ReplicationStatusFlatFile {\n\n? And remove the Guice binding too, relying on Guice\u0027s Just InTime binding?",
+      "revId": "02a9751e7a9c9f7080dfb0abd8fbdf940f6e2f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dd15d8c_a818db76",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/replication/ReplicationStatusStore.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-26T09:54:38Z",
+      "side": 1,
+      "message": "Interfaces are often overused in Java. It should be only used when more than one implementations is expected to exist. What would be a second implementation?",
+      "revId": "02a9751e7a9c9f7080dfb0abd8fbdf940f6e2f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dd15d8c_480b1f26",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/replication/ReplicationStatusStore.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-26T09:54:38Z",
+      "side": 1,
+      "message": "Nit: trailing blank.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 2
+      },
+      "revId": "02a9751e7a9c9f7080dfb0abd8fbdf940f6e2f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
