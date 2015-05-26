@@ -16,6 +16,24 @@
       "revId": "d831c0b723e8f172157b5cc09b5662944b63275d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dd15d8c_48d67fed",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/GuiceModule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-05-26T15:52:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0dd15d8c_08dc870b",
+      "revId": "d831c0b723e8f172157b5cc09b5662944b63275d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
