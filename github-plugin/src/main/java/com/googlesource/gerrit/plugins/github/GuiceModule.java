@@ -16,8 +16,10 @@ package com.googlesource.gerrit.plugins.github;
 
 import com.google.gerrit.common.EventListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.extensions.webui.TopMenu;
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.project.ProjectResource;
 import com.google.gson.Gson;
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
@@ -31,8 +33,9 @@ import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.IdentifiedUserGitHubLoginProvider;
 import com.googlesource.gerrit.plugins.github.oauth.UserScopedProvider;
 import com.googlesource.gerrit.plugins.github.replication.GerritGsonProvider;
-import com.googlesource.gerrit.plugins.github.replication.ReplicationStatusListener;
+import com.googlesource.gerrit.plugins.github.replication.ListProjectReplicationStatus;
 import com.googlesource.gerrit.plugins.github.replication.ReplicationStatusFlatFile;
+import com.googlesource.gerrit.plugins.github.replication.ReplicationStatusListener;
 import com.googlesource.gerrit.plugins.github.replication.ReplicationStatusStore;
 
 public class GuiceModule extends AbstractModule {
@@ -51,6 +54,14 @@ public class GuiceModule extends AbstractModule {
         .build(GitHubOrganisationGroup.Factory.class));
     install(new FactoryModuleBuilder()
         .build(GitHubGroupMembership.Factory.class));
+
+    install(new RestApiModule() {
+      @Override
+      protected void configure() {
+        get(ProjectResource.PROJECT_KIND, "replication").to(
+            ListProjectReplicationStatus.class);
+      }
+    });
 
     bind(ReplicationStatusStore.class).to(ReplicationStatusFlatFile.class)
     .in(Scopes.SINGLETON);
