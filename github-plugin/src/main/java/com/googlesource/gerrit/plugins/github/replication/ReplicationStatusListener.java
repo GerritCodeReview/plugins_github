@@ -21,27 +21,28 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gerrit.common.EventListener;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
-import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.RefEvent;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
-public class ReplicationErrorListener implements EventListener {
+public class ReplicationStatusListener implements EventListener {
   private static final String REF_REPLICATED_EVENT = "ref-replicated";
   private static Logger log = LoggerFactory
-      .getLogger(ReplicationErrorListener.class);
+      .getLogger(ReplicationStatusListener.class);
 
   private final ReplicationStatusStore statusStore;
   private final Gson gson;
 
   @Inject
-  public ReplicationErrorListener(ReplicationStatusStore statusStore) {
+  public ReplicationStatusListener(ReplicationStatusStore statusStore,
+      Provider<Gson> gsonProvider) {
     this.statusStore = statusStore;
-    this.gson = OutputFormat.JSON_COMPACT.newGson();
+    this.gson = gsonProvider.get();
   }
 
   @Override
@@ -51,18 +52,13 @@ public class ReplicationErrorListener implements EventListener {
       RefEvent refEvent = (RefEvent) event;
       NameKey projectNameKey = refEvent.getProjectNameKey();
       JsonObject eventJson = (JsonObject) gson.toJsonTree(event);
-      String projectKey =
-          projectNameKey.get() + "/" + eventJson.get("ref").getAsString();
+      String refKey = eventJson.get("ref").getAsString();
 
       try {
-        if (eventJson.get("status").getAsString().equals("succeeded")) {
-          statusStore.remove(projectKey);
-        } else {
-          statusStore.set(projectKey, eventJson);
-        }
+        statusStore.set(projectNameKey, refKey, eventJson);
       } catch (IOException e) {
         log.error("Unable to update replication status for event " + eventJson
-            + " on project " + projectKey, e);
+            + " on project " + projectNameKey, e);
       }
     }
   }

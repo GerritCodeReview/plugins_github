@@ -23,6 +23,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import com.google.gerrit.extensions.annotations.PluginData;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gson.JsonObject;
 import com.google.inject.Inject;
 
@@ -35,24 +36,24 @@ public class ReplicationStatusFlatFile implements ReplicationStatusStore {
   }
 
   @Override
-  public void set(String key, JsonObject event) throws IOException {
-    Path replicationStatusPath = getReplicationStatusPath(key);
-    Files.write(replicationStatusPath, event.toString().getBytes(),
+  public void set(Project.NameKey projectKey, String refKey,
+      JsonObject statusEvent) throws IOException {
+    Path replicationStatusPath =
+        getReplicationStatusPath(projectKey.get() + "/" + refKey);
+    Files.write(replicationStatusPath, statusEvent.toString().getBytes(),
         TRUNCATE_EXISTING, CREATE, WRITE);
   }
 
-  @Override
-  public void remove(String key) throws IOException {
-      Path replicationStatusPath = getReplicationStatusPath(key);
-      if (Files.exists(replicationStatusPath)) {
-        Files.delete(replicationStatusPath);
-      }
-  }
-
   private Path getReplicationStatusPath(String key) throws IOException {
-    String sanitizedKey = key.replace(".", "_").replace(" ","_");
-    Path projectPath = pluginData.resolve(sanitizedKey + ".replication-error.json");
+    Path projectPath =
+        pluginData.resolve(getSanitizedKey(key) + ".replication-error.json");
     Files.createDirectories(projectPath.getParent());
     return projectPath;
   }
+
+  private String getSanitizedKey(String key) {
+    String sanitizedKey = key.replace(".", "_").replace(" ", "_");
+    return sanitizedKey;
+  }
+
 }

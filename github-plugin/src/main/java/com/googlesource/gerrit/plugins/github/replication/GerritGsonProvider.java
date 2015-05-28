@@ -1,4 +1,4 @@
-// Copyright (C) 2015 The Android Open Source Project
+// Copyright (C) 2013 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,13 +14,17 @@
 
 package com.googlesource.gerrit.plugins.github.replication;
 
-import java.io.IOException;
+import com.google.gerrit.server.OutputFormat;
+import com.google.gson.Gson;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gson.JsonObject;
+@Singleton
+public class GerritGsonProvider implements Provider<Gson> {
+  private final Gson gerritStyleGson = OutputFormat.JSON_COMPACT.newGson();
 
-public interface ReplicationStatusStore {
-
-  public void set(Project.NameKey projectKey, String refKey,
-      JsonObject statusEvent) throws IOException;
+  @Override
+  public Gson get() {
+    return gerritStyleGson;
+  }
 }
