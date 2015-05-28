@@ -15,6 +15,7 @@
 package com.googlesource.gerrit.plugins.github.replication;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gson.JsonObject;
@@ -23,4 +24,6 @@ public interface ReplicationStatusStore {
 
   public void set(Project.NameKey projectKey, String refKey,
       JsonObject statusEvent) throws IOException;
+
+  public List<JsonObject> list(Project.NameKey projectKey) throws IOException;
 }
