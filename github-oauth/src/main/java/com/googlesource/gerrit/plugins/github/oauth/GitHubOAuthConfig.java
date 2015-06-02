@@ -126,7 +126,7 @@ class GitHubOAuthConfig {
     if (Strings.emptyToNull(scopesString) != null) {
       String[] scopesStrings = scopesString.split(",");
       for (String scope : scopesStrings) {
-        scopes.add(Enum.valueOf(Scope.class, scope));
+        scopes.add(Enum.valueOf(Scope.class, scope.trim()));
       }
     }
 
