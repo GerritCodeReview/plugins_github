@@ -15,9 +15,12 @@
 package com.googlesource.gerrit.plugins.github.oauth;
 
 import static java.util.concurrent.TimeUnit.DAYS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -32,6 +35,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import lombok.Getter;
 
+import org.apache.http.client.utils.URIBuilder;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GitHub;
 import org.slf4j.Logger;
@@ -51,6 +59,8 @@ public class GitHubLogin implements Serializable {
       Scope.PUBLIC_REPO, Scope.USER_EMAIL);
   private static final long SCOPE_COOKIE_NEVER_EXPIRES = DAYS
       .toSeconds(50 * 365);
+  private static final int GITHUB_PROFILE_PAGE_TIMEOUT = (int) SECONDS
+      .toMillis(30);
 
   @Singleton
   public static class Provider extends HttpSessionProvider<GitHubLogin> {
@@ -77,9 +87,56 @@ public class GitHubLogin implements Serializable {
 
   public Set<String> getMyOrganisationsLogins() throws IOException {
     if (isLoggedIn()) {
-      return getHub().getMyOrganizations().keySet();
+      try {
+        return getMyOrganisationsLoginsViaApi();
+      } catch (IOException e) {
+        log.error(
+            "Cannot retrieve "
+                + getMyself().getLogin()
+                + "'s organisations via REST API => falling back to Web HTML profile",
+            e);
+        return getMyOrganisationsLoginsViaWeb();
+      }
+      return Collections.emptySet();
     }
-    return Collections.emptySet();
+  }
+
+  private Set<String> getMyOrganisationsLoginsViaApi() throws IOException {
+    return getHub().getMyOrganizations().keySet();
+  }
+
+  private Set<String> getMyOrganisationsLoginsViaWeb() throws IOException {
+    Set<String> organisations = new HashSet<>();
+    String myUsername = getMyself().getLogin();
+    try {
+      URI userProfileUrl =
+          new URIBuilder(config.gitHubUrl).setPath("/" + myUsername).build();
+      Document doc =
+          Jsoup.parse(userProfileUrl.toURL(), GITHUB_PROFILE_PAGE_TIMEOUT);
+      Elements h3Elements = doc.getElementsByTag("h3");
+      if (h3Elements.isEmpty()) {
+        log.warn(
+            "Cannot access User's GitHub profile page {} => returning empty organisations list",
+            userProfileUrl);
+        return Collections.emptySet();
+      }
+
+      for (Element headerElement : h3Elements) {
+        if (headerElement.text().equalsIgnoreCase("organizations")) {
+          Elements organisationLinks =
+              headerElement.parent().getElementsByTag("a");
+          for (Element element : organisationLinks) {
+            String organisationLink = element.attr("href");
+            organisations.add(organisationLink.substring(1));
+          }
+        }
+      }
+
+      return organisations;
+    } catch (URISyntaxException e) {
+      throw new IOException(
+          "Invalid GitHub URL for fetching user's organisations", e);
+    }
   }
 
   @Inject

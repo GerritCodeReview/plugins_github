@@ -125,7 +125,7 @@ public class OAuthWebFilter implements Filter {
       GHMyself myself = ghLogin.getMyself();
       String user = myself.getLogin();
 
-      updateSecureConfigWithRetry(ghLogin.getHub().getMyOrganizations().keySet(),
+      updateSecureConfigWithRetry(ghLogin.getMyOrganisationsLogins(),
           user, ghLogin.getToken().accessToken);
     }
   }
