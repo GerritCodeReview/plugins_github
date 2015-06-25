@@ -77,7 +77,7 @@ public class GitHubGroupsCache {
       try {
         loadOrganisationsAndTeams(username, orgsTeams, ghLogin);
       } catch (FileNotFoundException teamsNotFound) {
-        log.warn(
+        log.info(
             "Cannot access teams for user '{}': falling back to list of public organisations",
             username);
         loadOrganisations(username, orgsTeams, ghLogin);
