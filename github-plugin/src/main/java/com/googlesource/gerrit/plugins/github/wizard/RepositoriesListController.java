@@ -96,7 +96,7 @@ public class RepositoriesListController implements VelocityController {
       return hubLogin.getMyself().listRepositories(config.repositoryListPageSize);
     } else {
       GHOrganization ghOrganisation =
-          hubLogin.getMyself().getOrganizations().byLogin(organisation);
+          hubLogin.getMyself().getAllOrganizations().byLogin(organisation);
       return ghOrganisation.listRepositories(config.repositoryListPageSize);
     }
   }
