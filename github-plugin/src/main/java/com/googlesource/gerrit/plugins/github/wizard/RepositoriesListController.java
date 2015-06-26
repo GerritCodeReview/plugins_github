@@ -22,10 +22,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import com.googlesource.gerrit.plugins.github.GitHubConfig;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 
+import org.kohsuke.github.GHMyself.RepositoryListFilter;
 import org.kohsuke.github.GHOrganization;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.PagedIterable;
@@ -93,7 +93,7 @@ public class RepositoriesListController implements VelocityController {
   private PagedIterable<GHRepository> getRepositories(GitHubLogin hubLogin,
       String organisation) throws IOException {
     if (organisation.equals(hubLogin.getMyself().getLogin())) {
-      return hubLogin.getMyself().listRepositories(config.repositoryListPageSize);
+      return hubLogin.getMyself().listRepositories(config.repositoryListPageSize, RepositoryListFilter.OWNER);
     } else {
       GHOrganization ghOrganisation =
           hubLogin.getMyself().getAllOrganizations().byLogin(organisation);
