@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b88a569d_7d1a379d",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/notification/PullRequestHandler.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-20T14:17:09Z",
+      "side": 1,
+      "message": "This class doesn\u0027t have any state and this can be Singleton. Sorry, I missed it in my previous review.",
+      "range": {
+        "startLine": 39,
+        "startChar": 6,
+        "endLine": 39,
+        "endChar": 24
+      },
+      "revId": "ef41d4d1113db3e3f82fb753d3dbe39730433fe3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
