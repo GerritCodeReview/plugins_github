@@ -30,6 +30,8 @@ import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.util.HashMap;
 
+import javax.print.DocFlavor.STRING;
+
 @Singleton
 public class GitHubConfig extends GitHubOAuthConfig {
 
@@ -47,6 +49,9 @@ public class GitHubConfig extends GitHubOAuthConfig {
       "repositoryListLimit";
   private static final String CONF_PUBLIC_BASE_PROJECT = "publicBaseProject";
   private static final String CONF_PRIVATE_BASE_PROJECT = "privateBaseProject";
+  private static final String CONF_WEBHOOK_SECRET = "webhookSecret";
+  private static final String CONF_WEBHOOK_USER = "webhookUser";
+  private static final String CONF_WEBHOOK_TOKEN = "webhookToken";
 
   public final Path gitDir;
   public final int jobPoolLimit;
@@ -57,6 +62,9 @@ public class GitHubConfig extends GitHubOAuthConfig {
   public final String privateBaseProject;
   public final String publicBaseProject;
   public final String allProjectsName;
+  public final String webhookSecret;
+  public final String webhookUser;
+  public final String webhookToken;
 
   public static class NextPage {
     public final String uri;
@@ -108,6 +116,9 @@ public class GitHubConfig extends GitHubOAuthConfig {
     publicBaseProject =
         config.getString(CONF_SECTION, null, CONF_PUBLIC_BASE_PROJECT);
     allProjectsName = allProjectsNameProvider.get().toString();
+    webhookSecret = config.getString(CONF_SECTION, null, CONF_WEBHOOK_SECRET);
+    webhookUser = config.getString(CONF_SECTION, null, CONF_WEBHOOK_USER);
+    webhookToken = config.getString(CONF_SECTION, null, CONF_WEBHOOK_TOKEN);
   }
 
   private String getSeparator(boolean redirect) {
