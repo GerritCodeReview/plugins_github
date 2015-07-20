@@ -29,6 +29,7 @@ import com.googlesource.gerrit.plugins.github.git.GitHubRepository;
 import com.googlesource.gerrit.plugins.github.git.GitImporter;
 import com.googlesource.gerrit.plugins.github.git.PullRequestImportJob;
 import com.googlesource.gerrit.plugins.github.git.ReplicateProjectStep;
+import com.googlesource.gerrit.plugins.github.notification.WebhookServlet;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.PooledHttpClientProvider;
 import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
@@ -73,8 +74,9 @@ public class GuiceHttpModule extends ServletModule {
     serve("*.css", "*.js", "*.png", "*.jpg", "*.woff", "*.gif", "*.ttf").with(
         VelocityStaticServlet.class);
     serve("*.gh").with(VelocityControllerServlet.class);
+    serve("/webhook").with(WebhookServlet.class);
 
     serve("/static/*").with(VelocityViewServlet.class);
-    filter("*").through(GitHubOAuthFilter.class);
+    filterRegex("(?!/webhook).*").through(GitHubOAuthFilter.class);
   }
 }
