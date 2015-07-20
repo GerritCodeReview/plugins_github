@@ -142,6 +142,15 @@ Note: Client ID & Client Secret are generated that used in the next step.
 * ClientId []: <provided client id from previous step>
 * ClientSecret []: <provided client secret from previous step>
 
+### Receiving Pull Request events to automatically import
+
+* Create a github user account which automatic import operation uses
+  * [Create a personal access token](https://help.github.com/articles/creating-an-access-token-for-command-line-use/) of the account
+* [Create webhook](https://developer.github.com/webhooks/creating/) on your github repository
+  * It is recommended to specify some webhook secret
+* Edit etc/gerrit.config file in your review site
+  * Add the github user account name,its access token and webhook secret as `webhookUser`, `webhookToken` and `webhookSecret` entries respectively in github section of the file.
+
 ### Contributing to the GitHub plugin
 
 The GitHub plugin uses the lombok library, which provides a set of
