@@ -1,0 +1,169 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "784c5e14_3b17174e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-20T12:23:07Z",
+      "side": 1,
+      "message": "webhook",
+      "range": {
+        "startLine": 9,
+        "startChar": 33,
+        "endLine": 9,
+        "endChar": 40
+      },
+      "revId": "6581f4aa3f22e5a1e58f860947392b10ad4b3225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b88a569d_5debbbee",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/notification/PingHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-20T12:23:07Z",
+      "side": 1,
+      "message": "License header?",
+      "revId": "6581f4aa3f22e5a1e58f860947392b10ad4b3225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b88a569d_7de877f1",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/notification/PullRequestHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-20T12:23:07Z",
+      "side": 1,
+      "message": "License header?",
+      "revId": "6581f4aa3f22e5a1e58f860947392b10ad4b3225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b88a569d_9d05434f",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/notification/PullRequestHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-20T12:23:07Z",
+      "side": 1,
+      "message": "Add documentation link to the API, like you did for ping event handler?\n\n  @see \u003ca href\u003d\"https://developer.github.com/webhooks/#ping-event\"\u003ePing",
+      "revId": "6581f4aa3f22e5a1e58f860947392b10ad4b3225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b88a569d_bd0aff59",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/notification/PullRequestHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-20T12:23:07Z",
+      "side": 1,
+      "message": "Missed to upload this file?",
+      "range": {
+        "startLine": 36,
+        "startChar": 49,
+        "endLine": 36,
+        "endChar": 60
+      },
+      "revId": "6581f4aa3f22e5a1e58f860947392b10ad4b3225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b88a569d_dd0fcb68",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/notification/PullRequestHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-20T12:23:07Z",
+      "side": 1,
+      "message": "Remove commented out lines?",
+      "revId": "6581f4aa3f22e5a1e58f860947392b10ad4b3225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "784c5e14_db24f3be",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/notification/PullRequestHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-20T12:23:07Z",
+      "side": 1,
+      "message": "Nit: trailing blanks.",
+      "revId": "6581f4aa3f22e5a1e58f860947392b10ad4b3225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "784c5e14_fb29af93",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/notification/WebhookServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-20T12:23:07Z",
+      "side": 1,
+      "message": "License header?",
+      "revId": "6581f4aa3f22e5a1e58f860947392b10ad4b3225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b88a569d_fd14877d",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/notification/WebhookServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2015-07-20T12:23:07Z",
+      "side": 1,
+      "message": "Nit: trailing blank.",
+      "revId": "6581f4aa3f22e5a1e58f860947392b10ad4b3225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
