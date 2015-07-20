@@ -142,6 +142,22 @@ Note: Client ID & Client Secret are generated that used in the next step.
 * ClientId []: <provided client id from previous step>
 * ClientSecret []: <provided client secret from previous step>
 
+### Receiving Pull Request events to automatically import
+
+* Create a github user account which automatic import operation uses
+* Register the account to your gerrit site by logging into Gerrit with the
+  account.
+* [Create webhook](https://developer.github.com/webhooks/creating/) on your
+  github repository.
+  * The payload URL should be something like
+    http://*your-gerrit-host.example*/plugins/github-plugin-*version*/webhook.
+  * It is recommended to specify some webhook secret.
+* Edit `etc/gerrit.config` and `etc/secure.config` files in your `$gerrit_site`.
+  * Add the github user account name as `webhookUser` entry in `github` secion
+    of `etc/gerrit.config`
+  * Add the webhook secret as `webhookSecret` entry in `github` secion of
+    `etc/secure.config`.
+
 ### Contributing to the GitHub plugin
 
 The GitHub plugin uses the lombok library, which provides a set of
