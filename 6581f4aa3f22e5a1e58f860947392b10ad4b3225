@@ -99,6 +99,30 @@
     },
     {
       "key": {
+        "uuid": "3820262d_59fa23b4",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/notification/PullRequestHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-20T13:43:32Z",
+      "side": 1,
+      "message": "It\u0027s imported at line 10.",
+      "parentUuid": "b88a569d_bd0aff59",
+      "range": {
+        "startLine": 36,
+        "startChar": 49,
+        "endLine": 36,
+        "endChar": 60
+      },
+      "revId": "6581f4aa3f22e5a1e58f860947392b10ad4b3225",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b88a569d_dd0fcb68",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/notification/PullRequestHandler.java",
         "patchSetId": 1
