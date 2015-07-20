@@ -47,6 +47,7 @@ public class GitHubConfig extends GitHubOAuthConfig {
       "repositoryListLimit";
   private static final String CONF_PUBLIC_BASE_PROJECT = "publicBaseProject";
   private static final String CONF_PRIVATE_BASE_PROJECT = "privateBaseProject";
+  private static final String CONF_WEBHOOK_SECRET = "webhookSecret";
 
   public final Path gitDir;
   public final int jobPoolLimit;
@@ -57,6 +58,7 @@ public class GitHubConfig extends GitHubOAuthConfig {
   public final String privateBaseProject;
   public final String publicBaseProject;
   public final String allProjectsName;
+  public final String webhookSecret;
 
   public static class NextPage {
     public final String uri;
@@ -108,6 +110,7 @@ public class GitHubConfig extends GitHubOAuthConfig {
     publicBaseProject =
         config.getString(CONF_SECTION, null, CONF_PUBLIC_BASE_PROJECT);
     allProjectsName = allProjectsNameProvider.get().toString();
+    webhookSecret = config.getString(CONF_SECTION, null, CONF_WEBHOOK_SECRET);
   }
 
   private String getSeparator(boolean redirect) {
