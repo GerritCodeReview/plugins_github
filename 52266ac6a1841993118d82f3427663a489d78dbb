@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "0af5c83c_7fb2cf36",
+        "filename": "README.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-29T04:13:53Z",
+      "side": 1,
+      "message": "Yes, I think it should be OK to only put the webhookSecret in the secure config.",
+      "parentUuid": "cd382ab3_4dff999f",
+      "range": {
+        "startLine": 151,
+        "startChar": 2,
+        "endLine": 152,
+        "endChar": 144
+      },
+      "revId": "52266ac6a1841993118d82f3427663a489d78dbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d3082cc_67e55212",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/notification/PingHandler.java",
         "patchSetId": 7
