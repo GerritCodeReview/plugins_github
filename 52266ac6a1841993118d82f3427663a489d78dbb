@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cd382ab3_4dff999f",
+        "filename": "README.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1020922
+      },
+      "writtenOn": "2015-07-29T03:09:24Z",
+      "side": 1,
+      "message": "OK.\n\nBut I don\u0027t think webhookUser is secret.  Can I keep it in gerrit.config?",
+      "parentUuid": "0d3082cc_47e84eed",
+      "range": {
+        "startLine": 151,
+        "startChar": 2,
+        "endLine": 152,
+        "endChar": 144
+      },
+      "revId": "52266ac6a1841993118d82f3427663a489d78dbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d3082cc_67e55212",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/notification/PingHandler.java",
         "patchSetId": 7
@@ -122,6 +146,30 @@
       "writtenOn": "2015-07-29T03:03:33Z",
       "side": 1,
       "message": "What is this suppressing?",
+      "range": {
+        "startLine": 104,
+        "startChar": 2,
+        "endLine": 104,
+        "endChar": 32
+      },
+      "revId": "52266ac6a1841993118d82f3427663a489d78dbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd382ab3_6dfc55aa",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/notification/WebhookServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1020922
+      },
+      "writtenOn": "2015-07-29T03:09:24Z",
+      "side": 1,
+      "message": "It suppresses \"Type safety: Unchecked cast from Class\u003ccapture#5-of ?\u003e to Class\u003c? extends EventHandler\u003c?\u003e\u003e\".",
+      "parentUuid": "0d3082cc_a7058a4e",
       "range": {
         "startLine": 104,
         "startChar": 2,
