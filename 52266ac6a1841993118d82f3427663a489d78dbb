@@ -1,0 +1,199 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d3082cc_47e84eed",
+        "filename": "README.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-29T03:03:33Z",
+      "side": 1,
+      "message": "Can secure.config be used instead?\n\nAlso, please wrap the lines at around 80 columns for better readability.",
+      "range": {
+        "startLine": 151,
+        "startChar": 2,
+        "endLine": 152,
+        "endChar": 144
+      },
+      "revId": "52266ac6a1841993118d82f3427663a489d78dbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d3082cc_67e55212",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/notification/PingHandler.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-29T03:03:33Z",
+      "side": 1,
+      "message": "This should be final.",
+      "revId": "52266ac6a1841993118d82f3427663a489d78dbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d3082cc_8700863f",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/notification/PullRequestHandler.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-29T03:03:33Z",
+      "side": 1,
+      "message": "Don\u0027t use final here unless it\u0027s needed to prevent compilation errors.\n\nSee the style guide about usage of \u0027final\u0027.\n\nhttps://gerrit-review.googlesource.com/Documentation/dev-contributing.html#_style",
+      "range": {
+        "startLine": 59,
+        "startChar": 6,
+        "endLine": 59,
+        "endChar": 11
+      },
+      "revId": "52266ac6a1841993118d82f3427663a489d78dbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd382ab3_ad055d4e",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/notification/WebhookServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-29T03:03:33Z",
+      "side": 1,
+      "message": "In most of the Gerrit code we just use `1L`.",
+      "range": {
+        "startLine": 65,
+        "startChar": 47,
+        "endLine": 65,
+        "endChar": 67
+      },
+      "revId": "52266ac6a1841993118d82f3427663a489d78dbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd382ab3_cd0aa95d",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/notification/WebhookServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-29T03:03:33Z",
+      "side": 1,
+      "message": "Unnecessary final?",
+      "range": {
+        "startLine": 92,
+        "startChar": 24,
+        "endLine": 92,
+        "endChar": 29
+      },
+      "revId": "52266ac6a1841993118d82f3427663a489d78dbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d3082cc_a7058a4e",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/notification/WebhookServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-29T03:03:33Z",
+      "side": 1,
+      "message": "What is this suppressing?",
+      "range": {
+        "startLine": 104,
+        "startChar": 2,
+        "endLine": 104,
+        "endChar": 32
+      },
+      "revId": "52266ac6a1841993118d82f3427663a489d78dbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d3082cc_c70a7e5d",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/notification/WebhookServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-29T03:03:33Z",
+      "side": 1,
+      "message": "login",
+      "range": {
+        "startLine": 146,
+        "startChar": 18,
+        "endLine": 146,
+        "endChar": 24
+      },
+      "revId": "52266ac6a1841993118d82f3427663a489d78dbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd382ab3_ed0f656a",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/notification/WebhookServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-29T03:03:33Z",
+      "side": 1,
+      "message": "signatureHeader",
+      "range": {
+        "startLine": 186,
+        "startChar": 57,
+        "endLine": 186,
+        "endChar": 71
+      },
+      "revId": "52266ac6a1841993118d82f3427663a489d78dbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d3082cc_e70f826a",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/notification/WebhookServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-07-29T03:03:33Z",
+      "side": 1,
+      "message": "Wrap this line.",
+      "revId": "52266ac6a1841993118d82f3427663a489d78dbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
