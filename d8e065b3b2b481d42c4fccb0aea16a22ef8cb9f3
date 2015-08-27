@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04d4e17b_c7c41edc",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/notification/WebhookServlet.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1020922
+      },
+      "writtenOn": "2015-08-27T10:16:09Z",
+      "side": 1,
+      "message": "not thread-safe?",
+      "revId": "d8e065b3b2b481d42c4fccb0aea16a22ef8cb9f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
