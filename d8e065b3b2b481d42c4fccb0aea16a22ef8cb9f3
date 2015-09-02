@@ -16,6 +16,24 @@
       "revId": "d8e065b3b2b481d42c4fccb0aea16a22ef8cb9f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a442364a_8faf9560",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/notification/WebhookServlet.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-09-02T13:37:43Z",
+      "side": 1,
+      "message": "Yes, you are right it isn\u0027t :-( Let me change it to a concurrent hashmap.",
+      "parentUuid": "04d4e17b_c7c41edc",
+      "revId": "d8e065b3b2b481d42c4fccb0aea16a22ef8cb9f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
