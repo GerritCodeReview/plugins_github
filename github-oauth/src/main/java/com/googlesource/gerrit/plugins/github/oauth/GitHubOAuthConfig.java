@@ -18,6 +18,7 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
+import com.google.gerrit.httpd.ProxyProperties;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -28,6 +29,7 @@ import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
 
 import org.eclipse.jgit.lib.Config;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -65,7 +67,9 @@ class GitHubOAuthConfig {
   @Inject
   protected
   GitHubOAuthConfig(@GerritServerConfig Config config,
-      @CanonicalWebUrl String canonicalWebUrl, AuthConfig authConfig) {
+      @CanonicalWebUrl String canonicalWebUrl, 
+      AuthConfig authConfig,
+      ProxyProperties proxyProperties) {
     httpHeader =
         Preconditions.checkNotNull(
             config.getString("auth", null, "httpHeader"),
@@ -103,6 +107,21 @@ class GitHubOAuthConfig {
         config.getInt(CONF_SECTION, "fileUpdateMaxRetryCount", 3);
     fileUpdateMaxRetryIntervalMsec =
         config.getInt(CONF_SECTION, "fileUpdateMaxRetryIntervalMsec", 3000);
+
+    URL proxyUrl = proxyProperties.getProxyUrl();
+    if (proxyUrl != null) {
+      setProxyProperty("proxyHost", proxyUrl.getHost());
+      setProxyProperty("proxyPort", "" + proxyUrl.getPort());
+      setProxyProperty("proxyUser", proxyProperties.getUsername());
+      setProxyProperty("proxyPassword", proxyProperties.getPassword());
+    }
+  }
+
+  private static void setProxyProperty(String property, String value) {
+    if (value != null) {
+      System.setProperty("http." + property, value);
+      System.setProperty("https." + property, value);
+    }
   }
 
   private Map<String, List<Scope>> getScopes(Config config) {

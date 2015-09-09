@@ -15,6 +15,7 @@ package com.googlesource.gerrit.plugins.github;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Maps;
+import com.google.gerrit.httpd.ProxyProperties;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -78,9 +79,10 @@ public class GitHubConfig extends GitHubOAuthConfig {
       final SitePaths site, 
       AllProjectsNameProvider allProjectsNameProvider,
       @CanonicalWebUrl String canonicalWebUrl, 
-      AuthConfig authConfig)
+      AuthConfig authConfig,
+      ProxyProperties proxyProperties)
       throws MalformedURLException {
-    super(config, canonicalWebUrl, authConfig);
+    super(config, canonicalWebUrl, authConfig, proxyProperties);
     String[] wizardFlows =
         config.getStringList(CONF_SECTION, null, CONF_WIZARD_FLOW);
     for (String fromTo : wizardFlows) {
