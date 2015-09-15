@@ -41,10 +41,25 @@ public class PooledHttpClientProvider implements Provider<HttpClient> {
   PooledHttpClientProvider(@GerritServerConfig Config config,
       ProxyProperties proxyProperties) {
     this.proxy = proxyProperties;
+    URL proxyUrl = proxyProperties.getProxyUrl();
+    if (proxyUrl != null) {
+      setProxyProperty("proxyHost", proxyUrl.getHost());
+      setProxyProperty("proxyPort", "" + proxyUrl.getPort());
+      setProxyProperty("proxyUser", proxyProperties.getUsername());
+      setProxyProperty("proxyPassword", proxyProperties.getPassword());
+    }
+
     maxConnectionPerRoute = config.getInt("http", null,
         "pooledMaxConnectionsPerRoute", 16);
     maxTotalConnection = config.getInt("http", null,
         "pooledMaxTotalConnections", 32);
+  }
+
+  private static void setProxyProperty(String property, String value) {
+    if (value != null) {
+      System.setProperty("http." + property, value);
+      System.setProperty("https." + property, value);
+    }
   }
 
   @Override
