@@ -38,6 +38,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.AccessToken;
@@ -108,15 +109,22 @@ public class GitHubLogin implements Serializable {
         log.debug("Login-SUCCESS " + this);
         response.sendRedirect(OAuthProtocol.getTargetUrl(request));
         return true;
-      } else {
-        return false;
       }
     } else {
-      this.loginScopes = getScopes(getScopesKey(request, response), scopes);
-      log.debug("Login-PHASE1 " + this);
-      state = oauth.loginPhase1(request, response, loginScopes);
-      return false;
+      Set<String> configuredScopesProfiles = config.scopes.keySet();
+      String scopeRequested = getScopesKey(request, response);
+      if (Strings.isNullOrEmpty(scopeRequested)
+          && configuredScopesProfiles.size() > 1) {
+        response.sendRedirect(config.scopeSelectionUrl);
+      } else {
+        this.loginScopes =
+            getScopes(MoreObjects.firstNonNull(scopeRequested, "scopes"),
+                scopes);
+        log.debug("Login-PHASE1 " + this);
+        state = oauth.loginPhase1(request, response, loginScopes);
+      }
     }
+    return false;
   }
 
   public void logout() {
@@ -152,8 +160,8 @@ public class GitHubLogin implements Serializable {
       scopeCookie.setMaxAge((int) SCOPE_COOKIE_NEVER_EXPIRES);
       response.addCookie(scopeCookie);
     }
-
-    return MoreObjects.firstNonNull(scopeRequested, "scopes");
+    
+    return scopeRequested;
   }
 
   private String getScopesKeyFromCookie(HttpServletRequest request) {
