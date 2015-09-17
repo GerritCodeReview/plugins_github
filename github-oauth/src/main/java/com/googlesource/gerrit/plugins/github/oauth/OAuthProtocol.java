@@ -42,18 +42,135 @@ import com.google.gerrit.extensions.auth.oauth.OAuthVerifier;
 
 @Singleton
 public class OAuthProtocol {
+  /**
+   * Supported OAuth Scopes.
+   *
+   * OAuth authorization scopes as defined in GitHub API at:
+   * https://developer.github.com/v3/oauth/#scopes
+   */
   public static enum Scope {
+    /**
+     * Grants read-only access to public information (includes public user
+     * profile info, public repository info, and gists)
+     */
     DEFAULT(""),
+
+    /**
+     * Grants read/write access to profile info only. Note that this scope
+     * includes user:email and user:follow.
+     */
     USER("user"),
+
+    /**
+     * Grants read access to a user’s email addresses.
+     */
     USER_EMAIL("user:email"),
+
+    /**
+     * Grants access to follow or unfollow other users.
+     */
     USER_FOLLOW("user:follow"),
+
+    /**
+     * Grants read/write access to code, commit statuses, collaborators, and
+     * deployment statuses for public repositories and organizations. Also
+     * required for starring public repositories.
+     */
     PUBLIC_REPO("public_repo"),
+
+    /**
+     * Grants read/write access to code, commit statuses, collaborators, and
+     * deployment statuses for public and private repositories and
+     * organizations.
+     */
     REPO("repo"),
-    REPO_STATUS("repo_status"),
+
+    /**
+     * Grants access to deployment statuses for public and private repositories.
+     * This scope is only necessary to grant other users or services access to
+     * deployment statuses, without granting access to the code.
+     */
+    REPO_DEPLOYMENT("repo_deployment"),
+
+    /**
+     * Grants read/write access to public and private repository commit
+     * statuses. This scope is only necessary to grant other users or services
+     * access to private repository commit statuses without granting access to
+     * the code.
+     */
+    REPO_STATUS("repo:status"),
+
+    /**
+     * Grants access to delete admin-able repositories.
+     */
     DELETE_REPO("delete_repo"),
+
+    /**
+     * Grants read access to a user’s notifications. repo also provides this
+     * access.
+     */
     NOTIFICATIONS("notifications"),
+
+    /**
+     * Grants write access to gists.
+     */
     GIST("gist"),
-    READ_ORG("read:org");
+
+    /**
+     * Grants read and ping access to hooks in public or private repositories.
+     */
+    READ_REPO_HOOK("read:repo_hook"),
+
+    /**
+     * Grants read, write, and ping access to hooks in public or private
+     * repositories.
+     */
+    WRITE_REPO_HOOK("write:repo_hook"),
+
+    /**
+     * Grants read, write, ping, and delete access to hooks in public or private
+     * repositories.
+     */
+    ADMIN_REPO_HOOK("admin:repo_hook"),
+
+    /**
+     * Grants read, write, ping, and delete access to organization hooks. Note:
+     * OAuth tokens will only be able to perform these actions on organization
+     * hooks which were created by the OAuth application. Personal access tokens
+     * will only be able to perform these actions on organization hooks created
+     * by a user.
+     */
+    ADMIN_ORG_HOOK("admin:org_hook"),
+
+    /**
+     * Read-only access to organization, teams, and membership.
+     */
+    READ_ORG("read:org"),
+
+    /**
+     * Publicize and un-publicize organization membership.
+     */
+    WRITE_ORG("write:org"),
+
+    /**
+     * Fully manage organization, teams, and memberships.
+     */
+    ADMIN_ORG("admin:org"),
+
+    /**
+     * List and view details for public keys.
+     */
+    READ_PUBLIC_KEY("read:public_key"),
+
+    /**
+     * Create, list, and view details for public keys.
+     */
+    WRITE_PUBLIC_KEY("write:public_key"),
+
+    /**
+     * Fully manage public keys.
+     */
+    ADMIN_PUBLIC_KEY("admin:public_key");
 
     private final String value;
 
