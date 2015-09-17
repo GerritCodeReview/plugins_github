@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>GitHub plugin for Gerrit Code Review - Login Scope</title>
+    #include ("static/styles.html")
+    #include ("static/scripts.html")
+  </head>
+  <body>
+    <!-- div.header start -->
+    <div class="header">
+      <div>
+        <div class="center">
+          #include ("static/header.html")
+          <div class="page-title">
+            <div>
+              <h2>Login Scope Selection</h2>
+              <div class="right">
+                <button type="button" onclick="window.location='/'" id="cancel">
+                  <span class="button"><span>Cancel</span></span>
+                </button>
+                <button type="submit" onclick="document.forms[0].submit()">
+                  <span class="button green"><span>Login &gt;</span></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- div.header end -->
+
+    <!-- div.container start -->
+    <div class="container">
+      <div class="center">
+        <form class="signupform" method="post" action="account.gh">
+          <h5>Which GitHub login scope you want to use?</h5>
+          <ul>
+            <li>
+              <label for="scope">Scope:</label>
+              <select id="scope" name="scope">
+                <option selected="selected">Select one ...</option>
+                #foreach ( $scope in $config.scopes )
+                    <option>$scope.key</option>
+                #end
+              </select>
+            </li>
+          </ul>
+        </form>
+      </div>
+    </div>
+    <!--div.container end -->
+
+    #include ("static/footer.html")
+
+    <script type='text/javascript' src='js/jquery/jquery.form.js?ver=2.02m'></script>
+  </body>
+</html>
