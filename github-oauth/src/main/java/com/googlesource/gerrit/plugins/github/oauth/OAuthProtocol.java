@@ -37,6 +37,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import lombok.Getter;
+
 import com.google.gerrit.extensions.auth.oauth.OAuthToken;
 import com.google.gerrit.extensions.auth.oauth.OAuthVerifier;
 
@@ -53,44 +55,44 @@ public class OAuthProtocol {
      * Grants read-only access to public information (includes public user
      * profile info, public repository info, and gists)
      */
-    DEFAULT(""),
+    DEFAULT("", "Read-only public information"),
 
     /**
      * Grants read/write access to profile info only. Note that this scope
      * includes user:email and user:follow.
      */
-    USER("user"),
+    USER("user", "Read/write profile info"),
 
     /**
      * Grants read access to a user’s email addresses.
      */
-    USER_EMAIL("user:email"),
+    USER_EMAIL("user:email", "Read-only user's e-mail"),
 
     /**
      * Grants access to follow or unfollow other users.
      */
-    USER_FOLLOW("user:follow"),
+    USER_FOLLOW("user:follow", "(Un)Follow users"),
 
     /**
      * Grants read/write access to code, commit statuses, collaborators, and
-     * deployment statuses for public repositories and organizations. Also
+     * deployment statuses for public repositories. Also
      * required for starring public repositories.
      */
-    PUBLIC_REPO("public_repo"),
+    PUBLIC_REPO("public_repo", "Read/write to public repositories"),
 
     /**
      * Grants read/write access to code, commit statuses, collaborators, and
      * deployment statuses for public and private repositories and
      * organizations.
      */
-    REPO("repo"),
+    REPO("repo", "Read/write to all public/private repositories"),
 
     /**
      * Grants access to deployment statuses for public and private repositories.
      * This scope is only necessary to grant other users or services access to
      * deployment statuses, without granting access to the code.
      */
-    REPO_DEPLOYMENT("repo_deployment"),
+    REPO_DEPLOYMENT("repo_deployment", "Read-only deployment statuses"),
 
     /**
      * Grants read/write access to public and private repository commit
@@ -98,40 +100,43 @@ public class OAuthProtocol {
      * access to private repository commit statuses without granting access to
      * the code.
      */
-    REPO_STATUS("repo:status"),
+    REPO_STATUS("repo:status", "Read/write commit statuses"),
 
     /**
      * Grants access to delete admin-able repositories.
      */
-    DELETE_REPO("delete_repo"),
+    DELETE_REPO("delete_repo", "Delete repositories"),
 
     /**
      * Grants read access to a user’s notifications. repo also provides this
      * access.
      */
-    NOTIFICATIONS("notifications"),
+    NOTIFICATIONS("notifications", "Read user's notifications"),
 
     /**
      * Grants write access to gists.
      */
-    GIST("gist"),
+    GIST("gist", "Write Gists"),
 
     /**
      * Grants read and ping access to hooks in public or private repositories.
      */
-    READ_REPO_HOOK("read:repo_hook"),
+    READ_REPO_HOOK("read:repo_hook",
+        "Read/ping public/private repositories' hooks"),
 
     /**
      * Grants read, write, and ping access to hooks in public or private
      * repositories.
      */
-    WRITE_REPO_HOOK("write:repo_hook"),
+    WRITE_REPO_HOOK("write:repo_hook",
+        "Read/write/ping public/private repositories' hooks"),
 
     /**
      * Grants read, write, ping, and delete access to hooks in public or private
      * repositories.
      */
-    ADMIN_REPO_HOOK("admin:repo_hook"),
+    ADMIN_REPO_HOOK("admin:repo_hook",
+        "Read/write/ping/delete access to public/private repositories' hooks"),
 
     /**
      * Grants read, write, ping, and delete access to organization hooks. Note:
@@ -140,46 +145,48 @@ public class OAuthProtocol {
      * will only be able to perform these actions on organization hooks created
      * by a user.
      */
-    ADMIN_ORG_HOOK("admin:org_hook"),
+    ADMIN_ORG_HOOK("admin:org_hook",
+        "Read/write/ping/delete access to public/private organizations' hooks"),
 
     /**
      * Read-only access to organization, teams, and membership.
      */
-    READ_ORG("read:org"),
+    READ_ORG("read:org", "Read-only organizations"),
 
     /**
      * Publicize and un-publicize organization membership.
      */
-    WRITE_ORG("write:org"),
+    WRITE_ORG("write:org", "(Un)Publicize organizations membership"),
 
     /**
      * Fully manage organization, teams, and memberships.
      */
-    ADMIN_ORG("admin:org"),
+    ADMIN_ORG("admin:org", "Manage organizations, teams and memberships"),
 
     /**
      * List and view details for public keys.
      */
-    READ_PUBLIC_KEY("read:public_key"),
+    READ_PUBLIC_KEY("read:public_key", "Read-only user's public keys"),
 
     /**
      * Create, list, and view details for public keys.
      */
-    WRITE_PUBLIC_KEY("write:public_key"),
+    WRITE_PUBLIC_KEY("write:public_key", "Read/write/list user's public keys"),
 
     /**
      * Fully manage public keys.
      */
-    ADMIN_PUBLIC_KEY("admin:public_key");
+    ADMIN_PUBLIC_KEY("admin:public_key", "Fully manage user's public keys");
 
+    @Getter
     private final String value;
 
-    public String getValue() {
-      return value;
-    }
+    @Getter
+    private final String description;
 
-    private Scope(final String value) {
+    private Scope(final String value, final String description) {
       this.value = value;
+      this.description = description;
     }
   }
   private static final String ME_SEPARATOR = ",";

@@ -13,8 +13,17 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.oauth;
 
-import com.google.common.base.MoreObjects;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import lombok.Getter;
+
+import org.eclipse.jgit.lib.Config;
+
 import com.google.common.base.CharMatcher;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
@@ -25,14 +34,6 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
-
-import org.eclipse.jgit.lib.Config;
-
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 @Singleton
 public
@@ -47,6 +48,7 @@ class GitHubOAuthConfig {
   public static final String GITHUB_API_URL_DEFAULT = "https://api.github.com";
   public static final String GERRIT_LOGIN = "/login";
   public static final String GERRIT_LOGOUT = "/logout";
+  public static final String GITHUB_PLUGIN_OAUTH_SCOPE = "/plugins/github-plugin/static/scope.html";
 
   public final String gitHubUrl;
   public final String gitHubApiUrl;
@@ -58,15 +60,19 @@ class GitHubOAuthConfig {
   public final String oAuthFinalRedirectUrl;
   public final String gitHubOAuthAccessTokenUrl;
   public final boolean enabled;
+
+  @Getter
   public final Map<String, List<OAuthProtocol.Scope>> scopes;
+
   public final int fileUpdateMaxRetryCount;
   public final int fileUpdateMaxRetryIntervalMsec;
   public final String oauthHttpHeader;
+  public final String scopeSelectionUrl;
 
   @Inject
   protected
   GitHubOAuthConfig(@GerritServerConfig Config config,
-      @CanonicalWebUrl String canonicalWebUrl, 
+      @CanonicalWebUrl String canonicalWebUrl,
       AuthConfig authConfig) {
     httpHeader =
         Preconditions.checkNotNull(
@@ -95,6 +101,11 @@ class GitHubOAuthConfig {
         config.getString(CONF_SECTION, null, "logoutRedirectUrl");
     oAuthFinalRedirectUrl =
         trimTrailingSlash(canonicalWebUrl) + GERRIT_OAUTH_FINAL;
+    scopeSelectionUrl =
+        trimTrailingSlash(canonicalWebUrl)
+            + MoreObjects.firstNonNull(
+                config.getString(CONF_SECTION, null, "scopeSelectionUrl"),
+                GITHUB_PLUGIN_OAUTH_SCOPE);
 
     enabled =
         config.getString("auth", null, "type").equalsIgnoreCase(
