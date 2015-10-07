@@ -93,11 +93,8 @@ public class GitHubLogin implements Serializable {
     return token != null;
   }
 
-  public boolean login(HttpServletRequest request,
+  public void login(HttpServletRequest request,
       HttpServletResponse response, OAuthProtocol oauth, Scope... scopes) throws IOException {
-    if (isLoggedIn()) {
-      return true;
-    }
 
     log.debug("Login " + this);
     if (OAuthProtocol.isOAuthFinal(request)) {
@@ -108,7 +105,6 @@ public class GitHubLogin implements Serializable {
       if (isLoggedIn()) {
         log.debug("Login-SUCCESS " + this);
         response.sendRedirect(OAuthProtocol.getTargetUrl(request));
-        return true;
       }
     } else {
       Set<String> configuredScopesProfiles = config.scopes.keySet();
@@ -124,7 +120,6 @@ public class GitHubLogin implements Serializable {
         state = oauth.loginPhase1(request, response, loginScopes);
       }
     }
-    return false;
   }
 
   public void logout() {
@@ -144,7 +139,11 @@ public class GitHubLogin implements Serializable {
   }
 
   public GitHub getHub() throws IOException {
-    return GitHub.connectUsingOAuth(config.gitHubApiUrl, token.accessToken);
+    if (token == null) {
+      return null;
+    } else {
+      return GitHub.connectUsingOAuth(config.gitHubApiUrl, token.accessToken);
+    }
   }
 
   private String getScopesKey(HttpServletRequest request,
@@ -167,7 +166,7 @@ public class GitHubLogin implements Serializable {
     return scopeRequested;
   }
 
-  private String getScopesKeyFromCookie(HttpServletRequest request) {
+  public String getScopesKeyFromCookie(HttpServletRequest request) {
     Cookie[] cookies = request.getCookies();
     if (cookies == null) {
       return null;

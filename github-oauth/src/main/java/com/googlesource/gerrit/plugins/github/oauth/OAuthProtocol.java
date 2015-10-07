@@ -192,6 +192,7 @@ public class OAuthProtocol {
   private static final String ME_SEPARATOR = ",";
   private static final Logger log = LoggerFactory
       .getLogger(OAuthProtocol.class);
+  private static final String FINAL_URL_PARAM = "final";
   private static SecureRandom randomState = newRandomGenerator();
 
   private final GitHubOAuthConfig config;
@@ -315,16 +316,18 @@ public class OAuthProtocol {
   }
 
   public static boolean isOAuthFinal(HttpServletRequest request) {
-    return Strings.emptyToNull(request.getParameter("code")) != null;
+    return Strings.emptyToNull(request.getParameter("code")) != null
+        && request.getParameter(FINAL_URL_PARAM) == null;
   }
 
   public static boolean isOAuthFinalForOthers(HttpServletRequest request) {
     String targetUrl = getTargetUrl(request);
-    if(targetUrl.equals(request.getRequestURI())) {
+    if (targetUrl.equals(request.getRequestURI())) {
       return false;
     }
-    
-    return Strings.emptyToNull(request.getParameter("code")) != null;
+
+    return Strings.emptyToNull(request.getParameter("code")) != null
+        && request.getParameter(FINAL_URL_PARAM) == null;
   }
 
   public String newRandomState(String redirectUrl) {
@@ -334,7 +337,9 @@ public class OAuthProtocol {
   }
 
   public static boolean isOAuthLogin(HttpServletRequest request) {
-    return request.getRequestURI().indexOf(GitHubOAuthConfig.GERRIT_LOGIN) >= 0;
+    String requestUri = request.getRequestURI();
+    return requestUri.indexOf(GitHubOAuthConfig.GERRIT_LOGIN) >= 0
+        && request.getParameter(FINAL_URL_PARAM) == null;
   }
 
   public static boolean isOAuthLogout(HttpServletRequest request) {
@@ -349,7 +354,8 @@ public class OAuthProtocol {
       HttpServletResponse response, String state) throws IOException {
     String requestState = request.getParameter("state");
     if (!Objects.equals(state, requestState)) {
-      throw new IOException("Invalid authentication state");
+      throw new IOException("Invalid authentication state: expected '" + state
+          + "' but was '" + requestState + "'");
     }
 
     return getAccessToken(new OAuthVerifier(request.getParameter("code")));
@@ -398,10 +404,11 @@ public class OAuthProtocol {
 
   public static String getTargetUrl(ServletRequest request) {
     int meEnd = state(request).indexOf(ME_SEPARATOR);
+    String finalUrlSuffix = "?" + FINAL_URL_PARAM + "=true";
     if (meEnd > 0) {
-      return state(request).substring(meEnd + 1);
+      return state(request).substring(meEnd + 1) + finalUrlSuffix;
     } else {
-      return "";
+      return finalUrlSuffix;
     }
   }
 

@@ -110,6 +110,7 @@ public class VelocityViewServlet extends HttpServlet {
     if (user.isIdentifiedUser()) {
       model.put("user", user);
       model.put("hub", gitHubLogin.getHub());
+      model.put("scopeCookie", gitHubLogin.getScopesKeyFromCookie(request));
     }
 
     for (Entry<String, String[]> reqPar : request.getParameterMap().entrySet()) {

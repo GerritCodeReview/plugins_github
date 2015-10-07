@@ -37,23 +37,28 @@
           <h5>Which level of GitHub access do you need?</h5>
           <ul class="scopes">
                 #foreach ( $scope in $config.scopes.keySet() )
-	                <li>
-	                    #set ( $scopeName = $scope.substring(6) )
-	                    #if ( $scopeName == "")
-	                    <input type="radio" name="scope" value="scopes" checked><p class="scope">DEFAULT</p>
-	                    #else
-		                    <input type="radio" name="scope" value="scopes$scopeName"><p class="scope">$scopeName</p>
-	                    #end
-	                    <p>
-	                    	#set ( $scopeItems = $config.scopes.get($scope) )
-		                    #foreach ( $scopeItem in $scopeItems )
-		                        $scopeItem.description
-		                        #if ( $velocityCount < $scopeItems.size())
-		                        	,&nbsp;
-		                        #end
-		                    #end
-	                    </p>
-	                </li>
+                    <li>
+                        #set ( $scopeName = $scope.substring(6) )
+                        #set ( $checked = "" )
+                        #if ( ( $scopeCookie && $scopeCookie == $scope ) || $scopeName == "" ) 
+                           #set ( $checked = "checked" )
+                        #end
+                        
+                        #if ( $scopeName == "")
+                        <input type="radio" name="scope" value="scopes" $checked ><p class="scope">DEFAULT</p>
+                        #else
+                            <input type="radio" name="scope" value="scopes$scopeName" $checked ><p class="scope">$scopeName</p>
+                        #end
+                        <p>
+                            #set ( $scopeItems = $config.scopes.get($scope) )
+                            #foreach ( $scopeItem in $scopeItems )
+                                $scopeItem.description
+                                #if ( $velocityCount < $scopeItems.size())
+                                    ,&nbsp;
+                                #end
+                            #end
+                        </p>
+                    </li>
                 #end
             </li>
           </ul>

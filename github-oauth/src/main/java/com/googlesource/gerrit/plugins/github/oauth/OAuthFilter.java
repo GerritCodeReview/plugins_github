@@ -13,6 +13,7 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.oauth;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import com.google.gerrit.httpd.GitOverHttpServlet;
 import com.google.gerrit.httpd.XGerritAuth;
@@ -25,6 +26,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -43,8 +45,12 @@ public class OAuthFilter implements Filter {
   private static Pattern GIT_HTTP_REQUEST_PATTERN = Pattern
       .compile(GitOverHttpServlet.URL_REGEX);
   private static final Set<String> GERRIT_STATIC_RESOURCES_EXTS = Sets
-      .newHashSet(Arrays.asList("css", "png", "jpg", "gif", "woff", "otf",
-          "ttf", "map", "js", "swf", "txt"));
+      .newHashSet("css", "png", "jpg", "gif", "woff", "otf",
+          "ttf", "map", "js", "swf", "txt");
+  private static final Set<String> GERRIT_WHITELISTED_PATHS = Sets
+      .newHashSet("Documentation");
+  private static final Set<String> GERRIT_WHITELISTED_PAGES = Sets
+      .newHashSet("scope.html");
 
   private final GitHubOAuthConfig config;
   private final OAuthGitFilter gitFilter;
@@ -70,36 +76,54 @@ public class OAuthFilter implements Filter {
       FilterChain chain) throws IOException, ServletException {
     HttpServletRequest httpRequest = (HttpServletRequest) request;
 
-    if (!config.enabled || isStaticResource(httpRequest)
-        || isRpcCall(httpRequest) || isAuthenticatedRestCall(httpRequest)) {
-      chain.doFilter(request, response);
-      return;
-    }
-
     String requestUrl = httpRequest.getRequestURI();
-    if (GIT_HTTP_REQUEST_PATTERN.matcher(requestUrl).matches()) {
-      gitFilter.doFilter(request, response, chain);
+
+    if (!config.enabled || skipOAuth(httpRequest)) {
+      chain.doFilter(request, response);
     } else {
-      webFilter.doFilter(request, response, chain);
+
+      if (GIT_HTTP_REQUEST_PATTERN.matcher(requestUrl).matches()) {
+        gitFilter.doFilter(request, response, chain);
+      } else {
+        System.out.println("Authorising " + requestUrl);
+        webFilter.doFilter(request, response, chain);
+      }
     }
   }
 
-  private boolean isAuthenticatedRestCall(HttpServletRequest httpRequest) {
+  public static boolean skipOAuth(HttpServletRequest httpRequest) {
+    return isStaticResource(httpRequest)
+        || isRpcCall(httpRequest) || isAuthenticatedRestCall(httpRequest)
+        || isWhitelisted(httpRequest);
+  }
+
+  private static boolean isAuthenticatedRestCall(HttpServletRequest httpRequest) {
     return !StringUtils.isEmpty(httpRequest
         .getHeader(XGerritAuth.X_GERRIT_AUTH));
   }
 
-  private boolean isStaticResource(HttpServletRequest httpRequest) {
-    String pathExt =
-        StringUtils.substringAfterLast(httpRequest.getRequestURI(), ".");
+  private static boolean isStaticResource(HttpServletRequest httpRequest) {
+    String requestURI = httpRequest.getRequestURI();
+    String pathExt = StringUtils.substringAfterLast(requestURI, ".");
     if (StringUtils.isEmpty(pathExt)) {
       return false;
     }
 
-    return GERRIT_STATIC_RESOURCES_EXTS.contains(pathExt.toLowerCase());
+    boolean staticResource =
+        GERRIT_STATIC_RESOURCES_EXTS.contains(pathExt.toLowerCase());
+    System.out.println("requestUri: " + requestURI + " pathExt: " + pathExt
+        + " static: " + staticResource);
+    return staticResource;
   }
 
-  private boolean isRpcCall(HttpServletRequest httpRequest) {
+  private static boolean isWhitelisted(HttpServletRequest httpRequest) {
+    String[] requestPathParts = httpRequest.getRequestURI().split("/");
+    return (requestPathParts.length > 1 && (GERRIT_WHITELISTED_PATHS
+        .contains(requestPathParts[1]) || GERRIT_WHITELISTED_PAGES
+        .contains(requestPathParts[requestPathParts.length - 1])));
+  }
+
+  private static boolean isRpcCall(HttpServletRequest httpRequest) {
     return httpRequest.getRequestURI().indexOf("/rpc/") >= 0;
   }
 

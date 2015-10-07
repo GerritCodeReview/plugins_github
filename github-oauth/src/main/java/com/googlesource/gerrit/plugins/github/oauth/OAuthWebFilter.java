@@ -85,26 +85,21 @@ public class OAuthWebFilter implements Filter {
     try {
       GitHubLogin ghLogin = loginProvider.get(httpRequest);
 
-      if (OAuthProtocol.isOAuthLogout(httpRequest)) {
-        logout(request, response, chain, httpRequest);
-      } else if (OAuthProtocol.isOAuthRequest(httpRequest)
-          && !ghLogin.isLoggedIn()) {
+      if (OAuthProtocol.isOAuthRequest(httpRequest)) {
         login(request, httpRequest, httpResponse, ghLogin);
       } else {
+        if (OAuthProtocol.isOAuthLogout(httpRequest)) {
+          response = logout(request, response, chain, httpRequest);
+        }
+
         if (ghLogin != null && ghLogin.isLoggedIn()) {
           httpRequest =
               new AuthenticatedHttpRequest(httpRequest, config.httpHeader,
-                  ghLogin.getMyself().getLogin(),
-                  config.oauthHttpHeader,
+                  ghLogin.getMyself().getLogin(), config.oauthHttpHeader,
                   GITHUB_EXT_ID + ghLogin.getToken().accessToken);
         }
 
-        if (OAuthProtocol.isOAuthFinalForOthers(httpRequest)) {
-          httpResponse.sendRedirect(OAuthProtocol
-              .getTargetOAuthFinal(httpRequest));
-        } else {
-          chain.doFilter(httpRequest, response);
-        }
+        chain.doFilter(httpRequest, response);
       }
     } finally {
       HttpSession httpSession = httpRequest.getSession();
@@ -124,7 +119,8 @@ public class OAuthWebFilter implements Filter {
 
   private void login(ServletRequest request, HttpServletRequest httpRequest,
       HttpServletResponse httpResponse, GitHubLogin ghLogin) throws IOException {
-    if (ghLogin.login(httpRequest, httpResponse, oauth)) {
+    ghLogin.login(httpRequest, httpResponse, oauth);
+    if (ghLogin.isLoggedIn()) {
       GHMyself myself = ghLogin.getMyself();
       String user = myself.getLogin();
 
@@ -133,14 +129,12 @@ public class OAuthWebFilter implements Filter {
     }
   }
 
-  private void logout(ServletRequest request, ServletResponse response,
-      FilterChain chain, HttpServletRequest httpRequest) throws IOException,
-      ServletException {
+  private ServletResponse logout(ServletRequest request,
+      ServletResponse response, FilterChain chain,
+      HttpServletRequest httpRequest) throws IOException, ServletException {
     getGitHubLogin(request).logout();
-    GitHubLogoutServletResponse bufferedResponse =
-        new GitHubLogoutServletResponse((HttpServletResponse) response,
-            config.logoutRedirectUrl);
-    chain.doFilter(httpRequest, bufferedResponse);
+    return new GitHubLogoutServletResponse((HttpServletResponse) response,
+        config.logoutRedirectUrl);
   }
 
   private GitHubLogin getGitHubLogin(ServletRequest request) {

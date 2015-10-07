@@ -67,6 +67,8 @@ class GitHubOAuthConfig {
   public final int fileUpdateMaxRetryCount;
   public final int fileUpdateMaxRetryIntervalMsec;
   public final String oauthHttpHeader;
+
+  @Getter
   public final String scopeSelectionUrl;
 
   @Inject

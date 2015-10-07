@@ -38,10 +38,12 @@ public class GitHubTopMenu implements TopMenu {
   @Inject
   public GitHubTopMenu(@PluginName String pluginName,
       Provider<CurrentUser> userProvider,
-      AuthConfig authConfig) {
+      AuthConfig authConfig,
+      GitHubConfig ghConfig) {
     String baseUrl = "/plugins/" + pluginName;
     this.menuEntries =
         Arrays.asList(new MenuEntry("GitHub", Arrays.asList(
+            getItem("Scope", ghConfig.scopeSelectionUrl),
             getItem("Profile", baseUrl + "/static/account.html"),
             getItem("Repositories", baseUrl + "/static/repositories.html"),
             getItem("Pull Requests", baseUrl + "/static/pullrequests.html"))));
