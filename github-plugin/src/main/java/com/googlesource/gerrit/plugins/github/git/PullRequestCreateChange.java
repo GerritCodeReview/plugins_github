@@ -14,15 +14,17 @@
 
 package com.googlesource.gerrit.plugins.github.git;
 
+import static com.google.gerrit.reviewdb.client.RefNames.REFS_HEADS;
+
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Change.Id;
-import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
@@ -30,12 +32,10 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.PatchSetInserter;
-import com.google.gerrit.server.change.PatchSetInserter.ValidatePolicy;
-import com.google.gerrit.server.events.CommitReceivedEvent;
+import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.MergeException;
-import com.google.gerrit.server.git.validators.CommitValidationException;
-import com.google.gerrit.server.git.validators.CommitValidators;
-import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.git.UpdateException;
+import com.google.gerrit.server.git.validators.CommitValidators.Policy;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -43,7 +43,6 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
@@ -53,12 +52,10 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.util.ChangeIdUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,147 +69,148 @@ public class PullRequestCreateChange {
       .getLogger(PullRequestCreateChange.class);
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
 
-  private final IdentifiedUser currentUser;
-  private final CommitValidators.Factory commitValidatorsFactory;
   private final ChangeInserter.Factory changeInserterFactory;
   private final PatchSetInserter.Factory patchSetInserterFactory;
   private final ProjectControl.Factory projectControlFactory;
   private final GenericFactory userFactory;
   private final Provider<InternalChangeQuery> queryProvider;
+  private final BatchUpdate.Factory updateFactory;
 
   @Inject
-  PullRequestCreateChange(IdentifiedUser currentUser,
-      CommitValidators.Factory commitValidatorsFactory,
-      ChangeInserter.Factory changeInserterFactory,
+  PullRequestCreateChange(ChangeInserter.Factory changeInserterFactory,
       PatchSetInserter.Factory patchSetInserterFactory,
       ProjectControl.Factory projectControlFactory,
       IdentifiedUser.GenericFactory userFactory,
-      Provider<InternalChangeQuery> queryProvider) {
-    this.currentUser = currentUser;
-    this.commitValidatorsFactory = commitValidatorsFactory;
+      Provider<InternalChangeQuery> queryProvider,
+      BatchUpdate.Factory batchUpdateFactory) {
     this.changeInserterFactory = changeInserterFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.projectControlFactory = projectControlFactory;
     this.userFactory = userFactory;
     this.queryProvider = queryProvider;
+    this.updateFactory = batchUpdateFactory;
   }
 
-  public Change.Id addCommitToChange(final ReviewDb db, final Project project,
-      final Repository git, final String destinationBranch,
+  public Change.Id addCommitToChange(ReviewDb db, final Project project,
+      final Repository repo, final String destinationBranch,
       final Account.Id pullRequestOwner, final RevCommit pullRequestCommit,
-      final String pullRequestMesage, final String topic, boolean doValidation)
+      final String pullRequestMessage, final String topic)
       throws NoSuchChangeException, EmailException, OrmException,
       MissingObjectException, IncorrectObjectTypeException, IOException,
-      InvalidChangeOperationException, MergeException, NoSuchProjectException {
-    Id newChange = null;
+      InvalidChangeOperationException, MergeException, NoSuchProjectException,
+      UpdateException, RestApiException {
+    try (BatchUpdate bu =
+        updateFactory.create(db, project.getNameKey(),
+            userFactory.create(pullRequestOwner), TimeUtil.nowTs())) {
+
+      return internalAddCommitToChange(db, bu, project, repo,
+          destinationBranch, pullRequestOwner, pullRequestCommit,
+          pullRequestMessage, topic);
+    }
+  }
+
+  public Change.Id internalAddCommitToChange(ReviewDb db, BatchUpdate bu,
+      final Project project, final Repository repo,
+      final String destinationBranch, final Account.Id pullRequestOwner,
+      final RevCommit pullRequestCommit, final String pullRequestMesage,
+      final String topic) throws InvalidChangeOperationException, IOException,
+      NoSuchProjectException, OrmException, UpdateException, RestApiException {
     if (destinationBranch == null || destinationBranch.length() == 0) {
       throw new InvalidChangeOperationException(
           "Destination branch cannot be null or empty");
+    }
+    Ref destRef = repo.getRef(destinationBranch);
+    if (destRef == null) {
+      throw new InvalidChangeOperationException("Branch " + destinationBranch
+          + " does not exist.");
     }
 
     RefControl refControl =
         projectControlFactory.controlFor(project.getNameKey()).controlForRef(
             destinationBranch);
 
-    try (RevWalk revWalk = new RevWalk(git)) {
-      try {
-        Ref destRef = git.getRef(destinationBranch);
-        if (destRef == null) {
-          throw new InvalidChangeOperationException("Branch "
-              + destinationBranch + " does not exist.");
-        }
+    String pullRequestSha1 = pullRequestCommit.getId().getName();
+    ResultSet<PatchSet> existingPatchSet =
+        db.patchSets().byRevision(new RevId(pullRequestSha1));
+    Iterator<PatchSet> patchSetIterator = existingPatchSet.iterator();
+    if (patchSetIterator.hasNext()) {
+      PatchSet patchSet = patchSetIterator.next();
+      LOG.debug("Pull request commit ID " + pullRequestSha1
+          + " has been already uploaded as PatchSetID="
+          + patchSet.getPatchSetId() + " in ChangeID=" + patchSet.getId());
+      return null;
+    }
 
-        String pullRequestSha1 = pullRequestCommit.getId().getName();
-        ResultSet<PatchSet> existingPatchSet =
-            db.patchSets().byRevision(new RevId(pullRequestSha1));
-        Iterator<PatchSet> patchSetIterator = existingPatchSet.iterator();
-        if (patchSetIterator.hasNext()) {
-          PatchSet patchSet = patchSetIterator.next();
-          LOG.debug("Pull request commit ID " + pullRequestSha1
-              + " has been already uploaded as PatchSetID="
-              + patchSet.getPatchSetId() + " in ChangeID=" + patchSet.getId());
-          return null;
-        }
+    Change.Key changeKey;
+    final List<String> idList = pullRequestCommit.getFooterLines(CHANGE_ID);
+    if (!idList.isEmpty()) {
+      final String idStr = idList.get(idList.size() - 1).trim();
+      changeKey = new Change.Key(idStr);
+    } else {
+      final ObjectId computedChangeId =
+          ChangeIdUtil.computeChangeId(pullRequestCommit.getTree(),
+              pullRequestCommit, pullRequestCommit.getAuthorIdent(),
+              pullRequestCommit.getCommitterIdent(), pullRequestMesage);
 
-        Change.Key changeKey;
-        final List<String> idList = pullRequestCommit.getFooterLines(CHANGE_ID);
-        if (!idList.isEmpty()) {
-          final String idStr = idList.get(idList.size() - 1).trim();
-          changeKey = new Change.Key(idStr);
-        } else {
-          final ObjectId computedChangeId =
-              ChangeIdUtil.computeChangeId(pullRequestCommit.getTree(),
-                  pullRequestCommit, pullRequestCommit.getAuthorIdent(),
-                  pullRequestCommit.getCommitterIdent(), pullRequestMesage);
+      changeKey = new Change.Key("I" + computedChangeId.name());
+    }
 
-          changeKey = new Change.Key("I" + computedChangeId.name());
-        }
+    String branchName = destRef.getName();
+    List<ChangeData> destChanges =
+        queryProvider.get().byBranchKey(
+            new Branch.NameKey(project.getNameKey(),
+                branchName.startsWith(REFS_HEADS)
+                    ? branchName.substring(REFS_HEADS.length()) : branchName),
+            changeKey);
 
-        List<ChangeData> destChanges =
-            queryProvider.get().byBranchKey(
-                new Branch.NameKey(project.getNameKey(), destRef.getName()),
-                changeKey);
+    if (destChanges.size() > 1) {
+      throw new InvalidChangeOperationException(
+          "Multiple Changes with Change-ID "
+              + changeKey
+              + " already exist on the target branch: cannot add a new patch-set "
+              + destinationBranch);
+    }
 
-        if (destChanges.size() > 1) {
-          throw new InvalidChangeOperationException(
-              "Multiple Changes with Change-ID "
-                  + changeKey
-                  + " already exist on the target branch: cannot add a new patch-set "
-                  + destinationBranch);
-        } else if (destChanges.size() == 1) {
-          // The change key exists on the destination branch: adding a new
-          // patch-set
-          Change destChange = destChanges.get(0).change();
+    if (destChanges.size() == 1) {
+      // The change key exists on the destination branch: adding a new
+      // patch-set
+      Change destChange = destChanges.get(0).change();
+      insertPatchSet(bu, repo, destChange, pullRequestCommit,
+          refControl, pullRequestMesage);
+      return destChange.getId();
+    } else {
 
-          ChangeControl changeControl =
-              projectControlFactory.controlFor(project.getNameKey()).controlFor(
-                  destChange).forUser(userFactory.create(pullRequestOwner));
-
-          return insertPatchSet(git, revWalk, destChange, pullRequestCommit,
-              changeControl, pullRequestOwner, pullRequestMesage, doValidation);
-        } else {
-          // Change key not found on destination branch. We can create a new
-          // change.
-          return (newChange =
-              createNewChange(db, git, revWalk, changeKey,
-                  project.getNameKey(), destRef, pullRequestOwner,
-                  pullRequestCommit, refControl, pullRequestMesage, topic,
-                  doValidation));
-        }
-      } finally {
-        if (newChange == null) {
-          db.rollback();
-        }
-      }
-    } finally {
-      git.close();
+      // Change key not found on destination branch. We can create a new
+      // change.
+      return createNewChange(db, bu, changeKey, project.getNameKey(), destRef,
+          pullRequestOwner, pullRequestCommit, refControl, pullRequestMesage,
+          topic);
     }
   }
 
-  private Change.Id insertPatchSet(Repository git, RevWalk revWalk,
-      Change change, RevCommit cherryPickCommit, ChangeControl changeControl,
-      Account.Id pullRequestOwnerId, String pullRequestMessage,
-      boolean doValidation) throws InvalidChangeOperationException,
-      IOException, OrmException, NoSuchChangeException {
-    PatchSetInserter patchSetInserter =
-        patchSetInserterFactory.create(git, revWalk, changeControl, cherryPickCommit);
-    // This apparently useless method call is made for triggering
-    // the creation of patchSet inside PatchSetInserter and thus avoiding a NPE
-    patchSetInserter.getPatchSetId();
-    patchSetInserter.setMessage(pullRequestMessage);
+  private void insertPatchSet(BatchUpdate bu, Repository git, Change change,
+      RevCommit cherryPickCommit, RefControl refControl,
+      String pullRequestMessage) throws IOException, UpdateException,
+      RestApiException {
+    try (RevWalk revWalk = new RevWalk(git)) {
+      PatchSet.Id psId =
+          ChangeUtil.nextPatchSetId(git, change.currentPatchSetId());
 
-    patchSetInserter.setValidatePolicy(doValidation ? ValidatePolicy.GERRIT
-        : ValidatePolicy.NONE);
-    patchSetInserter.insert();
-    return change.getId();
+      PatchSetInserter patchSetInserter =
+          patchSetInserterFactory.create(refControl, psId, cherryPickCommit);
+      patchSetInserter.setMessage(pullRequestMessage);
+      patchSetInserter.setValidatePolicy(Policy.NONE);
+
+      bu.addOp(change.getId(), patchSetInserter);
+      bu.execute();
+    }
   }
 
-  private Change.Id createNewChange(ReviewDb db, Repository git,
-      RevWalk revWalk, Change.Key changeKey, Project.NameKey project,
-      Ref destRef, Account.Id pullRequestOwner, RevCommit pullRequestCommit,
-      RefControl refControl, String pullRequestMessage, String topic,
-      boolean doValidation) throws OrmException,
-      InvalidChangeOperationException, IOException {
+  private Change.Id createNewChange(ReviewDb db, BatchUpdate bu,
+      Change.Key changeKey, Project.NameKey project, Ref destRef,
+      Account.Id pullRequestOwner, RevCommit pullRequestCommit,
+      RefControl refControl, String pullRequestMessage, String topic)
+      throws OrmException, UpdateException, RestApiException {
     Change change =
         new Change(changeKey, new Change.Id(db.nextChangeId()),
             pullRequestOwner, new Branch.NameKey(project, destRef.getName()),
@@ -220,57 +218,13 @@ public class PullRequestCreateChange {
     if (topic != null) {
       change.setTopic(topic);
     }
-    ChangeInserter ins = changeInserterFactory.create(
-        refControl.getProjectControl(), change, pullRequestCommit);
-    PatchSet newPatchSet = ins.getPatchSet();
+    ChangeInserter ins =
+        changeInserterFactory.create(refControl, change, pullRequestCommit);
 
-    if (doValidation) {
-      validate(git, pullRequestCommit, refControl, newPatchSet);
-    }
+    ins.setMessage(pullRequestMessage);
+    bu.insertChange(ins);
+    bu.execute();
 
-    final RefUpdate ru = git.updateRef(newPatchSet.getRefName());
-    ru.setExpectedOldObjectId(ObjectId.zeroId());
-    ru.setNewObjectId(pullRequestCommit);
-    ru.disableRefLog();
-    if (ru.update(revWalk) != RefUpdate.Result.NEW) {
-      throw new IOException(String.format("Failed to create ref %s in %s: %s",
-          newPatchSet.getRefName(), change.getDest().getParentKey().get(),
-          ru.getResult()));
-    }
-
-    ins.setMessage(
-        buildChangeMessage(db, change, newPatchSet, pullRequestOwner, pullRequestMessage))
-        .insert();
-
-    return change.getId();
-  }
-
-  private void validate(Repository git, RevCommit pullRequestCommit,
-      RefControl refControl, PatchSet newPatchSet)
-      throws InvalidChangeOperationException {
-    CommitValidators commitValidators =
-        commitValidatorsFactory.create(refControl, new NoSshInfo(), git);
-    CommitReceivedEvent commitReceivedEvent =
-        new CommitReceivedEvent(new ReceiveCommand(ObjectId.zeroId(),
-            pullRequestCommit.getId(), newPatchSet.getRefName()), refControl
-            .getProjectControl().getProject(), refControl.getRefName(),
-            pullRequestCommit, currentUser);
-
-    try {
-      commitValidators.validateForGerritCommits(commitReceivedEvent);
-    } catch (CommitValidationException e) {
-      throw new InvalidChangeOperationException(e.getMessage());
-    }
-  }
-
-  private ChangeMessage buildChangeMessage(ReviewDb db, Change dest,
-      PatchSet newPatchSet, Account.Id pullRequestAuthorId,
-      String pullRequestMessage) throws OrmException {
-    ChangeMessage cmsg =
-        new ChangeMessage(new ChangeMessage.Key(dest.getId(),
-            ChangeUtil.messageUUID(db)), pullRequestAuthorId, TimeUtil.nowTs(),
-            newPatchSet.getId());
-    cmsg.setMessage(pullRequestMessage);
-    return cmsg;
+    return ins.getChange().getId();
   }
 }

@@ -13,6 +13,8 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
+import static com.google.gerrit.reviewdb.client.RefNames.REFS_HEADS;
+
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -168,7 +170,7 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
 
   private List<Id> addPullRequestToChange(ReviewDb db, GHPullRequest pr,
       Repository gitRepo) throws Exception {
-    String destinationBranch = pr.getBase().getRef();
+    String destinationBranch = REFS_HEADS + pr.getBase().getRef();
     List<Id> prChanges = Lists.newArrayList();
     ObjectId baseObjectId = ObjectId.fromString(pr.getBase().getSha());
     ObjectId prHeadObjectId = ObjectId.fromString(pr.getHead().getSha());
@@ -194,7 +196,7 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
             createChange.addCommitToChange(db, project, gitRepo,
                 destinationBranch, pullRequestOwner, revCommit,
                 getChangeMessage(pr),
-                String.format(TOPIC_FORMAT, pr.getNumber()), false);
+                String.format(TOPIC_FORMAT, pr.getNumber()));
         if (changeId != null) {
           prChanges.add(changeId);
         }
