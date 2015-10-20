@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.Change.Id;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.AccountExternalIdAccess;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountImporter;
@@ -32,7 +33,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-
 import com.googlesource.gerrit.plugins.github.GitHubURL;
 import com.googlesource.gerrit.plugins.github.git.GitJobStatus.Code;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
@@ -123,8 +123,7 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
 
   @Override
   public void run() {
-    ReviewDb db = schema.get();
-    try {
+    try (ReviewDb db = schema.get()) {
       status.update(GitJobStatus.Code.SYNC);
       exitWhenCancelled();
       GHPullRequest pr = fetchGitHubPullRequestInfo();
@@ -144,31 +143,19 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
       } finally {
         gitRepo.close();
       }
-      db.commit();
     } catch (JobCancelledException e) {
       status.update(GitJobStatus.Code.CANCELLED);
-      try {
-        db.rollback();
-      } catch (OrmException e1) {
-        LOG.error("Error rolling back transation", e1);
-      }
     } catch (Throwable e) {
       LOG.error("Pull request " + prId + " into repository " + organisation
           + "/" + repoName + " was failed", e);
-      status.update(GitJobStatus.Code.FAILED, "Failed",  e.getLocalizedMessage());
-      try {
-        db.rollback();
-      } catch (OrmException e1) {
-        LOG.error("Error rolling back transation", e1);
-      }
-    } finally {
-      db.close();
+      status
+          .update(GitJobStatus.Code.FAILED, "Failed", e.getLocalizedMessage());
     }
   }
 
   private List<Id> addPullRequestToChange(ReviewDb db, GHPullRequest pr,
       Repository gitRepo) throws Exception {
-    String destinationBranch = pr.getBase().getRef();
+    String destinationBranch = RefNames.REFS_HEADS + pr.getBase().getRef();
     List<Id> prChanges = Lists.newArrayList();
     ObjectId baseObjectId = ObjectId.fromString(pr.getBase().getSha());
     ObjectId prHeadObjectId = ObjectId.fromString(pr.getHead().getSha());
@@ -194,7 +181,7 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
             createChange.addCommitToChange(db, project, gitRepo,
                 destinationBranch, pullRequestOwner, revCommit,
                 getChangeMessage(pr),
-                String.format(TOPIC_FORMAT, pr.getNumber()), false);
+                String.format(TOPIC_FORMAT, pr.getNumber()));
         if (changeId != null) {
           prChanges.add(changeId);
         }
