@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "79c556cc_25dc0e46",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestCreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-10-21T09:21:28Z",
+      "side": 1,
+      "message": "True, but typically I dislike too many static imports as you may make the code unreadable.\n\nIn this case the REFS_ prefix already tells what the constant is, so I agree that RefNames. does not add any extra context to that :-)\n\nCan be easily statically imported without loosing readability.",
+      "parentUuid": "762485ad_cdb00918",
+      "range": {
+        "startLine": 160,
+        "startChar": 38,
+        "endLine": 160,
+        "endChar": 57
+      },
+      "revId": "5e1956525a930fb9b346a2d9233f60ecfa821cf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "59c412d2_04b2b61d",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestImportJob.java",
         "patchSetId": 2
