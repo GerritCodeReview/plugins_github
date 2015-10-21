@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d902c2ba_58ee3de3",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestCreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-21T02:58:33Z",
+      "side": 1,
+      "message": "This is defined in jgit:\n\n Constants.R_HEADS\n\nand in core Gerrit:\n\n RefNames.REFS_HEADS\n\nCan we use one of those, instead of redefining it here?",
+      "range": {
+        "startLine": 65,
+        "startChar": 2,
+        "endLine": 65,
+        "endChar": 56
+      },
+      "revId": "346d51aef27d59722fa1a2f34a6465388144563b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59fb3286_0c925725",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestCreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-21T02:58:33Z",
+      "side": 1,
+      "message": "No need for the changeId variable.  Just directly return the result of the method call:\n\n return internalAddcommitToChange(...)",
+      "range": {
+        "startLine": 105,
+        "startChar": 6,
+        "endLine": 108,
+        "endChar": 22
+      },
+      "revId": "346d51aef27d59722fa1a2f34a6465388144563b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d902c2ba_b81959c5",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestCreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-21T02:58:33Z",
+      "side": 1,
+      "message": "Does this method still need to return the change ID?  It seems to be just returning the same value that was passed in.",
+      "range": {
+        "startLine": 212,
+        "startChar": 6,
+        "endLine": 212,
+        "endChar": 22
+      },
+      "revId": "346d51aef27d59722fa1a2f34a6465388144563b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59fb3286_4c9c5f38",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestImportJob.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-21T02:58:33Z",
+      "side": 1,
+      "message": "Converting this to try-with-resource seems unrelated to the fix described in the commit message.  Do this in a separate commit?",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 126,
+        "endChar": 38
+      },
+      "revId": "346d51aef27d59722fa1a2f34a6465388144563b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d902c2ba_981e15a9",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestImportJob.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-21T02:58:33Z",
+      "side": 1,
+      "message": "Wrap this line",
+      "revId": "346d51aef27d59722fa1a2f34a6465388144563b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
