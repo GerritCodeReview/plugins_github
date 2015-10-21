@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "762485ad_cdb00918",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestCreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-21T09:15:32Z",
+      "side": 1,
+      "message": "This can be imported as static, and then the RefNames prefix is not needed on every usage.",
+      "range": {
+        "startLine": 160,
+        "startChar": 38,
+        "endLine": 160,
+        "endChar": 57
+      },
+      "revId": "5e1956525a930fb9b346a2d9233f60ecfa821cf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59c412d2_04b2b61d",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestImportJob.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-21T09:15:32Z",
+      "side": 1,
+      "message": "Same comment as previous PS.",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 126,
+        "endChar": 38
+      },
+      "revId": "5e1956525a930fb9b346a2d9233f60ecfa821cf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
