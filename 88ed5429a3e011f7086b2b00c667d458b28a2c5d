@@ -22,6 +22,30 @@
       "revId": "88ed5429a3e011f7086b2b00c667d458b28a2c5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36476d69_a3615a14",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestImportJob.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-10-22T12:36:18Z",
+      "side": 0,
+      "message": "I don\u0027t do rollbacks myself anymore anyway, as it is all managed by BatchOp who does it for me.",
+      "parentUuid": "168429cb_020caa7d",
+      "range": {
+        "startLine": 149,
+        "startChar": 6,
+        "endLine": 149,
+        "endChar": 18
+      },
+      "revId": "88ed5429a3e011f7086b2b00c667d458b28a2c5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "8a3d1c5eb3f88f288b878f971dd82d35bde06a26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "168429cb_c2056253",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestImportJob.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-10-22T12:36:18Z",
+      "side": 1,
+      "message": "Yes, good point :-)",
+      "parentUuid": "b690bd0a_ff3d9ff5",
+      "range": {
+        "startLine": 134,
+        "startChar": 6,
+        "endLine": 134,
+        "endChar": 26
+      },
+      "revId": "8a3d1c5eb3f88f288b878f971dd82d35bde06a26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
