@@ -125,17 +125,15 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
 
   @Override
   public void run() {
-    ReviewDb db = schema.get();
-    try {
+    try (ReviewDb db = schema.get()) {
       status.update(GitJobStatus.Code.SYNC);
       exitWhenCancelled();
       GHPullRequest pr = fetchGitHubPullRequestInfo();
 
       exitWhenCancelled();
-      Repository gitRepo =
+      try (Repository gitRepo =
           repoMgr.openRepository(new Project.NameKey(organisation + "/"
-              + repoName));
-      try {
+              + repoName))) {
         exitWhenCancelled();
         fetchGitHubPullRequest(gitRepo, pr);
 
@@ -143,28 +141,13 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
         List<Id> changeIds = addPullRequestToChange(db, pr, gitRepo);
         status.update(GitJobStatus.Code.COMPLETE, "Imported",
             "PullRequest imported as Changes " + changeIds);
-      } finally {
-        gitRepo.close();
       }
-      db.commit();
     } catch (JobCancelledException e) {
       status.update(GitJobStatus.Code.CANCELLED);
-      try {
-        db.rollback();
-      } catch (OrmException e1) {
-        LOG.error("Error rolling back transation", e1);
-      }
     } catch (Throwable e) {
       LOG.error("Pull request " + prId + " into repository " + organisation
           + "/" + repoName + " was failed", e);
       status.update(GitJobStatus.Code.FAILED, "Failed",  e.getLocalizedMessage());
-      try {
-        db.rollback();
-      } catch (OrmException e1) {
-        LOG.error("Error rolling back transation", e1);
-      }
-    } finally {
-      db.close();
     }
   }
 
