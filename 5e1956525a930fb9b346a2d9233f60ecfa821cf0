@@ -93,6 +93,30 @@
       "revId": "5e1956525a930fb9b346a2d9233f60ecfa821cf0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "168429cb_22152e85",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestImportJob.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-10-22T10:43:24Z",
+      "side": 1,
+      "message": "@David: de-scoped the try with autoclose ReviewDb to a different change.",
+      "parentUuid": "79c556cc_854982a6",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 126,
+        "endChar": 38
+      },
+      "revId": "5e1956525a930fb9b346a2d9233f60ecfa821cf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
