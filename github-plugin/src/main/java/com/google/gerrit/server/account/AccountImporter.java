@@ -48,26 +48,27 @@ public class AccountImporter {
   public Account.Id importAccount(String login, String name, String email)
       throws IOException, BadRequestException, ResourceConflictException,
       UnprocessableEntityException, OrmException {
-    ReviewDb db = schema.get();
-    CreateAccount createAccount = createAccountFactory.create(login);
-    CreateAccount.Input accountInput = new CreateAccount.Input();
-    accountInput.email = email;
-    accountInput.username = login;
-    accountInput.name = MoreObjects.firstNonNull(name, login);
-    Response<AccountInfo> accountResponse =
-        (Response<AccountInfo>) createAccount.apply(TopLevelResource.INSTANCE,
-            accountInput);
-    if (accountResponse.statusCode() == HttpStatus.SC_CREATED) {
-      Id accountId = new Account.Id(accountResponse.value()._accountId);
-      db.accountExternalIds().insert(
-          Arrays
-              .asList(new AccountExternalId(accountId,
-                  new AccountExternalId.Key(AccountExternalId.SCHEME_GERRIT,
-                      login))));
-      return accountId;
-    } else {
-      throw new IOException("Cannot import GitHub account " + login
-          + ": HTTP Status " + accountResponse.statusCode());
+    try (ReviewDb db = schema.get()) {
+      CreateAccount createAccount = createAccountFactory.create(login);
+      CreateAccount.Input accountInput = new CreateAccount.Input();
+      accountInput.email = email;
+      accountInput.username = login;
+      accountInput.name = MoreObjects.firstNonNull(name, login);
+      Response<AccountInfo> accountResponse =
+          (Response<AccountInfo>) createAccount.apply(TopLevelResource.INSTANCE,
+              accountInput);
+      if (accountResponse.statusCode() == HttpStatus.SC_CREATED) {
+        Id accountId = new Account.Id(accountResponse.value()._accountId);
+        db.accountExternalIds().insert(
+            Arrays
+                .asList(new AccountExternalId(accountId,
+                    new AccountExternalId.Key(AccountExternalId.SCHEME_GERRIT,
+                        login))));
+        return accountId;
+      } else {
+        throw new IOException("Cannot import GitHub account " + login
+            + ": HTTP Status " + accountResponse.statusCode());
+      }
     }
   }
 }

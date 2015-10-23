@@ -142,12 +142,10 @@ public class PullRequestListController implements VelocityController {
   private Map<String, List<GHPullRequest>> getPullRequests(GitHubLogin login,
       GHPerson ghOwner, Iterable<NameKey> repos) throws IOException {
     int numPullRequests = 0;
-    ReviewDb db = schema.get();
     Map<String, List<GHPullRequest>> allPullRequests = Maps.newHashMap();
-    try {
+    try (ReviewDb db = schema.get()) {
       for (NameKey gerritRepoName : repos) {
-        Repository gitRepo = repoMgr.openRepository(gerritRepoName);
-        try {
+        try (Repository gitRepo = repoMgr.openRepository(gerritRepoName)) {
           String ghRepoName = gerritRepoName.get().split("/")[1];
           Optional<GHRepository> githubRepo =
               getGHRepository(login, gerritRepoName);
@@ -156,13 +154,9 @@ public class PullRequestListController implements VelocityController {
                 collectPullRequestsFromGitHubRepository(numPullRequests, db,
                     allPullRequests, gitRepo, ghRepoName, githubRepo);
           }
-        } finally {
-          gitRepo.close();
         }
       }
       return allPullRequests;
-    } finally {
-      db.close();
     }
   }
 
