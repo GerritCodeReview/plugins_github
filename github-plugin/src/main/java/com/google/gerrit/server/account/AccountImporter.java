@@ -57,7 +57,8 @@ public class AccountImporter {
       Response<AccountInfo> accountResponse =
           createAccount.apply(TopLevelResource.INSTANCE, accountInput);
       if (accountResponse.statusCode() == HttpStatus.SC_CREATED) {
-        Id accountId = new Account.Id(accountResponse.value()._accountId);
+        Id accountId = new Account.Id(
+            accountResponse.value()._accountId.intValue());
         db.accountExternalIds().insert(
             Arrays
                 .asList(new AccountExternalId(accountId,

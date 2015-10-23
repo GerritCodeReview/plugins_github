@@ -103,7 +103,7 @@ public class PullRequestListController implements VelocityController {
           JsonArray prArray = new JsonArray();
           for (GHPullRequest pr : repoEntry.getValue()) {
             JsonObject prObj = new JsonObject();
-            prObj.add("id", new JsonPrimitive(pr.getNumber()));
+            prObj.add("id", new JsonPrimitive(new Integer(pr.getNumber())));
             prObj.add("title", new JsonPrimitive(pr.getTitle()));
             prObj.add("body", new JsonPrimitive(pr.getBody()));
             prObj.add("author", new JsonPrimitive(pr.getUser() == null ? "" : pr
