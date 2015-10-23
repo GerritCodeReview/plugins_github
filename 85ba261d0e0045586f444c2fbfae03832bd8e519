@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "767ba5ad_f56ff8e5",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthWebFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-23T10:01:48Z",
+      "side": 1,
+      "message": "`response` is a parameter passed into the method, and this line is causing a warning in Eclipse:\n\n The parameter response should not be assigned\n\nShould this have been `httpResponse \u003d ...`?\n\nSee for reference:\n\nhttp://stackoverflow.com/questions/3972510/the-parameter-foo-should-not-be-assigned-whats-the-harm",
+      "range": {
+        "startLine": 92,
+        "startChar": 10,
+        "endLine": 92,
+        "endChar": 67
+      },
+      "revId": "85ba261d0e0045586f444c2fbfae03832bd8e519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
