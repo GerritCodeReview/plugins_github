@@ -16,6 +16,7 @@ package com.googlesource.gerrit.plugins.github.git;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonWriter;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 
 
@@ -65,7 +66,9 @@ public class GitJobStatus {
     this.value = status.name();
   }
 
-  public void printJson(PrintWriter out) {
-    new Gson().toJson(this, GitJobStatus.class, new JsonWriter(out));
+  public void printJson(PrintWriter out) throws IOException {
+    try (JsonWriter writer = new JsonWriter(out)) {
+      new Gson().toJson(this, GitJobStatus.class, writer);
+    }
   }
 }
