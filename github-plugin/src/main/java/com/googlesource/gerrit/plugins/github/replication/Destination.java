@@ -20,16 +20,13 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.account.ListGroupMembership;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Injector;
 
 import org.eclipse.jgit.lib.Config;
@@ -47,10 +44,8 @@ public class Destination {
   private final CurrentUser remoteUser;
 
   Destination(final Injector injector, final RemoteConfig rc, final Config cfg,
-      final SchemaFactory<ReviewDb> db,
       final RemoteSiteUser.Factory replicationUserFactory,
       final PluginUser pluginUser,
-      final GitRepositoryManager gitRepositoryManager,
       final GroupBackend groupBackend) {
     remote = rc;
 
