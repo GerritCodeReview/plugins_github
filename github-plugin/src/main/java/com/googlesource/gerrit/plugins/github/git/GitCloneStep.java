@@ -13,9 +13,6 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
-import com.google.gerrit.server.account.GroupBackend;
-import com.google.gerrit.server.git.MetaDataUpdate;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -43,9 +40,6 @@ public class GitCloneStep extends ImportStep {
 
   @Inject
   public GitCloneStep(GitHubConfig gitConfig,
-      MetaDataUpdate.User metaDataUpdateFactory, 
-      GroupBackend groupBackend,
-      ProjectCache projectCache,
       GitHubRepository.Factory gitHubRepoFactory,
       @Assisted("organisation") String organisation,
       @Assisted("name") String repository)

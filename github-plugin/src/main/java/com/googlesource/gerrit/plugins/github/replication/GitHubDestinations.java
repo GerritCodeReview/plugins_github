@@ -16,12 +16,9 @@ package com.googlesource.gerrit.plugins.github.replication;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 
@@ -61,24 +58,20 @@ public class GitHubDestinations {
   private final List<Destination> configs;
 
 
-  private final SchemaFactory<ReviewDb> database;
   private final RemoteSiteUser.Factory replicationUserFactory;
   private final PluginUser pluginUser;
-  private final GitRepositoryManager gitRepositoryManager;
   private final GroupBackend groupBackend;
   boolean replicateAllOnPluginStart;
   private final List<String> organisations;
 
   @Inject
   GitHubDestinations(final Injector i, final SitePaths site,
-      final RemoteSiteUser.Factory ruf, final SchemaFactory<ReviewDb> db,
-      final GitRepositoryManager grm, final GroupBackend gb, final PluginUser pu)
+      final RemoteSiteUser.Factory ruf,
+      final GroupBackend gb, final PluginUser pu)
       throws ConfigInvalidException, IOException {
     injector = i;
-    database = db;
     pluginUser = pu;
     replicationUserFactory = ruf;
-    gitRepositoryManager = grm;
     groupBackend = gb;
     configs = getDestinations(site.etc_dir.resolve("replication.config"));
     organisations = getOrganisations(configs);
@@ -138,8 +131,8 @@ public class GitHubDestinations {
             .setForceUpdate(true));
       }
 
-      dest.add(new Destination(injector, c, cfg, database,
-          replicationUserFactory, pluginUser, gitRepositoryManager,
+      dest.add(new Destination(injector, c, cfg,
+          replicationUserFactory, pluginUser,
           groupBackend));
     }
     return dest.build();
