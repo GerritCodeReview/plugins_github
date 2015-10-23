@@ -53,6 +53,7 @@ public class ErrorJob extends AbstractCloneJob implements GitJob {
     return repository;
   }
 
+  @Override
   public void cancel() {
   }
 
