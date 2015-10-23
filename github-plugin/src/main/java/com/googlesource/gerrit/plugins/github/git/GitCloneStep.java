@@ -104,6 +104,7 @@ public class GitCloneStep extends ImportStep {
     return destinationDirectory;
   }
 
+  @Override
   public boolean rollback() {
     File gitDirectory = destinationDirectory;
     if(!gitDirectory.exists()) {

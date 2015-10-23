@@ -75,6 +75,7 @@ public class AccountController implements VelocityController {
     this.accountCache = accountCache;
   }
 
+  @Override
   public void doAction(IdentifiedUser user, GitHubLogin hubLogin,
       HttpServletRequest req, HttpServletResponse resp, ControllerErrors errors)
       throws ServletException, IOException {
