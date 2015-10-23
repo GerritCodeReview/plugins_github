@@ -178,7 +178,7 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
             createChange.addCommitToChange(db, project, gitRepo,
                 destinationBranch, pullRequestOwner, revCommit,
                 getChangeMessage(pr),
-                String.format(TOPIC_FORMAT, pr.getNumber()));
+                String.format(TOPIC_FORMAT, new Integer(pr.getNumber())));
         if (changeId != null) {
           prChanges.add(changeId);
         }
