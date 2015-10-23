@@ -227,14 +227,15 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
       throws GitAPIException, InvalidRemoteException, TransportException {
     status.update(Code.SYNC, "Fetching", "Fetching PullRequests from GitHub");
 
-    Git git = Git.wrap(gitRepo);
-    FetchCommand fetch = git.fetch();
-    fetch.setRemote(ghRepository.getCloneUrl());
-    fetch.setRefSpecs(new RefSpec("+refs/pull/" + pr.getNumber()
-        + "/head:refs/remotes/origin/pr/" + pr.getNumber()));
-    fetch.setProgressMonitor(this);
-    fetch.setCredentialsProvider(ghRepository.getCredentialsProvider());
-    fetch.call();
+    try (Git git = Git.wrap(gitRepo)) {
+      FetchCommand fetch = git.fetch();
+      fetch.setRemote(ghRepository.getCloneUrl());
+      fetch.setRefSpecs(new RefSpec("+refs/pull/" + pr.getNumber()
+          + "/head:refs/remotes/origin/pr/" + pr.getNumber()));
+      fetch.setProgressMonitor(this);
+      fetch.setCredentialsProvider(ghRepository.getCredentialsProvider());
+      fetch.call();
+    }
   }
 
   private GHPullRequest fetchGitHubPullRequestInfo() throws IOException {
