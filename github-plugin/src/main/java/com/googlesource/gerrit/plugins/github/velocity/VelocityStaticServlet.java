@@ -73,16 +73,11 @@ public class VelocityStaticServlet extends HttpServlet {
   }
 
   private static byte[] readResource(final Resource p) throws IOException {
-    final InputStream in = p.getResourceLoader().getResourceStream(p.getName());
-    ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-    try {
+    try (InputStream in = p.getResourceLoader().getResourceStream(p.getName());
+        ByteArrayOutputStream byteOut = new ByteArrayOutputStream()) {
       IOUtils.copy(in, byteOut);
-    } finally {
-      in.close();
-      byteOut.close();
+      return byteOut.toByteArray();
     }
-
-    return byteOut.toByteArray();
   }
 
   private static byte[] compress(final byte[] raw) throws IOException {
