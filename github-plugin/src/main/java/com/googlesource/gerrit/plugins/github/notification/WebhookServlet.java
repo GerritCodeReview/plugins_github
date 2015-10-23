@@ -153,30 +153,31 @@ public class WebhookServlet extends HttpServlet {
       return;
     }
 
-    BufferedReader reader = req.getReader();
-    String body = Joiner.on("\n").join(CharStreams.readLines(reader));
-    if (!validateSignature(req.getHeader("X-Hub-Signature"), body,
-        req.getCharacterEncoding())) {
-      logger.error("Signature mismatch to the payload");
-      resp.sendError(SC_FORBIDDEN);
-      return;
-    }
+    try (BufferedReader reader = req.getReader()) {
+      String body = Joiner.on("\n").join(CharStreams.readLines(reader));
+      if (!validateSignature(req.getHeader("X-Hub-Signature"), body,
+          req.getCharacterEncoding())) {
+        logger.error("Signature mismatch to the payload");
+        resp.sendError(SC_FORBIDDEN);
+        return;
+      }
 
-    session.get().setUserAccountId(Account.Id.fromRef(config.webhookUser));
-    GitHubLogin login = loginProvider.get(config.webhookUser);
-    if (login == null || !login.isLoggedIn()) {
-      logger.error(
-          "Cannot login to github as {}. {}.webhookUser is not correctly configured?",
-          config.webhookUser, GitHubConfig.CONF_SECTION);
-      resp.setStatus(SC_INTERNAL_SERVER_ERROR);
-      return;
-    }
-    requestScopedLoginProvider.get(req).login(login.getToken());
+      session.get().setUserAccountId(Account.Id.fromRef(config.webhookUser));
+      GitHubLogin login = loginProvider.get(config.webhookUser);
+      if (login == null || !login.isLoggedIn()) {
+        logger.error(
+            "Cannot login to github as {}. {}.webhookUser is not correctly configured?",
+            config.webhookUser, GitHubConfig.CONF_SECTION);
+        resp.setStatus(SC_INTERNAL_SERVER_ERROR);
+        return;
+      }
+      requestScopedLoginProvider.get(req).login(login.getToken());
 
-    if (callHander(handler, body)) {
-      resp.setStatus(SC_NO_CONTENT);
-    } else {
-      resp.sendError(SC_INTERNAL_SERVER_ERROR);
+      if (callHander(handler, body)) {
+        resp.setStatus(SC_NO_CONTENT);
+      } else {
+        resp.sendError(SC_INTERNAL_SERVER_ERROR);
+      }
     }
   }
 
