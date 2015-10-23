@@ -35,7 +35,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
-import com.googlesource.gerrit.plugins.github.GitHubURL;
 import com.googlesource.gerrit.plugins.github.git.GitJobStatus.Code;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
@@ -92,8 +91,8 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
   private AccountImporter accountImporter;
 
   @Inject
-  public PullRequestImportJob(@GitHubURL String gitHubUrl,
-      GitRepositoryManager repoMgr, PullRequestCreateChange createChange,
+  public PullRequestImportJob(GitRepositoryManager repoMgr,
+      PullRequestCreateChange createChange,
       ProjectCache projectCache,
       Provider<ReviewDb> schema, AccountImporter accountImporter,
       GitHubRepository.Factory gitHubRepoFactory,

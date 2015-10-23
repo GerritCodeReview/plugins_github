@@ -31,9 +31,6 @@ import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
 
-import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
-import com.googlesource.gerrit.plugins.github.oauth.UserScopedProvider;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,7 +47,6 @@ public class GitHubGroupBackend implements GroupBackend {
 
   @Inject
   GitHubGroupBackend(
-      UserScopedProvider<GitHubLogin> ghLogin,
       GitHubGroupMembership.Factory ghMembershipProvider,
       GitHubGroupsCache ghOrganisationCache) {
     this.ghMembershipProvider = ghMembershipProvider;
