@@ -28,7 +28,6 @@ import com.googlesource.gerrit.plugins.github.oauth.OAuthFilter;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.AccessToken;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthWebFilter;
-import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
 import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
 
 import org.slf4j.Logger;
@@ -50,9 +49,6 @@ public class GitHubOAuthFilter implements Filter {
   private Logger LOG = LoggerFactory.getLogger(GitHubOAuthFilter.class);
 
   private final ScopedProvider<GitHubLogin> loginProvider;
-  private final Scope[] authScopes;
-  private final OAuthProtocol oauth;
-  private final GitHubOAuthConfig config;
   private final Provider<CurrentUser> userProvider;
   private final AccountCache accountCache;
 
@@ -63,9 +59,6 @@ public class GitHubOAuthFilter implements Filter {
       Provider<CurrentUser> userProvider,
       AccountCache accountCache) {
     this.loginProvider = loginProvider;
-    this.authScopes = githubOAuthConfig.getDefaultScopes();
-    this.oauth = oauth;
-    this.config = githubOAuthConfig;
     this.userProvider = userProvider;
     this.accountCache = accountCache;
   }
