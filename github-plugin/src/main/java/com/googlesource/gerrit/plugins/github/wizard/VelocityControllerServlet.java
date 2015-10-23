@@ -108,14 +108,14 @@ public class VelocityControllerServlet extends HttpServlet {
 
   private String trimUpToChar(String string, char ch) {
     if (string.indexOf(ch) >= 0) {
-      string = string.substring(0, string.indexOf(ch));
+      return string.substring(0, string.indexOf(ch));
     }
     return string;
   }
 
   private String trimFromChar(String string, char ch) {
     if (string.lastIndexOf(ch) >= 0) {
-      string = string.substring(string.lastIndexOf(ch) + 1);
+      return string.substring(string.lastIndexOf(ch) + 1);
     }
     return string;
   }
