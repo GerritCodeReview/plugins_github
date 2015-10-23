@@ -44,7 +44,7 @@ public class OAuthGitWrappedResponse extends HttpServletResponseWrapper {
     super.sendError(sc, msg);
   }
 
-  private void requestBasicAuthenticationHandshake() throws IOException {
+  private void requestBasicAuthenticationHandshake() {
     setStatus(SC_UNAUTHORIZED);
     StringBuilder v = new StringBuilder();
     v.append(GIT_AUTHENTICATION_BASIC);
