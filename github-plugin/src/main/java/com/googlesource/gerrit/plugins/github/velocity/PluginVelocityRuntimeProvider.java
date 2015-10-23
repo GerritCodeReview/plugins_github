@@ -50,6 +50,7 @@ public class PluginVelocityRuntimeProvider implements Provider<RuntimeInstance> 
     this.pluginName = pluginName;
   }
 
+  @Override
   public RuntimeInstance get() {
     String pkg = "org.apache.velocity.runtime.resource.loader";
 
