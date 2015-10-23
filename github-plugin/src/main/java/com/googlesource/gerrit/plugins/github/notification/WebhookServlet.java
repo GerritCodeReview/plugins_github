@@ -186,11 +186,10 @@ public class WebhookServlet extends HttpServlet {
     T payload = gson.fromJson(jsonBody, handler.getPayloadType());
     if (payload != null) {
       return handler.doAction(payload);
-    } else {
-      logger.error("Cannot decode JSON payload '" + jsonBody + "' into "
-          + handler.getPayloadType().getName());
-      return false;
     }
+    logger.error("Cannot decode JSON payload '" + jsonBody + "' into "
+        + handler.getPayloadType().getName());
+    return false;
   }
 
   /**

@@ -94,10 +94,9 @@ public class RepositoriesListController implements VelocityController {
       String organisation) throws IOException {
     if (organisation.equals(hubLogin.getMyself().getLogin())) {
       return hubLogin.getMyself().listRepositories(config.repositoryListPageSize, RepositoryListFilter.OWNER);
-    } else {
-      GHOrganization ghOrganisation =
-          hubLogin.getMyself().getAllOrganizations().byLogin(organisation);
-      return ghOrganisation.listRepositories(config.repositoryListPageSize);
     }
+    GHOrganization ghOrganisation =
+        hubLogin.getMyself().getAllOrganizations().byLogin(organisation);
+    return ghOrganisation.listRepositories(config.repositoryListPageSize);
   }
 }
