@@ -86,41 +86,41 @@ public class PullRequestListController implements VelocityController {
   public void doAction(IdentifiedUser user, GitHubLogin hubLogin,
       HttpServletRequest req, HttpServletResponse resp, ControllerErrors errors)
       throws ServletException, IOException {
-    PrintWriter out = resp.getWriter();
+    try (PrintWriter out = resp.getWriter()) {
+      SimpleDateFormat dateFmt = new SimpleDateFormat(DATE_FMT);
+      String organisation = req.getParameter("organisation");
+      String repository = req.getParameter("repository");
+      Map<String, List<GHPullRequest>> pullRequests =
+          getPullRequests(hubLogin, organisation, repository);
 
-    SimpleDateFormat dateFmt = new SimpleDateFormat(DATE_FMT);
-    String organisation = req.getParameter("organisation");
-    String repository = req.getParameter("repository");
-    Map<String, List<GHPullRequest>> pullRequests =
-        getPullRequests(hubLogin, organisation, repository);
+      JsonArray reposPullRequests = new JsonArray();
+      for (Entry<String, List<GHPullRequest>> repoEntry : pullRequests.entrySet()) {
+        JsonObject repoPullRequests = new JsonObject();
 
-    JsonArray reposPullRequests = new JsonArray();
-    for (Entry<String, List<GHPullRequest>> repoEntry : pullRequests.entrySet()) {
-      JsonObject repoPullRequests = new JsonObject();
+        repoPullRequests.add("repository", new JsonPrimitive(repoEntry.getKey()));
 
-      repoPullRequests.add("repository", new JsonPrimitive(repoEntry.getKey()));
+        if (repoEntry.getValue() != null) {
+          JsonArray prArray = new JsonArray();
+          for (GHPullRequest pr : repoEntry.getValue()) {
+            JsonObject prObj = new JsonObject();
+            prObj.add("id", new JsonPrimitive(pr.getNumber()));
+            prObj.add("title", new JsonPrimitive(pr.getTitle()));
+            prObj.add("body", new JsonPrimitive(pr.getBody()));
+            prObj.add("author", new JsonPrimitive(pr.getUser() == null ? "" : pr
+                .getUser().getLogin()));
+            prObj.add("status", new JsonPrimitive(pr.getState().name()));
+            prObj.add("date",
+                new JsonPrimitive(dateFmt.format(pr.getUpdatedAt())));
 
-      if (repoEntry.getValue() != null) {
-        JsonArray prArray = new JsonArray();
-        for (GHPullRequest pr : repoEntry.getValue()) {
-          JsonObject prObj = new JsonObject();
-          prObj.add("id", new JsonPrimitive(pr.getNumber()));
-          prObj.add("title", new JsonPrimitive(pr.getTitle()));
-          prObj.add("body", new JsonPrimitive(pr.getBody()));
-          prObj.add("author", new JsonPrimitive(pr.getUser() == null ? "" : pr
-              .getUser().getLogin()));
-          prObj.add("status", new JsonPrimitive(pr.getState().name()));
-          prObj.add("date",
-              new JsonPrimitive(dateFmt.format(pr.getUpdatedAt())));
-
-          prArray.add(prObj);
+            prArray.add(prObj);
+          }
+          repoPullRequests.add("pullrequests", prArray);
         }
-        repoPullRequests.add("pullrequests", prArray);
-      }
 
-      reposPullRequests.add(repoPullRequests);
+        reposPullRequests.add(repoPullRequests);
+      }
+      out.println(reposPullRequests.toString());
     }
-    out.println(reposPullRequests.toString());
   }
 
   private Map<String, List<GHPullRequest>> getPullRequests(
