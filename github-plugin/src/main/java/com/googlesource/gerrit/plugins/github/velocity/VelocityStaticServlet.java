@@ -161,11 +161,8 @@ public class VelocityStaticServlet extends HttpServlet {
     rsp.setDateHeader("Last-Modified", p.getLastModified());
     rsp.setContentType(type);
     rsp.setContentLength(tosend.length);
-    final OutputStream out = rsp.getOutputStream();
-    try {
+    try (OutputStream out = rsp.getOutputStream()) {
       out.write(tosend);
-    } finally {
-      out.close();
     }
   }
 }
