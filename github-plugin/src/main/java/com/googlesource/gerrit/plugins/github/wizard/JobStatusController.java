@@ -42,8 +42,9 @@ public class JobStatusController {
     for (GitJob job : jobs) {
       jobListStatus.add(job.getStatus());
     }
-    new Gson().toJson(jobListStatus, jobListStatus.getClass(), new JsonWriter(
-        resp.getWriter()));
+    try (JsonWriter writer = new JsonWriter(resp.getWriter())) {
+      new Gson().toJson(jobListStatus, jobListStatus.getClass(), writer);
+    }
   }
 
 
