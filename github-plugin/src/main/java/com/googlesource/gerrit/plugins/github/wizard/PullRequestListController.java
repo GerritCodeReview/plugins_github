@@ -166,14 +166,15 @@ public class PullRequestListController implements VelocityController {
       throws IncorrectObjectTypeException, IOException {
     List<GHPullRequest> repoPullRequests = Lists.newArrayList();
 
-    if (numPullRequests < config.pullRequestListLimit) {
+    int count = numPullRequests;
+    if (count < config.pullRequestListLimit) {
       for (GHPullRequest ghPullRequest : githubRepo.get()
           .listPullRequests(GHIssueState.OPEN)) {
 
         if (isAnyCommitOfPullRequestToBeImported(db, gitRepo,
             ghPullRequest)) {
           repoPullRequests.add(ghPullRequest);
-          numPullRequests++;
+          count++;
         }
       }
       if (repoPullRequests.size() > 0) {
@@ -182,7 +183,7 @@ public class PullRequestListController implements VelocityController {
     } else {
       allPullRequests.put(ghRepoName, null);
     }
-    return numPullRequests;
+    return count;
   }
 
   private Optional<GHRepository> getGHRepository(GitHubLogin login,
