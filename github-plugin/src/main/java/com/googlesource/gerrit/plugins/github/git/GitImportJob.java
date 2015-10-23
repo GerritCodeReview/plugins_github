@@ -77,16 +77,16 @@ public class GitImportJob extends AbstractCloneJob implements Runnable,
   public String getStatusDescription() {
     if (exception != null) {
       return getErrorDescription(exception);
-    } else {
-      switch (status.getStatus()) {
-        case COMPLETE:
-          return "Cloned (100%)";
-        case CANCELLED:
-          return "Cancelled";
-        default:
-          return "Phase-" + currTask + " / " + task + " (" + lastPercentage
-              + "%)";
-      }
+    }
+
+    switch (status.getStatus()) {
+      case COMPLETE:
+        return "Cloned (100%)";
+      case CANCELLED:
+        return "Cancelled";
+      default:
+        return "Phase-" + currTask + " / " + task + " (" + lastPercentage
+            + "%)";
     }
   }
 

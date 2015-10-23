@@ -177,14 +177,13 @@ public class PullRequestCreateChange {
       insertPatchSet(bu, repo, destChange, pullRequestCommit,
           refControl, pullRequestMesage);
       return destChange.getId();
-    } else {
-
-      // Change key not found on destination branch. We can create a new
-      // change.
-      return createNewChange(db, bu, changeKey, project.getNameKey(), destRef,
-          pullRequestOwner, pullRequestCommit, refControl, pullRequestMesage,
-          topic);
     }
+
+    // Change key not found on destination branch. We can create a new
+    // change.
+    return createNewChange(db, bu, changeKey, project.getNameKey(), destRef,
+        pullRequestOwner, pullRequestCommit, refControl, pullRequestMesage,
+        topic);
   }
 
   private void insertPatchSet(BatchUpdate bu, Repository git, Change change,

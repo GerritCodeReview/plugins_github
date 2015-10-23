@@ -33,9 +33,8 @@ public class AbstractCloneJob {
       Throwable cause = exception.getCause();
       if(cause != null) {
       return getErrorDescription(cause);
-      } else {
-        return "Import startup failed";
       }
+      return "Import startup failed";
     } else {
       return "Internal error";
     }

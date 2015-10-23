@@ -61,8 +61,7 @@ public class GitHubTopMenu implements TopMenu {
         // Only with HTTP authentication we can transparently trigger OAuth if needed
         authConfig.getAuthType().equals(AuthType.HTTP)) {
       return menuEntries;
-    } else {
-      return Collections.emptyList();
     }
+    return Collections.emptyList();
   }
 }
