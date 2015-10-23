@@ -89,7 +89,8 @@ public class OAuthWebFilter implements Filter {
         login(request, httpRequest, httpResponse, ghLogin);
       } else {
         if (OAuthProtocol.isOAuthLogout(httpRequest)) {
-          response = logout(request, response, chain, httpRequest);
+          httpResponse =
+              (HttpServletResponse) logout(request, httpResponse, chain, httpRequest);
         }
 
         if (ghLogin != null && ghLogin.isLoggedIn()) {
@@ -99,7 +100,7 @@ public class OAuthWebFilter implements Filter {
                   GITHUB_EXT_ID + ghLogin.getToken().accessToken);
         }
 
-        chain.doFilter(httpRequest, response);
+        chain.doFilter(httpRequest, httpResponse);
       }
     } finally {
       HttpSession httpSession = httpRequest.getSession();
