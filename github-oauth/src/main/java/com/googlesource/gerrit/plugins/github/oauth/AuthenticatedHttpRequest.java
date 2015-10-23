@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
 public class AuthenticatedHttpRequest extends HttpServletRequestWrapper {
-  private HashMap<String, String> headers = new HashMap<String, String>();
+  private HashMap<String, String> headers = new HashMap<>();
 
   public AuthenticatedHttpRequest(HttpServletRequest request,
       String... headerNamesValues) {
@@ -41,7 +41,7 @@ public class AuthenticatedHttpRequest extends HttpServletRequestWrapper {
   @Override
   public Enumeration<String> getHeaderNames() {
     final Enumeration<String> wrappedHeaderNames = super.getHeaderNames();
-    HashSet<String> headerNames = new HashSet<String>(headers.keySet());
+    HashSet<String> headerNames = new HashSet<>(headers.keySet());
     while (wrappedHeaderNames.hasMoreElements()) {
       headerNames.add(wrappedHeaderNames.nextElement());
     }

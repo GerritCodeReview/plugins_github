@@ -181,10 +181,10 @@ public class GitHubLogin implements Serializable {
   }
 
   private SortedSet<Scope> getScopes(String baseScopeKey, Scope... scopes) {
-    HashSet<Scope> fullScopes = new HashSet<Scope>(scopesForKey(baseScopeKey));
+    HashSet<Scope> fullScopes = new HashSet<>(scopesForKey(baseScopeKey));
     fullScopes.addAll(Arrays.asList(scopes));
 
-    return new TreeSet<Scope>(fullScopes);
+    return new TreeSet<>(fullScopes);
   }
 
   private List<Scope> scopesForKey(String baseScopeKey) {

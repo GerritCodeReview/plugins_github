@@ -137,7 +137,7 @@ class GitHubOAuthConfig {
   }
 
   private List<Scope> parseScopesString(String scopesString) {
-    ArrayList<Scope> scopes = new ArrayList<OAuthProtocol.Scope>();
+    ArrayList<Scope> scopes = new ArrayList<>();
     if (Strings.emptyToNull(scopesString) != null) {
       String[] scopesStrings = scopesString.split(",");
       for (String scope : scopesStrings) {
