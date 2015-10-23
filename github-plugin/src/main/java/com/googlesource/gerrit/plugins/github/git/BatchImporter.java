@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class BatchImporter {
 
-  private final ConcurrentHashMap<Integer, GitJob> jobs = new ConcurrentHashMap<Integer, GitJob>();
+  private final ConcurrentHashMap<Integer, GitJob> jobs = new ConcurrentHashMap<>();
   private final JobExecutor executor;
   protected final IdentifiedUser user;
 

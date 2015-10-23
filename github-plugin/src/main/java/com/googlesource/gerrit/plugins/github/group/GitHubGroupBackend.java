@@ -98,7 +98,7 @@ public class GitHubGroupBackend implements GroupBackend {
       log.debug("Full list of user's organisations: {}", ghOrgs);
 
       Builder<GroupReference> orgGroups =
-          new ImmutableSet.Builder<GroupReference>();
+          new ImmutableSet.Builder<>();
       for (String organizationName : ghOrgs) {
         if (organizationName.toLowerCase().startsWith(orgNamePrefixLowercase)) {
           GroupReference teamGroupRef =
