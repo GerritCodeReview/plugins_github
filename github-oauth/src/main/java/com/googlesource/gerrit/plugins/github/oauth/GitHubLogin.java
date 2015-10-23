@@ -71,17 +71,15 @@ public class GitHubLogin implements Serializable {
   public GHMyself getMyself() throws IOException {
     if (isLoggedIn()) {
       return getHub().getMyself();
-    } else {
-      return null;
     }
+    return null;
   }
 
   public Set<String> getMyOrganisationsLogins() throws IOException {
     if (isLoggedIn()) {
       return getHub().getMyOrganizations().keySet();
-    } else {
-      return Collections.emptySet();
     }
+    return Collections.emptySet();
   }
 
   @Inject
@@ -141,9 +139,8 @@ public class GitHubLogin implements Serializable {
   public GitHub getHub() throws IOException {
     if (token == null) {
       return null;
-    } else {
-      return GitHub.connectUsingOAuth(config.gitHubApiUrl, token.accessToken);
     }
+    return GitHub.connectUsingOAuth(config.gitHubApiUrl, token.accessToken);
   }
 
   private String getScopesKey(HttpServletRequest request,

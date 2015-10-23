@@ -151,8 +151,7 @@ class GitHubOAuthConfig {
   public Scope[] getDefaultScopes() {
     if (scopes == null || scopes.get("scopes") == null) {
       return new Scope[0];
-    } else {
-      return scopes.get("scopes").toArray(new Scope[0]);
     }
+    return scopes.get("scopes").toArray(new Scope[0]);
   }
 }

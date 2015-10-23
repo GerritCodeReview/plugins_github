@@ -53,8 +53,7 @@ public class AuthenticatedHttpRequest extends HttpServletRequestWrapper {
     String headerValue = headers.get(name);
     if (headerValue != null) {
       return headerValue;
-    } else {
-      return super.getHeader(name);
     }
+    return super.getHeader(name);
   }
 }
