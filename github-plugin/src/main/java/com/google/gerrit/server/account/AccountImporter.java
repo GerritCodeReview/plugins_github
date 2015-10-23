@@ -65,10 +65,9 @@ public class AccountImporter {
                     new AccountExternalId.Key(AccountExternalId.SCHEME_GERRIT,
                         login))));
         return accountId;
-      } else {
-        throw new IOException("Cannot import GitHub account " + login
-            + ": HTTP Status " + accountResponse.statusCode());
       }
+      throw new IOException("Cannot import GitHub account " + login
+          + ": HTTP Status " + accountResponse.statusCode());
     }
   }
 }
