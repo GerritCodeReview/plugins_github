@@ -85,14 +85,14 @@ public class GitHubDestinations {
   }
 
   private List<String> getOrganisations(List<Destination> destinations) {
-    ArrayList<String> organisations = new ArrayList<>();
+    ArrayList<String> result = new ArrayList<>();
     for (Destination destination : destinations) {
       for (URIish urish : destination.getRemote().getURIs()) {
         String[] uriPathParts = urish.getPath().split("/");
-        organisations.add(uriPathParts[0]);
+        result.add(uriPathParts[0]);
       }
     }
-    return organisations;
+    return result;
   }
 
   private List<Destination> getDestinations(Path cfgPath)

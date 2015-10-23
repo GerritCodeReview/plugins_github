@@ -133,9 +133,9 @@ public class GitImportJob extends AbstractCloneJob implements Runnable,
   }
 
   @Override
-  public void beginTask(String task, int totalUnits) {
+  public void beginTask(String taskName, int totalUnits) {
     this.currTask++;
-    this.task = task;
+    this.task = taskName;
     this.totUnits = totalUnits;
     this.currUnit = 0;
     this.lastPercentage = 0;
