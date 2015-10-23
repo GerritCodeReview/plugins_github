@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76a9e55d_a505be53",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/velocity/VelocityStaticServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-10-23T22:23:22Z",
+      "side": 1,
+      "message": "Are we sure that the byteOut has been completely flushed? It was outside the try / finally block to get the byte array *after* the close",
+      "range": {
+        "startLine": 79,
+        "startChar": 13,
+        "endLine": 79,
+        "endChar": 34
+      },
+      "revId": "e9214338172bd90628b75925dc68cd648515fcfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
