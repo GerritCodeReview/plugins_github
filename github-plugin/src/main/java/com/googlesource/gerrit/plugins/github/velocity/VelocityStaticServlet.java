@@ -73,16 +73,11 @@ public class VelocityStaticServlet extends HttpServlet {
   }
 
   private static byte[] readResource(final Resource p) throws IOException {
-    final InputStream in = p.getResourceLoader().getResourceStream(p.getName());
-    ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-    try {
+    try (InputStream in = p.getResourceLoader().getResourceStream(p.getName());
+        ByteArrayOutputStream byteOut = new ByteArrayOutputStream()) {
       IOUtils.copy(in, byteOut);
-    } finally {
-      in.close();
-      byteOut.close();
+      return byteOut.toByteArray();
     }
-
-    return byteOut.toByteArray();
   }
 
   private static byte[] compress(final byte[] raw) throws IOException {
@@ -161,11 +156,8 @@ public class VelocityStaticServlet extends HttpServlet {
     rsp.setDateHeader("Last-Modified", p.getLastModified());
     rsp.setContentType(type);
     rsp.setContentLength(tosend.length);
-    final OutputStream out = rsp.getOutputStream();
-    try {
+    try (OutputStream out = rsp.getOutputStream()) {
       out.write(tosend);
-    } finally {
-      out.close();
     }
   }
 }
