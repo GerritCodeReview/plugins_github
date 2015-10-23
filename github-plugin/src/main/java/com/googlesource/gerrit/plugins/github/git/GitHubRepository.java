@@ -100,24 +100,24 @@ public class GitHubRepository extends GHRepository {
       @Override
       public boolean get(URIish uri, CredentialItem... items)
           throws UnsupportedCredentialItem {
-        String username = uri.getUser();
-        if (username == null) {
-          username = GitHubRepository.this.username;
+        String _username = uri.getUser();
+        if (_username == null) {
+          _username = GitHubRepository.this.username;
         }
-        if (username == null) {
+        if (_username == null) {
           return false;
         }
 
-        String password = GitHubRepository.this.password;
+        String _password = GitHubRepository.this.password;
         if (password == null) {
           return false;
         }
 
         for (CredentialItem i : items) {
           if (i instanceof CredentialItem.Username) {
-            ((CredentialItem.Username) i).setValue(username);
+            ((CredentialItem.Username) i).setValue(_username);
           } else if (i instanceof CredentialItem.Password) {
-            ((CredentialItem.Password) i).setValue(password.toCharArray());
+            ((CredentialItem.Password) i).setValue(_password.toCharArray());
           } else {
             throw new UnsupportedCredentialItem(uri, i.getPromptText());
           }

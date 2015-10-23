@@ -56,8 +56,6 @@ public class GitHubGroupsCache {
 
   public static class OrganisationLoader extends
       CacheLoader<String, Multimap<String, String>> {
-    private static final Logger log = LoggerFactory
-        .getLogger(OrganisationLoader.class);
     private final UserScopedProvider<GitHubLogin> ghLoginProvider;
 
     @Inject

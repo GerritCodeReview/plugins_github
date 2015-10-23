@@ -116,9 +116,9 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
   }
 
   private Project fetchGerritProject(ProjectCache projectCache,
-      String organisation, String repoName) {
+      String fetchOrganisation, String fetchRepoName) {
     NameKey projectNameKey =
-        Project.NameKey.parse(organisation + "/" + repoName);
+        Project.NameKey.parse(fetchOrganisation + "/" + fetchRepoName);
     ProjectState projectState = projectCache.get(projectNameKey);
     return projectState.getProject();
   }

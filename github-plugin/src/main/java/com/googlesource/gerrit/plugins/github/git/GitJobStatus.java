@@ -43,9 +43,9 @@ public class GitJobStatus {
     this.value = "Initializing ...";
   }
 
-  public void update(Code code, String shortDescription, String description) {
+  public void update(Code code, String sDescription, String description) {
     this.status = code;
-    this.shortDescription = shortDescription;
+    this.shortDescription = sDescription;
     this.value = description;
   }
 
@@ -61,10 +61,10 @@ public class GitJobStatus {
     return value;
   }
 
-  public void update(Code status) {
-    this.status = status;
-    this.shortDescription = status.name();
-    this.value = status.name();
+  public void update(Code statusCode) {
+    this.status = statusCode;
+    this.shortDescription = statusCode.name();
+    this.value = statusCode.name();
   }
 
   public void printJson(PrintWriter out) throws IOException {
