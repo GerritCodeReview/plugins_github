@@ -42,7 +42,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.kohsuke.github.GHIssueState;
-import org.kohsuke.github.GHPerson;
 import org.kohsuke.github.GHPullRequest;
 import org.kohsuke.github.GHPullRequestCommitDetail;
 import org.kohsuke.github.GHRepository;
@@ -126,21 +125,14 @@ public class PullRequestListController implements VelocityController {
   private Map<String, List<GHPullRequest>> getPullRequests(
       GitHubLogin hubLogin, String organisation, String repository)
       throws IOException {
-    GHPerson ghOwner;
-    if (organisation.equals(hubLogin.getMyself().getLogin())) {
-      ghOwner = hubLogin.getMyself();
-    } else {
-      ghOwner = hubLogin.getHub().getOrganization(organisation);
-    }
     return getPullRequests(
         hubLogin,
-        ghOwner,
         projectsCache.byName(organisation + "/"
             + Strings.nullToEmpty(repository)));
   }
 
   private Map<String, List<GHPullRequest>> getPullRequests(GitHubLogin login,
-      GHPerson ghOwner, Iterable<NameKey> repos) throws IOException {
+      Iterable<NameKey> repos) throws IOException {
     int numPullRequests = 0;
     Map<String, List<GHPullRequest>> allPullRequests = Maps.newHashMap();
     try (ReviewDb db = schema.get()) {
