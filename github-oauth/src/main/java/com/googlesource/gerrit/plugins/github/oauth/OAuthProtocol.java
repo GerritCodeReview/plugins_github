@@ -364,7 +364,7 @@ public class OAuthProtocol {
   public AccessToken getAccessToken(OAuthVerifier code) throws IOException {
     HttpPost post = new HttpPost(config.gitHubOAuthAccessTokenUrl);
     post.setHeader("Accept", "application/json");
-    List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+    List<NameValuePair> nvps = new ArrayList<>();
     nvps.add(new BasicNameValuePair("client_id", config.gitHubClientId));
     nvps.add(new BasicNameValuePair("client_secret", config.gitHubClientSecret));
     nvps.add(new BasicNameValuePair("code", code.getValue()));

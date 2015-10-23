@@ -53,7 +53,7 @@ public class ReplicationConfig {
     replicationConf.load();
     replicationConf.setString("remote", username, "url", url);
     List<String> projects =
-        new ArrayList<String>(Arrays.asList(replicationConf.getStringList(
+        new ArrayList<>(Arrays.asList(replicationConf.getStringList(
             "remote", username, "projects")));
     projects.add(projectName);
     replicationConf.setStringList("remote", username, "projects", projects);

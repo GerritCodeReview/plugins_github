@@ -75,7 +75,7 @@ public class OAuthGitFilter implements Filter {
   private ScopedProvider<GitHubLogin> ghLoginProvider;
 
   public static class BasicAuthHttpRequest extends HttpServletRequestWrapper {
-    private HashMap<String, String> headers = new HashMap<String, String>();
+    private HashMap<String, String> headers = new HashMap<>();
 
     public BasicAuthHttpRequest(HttpServletRequest request, String username,
         String password) {
@@ -96,7 +96,7 @@ public class OAuthGitFilter implements Filter {
     @Override
     public Enumeration<String> getHeaderNames() {
       final Enumeration<String> wrappedHeaderNames = super.getHeaderNames();
-      HashSet<String> headerNames = new HashSet<String>(headers.keySet());
+      HashSet<String> headerNames = new HashSet<>(headers.keySet());
       while (wrappedHeaderNames.hasMoreElements()) {
         headerNames.add(wrappedHeaderNames.nextElement());
       }
