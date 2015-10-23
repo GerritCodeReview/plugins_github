@@ -56,7 +56,7 @@ public class GitHubGroupsCache {
 
   public static class OrganisationLoader extends
       CacheLoader<String, Multimap<String, String>> {
-    private static final Logger log = LoggerFactory
+    private static final Logger logger = LoggerFactory
         .getLogger(OrganisationLoader.class);
     private final UserScopedProvider<GitHubLogin> ghLoginProvider;
 
@@ -70,26 +70,26 @@ public class GitHubGroupsCache {
       Multimap<String, String> orgsTeams = HashMultimap.create();
       GitHubLogin ghLogin = ghLoginProvider.get(username);
       if (ghLogin == null) {
-        log.warn("Cannot login to GitHub on behalf of '{}'", username);
+        logger.warn("Cannot login to GitHub on behalf of '{}'", username);
         return orgsTeams;
       }
 
       try {
         loadOrganisationsAndTeams(username, orgsTeams, ghLogin);
       } catch (FileNotFoundException teamsNotFound) {
-        log.info(
+        logger.info(
             "Cannot access teams for user '{}': falling back to list of public organisations",
             username);
         loadOrganisations(username, orgsTeams, ghLogin);
       }
 
-      log.debug("GitHub user '{}' belongs to: {}", username, orgsTeams);
+      logger.debug("GitHub user '{}' belongs to: {}", username, orgsTeams);
       return orgsTeams;
     }
 
     private void loadOrganisationsAndTeams(String username, Multimap<String, String> orgsTeams,
         GitHubLogin ghLogin) throws IOException {
-      log.debug("Getting list of organisations/teams for user '{}'", username);
+      logger.debug("Getting list of organisations/teams for user '{}'", username);
       Map<String, Set<GHTeam>> myOrganisationsLogins =
           ghLogin.getHub().getMyTeams();
       for (Entry<String, Set<GHTeam>> teamsOrg : myOrganisationsLogins
@@ -103,7 +103,7 @@ public class GitHubGroupsCache {
 
     private void loadOrganisations(String username,
         Multimap<String, String> orgsTeams, GitHubLogin ghLogin) throws IOException {
-      log.debug("Getting list of public organisations for user '{}'", username);
+      logger.debug("Getting list of public organisations for user '{}'", username);
       Set<String> organisations = ghLogin.getMyOrganisationsLogins();
       for (String org : organisations) {
         orgsTeams.put(org, EVERYONE_TEAM_NAME);

@@ -208,17 +208,17 @@ public class OAuthWebFilter implements Filter {
     currentSecureConfig.save();
   }
 
-  private boolean updateConfigSection(FileBasedConfig config, String section,
+  private boolean updateConfigSection(FileBasedConfig c, String section,
       String user, String password) {
-    String configUser = config.getString("remote", section, "username");
-    String configPassword = config.getString("remote", section, "password");
+    String configUser = c.getString("remote", section, "username");
+    String configPassword = c.getString("remote", section, "password");
     if (!StringUtils.equals(configUser, user)
         || StringUtils.equals(configPassword, password)) {
       return false;
     }
 
-    config.setString("remote", section, "username", user);
-    config.setString("remote", section, "password", password);
+    c.setString("remote", section, "username", user);
+    c.setString("remote", section, "password", password);
     return true;
   }
 

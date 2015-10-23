@@ -121,15 +121,15 @@ class GitHubOAuthConfig {
   }
 
   private Map<String, List<Scope>> getScopes(Config config) {
-    Map<String, List<Scope>> scopes = Maps.newHashMap();
+    Map<String, List<Scope>> result = Maps.newHashMap();
     Set<String> configKeys = config.getNames(CONF_SECTION, true);
     for (String key : configKeys) {
       if (key.startsWith("scopes")) {
         String scopesString = config.getString(CONF_SECTION, null, key);
-        scopes.put(key, parseScopesString(scopesString));
+        result.put(key, parseScopesString(scopesString));
       }
     }
-    return scopes;
+    return result;
   }
 
   private String trimTrailingSlash(String url) {
@@ -137,15 +137,15 @@ class GitHubOAuthConfig {
   }
 
   private List<Scope> parseScopesString(String scopesString) {
-    ArrayList<Scope> scopes = new ArrayList<>();
+    ArrayList<Scope> result = new ArrayList<>();
     if (Strings.emptyToNull(scopesString) != null) {
       String[] scopesStrings = scopesString.split(",");
       for (String scope : scopesStrings) {
-        scopes.add(Enum.valueOf(Scope.class, scope.trim()));
+        result.add(Enum.valueOf(Scope.class, scope.trim()));
       }
     }
 
-    return scopes;
+    return result;
   }
 
   public Scope[] getDefaultScopes() {
