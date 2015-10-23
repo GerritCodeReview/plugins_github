@@ -25,6 +25,7 @@ public class GitJobStatus {
   public enum Code {
     SYNC, COMPLETE, FAILED, CANCELLED;
 
+    @Override
     public String toString() {
       return name().toLowerCase();
     }
