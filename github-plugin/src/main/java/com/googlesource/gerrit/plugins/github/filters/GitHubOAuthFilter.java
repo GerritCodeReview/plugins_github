@@ -23,9 +23,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
-import com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthFilter;
-import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.AccessToken;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthWebFilter;
 import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
@@ -54,8 +52,6 @@ public class GitHubOAuthFilter implements Filter {
 
   @Inject
   public GitHubOAuthFilter(ScopedProvider<GitHubLogin> loginProvider,
-      GitHubOAuthConfig githubOAuthConfig, 
-      OAuthProtocol oauth, 
       Provider<CurrentUser> userProvider,
       AccountCache accountCache) {
     this.loginProvider = loginProvider;
