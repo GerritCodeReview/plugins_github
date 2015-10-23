@@ -94,14 +94,14 @@ public class CreateProjectStep extends ImportStep {
         Permission.REMOVE_REVIEWER, Permission.SUBMIT, Permission.REBASE);
 
     PermissionRule reviewRange = new PermissionRule(getMyGroup());
-    reviewRange.setMin(-2);
-    reviewRange.setMax(+2);
+    reviewRange.setMin(new Integer(-2));
+    reviewRange.setMax(new Integer(+2));
     addPermission(CODE_REVIEW_REFS, Permission.LABEL + CODE_REVIEW_LABEL,
         reviewRange);
 
     PermissionRule verifiedRange = new PermissionRule(getMyGroup());
-    verifiedRange.setMin(-1);
-    verifiedRange.setMax(+1);
+    verifiedRange.setMin(new Integer(-1));
+    verifiedRange.setMax(new Integer(+1));
     addPermission(CODE_REVIEW_REFS, Permission.LABEL + VERIFIED_LABEL,
         verifiedRange);
 
@@ -109,13 +109,13 @@ public class CreateProjectStep extends ImportStep {
         Permission.PUSH_MERGE);
 
     PermissionRule forcePush = new PermissionRule(getMyGroup());
-    forcePush.setForce(true);
+    forcePush.setForce(Boolean.TRUE);
     addPermission(AccessSection.HEADS, Permission.PUSH, forcePush);
 
     addPermissions(TAGS_REFS, Permission.PUSH_TAG, Permission.PUSH_SIGNED_TAG);
 
     PermissionRule removeTag = new PermissionRule(getMyGroup());
-    removeTag.setForce(true);
+    removeTag.setForce(Boolean.TRUE);
     addPermission(TAGS_REFS, Permission.PUSH, removeTag);
   }
   
