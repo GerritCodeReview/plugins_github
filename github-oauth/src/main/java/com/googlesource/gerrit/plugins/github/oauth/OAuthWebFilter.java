@@ -131,7 +131,7 @@ public class OAuthWebFilter implements Filter {
 
   private ServletResponse logout(ServletRequest request,
       ServletResponse response, FilterChain chain,
-      HttpServletRequest httpRequest) throws IOException, ServletException {
+      HttpServletRequest httpRequest) {
     getGitHubLogin(request).logout();
     return new GitHubLogoutServletResponse((HttpServletResponse) response,
         config.logoutRedirectUrl);
