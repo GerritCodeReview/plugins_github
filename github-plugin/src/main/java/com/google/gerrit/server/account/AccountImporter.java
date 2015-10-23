@@ -56,19 +56,18 @@ public class AccountImporter {
       accountInput.name = MoreObjects.firstNonNull(name, login);
       Response<AccountInfo> accountResponse =
           createAccount.apply(TopLevelResource.INSTANCE, accountInput);
-      if (accountResponse.statusCode() == HttpStatus.SC_CREATED) {
-        Id accountId = new Account.Id(
-            accountResponse.value()._accountId.intValue());
-        db.accountExternalIds().insert(
-            Arrays
-                .asList(new AccountExternalId(accountId,
-                    new AccountExternalId.Key(AccountExternalId.SCHEME_GERRIT,
-                        login))));
-        return accountId;
-      } else {
+      if (accountResponse.statusCode() != HttpStatus.SC_CREATED) {
         throw new IOException("Cannot import GitHub account " + login
             + ": HTTP Status " + accountResponse.statusCode());
       }
+      Id accountId = new Account.Id(
+          accountResponse.value()._accountId.intValue());
+      db.accountExternalIds().insert(
+          Arrays
+              .asList(new AccountExternalId(accountId,
+                  new AccountExternalId.Key(AccountExternalId.SCHEME_GERRIT,
+                      login))));
+      return accountId;
     }
   }
 }

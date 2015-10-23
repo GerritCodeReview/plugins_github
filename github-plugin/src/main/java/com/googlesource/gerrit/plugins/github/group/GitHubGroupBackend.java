@@ -127,8 +127,7 @@ public class GitHubGroupBackend implements GroupBackend {
     String username = user.getUserName();
     if (Strings.isNullOrEmpty(username)) {
       return GroupMembership.EMPTY;
-    } else {
-      return ghMembershipProvider.get(username);
     }
+    return ghMembershipProvider.get(username);
   }
 }

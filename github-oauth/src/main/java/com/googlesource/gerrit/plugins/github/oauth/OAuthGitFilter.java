@@ -108,9 +108,8 @@ public class OAuthGitFilter implements Filter {
       String headerValue = headers.get(name);
       if (headerValue != null) {
         return headerValue;
-      } else {
-        return super.getHeader(name);
       }
+      return super.getHeader(name);
     }
   }
 
@@ -216,9 +215,8 @@ public class OAuthGitFilter implements Filter {
     int port = originalUrl.getPort();
     if (port == -1) {
       return protocol.equals("https") ? 443 : 80;
-    } else {
-      return port;
     }
+    return port;
   }
 
   private Cookie getGerritLoginCookie(String username,
@@ -290,10 +288,9 @@ public class OAuthGitFilter implements Filter {
     String hdr = req.getHeader(GIT_AUTHORIZATION_HEADER);
     if (hdr == null || !hdr.startsWith(GIT_AUTHENTICATION_BASIC)) {
       return null;
-    } else {
-      return new String(Base64.decodeBase64(hdr
-          .substring(GIT_AUTHENTICATION_BASIC.length())), encoding(req));
     }
+    return new String(Base64.decodeBase64(hdr
+        .substring(GIT_AUTHENTICATION_BASIC.length())), encoding(req));
   }
 
   @Override

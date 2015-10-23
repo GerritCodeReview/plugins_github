@@ -66,9 +66,8 @@ public class IdentifiedUserGitHubLoginProvider implements
         GitHubLogin login = new GitHubLogin(config);
         login.login(accessToken);
         return login;
-      } else {
-        return null;
       }
+      return null;
     } catch (IOException e) {
       log.error("Cannot login to GitHub as '" + username + "'", e);
       return null;

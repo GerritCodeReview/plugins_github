@@ -59,9 +59,8 @@ class PullRequestHandler implements WebhookEventHandler<PullRequest> {
           PullRequestImportType.Commits);
       logger.info("Imported {}/{}#{}", organization, name, prNumber);
       return true;
-    } else {
-      return false;
     }
+    return false;
   }
 
   @Override

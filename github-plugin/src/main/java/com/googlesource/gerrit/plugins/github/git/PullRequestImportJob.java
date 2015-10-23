@@ -206,9 +206,8 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
     AccountExternalId userExtId = gerritExtIds.get(userExtKey);
     if (userExtId == null) {
       return accountImporter.importAccount(login, name, email);
-    } else {
-      return userExtId.getAccountId();
     }
+    return userExtId.getAccountId();
   }
 
   private String getChangeMessage(GHPullRequest pr) {
@@ -260,10 +259,9 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
   public GHRepository getGHRepository() throws IOException {
     if (ghLogin.getMyself().getLogin().equals(organisation)) {
       return ghLogin.getMyself().getRepository(repoName);
-    } else {
-      return ghLogin.getHub().getOrganization(organisation)
-          .getRepository(repoName);
     }
+    return ghLogin.getHub().getOrganization(organisation)
+        .getRepository(repoName);
   }
 
   @Override

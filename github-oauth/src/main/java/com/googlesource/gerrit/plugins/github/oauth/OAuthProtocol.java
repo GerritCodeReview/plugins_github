@@ -225,10 +225,9 @@ public class OAuthProtocol {
       if (isError()) {
         return "Error AccessToken [error=" + error + ", error_description="
             + errorDescription + ", error_uri=" + errorUri + "]";
-      } else {
-        return "AccessToken [access_token=" + accessToken + ", token_type="
-            + tokenType + "]";
       }
+      return "AccessToken [access_token=" + accessToken + ", token_type="
+          + tokenType + "]";
     }
 
     @Override
@@ -407,9 +406,8 @@ public class OAuthProtocol {
     String finalUrlSuffix = "?" + FINAL_URL_PARAM + "=true";
     if (meEnd > 0) {
       return state(request).substring(meEnd + 1) + finalUrlSuffix;
-    } else {
-      return finalUrlSuffix;
     }
+    return finalUrlSuffix;
   }
 
   private static String state(ServletRequest request) {
