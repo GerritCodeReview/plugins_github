@@ -15,7 +15,6 @@ package com.googlesource.gerrit.plugins.github.velocity;
 
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;

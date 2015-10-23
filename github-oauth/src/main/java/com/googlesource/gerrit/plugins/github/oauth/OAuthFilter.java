@@ -13,7 +13,6 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.oauth;
 
-import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import com.google.gerrit.httpd.GitOverHttpServlet;
 import com.google.gerrit.httpd.XGerritAuth;
@@ -25,8 +24,6 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
