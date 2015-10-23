@@ -22,6 +22,30 @@
       "revId": "85ba261d0e0045586f444c2fbfae03832bd8e519",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "567a21ab_d4fbdc70",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthWebFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-23T10:02:47Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/71853",
+      "parentUuid": "767ba5ad_f56ff8e5",
+      "range": {
+        "startLine": 92,
+        "startChar": 10,
+        "endLine": 92,
+        "endChar": 67
+      },
+      "revId": "85ba261d0e0045586f444c2fbfae03832bd8e519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
