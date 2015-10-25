@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76a9e55d_45964a4d",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/AuthenticatedHttpRequest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-10-25T15:23:10Z",
+      "side": 1,
+      "message": "This would be more clear rewritten differently:\nMoreObjects.firstNotNull(headerValue, super.getHeader(name))",
+      "range": {
+        "startLine": 56,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 33
+      },
+      "revId": "b409f890e63ff08b9d52549b8102ef5d6e0bdfda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76a9e55d_659b4672",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthGitFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-10-25T15:23:10Z",
+      "side": 1,
+      "message": "Better rewritten as:\nMoreObjects.firstNotNull(headers.get(name), super.getHeader(name))",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 35
+      },
+      "revId": "b409f890e63ff08b9d52549b8102ef5d6e0bdfda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76a9e55d_05a05299",
+        "filename": "github-plugin/src/main/java/com/google/gerrit/server/account/AccountImporter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-10-25T15:23:10Z",
+      "side": 1,
+      "message": "I typically prefer to leave the error condition inside the if() and leave the rest as the method body",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 61
+      },
+      "revId": "b409f890e63ff08b9d52549b8102ef5d6e0bdfda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
