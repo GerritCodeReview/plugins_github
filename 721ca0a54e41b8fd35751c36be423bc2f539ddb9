@@ -46,6 +46,30 @@
       "revId": "721ca0a54e41b8fd35751c36be423bc2f539ddb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76a9e55d_c5579a3a",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestImportJob.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-10-25T15:01:34Z",
+      "side": 1,
+      "message": "Not really providing any benefit: we are just fetching on an already opened Git repo, I don\u0027t see the value/benefit in creating another one.",
+      "parentUuid": "767ba5ad_d5519cf7",
+      "range": {
+        "startLine": 230,
+        "startChar": 4,
+        "endLine": 230,
+        "endChar": 39
+      },
+      "revId": "721ca0a54e41b8fd35751c36be423bc2f539ddb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
