@@ -46,6 +46,30 @@
       "revId": "739930e8ab9133fe2c14d15d0f870009c2fc1189",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56a8615b_e46f3ae6",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/GitHubRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-10-26T08:47:32Z",
+      "side": 1,
+      "message": "just user?",
+      "parentUuid": "567a21ab_146874a8",
+      "range": {
+        "startLine": 103,
+        "startChar": 15,
+        "endLine": 103,
+        "endChar": 24
+      },
+      "revId": "739930e8ab9133fe2c14d15d0f870009c2fc1189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
