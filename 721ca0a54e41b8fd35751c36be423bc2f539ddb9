@@ -142,6 +142,30 @@
       "revId": "721ca0a54e41b8fd35751c36be423bc2f539ddb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "567a21ab_943484c2",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestImportJob.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2015-10-26T09:06:53Z",
+      "side": 1,
+      "message": "It\u0027s in Eclipse when the \"Resource not managed with try-with-resource\" warning is enabled.",
+      "parentUuid": "56a8615b_44116e69",
+      "range": {
+        "startLine": 230,
+        "startChar": 4,
+        "endLine": 230,
+        "endChar": 39
+      },
+      "revId": "721ca0a54e41b8fd35751c36be423bc2f539ddb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
