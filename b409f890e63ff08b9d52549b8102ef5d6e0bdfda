@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "56a8615b_846c46f3",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/AuthenticatedHttpRequest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-10-26T08:52:38Z",
+      "side": 1,
+      "message": "True, better not mix \u0026 match different types of changes ;-)",
+      "parentUuid": "567a21ab_545eec0b",
+      "range": {
+        "startLine": 56,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 33
+      },
+      "revId": "b409f890e63ff08b9d52549b8102ef5d6e0bdfda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76a9e55d_659b4672",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthGitFilter.java",
         "patchSetId": 5
@@ -107,6 +131,30 @@
       "side": 1,
       "message": "Just to confirm what you mean, before I do a new PS for this.\n\nYou mean:\n\n if (accountResponse.statusCode() !\u003d HttpsStatus.SC_CREATED) {\n   throw new IOException(...);\n }\n // Here the code that is currently in lines 61-66\n // ...\n // ...\n\n?",
       "parentUuid": "76a9e55d_05a05299",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 61
+      },
+      "revId": "b409f890e63ff08b9d52549b8102ef5d6e0bdfda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56a8615b_a46942e2",
+        "filename": "github-plugin/src/main/java/com/google/gerrit/server/account/AccountImporter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-10-26T08:52:38Z",
+      "side": 1,
+      "message": "Yes exactly.\n\nI typically prefer to leave the if() stuff in the exceptional case to manage :-)",
+      "parentUuid": "567a21ab_7463e8d0",
       "range": {
         "startLine": 67,
         "startChar": 0,
