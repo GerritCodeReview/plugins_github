@@ -117,6 +117,30 @@
       "revId": "739930e8ab9133fe2c14d15d0f870009c2fc1189",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76a9e55d_45116a69",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/GitHubRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-10-26T09:01:52Z",
+      "side": 1,
+      "message": "right ... just pass?",
+      "parentUuid": "567a21ab_3446d03b",
+      "range": {
+        "startLine": 112,
+        "startChar": 12,
+        "endLine": 112,
+        "endChar": 20
+      },
+      "revId": "739930e8ab9133fe2c14d15d0f870009c2fc1189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
