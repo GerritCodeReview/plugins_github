@@ -70,6 +70,30 @@
       "revId": "721ca0a54e41b8fd35751c36be423bc2f539ddb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56a8615b_04f29699",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestImportJob.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-10-26T08:53:18Z",
+      "side": 1,
+      "message": "What do you think? Can we just abandon this one?",
+      "parentUuid": "76a9e55d_c5579a3a",
+      "range": {
+        "startLine": 230,
+        "startChar": 4,
+        "endLine": 230,
+        "endChar": 39
+      },
+      "revId": "721ca0a54e41b8fd35751c36be423bc2f539ddb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
