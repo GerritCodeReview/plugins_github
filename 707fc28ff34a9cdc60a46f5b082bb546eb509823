@@ -46,6 +46,30 @@
       "revId": "707fc28ff34a9cdc60a46f5b082bb546eb509823",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76a9e55d_e5f89676",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/group/GitHubGroupsCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2015-10-26T08:47:32Z",
+      "side": 0,
+      "message": "mmm ... those are actually two different classes, I would prefer to change the log variable name to avoid the hiding rather than using some other classes\u0027 logs.",
+      "parentUuid": "767ba5ad_955b2414",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 45
+      },
+      "revId": "707fc28ff34a9cdc60a46f5b082bb546eb509823",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
