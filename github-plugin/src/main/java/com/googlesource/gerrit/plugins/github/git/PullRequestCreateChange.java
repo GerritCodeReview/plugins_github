@@ -32,7 +32,7 @@ import com.google.gerrit.server.IdentifiedUser.GenericFactory;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.git.BatchUpdate;
-import com.google.gerrit.server.git.MergeException;
+import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators.Policy;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -96,7 +96,7 @@ public class PullRequestCreateChange {
       final String pullRequestMessage, final String topic)
       throws NoSuchChangeException, EmailException, OrmException,
       MissingObjectException, IncorrectObjectTypeException, IOException,
-      InvalidChangeOperationException, MergeException, NoSuchProjectException,
+      InvalidChangeOperationException, IntegrationException, NoSuchProjectException,
       UpdateException, RestApiException {
     try (BatchUpdate bu =
         updateFactory.create(db, project.getNameKey(),
