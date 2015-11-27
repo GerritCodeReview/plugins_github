@@ -48,7 +48,7 @@ public class GitHubLogin implements Serializable {
   private static final long serialVersionUID = 1L;
   private static final Logger log = LoggerFactory.getLogger(GitHubLogin.class);
   private static final List<Scope> DEFAULT_SCOPES = Arrays.asList(
-      Scope.PUBLIC_REPO, Scope.USER_EMAIL);
+      Scope.PUBLIC_REPO, Scope.USER_EMAIL, Scope.READ_ORG);
   private static final long SCOPE_COOKIE_NEVER_EXPIRES = DAYS
       .toSeconds(50 * 365);
 
