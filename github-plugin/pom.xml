@@ -71,6 +71,7 @@ limitations under the License.
 
                 <Gerrit-ApiType>${Gerrit-ApiType}</Gerrit-ApiType>
                 <Gerrit-ApiVersion>${Gerrit-ApiVersion}</Gerrit-ApiVersion>
+                <Gerrit-PluginName>github-plugin</Gerrit-PluginName>
               </manifestEntries>
             </transformer>
           </transformers>
