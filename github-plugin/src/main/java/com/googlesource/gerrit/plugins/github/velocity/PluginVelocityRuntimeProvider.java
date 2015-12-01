@@ -26,6 +26,8 @@ import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.apache.velocity.runtime.resource.loader.JarResourceLoader;
 
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Properties;
 
 @Singleton
@@ -70,9 +72,7 @@ public class PluginVelocityRuntimeProvider implements Provider<RuntimeInstance> 
         ClasspathResourceLoader.class.getName());
     p.setProperty(VELOCITY_JAR_RESOURCE_LOADER_CLASS,
         JarResourceLoader.class.getName());
-    p.setProperty(VELOCITY_JAR_RESOURCE_LOADER_PATH, "jar:file:"
-        + site.plugins_dir.resolve(pluginName + ".jar").toAbsolutePath()
-            .toString());
+    p.setProperty(VELOCITY_JAR_RESOURCE_LOADER_PATH, detectPluginJar());
 
     RuntimeInstance ri = new RuntimeInstance();
     try {
@@ -81,5 +81,26 @@ public class PluginVelocityRuntimeProvider implements Provider<RuntimeInstance> 
       throw new ProvisionException("Cannot configure Velocity templates", err);
     }
     return ri;
+  }
+
+  private String detectPluginJar() {
+    ClassLoader myClassLoader = this.getClass().getClassLoader();
+    if (!URLClassLoader.class.isAssignableFrom(myClassLoader.getClass())) {
+      throw new IllegalStateException(pluginName
+          + " plugin can be loaded only from a Jar file");
+    }
+
+    @SuppressWarnings("resource")
+    URLClassLoader jarClassLoader = (URLClassLoader) myClassLoader;
+    URL[] jarUrls = jarClassLoader.getURLs();
+    for (URL url : jarUrls) {
+      if (url.getProtocol().equals("file") && url.getPath().endsWith(".jar")) {
+        return "jar:" + url.toString();
+      }
+    }
+
+    throw new IllegalStateException("Cannot find any Jar file in " + pluginName
+        + " plugin class loader URLs " + jarUrls
+        + ": unable to initialize Velocity resource loading.");
   }
 }
