@@ -39,16 +39,20 @@ public class IdentifiedUserGitHubLoginProvider implements
       + OAuthWebFilter.GITHUB_EXT_ID;
 
   private final Provider<IdentifiedUser> userProvider;
-  private GitHubOAuthConfig config;
-  private AccountCache accountCache;
+  private final GitHubOAuthConfig config;
+  private final AccountCache accountCache;
+  private final GitHubHttpConnector httpConnector;
 
   @Inject
   public IdentifiedUserGitHubLoginProvider(
-      final Provider<IdentifiedUser> identifiedUserProvider,
-      final GitHubOAuthConfig config, final AccountCache accountCache) {
+      Provider<IdentifiedUser> identifiedUserProvider,
+      GitHubOAuthConfig config,
+      GitHubHttpConnector httpConnector,
+      AccountCache accountCache) {
     this.userProvider = identifiedUserProvider;
     this.config = config;
     this.accountCache = accountCache;
+    this.httpConnector = httpConnector;
   }
 
   @Override
@@ -63,7 +67,7 @@ public class IdentifiedUserGitHubLoginProvider implements
     try {
       AccessToken accessToken = newAccessTokenFromUser(username);
       if (accessToken != null) {
-        GitHubLogin login = new GitHubLogin(config);
+        GitHubLogin login = new GitHubLogin(config, httpConnector);
         login.login(accessToken);
         return login;
       }

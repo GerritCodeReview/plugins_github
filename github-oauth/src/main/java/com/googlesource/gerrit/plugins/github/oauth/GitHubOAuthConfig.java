@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import lombok.Getter;
 
@@ -30,6 +31,7 @@ import com.google.common.collect.Maps;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -70,6 +72,8 @@ class GitHubOAuthConfig {
 
   @Getter
   public final String scopeSelectionUrl;
+  public final long httpConnectionTimeout;
+  public final long httpReadTimeout;
 
   @Inject
   protected
@@ -118,6 +122,18 @@ class GitHubOAuthConfig {
         config.getInt(CONF_SECTION, "fileUpdateMaxRetryCount", 3);
     fileUpdateMaxRetryIntervalMsec =
         config.getInt(CONF_SECTION, "fileUpdateMaxRetryIntervalMsec", 3000);
+
+    httpConnectionTimeout =
+        TimeUnit.MILLISECONDS.convert(
+            ConfigUtil.getTimeUnit(config,
+                CONF_SECTION, null, "httpConnectionTimeout",
+                30, TimeUnit.SECONDS), TimeUnit.SECONDS);
+
+    httpReadTimeout =
+        TimeUnit.MILLISECONDS.convert(
+            ConfigUtil.getTimeUnit(config,
+                CONF_SECTION, null, "httpReadTimeout",
+                30, TimeUnit.SECONDS), TimeUnit.SECONDS);
   }
 
   private Map<String, List<Scope>> getScopes(Config config) {
