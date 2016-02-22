@@ -16,6 +16,24 @@
       "revId": "1562937dc57b0e3d73a3efec99456f8b7095e2e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02fdcdc0_a43b2222",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubLogin.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-02-22T10:35:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82f0dddd_90bdf4de",
+      "revId": "1562937dc57b0e3d73a3efec99456f8b7095e2e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
