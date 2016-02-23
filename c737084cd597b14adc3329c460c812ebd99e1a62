@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4248a5fd_fe6d2105",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/GitHubTopMenu.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-23T13:38:12Z",
+      "side": 1,
+      "message": "This change is not related to the fix described in the commit message.",
+      "revId": "c737084cd597b14adc3329c460c812ebd99e1a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c21d75f8_3ab1610e",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestCreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-23T13:38:12Z",
+      "side": 1,
+      "message": "nit: Change-Id",
+      "range": {
+        "startLine": 145,
+        "startChar": 43,
+        "endLine": 145,
+        "endChar": 51
+      },
+      "revId": "c737084cd597b14adc3329c460c812ebd99e1a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4248a5fd_de6865f8",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/wizard/PullRequestListController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2016-02-23T13:38:12Z",
+      "side": 1,
+      "message": "nit: trailing whitespace",
+      "range": {
+        "startLine": 78,
+        "startChar": 35,
+        "endLine": 78,
+        "endChar": 36
+      },
+      "revId": "c737084cd597b14adc3329c460c812ebd99e1a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
