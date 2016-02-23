@@ -17,18 +17,18 @@ import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.query.QueryParseException;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder;
+import com.google.gerrit.server.query.change.QueryProcessor;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -70,15 +70,22 @@ public class PullRequestListController implements VelocityController {
   private final ProjectCache projectsCache;
   private final GitRepositoryManager repoMgr;
   private final Provider<ReviewDb> schema;
+  private final QueryProcessor qp;
+  private final ChangeQueryBuilder changeQuery;
 
   @Inject
-  public PullRequestListController(final ProjectCache projectsCache,
-      final GitRepositoryManager repoMgr, final Provider<ReviewDb> schema,
-      final GitHubConfig config) {
+  public PullRequestListController(ProjectCache projectsCache,
+      GitRepositoryManager repoMgr,
+      Provider<ReviewDb> schema,
+      GitHubConfig config,
+      QueryProcessor qp,
+      ChangeQueryBuilder changeQuery) {
     this.projectsCache = projectsCache;
     this.repoMgr = repoMgr;
     this.schema = schema;
     this.config = config;
+    this.qp = qp;
+    this.changeQuery = changeQuery;
   }
 
   @Override
@@ -192,31 +199,18 @@ public class PullRequestListController implements VelocityController {
       Repository gitRepo, GHPullRequest ghPullRequest)
       throws IncorrectObjectTypeException, IOException {
     boolean pullRequestToImport = false;
-    try (RevWalk gitWalk = new RevWalk(gitRepo)) {
+    try {
       for (GHPullRequestCommitDetail pullRequestCommit : ghPullRequest
           .listCommits()) {
-        ObjectId pullRequestHeadObjectId =
-            ObjectId.fromString(pullRequestCommit.getSha());
-  
-        try {
-          gitWalk.parseCommit(pullRequestHeadObjectId);
-  
-          ResultSet<PatchSet> patchSets;
-          try {
-            patchSets =
-                db.patchSets().byRevision(new RevId(pullRequestCommit.getSha()));
-          } catch (OrmException e) {
-            LOG.error("Error whilst fetching patch-sets from DB associated to commit "
-                + pullRequestCommit.getSha());
-            return false;
-          }
-          pullRequestToImport = !patchSets.iterator().hasNext();
-          patchSets.close();
-        } catch (MissingObjectException e) {
-          pullRequestToImport = true;
-        }
+        pullRequestToImport |=
+            qp.queryChanges(changeQuery.commit(pullRequestCommit.getSha()))
+                .changes().isEmpty();
       }
       return pullRequestToImport;
+    } catch (OrmException | QueryParseException e) {
+      LOG.error("Unable to query Gerrit changes for pull-request "
+          + ghPullRequest.getNumber(), e);
+      return false;
     }
   }
 }
