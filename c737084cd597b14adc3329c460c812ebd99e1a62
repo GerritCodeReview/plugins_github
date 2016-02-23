@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "02522dad_5c5d3d4e",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/GitHubTopMenu.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2016-02-23T13:45:56Z",
+      "side": 1,
+      "message": "Right, forgot to mention it :-) and it is indeed needed to make the build green again.",
+      "parentUuid": "4248a5fd_fe6d2105",
+      "revId": "c737084cd597b14adc3329c460c812ebd99e1a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c21d75f8_3ab1610e",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestCreateChange.java",
         "patchSetId": 1
