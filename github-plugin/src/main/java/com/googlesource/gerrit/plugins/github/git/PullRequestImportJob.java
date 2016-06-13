@@ -44,6 +44,7 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.TransportException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
@@ -191,7 +192,7 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
   private com.google.gerrit.reviewdb.client.Account.Id getOrRegisterAccount(
       ReviewDb db, GitHubUser author) throws BadRequestException,
       ResourceConflictException, UnprocessableEntityException, OrmException,
-      IOException {
+      IOException, ConfigInvalidException {
     return getOrRegisterAccount(db, author.getLogin(), author.getName(),
         author.getEmail());
   }
@@ -199,7 +200,7 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
   private com.google.gerrit.reviewdb.client.Account.Id getOrRegisterAccount(
       ReviewDb db, String login, String name, String email)
       throws OrmException, BadRequestException, ResourceConflictException,
-      UnprocessableEntityException, IOException {
+      UnprocessableEntityException, IOException, ConfigInvalidException {
     AccountExternalId.Key userExtKey =
         new AccountExternalId.Key(AccountExternalId.SCHEME_USERNAME, login);
     AccountExternalIdAccess gerritExtIds = db.accountExternalIds();
