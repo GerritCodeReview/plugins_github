@@ -28,13 +28,13 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
-import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators.Policy;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -64,7 +64,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 public class PullRequestCreateChange {
@@ -180,8 +179,11 @@ public class PullRequestCreateChange {
       // The change key exists on the destination branch: adding a new
       // patch-set
       Change destChange = destChanges.get(0).change();
-      insertPatchSet(bu, repo, destChange, pullRequestCommit,
-          refControl, pullRequestMesage);
+      ChangeControl changeControl =
+          projectControlFactory.controlFor(project.getNameKey())
+              .controlForIndexedChange(destChange);
+      insertPatchSet(bu, repo, destChange, pullRequestCommit, changeControl,
+          pullRequestMesage);
       return destChange.getId();
     }
 
@@ -205,7 +207,7 @@ public class PullRequestCreateChange {
   }
 
   private void insertPatchSet(BatchUpdate bu, Repository git, Change change,
-      RevCommit cherryPickCommit, RefControl refControl,
+      RevCommit cherryPickCommit, ChangeControl changeControl,
       String pullRequestMessage) throws IOException, UpdateException,
       RestApiException {
     try (RevWalk revWalk = new RevWalk(git)) {
@@ -213,7 +215,7 @@ public class PullRequestCreateChange {
           ChangeUtil.nextPatchSetId(git, change.currentPatchSetId());
 
       PatchSetInserter patchSetInserter =
-          patchSetInserterFactory.create(refControl, psId, cherryPickCommit);
+          patchSetInserterFactory.create(changeControl, psId, cherryPickCommit);
       patchSetInserter.setMessage(pullRequestMessage);
       patchSetInserter.setValidatePolicy(Policy.NONE);
 
