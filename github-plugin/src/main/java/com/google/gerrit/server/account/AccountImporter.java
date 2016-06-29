@@ -14,6 +14,7 @@
 package com.google.gerrit.server.account;
 
 import com.google.common.base.MoreObjects;
+import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -51,7 +52,7 @@ public class AccountImporter {
       UnprocessableEntityException, OrmException, ConfigInvalidException {
     try (ReviewDb db = schema.get()) {
       CreateAccount createAccount = createAccountFactory.create(login);
-      CreateAccount.Input accountInput = new CreateAccount.Input();
+      AccountInput accountInput = new AccountInput();
       accountInput.email = email;
       accountInput.username = login;
       accountInput.name = MoreObjects.firstNonNull(name, login);
