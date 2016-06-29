@@ -109,7 +109,7 @@ public class AccountController implements VelocityController {
 
       accountCache.evict(accountId);
       log.debug("Account cache evicted for {}", accountId);
-    } catch (AccountException | OrmException e) {
+    } catch (AccountException | OrmException | IOException e) {
       throw new ServletException("Cannot associate email '" + email
           + "' to current user '" + user + "'", e);
     }

@@ -23,8 +23,10 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.QueryParseException;
+import com.google.gerrit.server.query.QueryProcessor;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
-import com.google.gerrit.server.query.change.QueryProcessor;
+import com.google.gerrit.server.query.change.ChangeQueryProcessor;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -32,15 +34,11 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import com.googlesource.gerrit.plugins.github.GitHubConfig;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.kohsuke.github.GHIssueState;
 import org.kohsuke.github.GHPullRequest;
 import org.kohsuke.github.GHPullRequestCommitDetail;
@@ -70,7 +68,7 @@ public class PullRequestListController implements VelocityController {
   private final ProjectCache projectsCache;
   private final GitRepositoryManager repoMgr;
   private final Provider<ReviewDb> schema;
-  private final QueryProcessor qp;
+  private final QueryProcessor<ChangeData> qp;
   private final ChangeQueryBuilder changeQuery;
 
   @Inject
@@ -78,7 +76,7 @@ public class PullRequestListController implements VelocityController {
       GitRepositoryManager repoMgr,
       Provider<ReviewDb> schema,
       GitHubConfig config,
-      QueryProcessor qp,
+      ChangeQueryProcessor qp,
       ChangeQueryBuilder changeQuery) {
     this.projectsCache = projectsCache;
     this.repoMgr = repoMgr;
@@ -203,8 +201,8 @@ public class PullRequestListController implements VelocityController {
       for (GHPullRequestCommitDetail pullRequestCommit : ghPullRequest
           .listCommits()) {
         pullRequestToImport |=
-            qp.queryChanges(changeQuery.commit(pullRequestCommit.getSha()))
-                .changes().isEmpty();
+            qp.query(changeQuery.commit(pullRequestCommit.getSha()))
+                .entities().isEmpty();
       }
       return pullRequestToImport;
     } catch (OrmException | QueryParseException e) {

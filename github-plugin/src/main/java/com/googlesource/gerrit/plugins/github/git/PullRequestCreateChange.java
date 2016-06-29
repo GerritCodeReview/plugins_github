@@ -41,11 +41,12 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.query.QueryParseException;
+import com.google.gerrit.server.query.QueryProcessor;
+import com.google.gerrit.server.query.QueryResult;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
+import com.google.gerrit.server.query.change.ChangeQueryProcessor;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gerrit.server.query.change.QueryProcessor;
-import com.google.gerrit.server.query.change.QueryResult;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -77,7 +78,7 @@ public class PullRequestCreateChange {
   private final GenericFactory userFactory;
   private final Provider<InternalChangeQuery> queryProvider;
   private final BatchUpdate.Factory updateFactory;
-  private final QueryProcessor qp;
+  private final QueryProcessor<ChangeData> qp;
   private final ChangeQueryBuilder changeQuery;
 
   @Inject
@@ -87,7 +88,7 @@ public class PullRequestCreateChange {
       IdentifiedUser.GenericFactory userFactory,
       Provider<InternalChangeQuery> queryProvider,
       BatchUpdate.Factory batchUpdateFactory,
-      QueryProcessor qp,
+      ChangeQueryProcessor qp,
       ChangeQueryBuilder changeQuery) {
     this.changeInserterFactory = changeInserterFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
@@ -195,10 +196,10 @@ public class PullRequestCreateChange {
   }
 
   private List<ChangeData> queryChangesForSha1(String pullRequestSha1) {
-    QueryResult results;
+    QueryResult<ChangeData> results;
     try {
-      results = qp.queryChanges(changeQuery.commit(pullRequestSha1));
-      return results.changes();
+      results = qp.query(changeQuery.commit(pullRequestSha1));
+      return results.entities();
     } catch (OrmException | QueryParseException e) {
       LOG.error("Invalid SHA1 " + pullRequestSha1
           + ": cannot query changes for this pull request", e);
