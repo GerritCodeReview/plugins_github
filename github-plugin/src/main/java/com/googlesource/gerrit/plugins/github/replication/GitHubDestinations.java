@@ -14,13 +14,13 @@
 
 package com.googlesource.gerrit.plugins.github.replication;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import com.google.gerrit.server.PluginUser;
+import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.config.SitePaths;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
@@ -31,16 +31,14 @@ import org.eclipse.jgit.util.FS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.PluginUser;
-import com.google.gerrit.server.account.GroupBackend;
-import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gwtorm.server.SchemaFactory;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 /** Manages automatic replication to remote repositories. */
 public class GitHubDestinations {
@@ -60,47 +58,43 @@ public class GitHubDestinations {
   private final List<Destination> configs;
 
 
-  private final SchemaFactory<ReviewDb> database;
   private final RemoteSiteUser.Factory replicationUserFactory;
   private final PluginUser pluginUser;
-  private final GitRepositoryManager gitRepositoryManager;
   private final GroupBackend groupBackend;
   boolean replicateAllOnPluginStart;
   private final List<String> organisations;
 
   @Inject
   GitHubDestinations(final Injector i, final SitePaths site,
-      final RemoteSiteUser.Factory ruf, final SchemaFactory<ReviewDb> db,
-      final GitRepositoryManager grm, final GroupBackend gb, final PluginUser pu)
+      final RemoteSiteUser.Factory ruf,
+      final GroupBackend gb, final PluginUser pu)
       throws ConfigInvalidException, IOException {
     injector = i;
-    database = db;
     pluginUser = pu;
     replicationUserFactory = ruf;
-    gitRepositoryManager = grm;
     groupBackend = gb;
-    configs = getDestinations(new File(site.etc_dir, "replication.config"));
+    configs = getDestinations(site.etc_dir.resolve("replication.config"));
     organisations = getOrganisations(configs);
   }
 
   private List<String> getOrganisations(List<Destination> destinations) {
-    ArrayList<String> organisations = new ArrayList<String>();
+    ArrayList<String> result = new ArrayList<>();
     for (Destination destination : destinations) {
       for (URIish urish : destination.getRemote().getURIs()) {
         String[] uriPathParts = urish.getPath().split("/");
-        organisations.add(uriPathParts[0]);
+        result.add(uriPathParts[0]);
       }
     }
-    return organisations;
+    return result;
   }
 
-  private List<Destination> getDestinations(File cfgPath)
+  private List<Destination> getDestinations(Path cfgPath)
       throws ConfigInvalidException, IOException {
-    FileBasedConfig cfg = new FileBasedConfig(cfgPath, FS.DETECTED);
-    if (!cfg.getFile().exists() || cfg.getFile().length() == 0) {
+    if (!Files.exists(cfgPath) || Files.size(cfgPath) == 0) {
       return Collections.emptyList();
-    }
-
+    }    
+    
+    FileBasedConfig cfg = new FileBasedConfig(cfgPath.toFile(), FS.DETECTED);
     try {
       cfg.load();
     } catch (ConfigInvalidException e) {
@@ -137,8 +131,8 @@ public class GitHubDestinations {
             .setForceUpdate(true));
       }
 
-      dest.add(new Destination(injector, c, cfg, database,
-          replicationUserFactory, pluginUser, gitRepositoryManager,
+      dest.add(new Destination(injector, c, cfg,
+          replicationUserFactory, pluginUser,
           groupBackend));
     }
     return dest.build();

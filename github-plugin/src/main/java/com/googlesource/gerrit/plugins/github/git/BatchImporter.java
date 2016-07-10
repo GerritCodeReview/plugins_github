@@ -13,14 +13,14 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
+import com.google.gerrit.server.IdentifiedUser;
+
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.google.gerrit.server.IdentifiedUser;
-
 public class BatchImporter {
 
-  private final ConcurrentHashMap<Integer, GitJob> jobs = new ConcurrentHashMap<Integer, GitJob>();
+  private final ConcurrentHashMap<Integer, GitJob> jobs = new ConcurrentHashMap<>();
   private final JobExecutor executor;
   protected final IdentifiedUser user;
 
@@ -45,7 +45,7 @@ public class BatchImporter {
   }
 
   public synchronized void schedule(int idx, GitJob pullRequestImportJob) {
-    jobs.put(idx, pullRequestImportJob);
+    jobs.put(new Integer(idx), pullRequestImportJob);
     executor.exec(pullRequestImportJob);
   }
 

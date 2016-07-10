@@ -16,6 +16,26 @@ package com.googlesource.gerrit.plugins.github.oauth;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
+import com.google.common.collect.Iterators;
+import com.google.gerrit.httpd.XGerritAuth;
+import com.google.gerrit.server.account.AccountCache;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
+import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.AccessToken;
+
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang.StringUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -37,24 +57,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.lang.StringUtils;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
-import org.slf4j.LoggerFactory;
-
-import com.google.common.base.Objects;
-import com.google.common.base.Strings;
-import com.google.common.collect.Iterators;
-import com.google.gerrit.httpd.XGerritAuth;
-import com.google.gerrit.server.account.AccountCache;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.AccessToken;
-
 @Singleton
 public class OAuthGitFilter implements Filter {
   private static final String GITHUB_X_OAUTH_BASIC = "x-oauth-basic";
@@ -67,13 +69,13 @@ public class OAuthGitFilter implements Filter {
 
   private final OAuthCache oauthCache;
   private final AccountCache accountCache;
-  private final GitHubHttpProvider httpClientProvider;
+  private final Provider<HttpClient> httpClientProvider;
   private final GitHubOAuthConfig config;
   private final XGerritAuth xGerritAuth;
   private ScopedProvider<GitHubLogin> ghLoginProvider;
 
   public static class BasicAuthHttpRequest extends HttpServletRequestWrapper {
-    private HashMap<String, String> headers = new HashMap<String, String>();
+    private HashMap<String, String> headers = new HashMap<>();
 
     public BasicAuthHttpRequest(HttpServletRequest request, String username,
         String password) {
@@ -94,7 +96,7 @@ public class OAuthGitFilter implements Filter {
     @Override
     public Enumeration<String> getHeaderNames() {
       final Enumeration<String> wrappedHeaderNames = super.getHeaderNames();
-      HashSet<String> headerNames = new HashSet<String>(headers.keySet());
+      HashSet<String> headerNames = new HashSet<>(headers.keySet());
       while (wrappedHeaderNames.hasMoreElements()) {
         headerNames.add(wrappedHeaderNames.nextElement());
       }
@@ -106,15 +108,14 @@ public class OAuthGitFilter implements Filter {
       String headerValue = headers.get(name);
       if (headerValue != null) {
         return headerValue;
-      } else {
-        return super.getHeader(name);
       }
+      return super.getHeader(name);
     }
   }
 
   @Inject
   public OAuthGitFilter(OAuthCache oauthCache, AccountCache accountCache,
-      GitHubHttpProvider httpClientProvider, GitHubOAuthConfig config,
+      PooledHttpClientProvider httpClientProvider, GitHubOAuthConfig config,
       XGerritAuth xGerritAuth, GitHubLogin.Provider ghLoginProvider) {
     this.oauthCache = oauthCache;
     this.accountCache = accountCache;
@@ -150,7 +151,12 @@ public class OAuthGitFilter implements Filter {
         gerritPassword =
             generateRandomGerritPassword(username, httpRequest, httpResponse,
                 chain);
-        httpResponse.sendRedirect(getRequestPathWithQueryString(httpRequest));
+        if (Strings.isNullOrEmpty(gerritPassword)) {
+          httpResponse.sendError(SC_FORBIDDEN,
+              "Unable to generate Gerrit password for Git Basic-Auth");
+        } else {
+          httpResponse.sendRedirect(getRequestPathWithQueryString(httpRequest));
+        }
         return;
       }
 
@@ -209,9 +215,8 @@ public class OAuthGitFilter implements Filter {
     int port = originalUrl.getPort();
     if (port == -1) {
       return protocol.equals("https") ? 443 : 80;
-    } else {
-      return port;
     }
+    return port;
   }
 
   private Cookie getGerritLoginCookie(String username,
@@ -275,7 +280,7 @@ public class OAuthGitFilter implements Filter {
   }
 
   static String encoding(HttpServletRequest req) {
-    return Objects.firstNonNull(req.getCharacterEncoding(), "UTF-8");
+    return MoreObjects.firstNonNull(req.getCharacterEncoding(), "UTF-8");
   }
 
   private String getHttpBasicAuthenticationHeader(final HttpServletRequest req)
@@ -283,10 +288,9 @@ public class OAuthGitFilter implements Filter {
     String hdr = req.getHeader(GIT_AUTHORIZATION_HEADER);
     if (hdr == null || !hdr.startsWith(GIT_AUTHENTICATION_BASIC)) {
       return null;
-    } else {
-      return new String(Base64.decodeBase64(hdr
-          .substring(GIT_AUTHENTICATION_BASIC.length())), encoding(req));
     }
+    return new String(Base64.decodeBase64(hdr
+        .substring(GIT_AUTHENTICATION_BASIC.length())), encoding(req));
   }
 
   @Override

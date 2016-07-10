@@ -33,24 +33,26 @@ import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.AccessToken;
 @Singleton
 public class IdentifiedUserGitHubLoginProvider implements
     UserScopedProvider<GitHubLogin> {
-  private static final Logger log = LoggerFactory.getLogger(IdentifiedUserGitHubLoginProvider.class);
+  private static final Logger log = LoggerFactory
+      .getLogger(IdentifiedUserGitHubLoginProvider.class);
   private static final String EXTERNAL_ID_PREFIX = "external:"
       + OAuthWebFilter.GITHUB_EXT_ID;
 
   private final Provider<IdentifiedUser> userProvider;
-  private OAuthProtocol oauth;
-  private GitHubOAuthConfig config;
-  private AccountCache accountCache;
+  private final GitHubOAuthConfig config;
+  private final AccountCache accountCache;
+  private final GitHubHttpConnector httpConnector;
 
   @Inject
   public IdentifiedUserGitHubLoginProvider(
-      final Provider<IdentifiedUser> identifiedUserProvider,
-      final OAuthProtocol oauth, final GitHubOAuthConfig config,
-      final AccountCache accountCache) {
+      Provider<IdentifiedUser> identifiedUserProvider,
+      GitHubOAuthConfig config,
+      GitHubHttpConnector httpConnector,
+      AccountCache accountCache) {
     this.userProvider = identifiedUserProvider;
-    this.oauth = oauth;
     this.config = config;
     this.accountCache = accountCache;
+    this.httpConnector = httpConnector;
   }
 
   @Override
@@ -65,15 +67,13 @@ public class IdentifiedUserGitHubLoginProvider implements
     try {
       AccessToken accessToken = newAccessTokenFromUser(username);
       if (accessToken != null) {
-        GitHubLogin login = new GitHubLogin(oauth, config);
+        GitHubLogin login = new GitHubLogin(config, httpConnector);
         login.login(accessToken);
         return login;
-      } else {
-        return null;
       }
+      return null;
     } catch (IOException e) {
-      log.error("Cannot login to GitHub as '" + username
-          + "'", e);
+      log.error("Cannot login to GitHub as '" + username + "'", e);
       return null;
     }
   }

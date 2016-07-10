@@ -1,19 +1,13 @@
 package com.googlesource.gerrit.plugins.github.oauth;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.google.common.base.Charsets;
+import com.google.common.base.Strings;
+import com.google.common.io.BaseEncoding;
+import com.google.common.io.CharStreams;
+import com.google.gson.Gson;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -25,46 +19,185 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Charsets;
-import com.google.common.base.Strings;
-import com.google.common.io.CharStreams;
-import com.google.gson.Gson;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import lombok.Getter;
+
 import com.google.gerrit.extensions.auth.oauth.OAuthToken;
 import com.google.gerrit.extensions.auth.oauth.OAuthVerifier;
 
 @Singleton
 public class OAuthProtocol {
+  /**
+   * Supported OAuth Scopes.
+   *
+   * OAuth authorization scopes as defined in GitHub API at:
+   * https://developer.github.com/v3/oauth/#scopes
+   */
   public static enum Scope {
-    DEFAULT(""),
-    USER("user"),
-    USER_EMAIL("user:email"),
-    USER_FOLLOW("user:follow"),
-    PUBLIC_REPO("public_repo"),
-    REPO("repo"),
-    REPO_STATUS("repo_status"),
-    DELETE_REPO("delete_repo"),
-    NOTIFICATIONS("notifications"),
-    GIST("gist");
+    /**
+     * Grants read-only access to public information (includes public user
+     * profile info, public repository info, and gists)
+     */
+    DEFAULT("", "Read-only public information"),
 
+    /**
+     * Grants read/write access to profile info only. Note that this scope
+     * includes user:email and user:follow.
+     */
+    USER("user", "Read/write profile info"),
+
+    /**
+     * Grants read access to a user’s email addresses.
+     */
+    USER_EMAIL("user:email", "Read-only user's e-mail"),
+
+    /**
+     * Grants access to follow or unfollow other users.
+     */
+    USER_FOLLOW("user:follow", "(Un)Follow users"),
+
+    /**
+     * Grants read/write access to code, commit statuses, collaborators, and
+     * deployment statuses for public repositories. Also
+     * required for starring public repositories.
+     */
+    PUBLIC_REPO("public_repo", "Read/write to public repositories"),
+
+    /**
+     * Grants read/write access to code, commit statuses, collaborators, and
+     * deployment statuses for public and private repositories and
+     * organizations.
+     */
+    REPO("repo", "Read/write to all public/private repositories"),
+
+    /**
+     * Grants access to deployment statuses for public and private repositories.
+     * This scope is only necessary to grant other users or services access to
+     * deployment statuses, without granting access to the code.
+     */
+    REPO_DEPLOYMENT("repo_deployment", "Read-only deployment statuses"),
+
+    /**
+     * Grants read/write access to public and private repository commit
+     * statuses. This scope is only necessary to grant other users or services
+     * access to private repository commit statuses without granting access to
+     * the code.
+     */
+    REPO_STATUS("repo:status", "Read/write commit statuses"),
+
+    /**
+     * Grants access to delete admin-able repositories.
+     */
+    DELETE_REPO("delete_repo", "Delete repositories"),
+
+    /**
+     * Grants read access to a user’s notifications. repo also provides this
+     * access.
+     */
+    NOTIFICATIONS("notifications", "Read user's notifications"),
+
+    /**
+     * Grants write access to gists.
+     */
+    GIST("gist", "Write Gists"),
+
+    /**
+     * Grants read and ping access to hooks in public or private repositories.
+     */
+    READ_REPO_HOOK("read:repo_hook",
+        "Read/ping public/private repositories' hooks"),
+
+    /**
+     * Grants read, write, and ping access to hooks in public or private
+     * repositories.
+     */
+    WRITE_REPO_HOOK("write:repo_hook",
+        "Read/write/ping public/private repositories' hooks"),
+
+    /**
+     * Grants read, write, ping, and delete access to hooks in public or private
+     * repositories.
+     */
+    ADMIN_REPO_HOOK("admin:repo_hook",
+        "Read/write/ping/delete access to public/private repositories' hooks"),
+
+    /**
+     * Grants read, write, ping, and delete access to organization hooks. Note:
+     * OAuth tokens will only be able to perform these actions on organization
+     * hooks which were created by the OAuth application. Personal access tokens
+     * will only be able to perform these actions on organization hooks created
+     * by a user.
+     */
+    ADMIN_ORG_HOOK("admin:org_hook",
+        "Read/write/ping/delete access to public/private organizations' hooks"),
+
+    /**
+     * Read-only access to organization, teams, and membership.
+     */
+    READ_ORG("read:org", "Read-only organizations"),
+
+    /**
+     * Publicize and un-publicize organization membership.
+     */
+    WRITE_ORG("write:org", "(Un)Publicize organizations membership"),
+
+    /**
+     * Fully manage organization, teams, and memberships.
+     */
+    ADMIN_ORG("admin:org", "Manage organizations, teams and memberships"),
+
+    /**
+     * List and view details for public keys.
+     */
+    READ_PUBLIC_KEY("read:public_key", "Read-only user's public keys"),
+
+    /**
+     * Create, list, and view details for public keys.
+     */
+    WRITE_PUBLIC_KEY("write:public_key", "Read/write/list user's public keys"),
+
+    /**
+     * Fully manage public keys.
+     */
+    ADMIN_PUBLIC_KEY("admin:public_key", "Fully manage user's public keys");
+
+    @Getter
     private final String value;
 
-    public String getValue() {
-      return value;
-    }
+    @Getter
+    private final String description;
 
-    private Scope(final String value) {
+    private Scope(final String value, final String description) {
       this.value = value;
+      this.description = description;
     }
   }
   private static final String ME_SEPARATOR = ",";
-  private static final Logger LOG = LoggerFactory
+  private static final Logger log = LoggerFactory
       .getLogger(OAuthProtocol.class);
+  private static final String FINAL_URL_PARAM = "final";
+  private static SecureRandom randomState = newRandomGenerator();
 
   private final GitHubOAuthConfig config;
-  private final HttpClient http;
   private final Gson gson;
+  private final Provider<HttpClient> httpProvider;
 
   public static class AccessToken {
     public String accessToken;
@@ -92,37 +225,20 @@ public class OAuthProtocol {
       if (isError()) {
         return "Error AccessToken [error=" + error + ", error_description="
             + errorDescription + ", error_uri=" + errorUri + "]";
-      } else {
-        return "AccessToken [access_token=" + accessToken + ", token_type="
-            + tokenType + "]";
       }
+      return "AccessToken [access_token=" + accessToken + ", token_type="
+          + tokenType + "]";
     }
 
     @Override
     public int hashCode() {
-      final int prime = 31;
-      int result = 1;
-      result =
-          prime * result
-              + ((accessToken == null) ? 0 : accessToken.hashCode());
-      result =
-          prime * result + ((tokenType == null) ? 0 : tokenType.hashCode());
-      return result;
+      return Objects.hash(accessToken, tokenType, error, errorDescription,
+          errorUri);
     }
 
     @Override
     public boolean equals(Object obj) {
-      if (this == obj) return true;
-      if (obj == null) return false;
-      if (getClass() != obj.getClass()) return false;
-      AccessToken other = (AccessToken) obj;
-      if (accessToken == null) {
-        if (other.accessToken != null) return false;
-      } else if (!accessToken.equals(other.accessToken)) return false;
-      if (tokenType == null) {
-        if (other.tokenType != null) return false;
-      } else if (!tokenType.equals(other.tokenType)) return false;
-      return true;
+      return Objects.deepEquals(this, obj);
     }
 
     public boolean isError() {
@@ -143,14 +259,26 @@ public class OAuthProtocol {
   }
 
   @Inject
-  public OAuthProtocol(GitHubOAuthConfig config, GitHubHttpProvider httpClientProvider,
-      /* We need to explicitly tell Guice which Provider<> we need as this class may be
-         instantiated outside the standard Guice Module set-up (e.g. initial Servlet login
-         filter) */
+  public OAuthProtocol(GitHubOAuthConfig config,
+      PooledHttpClientProvider httpClientProvider,
+      /*
+       * We need to explicitly tell Guice which Provider<> we need as this class
+       * may be instantiated outside the standard Guice Module set-up (e.g.
+       * initial Servlet login filter)
+       */
       GsonProvider gsonProvider) {
     this.config = config;
-    this.http = httpClientProvider.get();
+    this.httpProvider = httpClientProvider;
     this.gson = gsonProvider.get();
+  }
+
+  private static SecureRandom newRandomGenerator() {
+    try {
+      return SecureRandom.getInstance("SHA1PRNG");
+    } catch (NoSuchAlgorithmException e) {
+      throw new IllegalArgumentException(
+          "No SecureRandom available for GitHub authentication", e);
+    }
   }
 
   public String getAuthorizationUrl(String scopesString, String state) {
@@ -160,13 +288,15 @@ public class OAuthProtocol {
         + getURLEncodedParameter("&state=", state);
   }
 
-  public void loginPhase1(HttpServletRequest request,
+  public String loginPhase1(HttpServletRequest request,
       HttpServletResponse response, Set<Scope> scopes) throws IOException {
-
     String scopesString = getScope(scopes);
-    LOG.debug("Initiating GitHub Login for ClientId=" + config.gitHubClientId + " Scopes=" + scopesString);
-    response.sendRedirect(getAuthorizationUrl(scopesString, 
-        me() + request.getRequestURI().toString()));
+    log.debug("Initiating GitHub Login for ClientId=" + config.gitHubClientId
+        + " Scopes=" + scopesString);
+    String state = newRandomState(request.getRequestURI().toString());
+    log.debug("Initiating GitHub Login for ClientId=" + config.gitHubClientId + " Scopes=" + scopesString);
+    response.sendRedirect(getAuthorizationUrl(scopesString, state));
+    return state;
   }
 
   public String getScope(Set<Scope> scopes) {
@@ -176,7 +306,7 @@ public class OAuthProtocol {
 
     StringBuilder out = new StringBuilder();
     for (Scope scope : scopes) {
-      if(out.length() > 0) {
+      if (out.length() > 0) {
         out.append(",");
       }
       out.append(scope.getValue());
@@ -185,28 +315,34 @@ public class OAuthProtocol {
   }
 
   public static boolean isOAuthFinal(HttpServletRequest request) {
-    return Strings.emptyToNull(request.getParameter("code")) != null;
+    return Strings.emptyToNull(request.getParameter("code")) != null
+        && request.getParameter(FINAL_URL_PARAM) == null;
   }
 
   public static boolean isOAuthFinalForOthers(HttpServletRequest request) {
     String targetUrl = getTargetUrl(request);
-    if(targetUrl.equals(request.getRequestURI())) {
+    if (targetUrl.equals(request.getRequestURI())) {
       return false;
     }
-    
-    return Strings.emptyToNull(request.getParameter("code")) != null;
+
+    return Strings.emptyToNull(request.getParameter("code")) != null
+        && request.getParameter(FINAL_URL_PARAM) == null;
   }
 
-  public String me() {
-    return "" + hashCode() + ME_SEPARATOR;
+  public String newRandomState(String redirectUrl) {
+    byte[] stateBin = new byte[20]; // SHA-1 size
+    randomState.nextBytes(stateBin);
+    return BaseEncoding.base64Url().encode(stateBin) + ME_SEPARATOR + redirectUrl;
   }
 
   public static boolean isOAuthLogin(HttpServletRequest request) {
-    return request.getRequestURI().indexOf(GitHubOAuthConfig.OAUTH_LOGIN) >= 0;
+    String requestUri = request.getRequestURI();
+    return requestUri.indexOf(GitHubOAuthConfig.GERRIT_LOGIN) >= 0
+        && request.getParameter(FINAL_URL_PARAM) == null;
   }
 
   public static boolean isOAuthLogout(HttpServletRequest request) {
-    return request.getRequestURI().indexOf(GitHubOAuthConfig.OAUTH_LOGOUT) >= 0;
+    return request.getRequestURI().indexOf(GitHubOAuthConfig.GERRIT_LOGOUT) >= 0;
   }
 
   public static boolean isOAuthRequest(HttpServletRequest httpRequest) {
@@ -214,26 +350,32 @@ public class OAuthProtocol {
   }
 
   public AccessToken loginPhase2(HttpServletRequest request,
-      HttpServletResponse response) throws IOException {
+      HttpServletResponse response, String state) throws IOException {
+    String requestState = request.getParameter("state");
+    if (!Objects.equals(state, requestState)) {
+      throw new IOException("Invalid authentication state: expected '" + state
+          + "' but was '" + requestState + "'");
+    }
+
     return getAccessToken(new OAuthVerifier(request.getParameter("code")));
   }
 
   public AccessToken getAccessToken(OAuthVerifier code) throws IOException {
     HttpPost post = new HttpPost(config.gitHubOAuthAccessTokenUrl);
     post.setHeader("Accept", "application/json");
-    List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+    List<NameValuePair> nvps = new ArrayList<>();
     nvps.add(new BasicNameValuePair("client_id", config.gitHubClientId));
     nvps.add(new BasicNameValuePair("client_secret", config.gitHubClientSecret));
     nvps.add(new BasicNameValuePair("code", code.getValue()));
     post.setEntity(new UrlEncodedFormEntity(nvps, Charsets.UTF_8));
 
-    HttpResponse postResponse = http.execute(post);
+    HttpResponse postResponse = httpProvider.get().execute(post);
     if (postResponse.getStatusLine().getStatusCode() != HttpURLConnection.HTTP_OK) {
-      LOG.error("POST " + config.gitHubOAuthAccessTokenUrl
+      log.error("POST " + config.gitHubOAuthAccessTokenUrl
           + " request for access token failed with status "
           + postResponse.getStatusLine());
       EntityUtils.consume(postResponse.getEntity());
-      return null;
+      throw new IOException("GitHub OAuth request failed");
     }
 
     InputStream content = postResponse.getEntity().getContent();
@@ -241,13 +383,12 @@ public class OAuthProtocol {
         CharStreams.toString(new InputStreamReader(content,
             StandardCharsets.UTF_8));
     AccessToken token = gson.fromJson(tokenJsonString, AccessToken.class);
-    token.setRaw(tokenJsonString);
     if (token.isError()) {
-      LOG.error("POST " + config.gitHubOAuthAccessTokenUrl
+      log.error("POST " + config.gitHubOAuthAccessTokenUrl
           + " returned an error token: " + token);
       throw new IOException("Invalid GitHub OAuth token");
     }
-    
+
     return token;
   }
 
@@ -256,18 +397,17 @@ public class OAuthProtocol {
       return Strings.isNullOrEmpty(url) ? 
           "" : (prefix + URLEncoder.encode(url,"UTF-8"));
     } catch (UnsupportedEncodingException e) {
-      // UTF-8 is hardcoded, cannot fail
-      return null;
+      throw new IllegalStateException("Cannot find UTF-8 encoding", e);
     }
   }
 
   public static String getTargetUrl(ServletRequest request) {
     int meEnd = state(request).indexOf(ME_SEPARATOR);
+    String finalUrlSuffix = "?" + FINAL_URL_PARAM + "=true";
     if (meEnd > 0) {
-      return state(request).substring(meEnd+1);
-    } else {
-      return "";
+      return state(request).substring(meEnd + 1) + finalUrlSuffix;
     }
+    return finalUrlSuffix;
   }
 
   private static String state(ServletRequest request) {

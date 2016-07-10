@@ -13,10 +13,11 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
-import java.io.PrintWriter;
-
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonWriter;
+
+import java.io.IOException;
+import java.io.PrintWriter;
 
 
 public class GitJobStatus {
@@ -24,9 +25,10 @@ public class GitJobStatus {
   public enum Code {
     SYNC, COMPLETE, FAILED, CANCELLED;
 
+    @Override
     public String toString() {
       return name().toLowerCase();
-    };
+    }
   }
 
   public final int index;
@@ -41,9 +43,9 @@ public class GitJobStatus {
     this.value = "Initializing ...";
   }
 
-  public void update(Code code, String shortDescription, String description) {
+  public void update(Code code, String sDescription, String description) {
     this.status = code;
-    this.shortDescription = shortDescription;
+    this.shortDescription = sDescription;
     this.value = description;
   }
 
@@ -59,13 +61,15 @@ public class GitJobStatus {
     return value;
   }
 
-  public void update(Code status) {
-    this.status = status;
-    this.shortDescription = status.name();
-    this.value = status.name();
+  public void update(Code statusCode) {
+    this.status = statusCode;
+    this.shortDescription = statusCode.name();
+    this.value = statusCode.name();
   }
 
-  public void printJson(PrintWriter out) {
-    new Gson().toJson(this, GitJobStatus.class, new JsonWriter(out));
+  public void printJson(PrintWriter out) throws IOException {
+    try (JsonWriter writer = new JsonWriter(out)) {
+      new Gson().toJson(this, GitJobStatus.class, writer);
+    }
   }
 }

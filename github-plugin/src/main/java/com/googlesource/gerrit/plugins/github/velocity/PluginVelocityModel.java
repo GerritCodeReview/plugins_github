@@ -13,10 +13,10 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.velocity;
 
-import org.apache.velocity.VelocityContext;
-
 import com.google.inject.Inject;
 import com.google.inject.servlet.RequestScoped;
+
+import org.apache.velocity.VelocityContext;
 
 @RequestScoped
 public class PluginVelocityModel {

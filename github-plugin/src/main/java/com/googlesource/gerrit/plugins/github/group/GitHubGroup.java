@@ -14,10 +14,10 @@
 
 package com.googlesource.gerrit.plugins.github.group;
 
-import lombok.Getter;
-
 import com.google.gerrit.common.data.GroupDescription.Basic;
 import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
+
+import lombok.Getter;
 
 public abstract class GitHubGroup implements Basic {
   public static final String UUID_PREFIX = "github:";

@@ -13,6 +13,21 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.wizard;
 
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
+
+import com.googlesource.gerrit.plugins.github.GitHubConfig;
+import com.googlesource.gerrit.plugins.github.GitHubConfig.NextPage;
+import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
+import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
+
+import org.apache.http.HttpStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
@@ -20,20 +35,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.http.HttpStatus;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.gerrit.server.IdentifiedUser;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-import com.google.inject.Provider;
-import com.google.inject.Singleton;
-import com.googlesource.gerrit.plugins.github.GitHubConfig;
-import com.googlesource.gerrit.plugins.github.GitHubConfig.NextPage;
-import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
-import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
 
 @Singleton
 public class VelocityControllerServlet extends HttpServlet {
@@ -107,21 +108,21 @@ public class VelocityControllerServlet extends HttpServlet {
 
   private String trimUpToChar(String string, char ch) {
     if (string.indexOf(ch) >= 0) {
-      string = string.substring(0, string.indexOf(ch));
+      return string.substring(0, string.indexOf(ch));
     }
     return string;
   }
 
   private String trimFromChar(String string, char ch) {
     if (string.lastIndexOf(ch) >= 0) {
-      string = string.substring(string.lastIndexOf(ch) + 1);
+      return string.substring(string.lastIndexOf(ch) + 1);
     }
     return string;
   }
 
   private void redirectToNextStep(HttpServletRequest req,
       HttpServletResponse resp) throws IOException, ServletException {
-    String sourceUri = req.getRequestURI();
+    String sourceUri = req.getPathInfo();
     int pathPos = sourceUri.lastIndexOf('/') + 1;
     String sourcePage = sourceUri.substring(pathPos);
     String sourcePath = sourceUri.substring(0, pathPos);
@@ -136,7 +137,7 @@ public class VelocityControllerServlet extends HttpServlet {
       } else {
         RequestDispatcher requestDispatcher =
             req.getRequestDispatcher(nextPageURL(sourcePath, nextPage));
-        req.setAttribute("destUrl", nextPage);
+        req.setAttribute("destUrl", nextPage.uri);
         requestDispatcher.forward(req, resp);
       }
     }

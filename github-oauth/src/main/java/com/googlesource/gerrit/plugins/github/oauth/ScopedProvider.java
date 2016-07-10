@@ -13,9 +13,9 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.oauth;
 
-import javax.servlet.http.HttpServletRequest;
-
 import com.google.inject.Provider;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 public interface ScopedProvider<T> extends Provider<T>{

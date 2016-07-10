@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>GitHub plugin for Gerrit Code Review - Login Scope</title>
+    #include ("static/styles.html")
+    #include ("static/scripts.html")
+  </head>
+  <body>
+    <!-- div.header start -->
+    <div class="header">
+      <div>
+        <div class="center">
+          #include ("static/header.html")
+          <div class="page-title">
+            <div>
+              <h2>Login Scope Selection</h2>
+              <div class="right">
+                <button type="button" onclick="window.location='/'" id="cancel">
+                  <span class="button"><span>Cancel</span></span>
+                </button>
+                <button type="submit" onclick="document.forms[0].submit()">
+                  <span class="button green"><span>Login &gt;</span></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- div.header end -->
+
+    <!-- div.container start -->
+    <div class="container">
+      <div class="center">
+        <form class="signupform" method="get" action="/login">
+          <h5>Which level of GitHub access do you need?</h5>
+          <ul class="scopes">
+                #foreach ( $scope in $config.scopes.keySet() )
+                    <li>
+                        #set ( $scopeName = $scope.substring(6) )
+                        #set ( $checked = "" )
+                        #if ( ( $scopeCookie && $scopeCookie == $scope ) || $scopeName == "" ) 
+                           #set ( $checked = "checked" )
+                        #end
+                        
+                        #if ( $scopeName == "")
+                        <input type="radio" name="scope" value="scopes" $checked ><p class="scope">DEFAULT</p>
+                        #else
+                            <input type="radio" name="scope" value="scopes$scopeName" $checked ><p class="scope">$scopeName</p>
+                        #end
+                        <p>
+                            #set ( $scopeItems = $config.scopes.get($scope) )
+                            #foreach ( $scopeItem in $scopeItems )
+                                $scopeItem.description
+                                #if ( $velocityCount < $scopeItems.size())
+                                    ,&nbsp;
+                                #end
+                            #end
+                        </p>
+                    </li>
+                #end
+            </li>
+          </ul>
+          <ul class="rememberScope">
+          	<li>
+          		<input type="checkbox" name="rememberScope" checked="checked"><label>Remember my choice</label>
+          	</li>
+          </ul>
+        </form>
+      </div>
+    </div>
+    <!--div.container end -->
+
+    #include ("static/footer.html")
+
+    <script type='text/javascript' src='js/jquery/jquery.form.js?ver=2.02m'></script>
+  </body>
+</html>

@@ -13,17 +13,13 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
-import org.eclipse.jgit.lib.ProgressMonitor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.extensions.common.InheritableBoolean;
-import com.google.gerrit.extensions.common.SubmitType;
+import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
@@ -34,8 +30,13 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+
 import com.googlesource.gerrit.plugins.github.GitHubConfig;
 import com.googlesource.gerrit.plugins.github.GitHubURL;
+
+import org.eclipse.jgit.lib.ProgressMonitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CreateProjectStep extends ImportStep {
   private static final Logger LOG = LoggerFactory.getLogger(CreateProjectStep.class);
@@ -93,14 +94,14 @@ public class CreateProjectStep extends ImportStep {
         Permission.REMOVE_REVIEWER, Permission.SUBMIT, Permission.REBASE);
 
     PermissionRule reviewRange = new PermissionRule(getMyGroup());
-    reviewRange.setMin(-2);
-    reviewRange.setMax(+2);
+    reviewRange.setMin(new Integer(-2));
+    reviewRange.setMax(new Integer(+2));
     addPermission(CODE_REVIEW_REFS, Permission.LABEL + CODE_REVIEW_LABEL,
         reviewRange);
 
     PermissionRule verifiedRange = new PermissionRule(getMyGroup());
-    verifiedRange.setMin(-1);
-    verifiedRange.setMax(+1);
+    verifiedRange.setMin(new Integer(-1));
+    verifiedRange.setMax(new Integer(+1));
     addPermission(CODE_REVIEW_REFS, Permission.LABEL + VERIFIED_LABEL,
         verifiedRange);
 
@@ -108,13 +109,13 @@ public class CreateProjectStep extends ImportStep {
         Permission.PUSH_MERGE);
 
     PermissionRule forcePush = new PermissionRule(getMyGroup());
-    forcePush.setForce(true);
+    forcePush.setForce(Boolean.TRUE);
     addPermission(AccessSection.HEADS, Permission.PUSH, forcePush);
 
     addPermissions(TAGS_REFS, Permission.PUSH_TAG, Permission.PUSH_SIGNED_TAG);
 
     PermissionRule removeTag = new PermissionRule(getMyGroup());
-    removeTag.setForce(true);
+    removeTag.setForce(Boolean.TRUE);
     addPermission(TAGS_REFS, Permission.PUSH, removeTag);
   }
   

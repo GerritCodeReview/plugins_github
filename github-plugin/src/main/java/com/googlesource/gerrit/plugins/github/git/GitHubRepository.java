@@ -13,17 +13,23 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
-import java.io.IOException;
-
-import lombok.experimental.Delegate;
-
-import org.kohsuke.github.GHRepository;
-
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+
 import com.googlesource.gerrit.plugins.github.GitHubURL;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
+
+import org.eclipse.jgit.errors.UnsupportedCredentialItem;
+import org.eclipse.jgit.transport.CredentialItem;
+import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.transport.URIish;
+import org.kohsuke.github.GHRepository;
+import org.kohsuke.github.GitHub;
+
+import java.io.IOException;
+
+import lombok.experimental.Delegate;
 
 public class GitHubRepository extends GHRepository {
   public interface Factory {
@@ -34,15 +40,15 @@ public class GitHubRepository extends GHRepository {
 
   private final String organisation;
   private final String repository;
-  private final GitHubLogin ghLogin;
   private final String cloneUrl;
+  private final String username;
+  private final String password;
 
   @Delegate
   private GHRepository ghRepository;
 
   public String getCloneUrl() {
-    return cloneUrl.replace("://", "://" + ghLogin.getMyself().getLogin() + ":"
-        + ghLogin.getToken().accessToken + "@");
+    return cloneUrl.replace("://", "://" + username + "@");
   }
 
   public String getOrganisation() {
@@ -61,8 +67,63 @@ public class GitHubRepository extends GHRepository {
     this.cloneUrl = gitHubUrl + "/" + organisation + "/" + repository + ".git";
     this.organisation = organisation;
     this.repository = repository;
-    this.ghLogin = ghLoginProvider.get();
+    GitHubLogin ghLogin = ghLoginProvider.get();
+    GitHub gh = ghLogin.getHub();
+    this.username = ghLogin.getMyself().getLogin();
+    this.password = ghLogin.getToken().accessToken;
     this.ghRepository =
-        ghLogin.getHub().getRepository(organisation + "/" + repository);
+        gh.getRepository(organisation + "/" + repository);
+  }
+
+  public CredentialsProvider getCredentialsProvider() {
+    return new CredentialsProvider() {
+
+      @Override
+      public boolean supports(CredentialItem... items) {
+        for (CredentialItem i : items) {
+          if (i instanceof CredentialItem.Username) {
+            continue;
+          } else if (i instanceof CredentialItem.Password) {
+            continue;
+          } else {
+            return false;
+          }
+        }
+        return true;
+      }
+
+      @Override
+      public boolean isInteractive() {
+        return false;
+      }
+
+      @Override
+      public boolean get(URIish uri, CredentialItem... items)
+          throws UnsupportedCredentialItem {
+        String user = uri.getUser();
+        if (user == null) {
+          user = GitHubRepository.this.username;
+        }
+        if (user == null) {
+          return false;
+        }
+
+        String passwd = GitHubRepository.this.password;
+        if (passwd == null) {
+          return false;
+        }
+
+        for (CredentialItem i : items) {
+          if (i instanceof CredentialItem.Username) {
+            ((CredentialItem.Username) i).setValue(user);
+          } else if (i instanceof CredentialItem.Password) {
+            ((CredentialItem.Password) i).setValue(passwd.toCharArray());
+          } else {
+            throw new UnsupportedCredentialItem(uri, i.getPromptText());
+          }
+        }
+        return true;
+      }
+    };
   }
 }

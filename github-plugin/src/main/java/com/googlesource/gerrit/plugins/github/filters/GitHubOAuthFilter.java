@@ -13,7 +13,26 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.filters;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountCache;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
+import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
+import com.googlesource.gerrit.plugins.github.oauth.OAuthFilter;
+import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.AccessToken;
+import com.googlesource.gerrit.plugins.github.oauth.OAuthWebFilter;
+import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
+import java.util.Collection;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -23,28 +42,21 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
-import com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig;
-import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
-import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
-
 @Singleton
 public class GitHubOAuthFilter implements Filter {
   private Logger LOG = LoggerFactory.getLogger(GitHubOAuthFilter.class);
 
   private final ScopedProvider<GitHubLogin> loginProvider;
-  private final Scope[] authScopes;
+  private final Provider<CurrentUser> userProvider;
+  private final AccountCache accountCache;
 
   @Inject
-  public GitHubOAuthFilter(final ScopedProvider<GitHubLogin> loginProvider,
-      final GitHubOAuthConfig githubOAuthConfig) {
+  public GitHubOAuthFilter(ScopedProvider<GitHubLogin> loginProvider,
+      Provider<CurrentUser> userProvider,
+      AccountCache accountCache) {
     this.loginProvider = loginProvider;
-    this.authScopes = githubOAuthConfig.getDefaultScopes();
+    this.userProvider = userProvider;
+    this.accountCache = accountCache;
   }
 
   @Override
@@ -56,12 +68,41 @@ public class GitHubOAuthFilter implements Filter {
       FilterChain chain) throws IOException, ServletException {
     GitHubLogin hubLogin = loginProvider.get((HttpServletRequest) request);
     LOG.debug("GitHub login: " + hubLogin);
-    if (!hubLogin.isLoggedIn()) {
-      hubLogin.login(request, response, authScopes);
-      return;
-    } else {
-      chain.doFilter(request, response);
+    CurrentUser user = userProvider.get();
+    if (!hubLogin.isLoggedIn()
+        && !OAuthFilter.skipOAuth((HttpServletRequest) request)
+        && user.isIdentifiedUser()) {
+      AccountExternalId gitHubExtId = getGitHubExternalId(user);
+
+      String oauthToken =
+          gitHubExtId.getSchemeRest()
+              .substring(OAuthWebFilter.GITHUB_EXT_ID.length());
+      hubLogin.login(new AccessToken(oauthToken));
     }
+
+    chain.doFilter(request, response);
+  }
+
+  private AccountExternalId getGitHubExternalId(CurrentUser user) {
+    Collection<AccountExternalId> accountExtIds =
+        accountCache.get(((IdentifiedUser) user).getAccountId())
+            .getExternalIds();
+    Collection<AccountExternalId> gitHubExtId =
+        Collections2.filter(accountExtIds,
+            new Predicate<AccountExternalId>() {
+              @Override
+              public boolean apply(AccountExternalId externalId) {
+                return externalId.isScheme(AccountExternalId.SCHEME_EXTERNAL)
+                    && externalId.getSchemeRest().startsWith(
+                        OAuthWebFilter.GITHUB_EXT_ID);
+              }
+            });
+
+    if (gitHubExtId.isEmpty()) {
+      throw new IllegalStateException("Current Gerrit user "
+          + user.getUserName() + " has no GitHub OAuth external ID");
+    }
+    return gitHubExtId.iterator().next();
   }
 
   @Override

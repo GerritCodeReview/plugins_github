@@ -14,13 +14,13 @@
 
 package com.googlesource.gerrit.plugins.github.group;
 
-import java.util.Set;
-
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+
+import java.util.Set;
 
 public class GitHubGroupMembership implements GroupMembership {
   private final Set<UUID> groups;
@@ -49,13 +49,13 @@ public class GitHubGroupMembership implements GroupMembership {
 
   @Override
   public Set<UUID> intersection(Iterable<UUID> groupIds) {
-    ImmutableSet.Builder<UUID> groups = new ImmutableSet.Builder<>();
+    ImmutableSet.Builder<UUID> groupBuilder = new ImmutableSet.Builder<>();
     for (UUID uuid : groupIds) {
       if (contains(uuid)) {
-        groups.add(uuid);
+        groupBuilder.add(uuid);
       }
     }
-    return groups.build();
+    return groupBuilder.build();
   }
 
   @Override

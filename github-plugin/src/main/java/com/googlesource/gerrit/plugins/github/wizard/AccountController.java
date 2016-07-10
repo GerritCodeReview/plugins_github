@@ -13,27 +13,10 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.wizard;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang.StringUtils;
-import org.kohsuke.github.GHKey;
-import org.kohsuke.github.GHMyself;
-import org.kohsuke.github.GHVerifiedKey;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.Id;
@@ -47,11 +30,28 @@ import com.google.gerrit.server.account.AddSshKey;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.GetSshKeys;
-import com.google.gerrit.server.account.GetSshKeys.SshKeyInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
+
+import org.apache.commons.lang.StringUtils;
+import org.kohsuke.github.GHKey;
+import org.kohsuke.github.GHMyself;
+import org.kohsuke.github.GHVerifiedKey;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class AccountController implements VelocityController {
 
@@ -74,6 +74,7 @@ public class AccountController implements VelocityController {
     this.accountCache = accountCache;
   }
 
+  @Override
   public void doAction(IdentifiedUser user, GitHubLogin hubLogin,
       HttpServletRequest req, HttpServletResponse resp, ControllerErrors errors)
       throws ServletException, IOException {
@@ -108,7 +109,7 @@ public class AccountController implements VelocityController {
 
       accountCache.evict(accountId);
       log.debug("Account cache evicted for {}", accountId);
-    } catch (AccountException | OrmException e) {
+    } catch (AccountException | OrmException | IOException e) {
       throw new ServletException("Cannot associate email '" + email
           + "' to current user '" + user + "'", e);
     }

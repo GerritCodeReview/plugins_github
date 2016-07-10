@@ -13,12 +13,12 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.servlet.SessionScoped;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @SessionScoped
 public class PullRequestImporter extends BatchImporter {

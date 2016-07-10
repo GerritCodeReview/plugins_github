@@ -15,30 +15,29 @@
 package com.googlesource.gerrit.plugins.github.group;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.googlesource.gerrit.plugins.github.group.GitHubOrganisationGroup.NAME_PREFIX;
-import static com.googlesource.gerrit.plugins.github.group.GitHubOrganisationGroup.UUID_PREFIX;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Set;
-import java.util.concurrent.ExecutionException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static com.googlesource.gerrit.plugins.github.group.GitHubGroup.NAME_PREFIX;
+import static com.googlesource.gerrit.plugins.github.group.GitHubGroup.UUID_PREFIX;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSet.Builder;
 import com.google.gerrit.common.data.GroupDescription.Basic;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
-import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
-import com.googlesource.gerrit.plugins.github.oauth.UserScopedProvider;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 public class GitHubGroupBackend implements GroupBackend {
   private static final Logger log = LoggerFactory
@@ -48,11 +47,15 @@ public class GitHubGroupBackend implements GroupBackend {
 
   @Inject
   GitHubGroupBackend(
-      UserScopedProvider<GitHubLogin> ghLogin,
       GitHubGroupMembership.Factory ghMembershipProvider,
       GitHubGroupsCache ghOrganisationCache) {
     this.ghMembershipProvider = ghMembershipProvider;
     this.ghOrganisationCache = ghOrganisationCache;
+  }
+
+  @Override
+  public boolean isVisibleToAll(AccountGroup.UUID uuid) {
+    return true;
   }
 
   @Override
@@ -91,7 +94,7 @@ public class GitHubGroupBackend implements GroupBackend {
       log.debug("Full list of user's organisations: {}", ghOrgs);
 
       Builder<GroupReference> orgGroups =
-          new ImmutableSet.Builder<GroupReference>();
+          new ImmutableSet.Builder<>();
       for (String organizationName : ghOrgs) {
         if (organizationName.toLowerCase().startsWith(orgNamePrefixLowercase)) {
           GroupReference teamGroupRef =
@@ -124,8 +127,7 @@ public class GitHubGroupBackend implements GroupBackend {
     String username = user.getUserName();
     if (Strings.isNullOrEmpty(username)) {
       return GroupMembership.EMPTY;
-    } else {
-      return ghMembershipProvider.get(username);
     }
+    return ghMembershipProvider.get(username);
   }
 }

@@ -21,7 +21,7 @@ limitations under the License.
   <parent>
     <groupId>com.googlesource.gerrit.plugins.github</groupId>
     <artifactId>github-parent</artifactId>
-    <version>2.10.3</version>
+    <version>2.13-SNAPSHOT</version>
   </parent>
   <artifactId>github-oauth</artifactId>
   <name>Gerrit Code Review - GitHub OAuth login</name>
@@ -107,12 +107,13 @@ limitations under the License.
     <dependency>
       <groupId>org.kohsuke</groupId>
       <artifactId>github-api</artifactId>
-      <version>1.57</version>
+      <version>1.70</version>
     </dependency>
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpclient</artifactId>
-      <version>4.2.5</version>
+      <version>4.4</version>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
 </project>

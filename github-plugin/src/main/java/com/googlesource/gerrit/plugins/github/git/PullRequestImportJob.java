@@ -13,14 +13,38 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
-import java.io.IOException;
-import java.util.List;
+import static com.google.gerrit.reviewdb.client.RefNames.REFS_HEADS;
+
+import com.google.common.collect.Lists;
+import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gerrit.reviewdb.client.Change.Id;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
+import com.google.gerrit.reviewdb.server.AccountExternalIdAccess;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.account.AccountImporter;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
+import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.assistedinject.Assisted;
+
+import com.googlesource.gerrit.plugins.github.git.GitJobStatus.Code;
+import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
+import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
 
 import org.eclipse.jgit.api.FetchCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.TransportException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
@@ -36,29 +60,8 @@ import org.kohsuke.github.GitUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.Lists;
-import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.reviewdb.client.Change.Id;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.NameKey;
-import com.google.gerrit.reviewdb.server.AccountExternalIdAccess;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.account.AccountImporter;
-import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
-import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.assistedinject.Assisted;
-import com.googlesource.gerrit.plugins.github.GitHubURL;
-import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
-import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
-import com.googlesource.gerrit.plugins.github.git.GitJobStatus.Code;
+import java.io.IOException;
+import java.util.List;
 
 public class PullRequestImportJob implements GitJob, ProgressMonitor {
 
@@ -89,8 +92,8 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
   private AccountImporter accountImporter;
 
   @Inject
-  public PullRequestImportJob(@GitHubURL String gitHubUrl,
-      GitRepositoryManager repoMgr, PullRequestCreateChange createChange,
+  public PullRequestImportJob(GitRepositoryManager repoMgr,
+      PullRequestCreateChange createChange,
       ProjectCache projectCache,
       Provider<ReviewDb> schema, AccountImporter accountImporter,
       GitHubRepository.Factory gitHubRepoFactory,
@@ -113,26 +116,24 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
   }
 
   private Project fetchGerritProject(ProjectCache projectCache,
-      String organisation, String repoName) {
+      String fetchOrganisation, String fetchRepoName) {
     NameKey projectNameKey =
-        Project.NameKey.parse(organisation + "/" + repoName);
+        Project.NameKey.parse(fetchOrganisation + "/" + fetchRepoName);
     ProjectState projectState = projectCache.get(projectNameKey);
     return projectState.getProject();
   }
 
   @Override
   public void run() {
-    ReviewDb db = schema.get();
-    try {
+    try (ReviewDb db = schema.get()) {
       status.update(GitJobStatus.Code.SYNC);
       exitWhenCancelled();
       GHPullRequest pr = fetchGitHubPullRequestInfo();
 
       exitWhenCancelled();
-      Repository gitRepo =
+      try (Repository gitRepo =
           repoMgr.openRepository(new Project.NameKey(organisation + "/"
-              + repoName));
-      try {
+              + repoName))) {
         exitWhenCancelled();
         fetchGitHubPullRequest(gitRepo, pr);
 
@@ -140,72 +141,58 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
         List<Id> changeIds = addPullRequestToChange(db, pr, gitRepo);
         status.update(GitJobStatus.Code.COMPLETE, "Imported",
             "PullRequest imported as Changes " + changeIds);
-      } finally {
-        gitRepo.close();
       }
-      db.commit();
     } catch (JobCancelledException e) {
       status.update(GitJobStatus.Code.CANCELLED);
-      try {
-        db.rollback();
-      } catch (OrmException e1) {
-        LOG.error("Error rolling back transation", e1);
-      }
     } catch (Throwable e) {
       LOG.error("Pull request " + prId + " into repository " + organisation
           + "/" + repoName + " was failed", e);
       status.update(GitJobStatus.Code.FAILED, "Failed",  e.getLocalizedMessage());
-      try {
-        db.rollback();
-      } catch (OrmException e1) {
-        LOG.error("Error rolling back transation", e1);
-      }
-    } finally {
-      db.close();
     }
   }
 
   private List<Id> addPullRequestToChange(ReviewDb db, GHPullRequest pr,
       Repository gitRepo) throws Exception {
-    String destinationBranch = pr.getBase().getRef();
+    String destinationBranch = REFS_HEADS + pr.getBase().getRef();
     List<Id> prChanges = Lists.newArrayList();
     ObjectId baseObjectId = ObjectId.fromString(pr.getBase().getSha());
     ObjectId prHeadObjectId = ObjectId.fromString(pr.getHead().getSha());
 
-    RevWalk walk = new RevWalk(gitRepo);
-    walk.markUninteresting(walk.lookupCommit(baseObjectId));
-    walk.markStart(walk.lookupCommit(prHeadObjectId));
-    walk.sort(RevSort.REVERSE);
+    try (RevWalk walk = new RevWalk(gitRepo)) {
+      walk.markUninteresting(walk.lookupCommit(baseObjectId));
+      walk.markStart(walk.lookupCommit(prHeadObjectId));
+      walk.sort(RevSort.REVERSE);
 
-    int patchNr = 1;
-    for (GHPullRequestCommitDetail ghCommitDetail : pr.listCommits()) {
-      status.update(Code.SYNC, "Patch #" + patchNr, "Patch#" + patchNr
-          + ": Inserting PullRequest into Gerrit");
-      RevCommit revCommit =
-          walk.parseCommit(ObjectId.fromString(ghCommitDetail.getSha()));
+      int patchNr = 1;
+      for (GHPullRequestCommitDetail ghCommitDetail : pr.listCommits()) {
+        status.update(Code.SYNC, "Patch #" + patchNr, "Patch#" + patchNr
+            + ": Inserting PullRequest into Gerrit");
+        RevCommit revCommit =
+            walk.parseCommit(ObjectId.fromString(ghCommitDetail.getSha()));
 
-      GHUser prUser = pr.getUser();
-      GitUser commitAuthor = ghCommitDetail.getCommit().getAuthor();
-      GitHubUser gitHubUser = GitHubUser.from(prUser, commitAuthor);
+        GHUser prUser = pr.getUser();
+        GitUser commitAuthor = ghCommitDetail.getCommit().getAuthor();
+        GitHubUser gitHubUser = GitHubUser.from(prUser, commitAuthor);
 
-      Account.Id pullRequestOwner = getOrRegisterAccount(db, gitHubUser);
-      Id changeId =
-          createChange.addCommitToChange(db, project, gitRepo,
-              destinationBranch, pullRequestOwner, revCommit,
-              getChangeMessage(pr),
-              String.format(TOPIC_FORMAT, pr.getNumber()), false);
-      if (changeId != null) {
-        prChanges.add(changeId);
+        Account.Id pullRequestOwner = getOrRegisterAccount(db, gitHubUser);
+        Id changeId =
+            createChange.addCommitToChange(db, project, gitRepo,
+                destinationBranch, pullRequestOwner, revCommit,
+                getChangeMessage(pr),
+                String.format(TOPIC_FORMAT, new Integer(pr.getNumber())));
+        if (changeId != null) {
+          prChanges.add(changeId);
+        }
       }
-    }
 
-    return prChanges;
+      return prChanges;
+    }
   }
 
   private com.google.gerrit.reviewdb.client.Account.Id getOrRegisterAccount(
       ReviewDb db, GitHubUser author) throws BadRequestException,
       ResourceConflictException, UnprocessableEntityException, OrmException,
-      IOException {
+      IOException, ConfigInvalidException {
     return getOrRegisterAccount(db, author.getLogin(), author.getName(),
         author.getEmail());
   }
@@ -213,16 +200,15 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
   private com.google.gerrit.reviewdb.client.Account.Id getOrRegisterAccount(
       ReviewDb db, String login, String name, String email)
       throws OrmException, BadRequestException, ResourceConflictException,
-      UnprocessableEntityException, IOException {
+      UnprocessableEntityException, IOException, ConfigInvalidException {
     AccountExternalId.Key userExtKey =
         new AccountExternalId.Key(AccountExternalId.SCHEME_USERNAME, login);
     AccountExternalIdAccess gerritExtIds = db.accountExternalIds();
     AccountExternalId userExtId = gerritExtIds.get(userExtKey);
     if (userExtId == null) {
       return accountImporter.importAccount(login, name, email);
-    } else {
-      return userExtId.getAccountId();
     }
+    return userExtId.getAccountId();
   }
 
   private String getChangeMessage(GHPullRequest pr) {
@@ -240,13 +226,15 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
       throws GitAPIException, InvalidRemoteException, TransportException {
     status.update(Code.SYNC, "Fetching", "Fetching PullRequests from GitHub");
 
-    Git git = Git.wrap(gitRepo);
-    FetchCommand fetch = git.fetch();
-    fetch.setRemote(ghRepository.getCloneUrl());
-    fetch.setRefSpecs(new RefSpec("+refs/pull/" + pr.getNumber()
-        + "/head:refs/remotes/origin/pr/" + pr.getNumber()));
-    fetch.setProgressMonitor(this);
-    fetch.call();
+    try (Git git = Git.wrap(gitRepo)) {
+      FetchCommand fetch = git.fetch();
+      fetch.setRemote(ghRepository.getCloneUrl());
+      fetch.setRefSpecs(new RefSpec("+refs/pull/" + pr.getNumber()
+          + "/head:refs/remotes/origin/pr/" + pr.getNumber()));
+      fetch.setProgressMonitor(this);
+      fetch.setCredentialsProvider(ghRepository.getCredentialsProvider());
+      fetch.call();
+    }
   }
 
   private GHPullRequest fetchGitHubPullRequestInfo() throws IOException {
@@ -273,10 +261,9 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
   public GHRepository getGHRepository() throws IOException {
     if (ghLogin.getMyself().getLogin().equals(organisation)) {
       return ghLogin.getMyself().getRepository(repoName);
-    } else {
-      return ghLogin.getHub().getOrganization(organisation)
-          .getRepository(repoName);
     }
+    return ghLogin.getHub().getOrganization(organisation)
+        .getRepository(repoName);
   }
 
   @Override

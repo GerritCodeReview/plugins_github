@@ -13,19 +13,19 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.google.gerrit.server.config.SitePaths;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 
-import com.google.gerrit.server.config.SitePaths;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Singleton
 public class ReplicationConfig {
@@ -35,31 +35,29 @@ public class ReplicationConfig {
   @Inject
   public ReplicationConfig(final SitePaths site) {
     replicationConf =
-        new FileBasedConfig(new File(site.etc_dir, "replication.config"),
+        new FileBasedConfig(new File(site.etc_dir.toFile(), "replication.config"),
             FS.DETECTED);
-    secureConf = new FileBasedConfig(site.secure_config, FS.DETECTED);
+    secureConf = new FileBasedConfig(site.secure_config.toFile(), FS.DETECTED);
   }
 
-  public synchronized void addSecureCredentials(String organisation,
-      String authUsername, String authToken) throws IOException,
+  public synchronized void addSecureCredentials(String authUsername, String authToken) throws IOException,
       ConfigInvalidException {
     secureConf.load();
-    secureConf.setString("remote", organisation, "username", authUsername);
-    secureConf.setString("remote", organisation, "password", authToken);
+    secureConf.setString("remote", authUsername, "username", authUsername);
+    secureConf.setString("remote", authUsername, "password", authToken);
     secureConf.save();
   }
 
-  public synchronized void addReplicationRemote(String organisation,
-      String url, String projectName) throws IOException,
-      ConfigInvalidException {
+  public synchronized void addReplicationRemote(String username, String url,
+      String projectName) throws IOException, ConfigInvalidException {
     replicationConf.load();
-    replicationConf.setString("remote", organisation, "url", url);
+    replicationConf.setString("remote", username, "url", url);
     List<String> projects =
-        new ArrayList<String>(Arrays.asList(replicationConf.getStringList(
-            "remote", organisation, "projects")));
+        new ArrayList<>(Arrays.asList(replicationConf.getStringList(
+            "remote", username, "projects")));
     projects.add(projectName);
-    replicationConf.setStringList("remote", organisation, "projects", projects);
-    replicationConf.setString("remote", organisation, "push", "refs/*:refs/*");
+    replicationConf.setStringList("remote", username, "projects", projects);
+    replicationConf.setString("remote", username, "push", "refs/*:refs/*");
     replicationConf.save();
   }
 

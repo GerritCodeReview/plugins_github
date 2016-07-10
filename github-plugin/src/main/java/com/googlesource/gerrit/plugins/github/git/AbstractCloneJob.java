@@ -13,10 +13,10 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
+import com.google.inject.ProvisionException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.inject.ProvisionException;
 
 public class AbstractCloneJob {
   private static final Logger LOG = LoggerFactory.getLogger(AbstractCloneJob.class);
@@ -31,11 +31,10 @@ public class AbstractCloneJob {
       return ((GitException) exception).getErrorDescription();
     } else if(ProvisionException.class.isAssignableFrom(exception.getClass())){
       Throwable cause = exception.getCause();
-      if(cause != null) {
-      return getErrorDescription(cause);
-      } else {
-        return "Import startup failed";
+      if (cause != null) {
+        return getErrorDescription(cause);
       }
+      return "Import startup failed";
     } else {
       return "Internal error";
     }

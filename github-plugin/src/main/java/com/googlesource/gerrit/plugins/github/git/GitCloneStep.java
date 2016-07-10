@@ -13,8 +13,10 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
-import java.io.File;
-import java.io.IOException;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+
+import com.googlesource.gerrit.plugins.github.GitHubConfig;
 
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.CloneCommand;
@@ -22,12 +24,8 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.gerrit.server.account.GroupBackend;
-import com.google.gerrit.server.git.MetaDataUpdate;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
-import com.googlesource.gerrit.plugins.github.GitHubConfig;
+import java.io.File;
+import java.io.IOException;
 
 public class GitCloneStep extends ImportStep {
   private static final Logger LOG = LoggerFactory.getLogger(GitImporter.class);
@@ -42,9 +40,6 @@ public class GitCloneStep extends ImportStep {
 
   @Inject
   public GitCloneStep(GitHubConfig gitConfig,
-      MetaDataUpdate.User metaDataUpdateFactory, 
-      GroupBackend groupBackend,
-      ProjectCache projectCache,
       GitHubRepository.Factory gitHubRepoFactory,
       @Assisted("organisation") String organisation,
       @Assisted("name") String repository)
@@ -52,7 +47,7 @@ public class GitCloneStep extends ImportStep {
       GitDestinationNotWritableException {
     super(gitConfig.gitHubUrl, organisation, repository, gitHubRepoFactory);
     LOG.debug("GitHub Clone " + organisation + "/" + repository);
-    this.gitDir = gitConfig.gitDir;
+    this.gitDir = gitConfig.gitDir.toFile();
     this.destinationDirectory =
         getDestinationDirectory(organisation, repository);
   }
@@ -79,6 +74,7 @@ public class GitCloneStep extends ImportStep {
   public void doImport(ProgressMonitor progress) throws GitCloneFailedException,
       GitDestinationAlreadyExistsException, GitDestinationNotWritableException {
     CloneCommand clone = new CloneCommand();
+    clone.setCredentialsProvider(getRepository().getCredentialsProvider());
     String sourceUri = getSourceUri();
     clone.setURI(sourceUri);
     clone.setBare(true);
@@ -102,6 +98,7 @@ public class GitCloneStep extends ImportStep {
     return destinationDirectory;
   }
 
+  @Override
   public boolean rollback() {
     File gitDirectory = destinationDirectory;
     if(!gitDirectory.exists()) {

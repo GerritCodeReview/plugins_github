@@ -13,17 +13,6 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.wizard;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.kohsuke.github.GHOrganization;
-import org.kohsuke.github.GHRepository;
-import org.kohsuke.github.PagedIterable;
-import org.kohsuke.github.PagedIterator;
-
 import com.google.common.base.Strings;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
@@ -36,8 +25,23 @@ import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.GitHubConfig;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 
+import org.kohsuke.github.GHMyself.RepositoryListFilter;
+import org.kohsuke.github.GHOrganization;
+import org.kohsuke.github.GHRepository;
+import org.kohsuke.github.PagedIterable;
+import org.kohsuke.github.PagedIterator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 @Singleton
 public class RepositoriesListController implements VelocityController {
+  private static final Logger log = LoggerFactory.getLogger(RepositoriesListController.class);
   private final ProjectCache projects;
   private final GitHubConfig config;
 
@@ -62,18 +66,24 @@ public class RepositoriesListController implements VelocityController {
 
     while (repoIter.hasNext() && numRepos < config.repositoryListLimit) {
       GHRepository ghRepository = repoIter.next();
-      JsonObject repository = new JsonObject();
-      String projectName = organisation + "/" + ghRepository.getName();
-      if (projects.get(Project.NameKey.parse(projectName)) == null) {
-        repository.add("name", new JsonPrimitive(ghRepository.getName()));
-        repository.add("organisation", new JsonPrimitive(organisation));
-        repository.add(
-            "description",
-            new JsonPrimitive(
-                Strings.nullToEmpty(ghRepository.getDescription())));
-        repository.add("private", new JsonPrimitive(ghRepository.isPrivate()));
-        jsonRepos.add(repository);
-        numRepos++;
+      if (ghRepository.hasPushAccess() && ghRepository.hasPullAccess()) {
+        JsonObject repository = new JsonObject();
+        String projectName = organisation + "/" + ghRepository.getName();
+        if (projects.get(Project.NameKey.parse(projectName)) == null) {
+          repository.add("name", new JsonPrimitive(ghRepository.getName()));
+          repository.add("organisation", new JsonPrimitive(organisation));
+          repository.add(
+              "description",
+              new JsonPrimitive(Strings.nullToEmpty(ghRepository
+                  .getDescription())));
+          repository
+              .add("private", new JsonPrimitive(new Boolean(ghRepository.isPrivate())));
+          jsonRepos.add(repository);
+          numRepos++;
+        }
+      } else {
+        log.warn("Skipping repository {} because user {} has no push/pull access to it",
+            ghRepository.getName(), user.getUserName());
       }
     }
 
@@ -83,11 +93,10 @@ public class RepositoriesListController implements VelocityController {
   private PagedIterable<GHRepository> getRepositories(GitHubLogin hubLogin,
       String organisation) throws IOException {
     if (organisation.equals(hubLogin.getMyself().getLogin())) {
-      return hubLogin.getMyself().listRepositories(config.repositoryListPageSize);
-    } else {
-      GHOrganization ghOrganisation =
-          hubLogin.getMyself().getOrganizations().byLogin(organisation);
-      return ghOrganisation.listRepositories(config.repositoryListPageSize);
+      return hubLogin.getMyself().listRepositories(config.repositoryListPageSize, RepositoryListFilter.OWNER);
     }
+    GHOrganization ghOrganisation =
+        hubLogin.getMyself().getAllOrganizations().byLogin(organisation);
+    return ghOrganisation.listRepositories(config.repositoryListPageSize);
   }
 }

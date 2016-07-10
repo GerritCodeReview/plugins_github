@@ -14,9 +14,20 @@
 package com.googlesource.gerrit.plugins.github.oauth;
 
 
+import com.google.gerrit.server.config.SitePaths;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
+import org.apache.commons.lang.StringUtils;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
+import org.kohsuke.github.GHMyself;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.nio.file.Files;
+import java.nio.file.attribute.FileTime;
 import java.util.Random;
 import java.util.Set;
 
@@ -31,17 +42,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang.StringUtils;
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.eclipse.jgit.util.FS;
-import org.kohsuke.github.GHMyself;
-import org.slf4j.LoggerFactory;
-
-import com.google.gerrit.server.config.SitePaths;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
 @Singleton
 public class OAuthWebFilter implements Filter {
   private static final org.slf4j.Logger log = LoggerFactory
@@ -51,16 +51,20 @@ public class OAuthWebFilter implements Filter {
 
   private final GitHubOAuthConfig config;
   private final Random retryRandom = new Random(System.currentTimeMillis());
-  private SitePaths sites;
-  private ScopedProvider<GitHubLogin> loginProvider;
+  private final SitePaths sites;
+  private final ScopedProvider<GitHubLogin> loginProvider;
+  private final OAuthProtocol oauth;
 
   @Inject
-  public OAuthWebFilter(GitHubOAuthConfig config, SitePaths sites,
+  public OAuthWebFilter(GitHubOAuthConfig config, 
+      SitePaths sites,
+      OAuthProtocol oauth,
   // We need to explicitly tell Guice the correct implementation
   // as this filter is instantiated with a standard Gerrit WebModule
       GitHubLogin.Provider loginProvider) {
     this.config = config;
     this.sites = sites;
+    this.oauth = oauth;
     this.loginProvider = loginProvider;
   }
 
@@ -81,26 +85,22 @@ public class OAuthWebFilter implements Filter {
     try {
       GitHubLogin ghLogin = loginProvider.get(httpRequest);
 
-      if (OAuthProtocol.isOAuthLogout(httpRequest)) {
-        logout(request, response, chain, httpRequest);
-      } else if (OAuthProtocol.isOAuthRequest(httpRequest)
-          && !ghLogin.isLoggedIn()) {
+      if (OAuthProtocol.isOAuthRequest(httpRequest)) {
         login(request, httpRequest, httpResponse, ghLogin);
       } else {
+        if (OAuthProtocol.isOAuthLogout(httpRequest)) {
+          httpResponse =
+              (HttpServletResponse) logout(request, httpResponse, chain, httpRequest);
+        }
+
         if (ghLogin != null && ghLogin.isLoggedIn()) {
           httpRequest =
               new AuthenticatedHttpRequest(httpRequest, config.httpHeader,
-                  ghLogin.getMyself().getLogin(),
-                  config.oauthHttpHeader,
+                  ghLogin.getMyself().getLogin(), config.oauthHttpHeader,
                   GITHUB_EXT_ID + ghLogin.getToken().accessToken);
         }
 
-        if (OAuthProtocol.isOAuthFinalForOthers(httpRequest)) {
-          httpResponse.sendRedirect(OAuthProtocol
-              .getTargetOAuthFinal(httpRequest));
-        } else {
-          chain.doFilter(httpRequest, response);
-        }
+        chain.doFilter(httpRequest, httpResponse);
       }
     } finally {
       HttpSession httpSession = httpRequest.getSession();
@@ -120,23 +120,22 @@ public class OAuthWebFilter implements Filter {
 
   private void login(ServletRequest request, HttpServletRequest httpRequest,
       HttpServletResponse httpResponse, GitHubLogin ghLogin) throws IOException {
-    if (ghLogin.login(httpRequest, httpResponse)) {
+    ghLogin.login(httpRequest, httpResponse, oauth);
+    if (ghLogin.isLoggedIn()) {
       GHMyself myself = ghLogin.getMyself();
       String user = myself.getLogin();
 
-      updateSecureConfigWithRetry(ghLogin.hub.getMyOrganizations().keySet(),
-          user, ghLogin.token.accessToken);
+      updateSecureConfigWithRetry(ghLogin.getHub().getMyOrganizations().keySet(),
+          user, ghLogin.getToken().accessToken);
     }
   }
 
-  private void logout(ServletRequest request, ServletResponse response,
-      FilterChain chain, HttpServletRequest httpRequest) throws IOException,
-      ServletException {
+  private ServletResponse logout(ServletRequest request,
+      ServletResponse response, FilterChain chain,
+      HttpServletRequest httpRequest) {
     getGitHubLogin(request).logout();
-    GitHubLogoutServletResponse bufferedResponse =
-        new GitHubLogoutServletResponse((HttpServletResponse) response,
-            config.logoutRedirectUrl);
-    chain.doFilter(httpRequest, bufferedResponse);
+    return new GitHubLogoutServletResponse((HttpServletResponse) response,
+        config.logoutRedirectUrl);
   }
 
   private GitHubLogin getGitHubLogin(ServletRequest request) {
@@ -179,8 +178,8 @@ public class OAuthWebFilter implements Filter {
       String user, String access_token) throws IOException,
       ConfigInvalidException {
     FileBasedConfig currentSecureConfig =
-        new FileBasedConfig(sites.secure_config, FS.DETECTED);
-    long currentSecureConfigUpdateTs = sites.secure_config.lastModified();
+        new FileBasedConfig(sites.secure_config.toFile(), FS.DETECTED);
+    FileTime currentSecureConfigUpdateTs = Files.getLastModifiedTime(sites.secure_config);
     currentSecureConfig.load();
 
     boolean configUpdate =
@@ -198,30 +197,28 @@ public class OAuthWebFilter implements Filter {
     log.info("Updating " + sites.secure_config + " credentials for user "
         + user);
 
-    if (sites.secure_config.lastModified() != currentSecureConfigUpdateTs) {
+    FileTime secureConfigCurrentModifiedTime =
+        Files.getLastModifiedTime(sites.secure_config);
+    if (!secureConfigCurrentModifiedTime.equals(currentSecureConfigUpdateTs)) {
       throw new ConcurrentFileBasedConfigWriteException("File "
           + sites.secure_config + " was written at "
-          + formatTS(sites.secure_config.lastModified())
+          + secureConfigCurrentModifiedTime
           + " while was trying to update security for user " + user);
     }
     currentSecureConfig.save();
   }
 
-  private String formatTS(long ts) {
-    return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(ts));
-  }
-
-  private boolean updateConfigSection(FileBasedConfig config, String section,
+  private boolean updateConfigSection(FileBasedConfig c, String section,
       String user, String password) {
-    String configUser = config.getString("remote", section, "username");
-    String configPassword = config.getString("remote", section, "password");
+    String configUser = c.getString("remote", section, "username");
+    String configPassword = c.getString("remote", section, "password");
     if (!StringUtils.equals(configUser, user)
         || StringUtils.equals(configPassword, password)) {
       return false;
     }
 
-    config.setString("remote", section, "username", user);
-    config.setString("remote", section, "password", password);
+    c.setString("remote", section, "username", user);
+    c.setString("remote", section, "password", password);
     return true;
   }
 

@@ -41,7 +41,7 @@
               <li>
                 <select id="organisation" name="organisation">
                   <option selected="selected">$myself.login</option>
-                  #foreach( $organisation in $myself.organizations )
+                  #foreach( $organisation in $myself.allOrganizations )
                     #if ( $request.getParameter("organisation") == $organisation.login )
                       <option selected="selected">$organisation.login</option>
                     #else

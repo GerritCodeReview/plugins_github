@@ -13,20 +13,22 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github;
 
-import java.io.File;
-import java.net.MalformedURLException;
-import java.util.HashMap;
-
-import org.eclipse.jgit.lib.Config;
-
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.Maps;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
+import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig;
+
+import org.eclipse.jgit.lib.Config;
+
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.util.HashMap;
 
 @Singleton
 public class GitHubConfig extends GitHubOAuthConfig {
@@ -45,8 +47,10 @@ public class GitHubConfig extends GitHubOAuthConfig {
       "repositoryListLimit";
   private static final String CONF_PUBLIC_BASE_PROJECT = "publicBaseProject";
   private static final String CONF_PRIVATE_BASE_PROJECT = "privateBaseProject";
+  private static final String CONF_WEBHOOK_SECRET = "webhookSecret";
+  private static final String CONF_WEBHOOK_USER = "webhookUser";
 
-  public final File gitDir;
+  public final Path gitDir;
   public final int jobPoolLimit;
   public final int jobExecTimeout;
   public final int pullRequestListLimit;
@@ -55,6 +59,8 @@ public class GitHubConfig extends GitHubOAuthConfig {
   public final String privateBaseProject;
   public final String publicBaseProject;
   public final String allProjectsName;
+  public final String webhookSecret;
+  public final String webhookUser;
 
   public static class NextPage {
     public final String uri;
@@ -68,9 +74,13 @@ public class GitHubConfig extends GitHubOAuthConfig {
 
 
   @Inject
-  public GitHubConfig(@GerritServerConfig Config config, final SitePaths site, AllProjectsNameProvider allProjectsNameProvider)
+  public GitHubConfig(@GerritServerConfig Config config, 
+      final SitePaths site, 
+      AllProjectsNameProvider allProjectsNameProvider,
+      @CanonicalWebUrl String canonicalWebUrl, 
+      AuthConfig authConfig)
       throws MalformedURLException {
-    super(config);
+    super(config, canonicalWebUrl, authConfig);
     String[] wizardFlows =
         config.getStringList(CONF_SECTION, null, CONF_WIZARD_FLOW);
     for (String fromTo : wizardFlows) {
@@ -102,6 +112,8 @@ public class GitHubConfig extends GitHubOAuthConfig {
     publicBaseProject =
         config.getString(CONF_SECTION, null, CONF_PUBLIC_BASE_PROJECT);
     allProjectsName = allProjectsNameProvider.get().toString();
+    webhookSecret = config.getString(CONF_SECTION, null, CONF_WEBHOOK_SECRET);
+    webhookUser = config.getString(CONF_SECTION, null, CONF_WEBHOOK_USER);
   }
 
   private String getSeparator(boolean redirect) {
@@ -123,7 +135,7 @@ public class GitHubConfig extends GitHubOAuthConfig {
   }
 
   public String getBaseProject(boolean isPrivateProject) {
-    return Objects.firstNonNull(isPrivateProject ? privateBaseProject
+    return MoreObjects.firstNonNull(isPrivateProject ? privateBaseProject
         : publicBaseProject, allProjectsName);
   }
 }

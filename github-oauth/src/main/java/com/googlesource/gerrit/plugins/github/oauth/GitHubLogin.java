@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.github.oauth;
 import static java.util.concurrent.TimeUnit.DAYS;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -25,33 +26,33 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import lombok.Getter;
 
-import org.apache.http.HttpStatus;
 import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GitHub;
+import org.kohsuke.github.GitHubBuilder;
+import org.kohsuke.github.HttpConnector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.AccessToken;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
 
-public class GitHubLogin {
+public class GitHubLogin implements Serializable {
+  private static final long serialVersionUID = 1L;
   private static final Logger log = LoggerFactory.getLogger(GitHubLogin.class);
   private static final List<Scope> DEFAULT_SCOPES = Arrays.asList(
-      Scope.PUBLIC_REPO, Scope.USER_EMAIL);
-  private static final int YEARS = 365;
+      Scope.PUBLIC_REPO, Scope.USER_EMAIL, Scope.READ_ORG);
   private static final long SCOPE_COOKIE_NEVER_EXPIRES = DAYS
-      .toSeconds(50 * YEARS);
+      .toSeconds(50 * 365);
 
   @Singleton
   public static class Provider extends HttpSessionProvider<GitHubLogin> {
@@ -62,112 +63,93 @@ public class GitHubLogin {
   }
 
   @Getter
-  protected AccessToken token;
+  private AccessToken token;
 
-  @Getter
-  protected GitHub hub;
-
-  protected GHMyself myself;
-
-  private transient OAuthProtocol oauth;
+  private String state;
 
   private SortedSet<Scope> loginScopes;
   private final GitHubOAuthConfig config;
+  private final HttpConnector httpConnector;
 
-  public GHMyself getMyself() {
+  public GHMyself getMyself() throws IOException {
     if (isLoggedIn()) {
-      return myself;
-    } else {
-      return null;
+      return getHub().getMyself();
     }
+    return null;
   }
 
   public Set<String> getMyOrganisationsLogins() throws IOException {
     if (isLoggedIn()) {
-      return hub.getMyOrganizations().keySet();
-    } else {
-      return Collections.emptySet();
+      return getHub().getMyOrganizations().keySet();
     }
+    return Collections.emptySet();
   }
 
   @Inject
-  public GitHubLogin(final OAuthProtocol oauth, final GitHubOAuthConfig config) {
-    this.oauth = oauth;
+  public GitHubLogin(GitHubOAuthConfig config,
+                     GitHubHttpConnector httpConnector) {
     this.config = config;
+    this.httpConnector = httpConnector;
   }
 
   public boolean isLoggedIn() {
-    boolean loggedIn = token != null && hub != null;
-    if (loggedIn && myself == null) {
-      try {
-        myself = hub.getMyself();
-      } catch (Throwable e) {
-        log.error("Connection to GitHub broken: logging out", e);
-        logout();
-        loggedIn = false;
-      }
-    }
-    return loggedIn;
+    return token != null;
   }
 
-  public boolean login(ServletRequest request, ServletResponse response,
-      Scope... scopes) throws IOException {
-    return login((HttpServletRequest) request, (HttpServletResponse) response,
-        scopes);
-  }
-
-  public boolean login(HttpServletRequest request,
-      HttpServletResponse response, Scope... scopes) throws IOException {
-    if (isLoggedIn()) {
-      return true;
-    }
+  public void login(HttpServletRequest request,
+      HttpServletResponse response, OAuthProtocol oauth, Scope... scopes) throws IOException {
 
     log.debug("Login " + this);
-
     if (OAuthProtocol.isOAuthFinal(request)) {
       log.debug("Login-FINAL " + this);
-      AccessToken loginAccessToken = oauth.loginPhase2(request, response);
-      if(loginAccessToken != null && !loginAccessToken.isError()) {
-        login(loginAccessToken);
-      }
+      login(oauth.loginPhase2(request, response, state));
+      this.state = ""; // Make sure state is used only once
 
       if (isLoggedIn()) {
         log.debug("Login-SUCCESS " + this);
         response.sendRedirect(OAuthProtocol.getTargetUrl(request));
-        return true;
-      } else {
-        response.sendError(HttpStatus.SC_UNAUTHORIZED);
-        return false;
       }
     } else {
-      this.loginScopes = getScopes(getScopesKey(request, response), scopes);
-      log.debug("Login-PHASE1 " + this);
-      oauth.loginPhase1(request, response, loginScopes);
-      return false;
+      Set<String> configuredScopesProfiles = config.scopes.keySet();
+      String scopeRequested = getScopesKey(request, response);
+      if (Strings.isNullOrEmpty(scopeRequested)
+          && configuredScopesProfiles.size() > 1) {
+        response.sendRedirect(config.scopeSelectionUrl);
+      } else {
+        this.loginScopes =
+            getScopes(MoreObjects.firstNonNull(scopeRequested, "scopes"),
+                scopes);
+        log.debug("Login-PHASE1 " + this);
+        state = oauth.loginPhase1(request, response, loginScopes);
+      }
     }
   }
 
   public void logout() {
-    hub = null;
     token = null;
-  }
-
-  public OAuthProtocol getOAuthProtocol() {
-    return oauth;
   }
 
   public GitHub login(AccessToken authToken) throws IOException {
     log.debug("Logging in using access token {}", authToken.accessToken);
     this.token = authToken;
-    this.hub = GitHub.connectUsingOAuth(authToken.accessToken);
-    this.myself = hub.getMyself();
-    return this.hub;
+    return getHub();
   }
 
   @Override
   public String toString() {
-    return "GitHubLogin [token=" + token + ", myself=" + myself + ", scopes="
+    return "GitHubLogin [token=" + token + ", scopes="
         + loginScopes + "]";
+  }
+
+  public GitHub getHub() throws IOException {
+    if (token == null) {
+      return null;
+    }
+    return new GitHubBuilder()
+      .withEndpoint(config.gitHubApiUrl)
+      .withOAuthToken(token.accessToken)
+      .withConnector(httpConnector)
+      .build();
   }
 
   private String getScopesKey(HttpServletRequest request,
@@ -177,17 +159,20 @@ public class GitHubLogin {
       scopeRequested = getScopesKeyFromCookie(request);
     }
 
-    if (scopeRequested != null) {
+    boolean rememberScope =
+        Strings.nullToEmpty(request.getParameter("rememberScope"))
+            .equalsIgnoreCase("on");
+    if (scopeRequested != null && rememberScope) {
       Cookie scopeCookie = new Cookie("scope", scopeRequested);
       scopeCookie.setPath("/");
       scopeCookie.setMaxAge((int) SCOPE_COOKIE_NEVER_EXPIRES);
       response.addCookie(scopeCookie);
     }
-
-    return Objects.firstNonNull(scopeRequested, "scopes");
+    
+    return scopeRequested;
   }
 
-  private String getScopesKeyFromCookie(HttpServletRequest request) {
+  public String getScopesKeyFromCookie(HttpServletRequest request) {
     Cookie[] cookies = request.getCookies();
     if (cookies == null) {
       return null;
@@ -202,14 +187,14 @@ public class GitHubLogin {
   }
 
   private SortedSet<Scope> getScopes(String baseScopeKey, Scope... scopes) {
-    HashSet<Scope> fullScopes = new HashSet<Scope>(scopesForKey(baseScopeKey));
+    HashSet<Scope> fullScopes = new HashSet<>(scopesForKey(baseScopeKey));
     fullScopes.addAll(Arrays.asList(scopes));
 
-    return new TreeSet<Scope>(fullScopes);
+    return new TreeSet<>(fullScopes);
   }
 
   private List<Scope> scopesForKey(String baseScopeKey) {
-    return Objects
+    return MoreObjects
         .firstNonNull(config.scopes.get(baseScopeKey), DEFAULT_SCOPES);
   }
 }

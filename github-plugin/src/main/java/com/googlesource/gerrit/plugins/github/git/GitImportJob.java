@@ -13,9 +13,9 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
-import org.eclipse.jgit.lib.ProgressMonitor;
-
 import com.googlesource.gerrit.plugins.github.git.GitJobStatus.Code;
+
+import org.eclipse.jgit.lib.ProgressMonitor;
 
 public class GitImportJob extends AbstractCloneJob implements Runnable,
     ProgressMonitor, GitJob {
@@ -77,16 +77,16 @@ public class GitImportJob extends AbstractCloneJob implements Runnable,
   public String getStatusDescription() {
     if (exception != null) {
       return getErrorDescription(exception);
-    } else {
-      switch (status.getStatus()) {
-        case COMPLETE:
-          return "Cloned (100%)";
-        case CANCELLED:
-          return "Cancelled";
-        default:
-          return "Phase-" + currTask + " / " + task + " (" + lastPercentage
-              + "%)";
-      }
+    }
+
+    switch (status.getStatus()) {
+      case COMPLETE:
+        return "Cloned (100%)";
+      case CANCELLED:
+        return "Cancelled";
+      default:
+        return "Phase-" + currTask + " / " + task + " (" + lastPercentage
+            + "%)";
     }
   }
 
@@ -133,9 +133,9 @@ public class GitImportJob extends AbstractCloneJob implements Runnable,
   }
 
   @Override
-  public void beginTask(String task, int totalUnits) {
+  public void beginTask(String taskName, int totalUnits) {
     this.currTask++;
-    this.task = task;
+    this.task = taskName;
     this.totUnits = totalUnits;
     this.currUnit = 0;
     this.lastPercentage = 0;

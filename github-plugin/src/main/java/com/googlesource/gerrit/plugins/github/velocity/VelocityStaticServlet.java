@@ -14,6 +14,20 @@
 
 package com.googlesource.gerrit.plugins.github.velocity;
 
+import com.google.common.collect.Maps;
+import com.google.gwtexpui.server.CacheHeaders;
+import com.google.gwtjsonrpc.server.RPCServletUtils;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
+import com.google.inject.name.Named;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.velocity.runtime.RuntimeInstance;
+import org.apache.velocity.runtime.resource.Resource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,20 +39,6 @@ import java.util.zip.GZIPOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.velocity.runtime.RuntimeInstance;
-import org.apache.velocity.runtime.resource.Resource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.common.collect.Maps;
-import com.google.gwtexpui.server.CacheHeaders;
-import com.google.gwtjsonrpc.server.RPCServletUtils;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.Singleton;
-import com.google.inject.name.Named;
 
 /** Sends static content using Velocity resource resolver */
 @SuppressWarnings("serial")
@@ -73,16 +73,11 @@ public class VelocityStaticServlet extends HttpServlet {
   }
 
   private static byte[] readResource(final Resource p) throws IOException {
-    final InputStream in = p.getResourceLoader().getResourceStream(p.getName());
-    ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-    try {
+    try (InputStream in = p.getResourceLoader().getResourceStream(p.getName());
+        ByteArrayOutputStream byteOut = new ByteArrayOutputStream()) {
       IOUtils.copy(in, byteOut);
-    } finally {
-      in.close();
-      byteOut.close();
+      return byteOut.toByteArray();
     }
-
-    return byteOut.toByteArray();
   }
 
   private static byte[] compress(final byte[] raw) throws IOException {
@@ -161,11 +156,8 @@ public class VelocityStaticServlet extends HttpServlet {
     rsp.setDateHeader("Last-Modified", p.getLastModified());
     rsp.setContentType(type);
     rsp.setContentLength(tosend.length);
-    final OutputStream out = rsp.getOutputStream();
-    try {
+    try (OutputStream out = rsp.getOutputStream()) {
       out.write(tosend);
-    } finally {
-      out.close();
     }
   }
 }

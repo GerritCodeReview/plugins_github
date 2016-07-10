@@ -13,12 +13,9 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 import com.google.gerrit.extensions.annotations.Listen;
 import com.google.gerrit.extensions.annotations.PluginName;
+import com.google.gerrit.extensions.client.MenuItem;
 import com.google.gerrit.extensions.webui.TopMenu;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.CurrentUser;
@@ -27,6 +24,10 @@ import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 @Listen
 @Singleton
@@ -38,10 +39,12 @@ public class GitHubTopMenu implements TopMenu {
   @Inject
   public GitHubTopMenu(@PluginName String pluginName,
       Provider<CurrentUser> userProvider,
-      AuthConfig authConfig) {
+      AuthConfig authConfig,
+      GitHubConfig ghConfig) {
     String baseUrl = "/plugins/" + pluginName;
     this.menuEntries =
         Arrays.asList(new MenuEntry("GitHub", Arrays.asList(
+            getItem("Scope", ghConfig.scopeSelectionUrl),
             getItem("Profile", baseUrl + "/static/account.html"),
             getItem("Repositories", baseUrl + "/static/repositories.html"),
             getItem("Pull Requests", baseUrl + "/static/pullrequests.html"))));
@@ -59,8 +62,7 @@ public class GitHubTopMenu implements TopMenu {
         // Only with HTTP authentication we can transparently trigger OAuth if needed
         authConfig.getAuthType().equals(AuthType.HTTP)) {
       return menuEntries;
-    } else {
-      return Collections.emptyList();
     }
+    return Collections.emptyList();
   }
 }

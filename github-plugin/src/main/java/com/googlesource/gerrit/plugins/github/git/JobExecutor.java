@@ -13,15 +13,16 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
+import com.google.gerrit.server.util.RequestScopePropagator;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
+import com.googlesource.gerrit.plugins.github.GitHubConfig;
+
 import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
-import com.google.gerrit.server.util.RequestScopePropagator;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import com.googlesource.gerrit.plugins.github.GitHubConfig;
 
 @Singleton
 public class JobExecutor {

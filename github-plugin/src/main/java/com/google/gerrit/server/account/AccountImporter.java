@@ -13,12 +13,9 @@
 // limitations under the License.
 package com.google.gerrit.server.account;
 
-import java.io.IOException;
-import java.util.Arrays;
-
-import org.apache.http.HttpStatus;
-
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
+import com.google.gerrit.extensions.api.accounts.AccountInput;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -33,6 +30,12 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import org.apache.http.HttpStatus;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+
+import java.io.IOException;
+import java.util.Arrays;
+
 public class AccountImporter {
   private final Factory createAccountFactory;
   private final Provider<ReviewDb> schema;
@@ -46,27 +49,27 @@ public class AccountImporter {
 
   public Account.Id importAccount(String login, String name, String email)
       throws IOException, BadRequestException, ResourceConflictException,
-      UnprocessableEntityException, OrmException {
-    ReviewDb db = schema.get();
-    CreateAccount createAccount = createAccountFactory.create(login);
-    CreateAccount.Input accountInput = new CreateAccount.Input();
-    accountInput.email = email;
-    accountInput.username = login;
-    accountInput.name = Objects.firstNonNull(name, login);
-    Response<AccountInfo> accountResponse =
-        (Response<AccountInfo>) createAccount.apply(TopLevelResource.INSTANCE,
-            accountInput);
-    if (accountResponse.statusCode() == HttpStatus.SC_CREATED) {
-      Id accountId = accountResponse.value()._id;
+      UnprocessableEntityException, OrmException, ConfigInvalidException {
+    try (ReviewDb db = schema.get()) {
+      CreateAccount createAccount = createAccountFactory.create(login);
+      AccountInput accountInput = new AccountInput();
+      accountInput.email = email;
+      accountInput.username = login;
+      accountInput.name = MoreObjects.firstNonNull(name, login);
+      Response<AccountInfo> accountResponse =
+          createAccount.apply(TopLevelResource.INSTANCE, accountInput);
+      if (accountResponse.statusCode() != HttpStatus.SC_CREATED) {
+        throw new IOException("Cannot import GitHub account " + login
+            + ": HTTP Status " + accountResponse.statusCode());
+      }
+      Id accountId = new Account.Id(
+          accountResponse.value()._accountId.intValue());
       db.accountExternalIds().insert(
           Arrays
               .asList(new AccountExternalId(accountId,
                   new AccountExternalId.Key(AccountExternalId.SCHEME_GERRIT,
                       login))));
       return accountId;
-    } else {
-      throw new IOException("Cannot import GitHub account " + login
-          + ": HTTP Status " + accountResponse.statusCode());
     }
   }
 }

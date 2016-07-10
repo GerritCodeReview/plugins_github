@@ -13,6 +13,8 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.oauth;
 
+import com.google.common.collect.Iterators;
+
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -20,10 +22,8 @@ import java.util.HashSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
-import com.google.common.collect.Iterators;
-
 public class AuthenticatedHttpRequest extends HttpServletRequestWrapper {
-  private HashMap<String, String> headers = new HashMap<String, String>();
+  private HashMap<String, String> headers = new HashMap<>();
 
   public AuthenticatedHttpRequest(HttpServletRequest request,
       String... headerNamesValues) {
@@ -41,7 +41,7 @@ public class AuthenticatedHttpRequest extends HttpServletRequestWrapper {
   @Override
   public Enumeration<String> getHeaderNames() {
     final Enumeration<String> wrappedHeaderNames = super.getHeaderNames();
-    HashSet<String> headerNames = new HashSet<String>(headers.keySet());
+    HashSet<String> headerNames = new HashSet<>(headers.keySet());
     while (wrappedHeaderNames.hasMoreElements()) {
       headerNames.add(wrappedHeaderNames.nextElement());
     }
@@ -53,8 +53,7 @@ public class AuthenticatedHttpRequest extends HttpServletRequestWrapper {
     String headerValue = headers.get(name);
     if (headerValue != null) {
       return headerValue;
-    } else {
-      return super.getHeader(name);
     }
+    return super.getHeader(name);
   }
 }
