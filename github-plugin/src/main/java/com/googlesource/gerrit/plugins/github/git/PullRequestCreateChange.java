@@ -24,7 +24,6 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
@@ -35,15 +34,20 @@ import com.google.gerrit.server.git.BatchUpdate;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.UpdateException;
 import com.google.gerrit.server.git.validators.CommitValidators.Policy;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.query.QueryParseException;
+import com.google.gerrit.server.query.QueryProcessor;
+import com.google.gerrit.server.query.QueryResult;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder;
+import com.google.gerrit.server.query.change.ChangeQueryProcessor;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -60,7 +64,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Iterator;
+import java.util.Collections;
 import java.util.List;
 
 public class PullRequestCreateChange {
@@ -74,6 +78,8 @@ public class PullRequestCreateChange {
   private final GenericFactory userFactory;
   private final Provider<InternalChangeQuery> queryProvider;
   private final BatchUpdate.Factory updateFactory;
+  private final QueryProcessor<ChangeData> qp;
+  private final ChangeQueryBuilder changeQuery;
 
   @Inject
   PullRequestCreateChange(ChangeInserter.Factory changeInserterFactory,
@@ -81,13 +87,17 @@ public class PullRequestCreateChange {
       ProjectControl.Factory projectControlFactory,
       IdentifiedUser.GenericFactory userFactory,
       Provider<InternalChangeQuery> queryProvider,
-      BatchUpdate.Factory batchUpdateFactory) {
+      BatchUpdate.Factory batchUpdateFactory,
+      ChangeQueryProcessor qp,
+      ChangeQueryBuilder changeQuery) {
     this.changeInserterFactory = changeInserterFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.projectControlFactory = projectControlFactory;
     this.userFactory = userFactory;
     this.queryProvider = queryProvider;
     this.updateFactory = batchUpdateFactory;
+    this.qp = qp;
+    this.changeQuery = changeQuery;
   }
 
   public Change.Id addCommitToChange(ReviewDb db, final Project project,
@@ -118,7 +128,7 @@ public class PullRequestCreateChange {
       throw new InvalidChangeOperationException(
           "Destination branch cannot be null or empty");
     }
-    Ref destRef = repo.getRef(destinationBranch);
+    Ref destRef = repo.findRef(destinationBranch);
     if (destRef == null) {
       throw new InvalidChangeOperationException("Branch " + destinationBranch
           + " does not exist.");
@@ -129,14 +139,10 @@ public class PullRequestCreateChange {
             destinationBranch);
 
     String pullRequestSha1 = pullRequestCommit.getId().getName();
-    ResultSet<PatchSet> existingPatchSet =
-        db.patchSets().byRevision(new RevId(pullRequestSha1));
-    Iterator<PatchSet> patchSetIterator = existingPatchSet.iterator();
-    if (patchSetIterator.hasNext()) {
-      PatchSet patchSet = patchSetIterator.next();
+    List<ChangeData> existingChanges = queryChangesForSha1(pullRequestSha1);
+    if (!existingChanges.isEmpty()) {
       LOG.debug("Pull request commit ID " + pullRequestSha1
-          + " has been already uploaded as PatchSetID="
-          + patchSet.getPatchSetId() + " in ChangeID=" + patchSet.getId());
+          + " has been already uploaded as Change-Id=" + existingChanges.get(0).getId());
       return null;
     }
 
@@ -174,8 +180,11 @@ public class PullRequestCreateChange {
       // The change key exists on the destination branch: adding a new
       // patch-set
       Change destChange = destChanges.get(0).change();
-      insertPatchSet(bu, repo, destChange, pullRequestCommit,
-          refControl, pullRequestMesage);
+      ChangeControl changeControl =
+          projectControlFactory.controlFor(project.getNameKey())
+              .controlForIndexedChange(destChange);
+      insertPatchSet(bu, repo, destChange, pullRequestCommit, changeControl,
+          pullRequestMesage);
       return destChange.getId();
     }
 
@@ -186,8 +195,20 @@ public class PullRequestCreateChange {
         topic);
   }
 
+  private List<ChangeData> queryChangesForSha1(String pullRequestSha1) {
+    QueryResult<ChangeData> results;
+    try {
+      results = qp.query(changeQuery.commit(pullRequestSha1));
+      return results.entities();
+    } catch (OrmException | QueryParseException e) {
+      LOG.error("Invalid SHA1 " + pullRequestSha1
+          + ": cannot query changes for this pull request", e);
+      return Collections.emptyList();
+    }
+  }
+
   private void insertPatchSet(BatchUpdate bu, Repository git, Change change,
-      RevCommit cherryPickCommit, RefControl refControl,
+      RevCommit cherryPickCommit, ChangeControl changeControl,
       String pullRequestMessage) throws IOException, UpdateException,
       RestApiException {
     try (RevWalk revWalk = new RevWalk(git)) {
@@ -195,7 +216,7 @@ public class PullRequestCreateChange {
           ChangeUtil.nextPatchSetId(git, change.currentPatchSetId());
 
       PatchSetInserter patchSetInserter =
-          patchSetInserterFactory.create(refControl, psId, cherryPickCommit);
+          patchSetInserterFactory.create(changeControl, psId, cherryPickCommit);
       patchSetInserter.setMessage(pullRequestMessage);
       patchSetInserter.setValidatePolicy(Policy.NONE);
 
@@ -217,7 +238,10 @@ public class PullRequestCreateChange {
       change.setTopic(topic);
     }
     ChangeInserter ins =
-        changeInserterFactory.create(refControl, change, pullRequestCommit);
+        changeInserterFactory.create(
+            change.getId(),
+            pullRequestCommit,
+            refControl.getRefName());
 
     ins.setMessage(pullRequestMessage);
     bu.insertChange(ins);

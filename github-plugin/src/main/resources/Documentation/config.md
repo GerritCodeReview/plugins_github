@@ -66,3 +66,21 @@ github.scopes
     for a detailed description of available scopes and their associated permissions. 
     Default is empty read-only access to public 
     information (includes public user profile info, public repository info, and gists).
+
+github.httpConnectionTimeout
+:   Maximum time to wait for GitHub API to answer to a new HTTP connection attempt.
+    Values should use common common unit unit suffixes to express their setting:
+    * ms, milliseconds
+    * s, sec, second, seconds
+    * m, min, minute, minutes
+    * h, hr, hour, hours
+    Default value: 30 seconds
+
+github.httpReadTimeout
+:   Maximum time to wait for GitHub API to respond or send data over an existing HTTP connection.
+    Values should use common common unit unit suffixes to express their setting:
+    * ms, milliseconds
+    * s, sec, second, seconds
+    * m, min, minute, minutes
+    * h, hr, hour, hours
+    Default value: 30 seconds

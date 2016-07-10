@@ -34,6 +34,8 @@ import lombok.Getter;
 
 import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GitHub;
+import org.kohsuke.github.GitHubBuilder;
+import org.kohsuke.github.HttpConnector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,7 +50,7 @@ public class GitHubLogin implements Serializable {
   private static final long serialVersionUID = 1L;
   private static final Logger log = LoggerFactory.getLogger(GitHubLogin.class);
   private static final List<Scope> DEFAULT_SCOPES = Arrays.asList(
-      Scope.PUBLIC_REPO, Scope.USER_EMAIL);
+      Scope.PUBLIC_REPO, Scope.USER_EMAIL, Scope.READ_ORG);
   private static final long SCOPE_COOKIE_NEVER_EXPIRES = DAYS
       .toSeconds(50 * 365);
 
@@ -67,6 +69,7 @@ public class GitHubLogin implements Serializable {
 
   private SortedSet<Scope> loginScopes;
   private final GitHubOAuthConfig config;
+  private final HttpConnector httpConnector;
 
   public GHMyself getMyself() throws IOException {
     if (isLoggedIn()) {
@@ -83,8 +86,10 @@ public class GitHubLogin implements Serializable {
   }
 
   @Inject
-  public GitHubLogin(final GitHubOAuthConfig config) {
+  public GitHubLogin(GitHubOAuthConfig config,
+                     GitHubHttpConnector httpConnector) {
     this.config = config;
+    this.httpConnector = httpConnector;
   }
 
   public boolean isLoggedIn() {
@@ -140,7 +145,11 @@ public class GitHubLogin implements Serializable {
     if (token == null) {
       return null;
     }
-    return GitHub.connectUsingOAuth(config.gitHubApiUrl, token.accessToken);
+    return new GitHubBuilder()
+      .withEndpoint(config.gitHubApiUrl)
+      .withOAuthToken(token.accessToken)
+      .withConnector(httpConnector)
+      .build();
   }
 
   private String getScopesKey(HttpServletRequest request,

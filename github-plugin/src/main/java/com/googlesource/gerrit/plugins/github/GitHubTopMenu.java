@@ -15,6 +15,7 @@ package com.googlesource.gerrit.plugins.github;
 
 import com.google.gerrit.extensions.annotations.Listen;
 import com.google.gerrit.extensions.annotations.PluginName;
+import com.google.gerrit.extensions.client.MenuItem;
 import com.google.gerrit.extensions.webui.TopMenu;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.CurrentUser;

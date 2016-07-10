@@ -16,6 +16,7 @@ package com.googlesource.gerrit.plugins.github.wizard;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.Id;
@@ -29,11 +30,9 @@ import com.google.gerrit.server.account.AddSshKey;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.GetSshKeys;
-import com.google.gerrit.server.account.GetSshKeys.SshKeyInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 
 import org.apache.commons.lang.StringUtils;
@@ -110,7 +109,7 @@ public class AccountController implements VelocityController {
 
       accountCache.evict(accountId);
       log.debug("Account cache evicted for {}", accountId);
-    } catch (AccountException | OrmException e) {
+    } catch (AccountException | OrmException | IOException e) {
       throw new ServletException("Cannot associate email '" + email
           + "' to current user '" + user + "'", e);
     }
