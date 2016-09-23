@@ -112,7 +112,7 @@ public class CreateProjectStep extends ImportStep {
     forcePush.setForce(Boolean.TRUE);
     addPermission(AccessSection.HEADS, Permission.PUSH, forcePush);
 
-    addPermissions(TAGS_REFS, Permission.PUSH_TAG, Permission.PUSH_SIGNED_TAG);
+    addPermissions(TAGS_REFS, Permission.PUSH);
 
     PermissionRule removeTag = new PermissionRule(getMyGroup());
     removeTag.setForce(Boolean.TRUE);
