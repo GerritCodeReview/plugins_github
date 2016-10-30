@@ -15,7 +15,6 @@ package com.googlesource.gerrit.plugins.github.velocity;
 
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.mail.VelocityRuntimeProvider.Slf4jLogChute;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
@@ -58,8 +57,6 @@ public class PluginVelocityRuntimeProvider implements Provider<RuntimeInstance> 
 
     Properties p = new Properties();
     p.setProperty(RuntimeConstants.VM_PERM_INLINE_LOCAL, "true");
-    p.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,
-        Slf4jLogChute.class.getName());
     p.setProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT, "true");
     p.setProperty("runtime.log.logsystem.log4j.category", "velocity");
 
