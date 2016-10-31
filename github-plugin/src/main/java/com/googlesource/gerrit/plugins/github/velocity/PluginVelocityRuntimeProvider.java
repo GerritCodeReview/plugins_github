@@ -15,7 +15,7 @@ package com.googlesource.gerrit.plugins.github.velocity;
 
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.mail.VelocityRuntimeProvider.Slf4jLogChute;
+import com.google.gerrit.server.mail.send.VelocityRuntimeProvider.Slf4jLogChute;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
