@@ -72,7 +72,7 @@ public class GitHubOAuthFilter implements Filter {
     if (!hubLogin.isLoggedIn()
         && !OAuthFilter.skipOAuth((HttpServletRequest) request)
         && user.isIdentifiedUser()) {
-      AccountExternalId gitHubExtId = getGitHubExternalId(user);
+      AccountExternalId gitHubExtId = getGitHubExternalId(user, false);
 
       String oauthToken =
           gitHubExtId.getSchemeRest()
@@ -83,7 +83,8 @@ public class GitHubOAuthFilter implements Filter {
     chain.doFilter(request, response);
   }
 
-  private AccountExternalId getGitHubExternalId(CurrentUser user) {
+  private AccountExternalId getGitHubExternalId(CurrentUser user,
+      boolean retryAfterEviction) {
     Collection<AccountExternalId> accountExtIds =
         accountCache.get(((IdentifiedUser) user).getAccountId())
             .getExternalIds();
@@ -99,8 +100,17 @@ public class GitHubOAuthFilter implements Filter {
             });
 
     if (gitHubExtId.isEmpty()) {
-      throw new IllegalStateException("Current Gerrit user "
-          + user.getUserName() + " has no GitHub OAuth external ID");
+      if (retryAfterEviction) {
+        throw new IllegalStateException("Current Gerrit user "
+            + user.getUserName() + " has no GitHub OAuth external ID");
+      }
+      try {
+        accountCache.evict(user.getAccountId());
+        return getGitHubExternalId(user, true);
+      } catch (IOException e) {
+        throw new IllegalStateException(
+            "Unable to evict account cache for user " + user.getUserName(), e);
+      }
     }
     return gitHubExtId.iterator().next();
   }

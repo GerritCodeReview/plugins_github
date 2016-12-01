@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
@@ -65,7 +66,7 @@ public class IdentifiedUserGitHubLoginProvider implements
   @Nullable
   public GitHubLogin get(String username) {
     try {
-      AccessToken accessToken = newAccessTokenFromUser(username);
+      AccessToken accessToken = newAccessTokenFromUser(username, false);
       if (accessToken != null) {
         GitHubLogin login = new GitHubLogin(config, httpConnector);
         login.login(accessToken);
@@ -78,16 +79,38 @@ public class IdentifiedUserGitHubLoginProvider implements
     }
   }
 
-  private AccessToken newAccessTokenFromUser(String username) {
-    AccountState account = accountCache.getByUsername(username);
-    Collection<AccountExternalId> externalIds = account.getExternalIds();
-    for (AccountExternalId accountExternalId : externalIds) {
-      String key = accountExternalId.getKey().get();
-      if (key.startsWith(EXTERNAL_ID_PREFIX)) {
-        return new AccessToken(key.substring(EXTERNAL_ID_PREFIX.length()));
-      }
+  private AccessToken newAccessTokenFromUser(String username,
+      boolean retryAfterEviction) {
+    log.info("Getting userId for " + username);
+    Id accountId = accountCache.getByUsername(username).getAccount().getId();
+    log.info("Getting accountState for userId " + accountId);
+    AccountState account = accountCache.get(accountId);
+    AccessToken token = getAccessTokenFromExternalId(account);
+    if (token != null || retryAfterEviction) {
+      return token;
     }
 
+    try {
+      log.warn("ExternalId not found => evicting cache for userId " + accountId);
+      accountCache.evict(accountId);
+    } catch (IOException e) {
+      throw new IllegalStateException("Unable to invalidate cache for user "
+          + username, e);
+    }
+    return newAccessTokenFromUser(username, true);
+  }
+
+  private AccessToken getAccessTokenFromExternalId(AccountState account) {
+    Collection<AccountExternalId> externalIds = account.getExternalIds();
+    for (AccountExternalId accountExternalId : externalIds) {
+      log.debug("ExternalId: {}", accountExternalId.getExternalId());
+      String key = accountExternalId.getKey().get();
+      if (key.startsWith(EXTERNAL_ID_PREFIX)) {
+        String accessToken = key.substring(EXTERNAL_ID_PREFIX.length());
+        log.debug("AccessToken found: {}", accessToken);
+        return new AccessToken(accessToken);
+      }
+    }
     return null;
   }
 }
