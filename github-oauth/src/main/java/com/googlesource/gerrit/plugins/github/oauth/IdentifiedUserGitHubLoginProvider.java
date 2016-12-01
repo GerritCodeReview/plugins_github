@@ -65,7 +65,7 @@ public class IdentifiedUserGitHubLoginProvider implements
   @Nullable
   public GitHubLogin get(String username) {
     try {
-      AccessToken accessToken = newAccessTokenFromUser(username);
+      AccessToken accessToken = newAccessTokenFromUser(username, false);
       if (accessToken != null) {
         GitHubLogin login = new GitHubLogin(config, httpConnector);
         login.login(accessToken);
@@ -78,7 +78,7 @@ public class IdentifiedUserGitHubLoginProvider implements
     }
   }
 
-  private AccessToken newAccessTokenFromUser(String username) {
+  private AccessToken newAccessTokenFromUser(String username, boolean retryAfterEviction) {
     AccountState account = accountCache.getByUsername(username);
     Collection<AccountExternalId> externalIds = account.getExternalIds();
     for (AccountExternalId accountExternalId : externalIds) {
@@ -88,6 +88,11 @@ public class IdentifiedUserGitHubLoginProvider implements
       }
     }
 
-    return null;
+    if(retryAfterEviction) {
+      return null;
+    }
+
+    accountCache.evictByUsername(username);
+    return newAccessTokenFromUser(username, true);
   }
 }
