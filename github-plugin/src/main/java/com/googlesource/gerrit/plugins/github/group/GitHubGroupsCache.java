@@ -16,7 +16,6 @@ package com.googlesource.gerrit.plugins.github.group;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
 
-import com.google.common.base.MoreObjects;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSet;
@@ -28,7 +27,7 @@ import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-
+import com.googlesource.gerrit.plugins.github.groups.OrganizationStructure;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.UserScopedProvider;
 
@@ -38,10 +37,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -54,28 +50,6 @@ public class GitHubGroupsCache {
   private static final String ORGS_CACHE_NAME = "groups";
   protected static final long GROUPS_CACHE_TTL_MINS = 60;
   public static final String EVERYONE_TEAM_NAME = "Everyone";
-
-  public static class OrganizationStructure implements Serializable {
-    private static final long serialVersionUID = 1L;
-
-    private HashMap<String, HashSet<String>> teams;
-
-    public Set<String> put(String organisation, String team) {
-      HashSet<String> userTeams =
-          MoreObjects.firstNonNull(teams.get(organisation),
-              new HashSet<String>());
-      userTeams.add(team);
-      return teams.put(organisation, userTeams);
-    }
-
-    public Set<String> keySet() {
-      return teams.keySet();
-    }
-
-    public Iterable<String> get(String organization) {
-      return teams.get(organization);
-    }
-  }
 
   public static class OrganisationLoader extends
       CacheLoader<String, OrganizationStructure> {
@@ -142,7 +116,7 @@ public class GitHubGroupsCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        cache(ORGS_CACHE_NAME, String.class, OrganizationStructure.class)
+        persist(ORGS_CACHE_NAME, String.class, OrganizationStructure.class)
             .expireAfterWrite(GROUPS_CACHE_TTL_MINS, MINUTES).loader(
                 OrganisationLoader.class);
         bind(GitHubGroupsCache.class);
