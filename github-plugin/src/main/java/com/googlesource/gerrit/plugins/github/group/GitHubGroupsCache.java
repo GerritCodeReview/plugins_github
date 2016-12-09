@@ -16,11 +16,10 @@ package com.googlesource.gerrit.plugins.github.group;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Multimap;
 import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.cache.CacheModule;
@@ -28,7 +27,6 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
@@ -54,8 +52,30 @@ public class GitHubGroupsCache {
   protected static final long GROUPS_CACHE_TTL_MINS = 60;
   public static final String EVERYONE_TEAM_NAME = "Everyone";
 
+  public static class OrganizationStructure implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    private HashMap<String, HashSet<String>> teams;
+
+    public Set<String> put(String organisation, String team) {
+      HashSet<String> userTeams =
+          MoreObjects.firstNonNull(teams.get(organisation),
+              new HashSet<String>());
+      userTeams.add(team);
+      return teams.put(organisation, userTeams);
+    }
+
+    public Set<String> keySet() {
+      return teams.keySet();
+    }
+
+    public Iterable<String> get(String organization) {
+      return teams.get(organization);
+    }
+  }
+
   public static class OrganisationLoader extends
-      CacheLoader<String, Multimap<String, String>> {
+      CacheLoader<String, OrganizationStructure> {
     private static final Logger logger = LoggerFactory
         .getLogger(OrganisationLoader.class);
     private final UserScopedProvider<GitHubLogin> ghLoginProvider;
@@ -66,8 +86,8 @@ public class GitHubGroupsCache {
     }
 
     @Override
-    public Multimap<String, String> load(String username) throws Exception {
-      Multimap<String, String> orgsTeams = HashMultimap.create();
+    public OrganizationStructure load(String username) throws Exception {
+      OrganizationStructure orgsTeams = new OrganizationStructure();
       GitHubLogin ghLogin = ghLoginProvider.get(username);
       if (ghLogin == null) {
         logger.warn("Cannot login to GitHub on behalf of '{}'", username);
@@ -87,9 +107,11 @@ public class GitHubGroupsCache {
       return orgsTeams;
     }
 
-    private void loadOrganisationsAndTeams(String username, Multimap<String, String> orgsTeams,
-        GitHubLogin ghLogin) throws IOException {
-      logger.debug("Getting list of organisations/teams for user '{}'", username);
+    private void loadOrganisationsAndTeams(String username,
+        OrganizationStructure orgsTeams, GitHubLogin ghLogin)
+        throws IOException {
+      logger.debug("Getting list of organisations/teams for user '{}'",
+          username);
       Map<String, Set<GHTeam>> myOrganisationsLogins =
           ghLogin.getHub().getMyTeams();
       for (Entry<String, Set<GHTeam>> teamsOrg : myOrganisationsLogins
@@ -102,8 +124,10 @@ public class GitHubGroupsCache {
     }
 
     private void loadOrganisations(String username,
-        Multimap<String, String> orgsTeams, GitHubLogin ghLogin) throws IOException {
-      logger.debug("Getting list of public organisations for user '{}'", username);
+        OrganizationStructure orgsTeams, GitHubLogin ghLogin)
+        throws IOException {
+      logger.debug("Getting list of public organisations for user '{}'",
+          username);
       Set<String> organisations = ghLogin.getMyOrganisationsLogins();
       for (String org : organisations) {
         orgsTeams.put(org, EVERYONE_TEAM_NAME);
@@ -115,20 +139,20 @@ public class GitHubGroupsCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        cache(ORGS_CACHE_NAME, String.class,
-            new TypeLiteral<Multimap<String, String>>() {}).expireAfterWrite(
-            GROUPS_CACHE_TTL_MINS, MINUTES).loader(OrganisationLoader.class);
+        cache(ORGS_CACHE_NAME, String.class, OrganizationStructure.class)
+            .expireAfterWrite(GROUPS_CACHE_TTL_MINS, MINUTES).loader(
+                OrganisationLoader.class);
         bind(GitHubGroupsCache.class);
       }
     };
   }
 
-  private final LoadingCache<String, Multimap<String, String>> orgTeamsByUsername;
+  private final LoadingCache<String, OrganizationStructure> orgTeamsByUsername;
   private final Provider<IdentifiedUser> userProvider;
 
   @Inject
   GitHubGroupsCache(
-      @Named(ORGS_CACHE_NAME) LoadingCache<String, Multimap<String, String>> byUsername,
+      @Named(ORGS_CACHE_NAME) LoadingCache<String, OrganizationStructure> byUsername,
       Provider<IdentifiedUser> userProvider) {
     this.orgTeamsByUsername = byUsername;
     this.userProvider = userProvider;
