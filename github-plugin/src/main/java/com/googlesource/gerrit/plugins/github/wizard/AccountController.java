@@ -36,6 +36,7 @@ import com.google.inject.Provider;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 
 import org.apache.commons.lang.StringUtils;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.kohsuke.github.GHKey;
 import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GHVerifiedKey;
@@ -83,13 +84,13 @@ public class AccountController implements VelocityController {
       setAccoutPublicKeys(user, hubLogin, req);
 
       log.info("Created account '" + user.getUserName() + "'");
-    } catch (IOException e) {
+    } catch (IOException | ConfigInvalidException e) {
       log.error("Account '" + user.getUserName() + "' creation failed", e);
-      throw e;
+      throw new IOException(e);
     }
   }
 
-  private void setAccountIdentity(IdentifiedUser user, HttpServletRequest req) throws ServletException {
+  private void setAccountIdentity(IdentifiedUser user, HttpServletRequest req) throws ServletException, ConfigInvalidException {
     String fullName = req.getParameter("fullname");
     String email = req.getParameter("email");
     try {

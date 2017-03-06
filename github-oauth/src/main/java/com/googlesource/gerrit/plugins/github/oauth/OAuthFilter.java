@@ -50,7 +50,6 @@ public class OAuthFilter implements Filter {
       .newHashSet("scope.html");
 
   private final GitHubOAuthConfig config;
-  private final OAuthGitFilter gitFilter;
   private final OAuthWebFilter webFilter;
 
   @Inject
@@ -58,13 +57,10 @@ public class OAuthFilter implements Filter {
       OAuthWebFilter webFilter, Injector injector) {
     this.config = config;
     this.webFilter = webFilter;
-    Injector childInjector = injector.createChildInjector(OAuthCache.module());
-    this.gitFilter = childInjector.getInstance(OAuthGitFilter.class);
   }
 
   @Override
   public void init(FilterConfig filterConfig) throws ServletException {
-    gitFilter.init(filterConfig);
     webFilter.init(filterConfig);
   }
 
@@ -80,7 +76,7 @@ public class OAuthFilter implements Filter {
     } else {
 
       if (GIT_HTTP_REQUEST_PATTERN.matcher(requestUrl).matches()) {
-        gitFilter.doFilter(request, response, chain);
+        chain.doFilter(request, response);
       } else {
         System.out.println("Authorising " + requestUrl);
         webFilter.doFilter(request, response, chain);
@@ -127,7 +123,6 @@ public class OAuthFilter implements Filter {
   @Override
   public void destroy() {
     log.info("Destroy");
-    gitFilter.destroy();
     webFilter.destroy();
   }
 }
