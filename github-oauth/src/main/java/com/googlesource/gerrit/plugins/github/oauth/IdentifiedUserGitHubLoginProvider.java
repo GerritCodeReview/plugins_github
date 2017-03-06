@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.ExternalId;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -35,8 +36,8 @@ public class IdentifiedUserGitHubLoginProvider implements
     UserScopedProvider<GitHubLogin> {
   private static final Logger log = LoggerFactory
       .getLogger(IdentifiedUserGitHubLoginProvider.class);
-  private static final String EXTERNAL_ID_PREFIX = "external:"
-      + OAuthWebFilter.GITHUB_EXT_ID;
+  private static final String EXTERNAL_ID_PREFIX =
+      AccountExternalId.SCHEME_EXTERNAL + OAuthWebFilter.GITHUB_EXT_ID;
 
   private final Provider<IdentifiedUser> userProvider;
   private final GitHubOAuthConfig config;
@@ -80,9 +81,9 @@ public class IdentifiedUserGitHubLoginProvider implements
 
   private AccessToken newAccessTokenFromUser(String username) {
     AccountState account = accountCache.getByUsername(username);
-    Collection<AccountExternalId> externalIds = account.getExternalIds();
-    for (AccountExternalId accountExternalId : externalIds) {
-      String key = accountExternalId.getKey().get();
+    Collection<ExternalId> externalIds = account.getExternalIds();
+    for (ExternalId accountExternalId : externalIds) {
+      String key = accountExternalId.asAccountExternalId().getKey().get();
       if (key.startsWith(EXTERNAL_ID_PREFIX)) {
         return new AccessToken(key.substring(EXTERNAL_ID_PREFIX.length()));
       }
