@@ -30,25 +30,21 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GitHubGroupBackend implements GroupBackend {
-  private static final Logger log = LoggerFactory
-      .getLogger(GitHubGroupBackend.class);
+  private static final Logger log = LoggerFactory.getLogger(GitHubGroupBackend.class);
   private final GitHubGroupMembership.Factory ghMembershipProvider;
   private final GitHubGroupsCache ghOrganisationCache;
 
   @Inject
   GitHubGroupBackend(
-      GitHubGroupMembership.Factory ghMembershipProvider,
-      GitHubGroupsCache ghOrganisationCache) {
+      GitHubGroupMembership.Factory ghMembershipProvider, GitHubGroupsCache ghOrganisationCache) {
     this.ghMembershipProvider = ghMembershipProvider;
     this.ghOrganisationCache = ghOrganisationCache;
   }
@@ -65,8 +61,7 @@ public class GitHubGroupBackend implements GroupBackend {
 
   @Override
   public Basic get(UUID uuid) {
-    checkArgument(handles(uuid), "{} is not a valid GitHub Group UUID",
-        uuid.get());
+    checkArgument(handles(uuid), "{} is not a valid GitHub Group UUID", uuid.get());
     return GitHubOrganisationGroup.fromUUID(uuid);
   }
 
@@ -81,31 +76,25 @@ public class GitHubGroupBackend implements GroupBackend {
 
   public Set<GroupReference> listByPrefix(String orgNamePrefix) {
     try {
-      log.debug("Listing user's organisations starting with '{}'",
-          orgNamePrefix);
+      log.debug("Listing user's organisations starting with '{}'", orgNamePrefix);
 
       String[] namePrefixParts = orgNamePrefix.toLowerCase().split("/");
-      String orgNamePrefixLowercase =
-          namePrefixParts.length > 0 ? namePrefixParts[0] : "";
-      String teamNameLowercase =
-          namePrefixParts.length > 1 ? namePrefixParts[1] : "";
+      String orgNamePrefixLowercase = namePrefixParts.length > 0 ? namePrefixParts[0] : "";
+      String teamNameLowercase = namePrefixParts.length > 1 ? namePrefixParts[1] : "";
 
       Set<String> ghOrgs = ghOrganisationCache.getOrganizationsForCurrentUser();
       log.debug("Full list of user's organisations: {}", ghOrgs);
 
-      Builder<GroupReference> orgGroups =
-          new ImmutableSet.Builder<>();
+      Builder<GroupReference> orgGroups = new ImmutableSet.Builder<>();
       for (String organizationName : ghOrgs) {
         if (organizationName.toLowerCase().startsWith(orgNamePrefixLowercase)) {
-          GroupReference teamGroupRef =
-              GitHubOrganisationGroup.groupReference(organizationName);
+          GroupReference teamGroupRef = GitHubOrganisationGroup.groupReference(organizationName);
 
-          if ((orgNamePrefixLowercase.length() > 0 && orgNamePrefix
-              .endsWith("/")) || teamNameLowercase.length() > 0) {
+          if ((orgNamePrefixLowercase.length() > 0 && orgNamePrefix.endsWith("/"))
+              || teamNameLowercase.length() > 0) {
             for (String teamName : ghOrganisationCache.getTeamsForCurrentUser(organizationName)) {
               if (teamName.toLowerCase().startsWith(teamNameLowercase)) {
-                orgGroups.add(GitHubTeamGroup.groupReference(teamGroupRef,
-                    teamName));
+                orgGroups.add(GitHubTeamGroup.groupReference(teamGroupRef, teamName));
               }
             }
           } else {
@@ -115,8 +104,7 @@ public class GitHubGroupBackend implements GroupBackend {
       }
       return orgGroups.build();
     } catch (ExecutionException e) {
-      log.warn("Cannot get GitHub organisations matching '" + orgNamePrefix
-          + "'", e);
+      log.warn("Cannot get GitHub organisations matching '" + orgNamePrefix + "'", e);
     }
 
     return Collections.emptySet();

@@ -13,24 +13,14 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.oauth;
 
-
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.apache.commons.lang.StringUtils;
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.eclipse.jgit.util.FS;
-import org.kohsuke.github.GHMyself;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.attribute.FileTime;
 import java.util.Random;
 import java.util.Set;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -41,11 +31,16 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.commons.lang.StringUtils;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
+import org.kohsuke.github.GHMyself;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class OAuthWebFilter implements Filter {
-  private static final org.slf4j.Logger log = LoggerFactory
-      .getLogger(OAuthWebFilter.class);
+  private static final org.slf4j.Logger log = LoggerFactory.getLogger(OAuthWebFilter.class);
   public static final String GERRIT_COOKIE_NAME = "GerritAccount";
   public static final String GITHUB_EXT_ID = "github_oauth:";
 
@@ -56,11 +51,12 @@ public class OAuthWebFilter implements Filter {
   private final OAuthProtocol oauth;
 
   @Inject
-  public OAuthWebFilter(GitHubOAuthConfig config, 
+  public OAuthWebFilter(
+      GitHubOAuthConfig config,
       SitePaths sites,
       OAuthProtocol oauth,
-  // We need to explicitly tell Guice the correct implementation
-  // as this filter is instantiated with a standard Gerrit WebModule
+      // We need to explicitly tell Guice the correct implementation
+      // as this filter is instantiated with a standard Gerrit WebModule
       GitHubLogin.Provider loginProvider) {
     this.config = config;
     this.sites = sites;
@@ -69,17 +65,16 @@ public class OAuthWebFilter implements Filter {
   }
 
   @Override
-  public void init(FilterConfig filterConfig) throws ServletException {
-  }
+  public void init(FilterConfig filterConfig) throws ServletException {}
 
   @Override
-  public void doFilter(ServletRequest request, ServletResponse response,
-      FilterChain chain) throws IOException, ServletException {
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+      throws IOException, ServletException {
 
     HttpServletRequest httpRequest = (HttpServletRequest) request;
     HttpServletResponse httpResponse = (HttpServletResponse) response;
-    log.debug("OAuthWebFilter(" + httpRequest.getRequestURL() + ") code="
-        + request.getParameter("code"));
+    log.debug(
+        "OAuthWebFilter(" + httpRequest.getRequestURL() + ") code=" + request.getParameter("code"));
 
     Cookie gerritCookie = getGerritCookie(httpRequest);
     try {
@@ -89,14 +84,16 @@ public class OAuthWebFilter implements Filter {
         login(request, httpRequest, httpResponse, ghLogin);
       } else {
         if (OAuthProtocol.isOAuthLogout(httpRequest)) {
-          httpResponse =
-              (HttpServletResponse) logout(request, httpResponse, chain, httpRequest);
+          httpResponse = (HttpServletResponse) logout(request, httpResponse, chain, httpRequest);
         }
 
         if (ghLogin != null && ghLogin.isLoggedIn()) {
           httpRequest =
-              new AuthenticatedHttpRequest(httpRequest, config.httpHeader,
-                  ghLogin.getMyself().getLogin(), config.oauthHttpHeader,
+              new AuthenticatedHttpRequest(
+                  httpRequest,
+                  config.httpHeader,
+                  ghLogin.getMyself().getLogin(),
+                  config.oauthHttpHeader,
                   GITHUB_EXT_ID + ghLogin.getToken().accessToken);
         }
 
@@ -106,8 +103,7 @@ public class OAuthWebFilter implements Filter {
       HttpSession httpSession = httpRequest.getSession();
       if (gerritCookie != null && httpSession != null) {
         String gerritCookieValue = gerritCookie.getValue();
-        String gerritSessionValue =
-            (String) httpSession.getAttribute("GerritAccount");
+        String gerritSessionValue = (String) httpSession.getAttribute("GerritAccount");
 
         if (gerritSessionValue == null) {
           httpSession.setAttribute("GerritAccount", gerritCookieValue);
@@ -118,32 +114,38 @@ public class OAuthWebFilter implements Filter {
     }
   }
 
-  private void login(ServletRequest request, HttpServletRequest httpRequest,
-      HttpServletResponse httpResponse, GitHubLogin ghLogin) throws IOException {
+  private void login(
+      ServletRequest request,
+      HttpServletRequest httpRequest,
+      HttpServletResponse httpResponse,
+      GitHubLogin ghLogin)
+      throws IOException {
     ghLogin.login(httpRequest, httpResponse, oauth);
     if (ghLogin.isLoggedIn()) {
       GHMyself myself = ghLogin.getMyself();
       String user = myself.getLogin();
 
-      updateSecureConfigWithRetry(ghLogin.getHub().getMyOrganizations().keySet(),
-          user, ghLogin.getToken().accessToken);
+      updateSecureConfigWithRetry(
+          ghLogin.getHub().getMyOrganizations().keySet(), user, ghLogin.getToken().accessToken);
     }
   }
 
-  private ServletResponse logout(ServletRequest request,
-      ServletResponse response, FilterChain chain,
+  private ServletResponse logout(
+      ServletRequest request,
+      ServletResponse response,
+      FilterChain chain,
       HttpServletRequest httpRequest) {
     getGitHubLogin(request).logout();
-    return new GitHubLogoutServletResponse((HttpServletResponse) response,
-        config.logoutRedirectUrl);
+    return new GitHubLogoutServletResponse(
+        (HttpServletResponse) response, config.logoutRedirectUrl);
   }
 
   private GitHubLogin getGitHubLogin(ServletRequest request) {
     return loginProvider.get((HttpServletRequest) request);
   }
 
-  private void updateSecureConfigWithRetry(Set<String> organisations,
-      String user, String access_token) {
+  private void updateSecureConfigWithRetry(
+      Set<String> organisations, String user, String access_token) {
     int retryCount = 0;
 
     while (retryCount < config.fileUpdateMaxRetryCount) {
@@ -152,68 +154,68 @@ public class OAuthWebFilter implements Filter {
         return;
       } catch (IOException e) {
         retryCount++;
-        int retryInterval =
-            retryRandom.nextInt(config.fileUpdateMaxRetryIntervalMsec);
-        log.warn("Error whilst trying to update "
-            + sites.secure_config
-            + (retryCount < config.fileUpdateMaxRetryCount ? ": attempt #"
-                + retryCount + " will be retried after " + retryInterval
-                + " msecs" : ""), e);
+        int retryInterval = retryRandom.nextInt(config.fileUpdateMaxRetryIntervalMsec);
+        log.warn(
+            "Error whilst trying to update "
+                + sites.secure_config
+                + (retryCount < config.fileUpdateMaxRetryCount
+                    ? ": attempt #"
+                        + retryCount
+                        + " will be retried after "
+                        + retryInterval
+                        + " msecs"
+                    : ""),
+            e);
         try {
           Thread.sleep(retryInterval);
         } catch (InterruptedException e1) {
-          log.error("Thread has been cancelled before retrying to save "
-              + sites.secure_config);
+          log.error("Thread has been cancelled before retrying to save " + sites.secure_config);
           return;
         }
       } catch (ConfigInvalidException e) {
-        log.error("Cannot update " + sites.secure_config
-            + " as the file is corrupted", e);
+        log.error("Cannot update " + sites.secure_config + " as the file is corrupted", e);
         return;
       }
     }
   }
 
-  private synchronized void updateSecureConfig(Set<String> organisations,
-      String user, String access_token) throws IOException,
-      ConfigInvalidException {
+  private synchronized void updateSecureConfig(
+      Set<String> organisations, String user, String access_token)
+      throws IOException, ConfigInvalidException {
     FileBasedConfig currentSecureConfig =
         new FileBasedConfig(sites.secure_config.toFile(), FS.DETECTED);
     FileTime currentSecureConfigUpdateTs = Files.getLastModifiedTime(sites.secure_config);
     currentSecureConfig.load();
 
-    boolean configUpdate =
-        updateConfigSection(currentSecureConfig, user, user, access_token);
+    boolean configUpdate = updateConfigSection(currentSecureConfig, user, user, access_token);
     for (String organisation : organisations) {
-      configUpdate |=
-          updateConfigSection(currentSecureConfig, organisation, user,
-              access_token);
+      configUpdate |= updateConfigSection(currentSecureConfig, organisation, user, access_token);
     }
 
     if (!configUpdate) {
       return;
     }
 
-    log.info("Updating " + sites.secure_config + " credentials for user "
-        + user);
+    log.info("Updating " + sites.secure_config + " credentials for user " + user);
 
-    FileTime secureConfigCurrentModifiedTime =
-        Files.getLastModifiedTime(sites.secure_config);
+    FileTime secureConfigCurrentModifiedTime = Files.getLastModifiedTime(sites.secure_config);
     if (!secureConfigCurrentModifiedTime.equals(currentSecureConfigUpdateTs)) {
-      throw new ConcurrentFileBasedConfigWriteException("File "
-          + sites.secure_config + " was written at "
-          + secureConfigCurrentModifiedTime
-          + " while was trying to update security for user " + user);
+      throw new ConcurrentFileBasedConfigWriteException(
+          "File "
+              + sites.secure_config
+              + " was written at "
+              + secureConfigCurrentModifiedTime
+              + " while was trying to update security for user "
+              + user);
     }
     currentSecureConfig.save();
   }
 
-  private boolean updateConfigSection(FileBasedConfig c, String section,
-      String user, String password) {
+  private boolean updateConfigSection(
+      FileBasedConfig c, String section, String user, String password) {
     String configUser = c.getString("remote", section, "username");
     String configPassword = c.getString("remote", section, "password");
-    if (!StringUtils.equals(configUser, user)
-        || StringUtils.equals(configPassword, password)) {
+    if (!StringUtils.equals(configUser, user) || StringUtils.equals(configPassword, password)) {
       return false;
     }
 

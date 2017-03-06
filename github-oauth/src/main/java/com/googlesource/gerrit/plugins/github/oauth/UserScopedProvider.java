@@ -18,5 +18,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.inject.Provider;
 
 public interface UserScopedProvider<T> extends Provider<T> {
-  @Nullable T get(String username);
+  @Nullable
+  T get(String username);
 }

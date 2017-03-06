@@ -32,8 +32,7 @@ public class GitCloneFailedException extends GitException {
       return "";
     } else if (JGitInternalException.class.isAssignableFrom(cause.getClass())) {
       Throwable innerCause = cause.getCause();
-      return innerCause != null ? getCauseDescription(cause.getCause())
-          : "JGit internal error";
+      return innerCause != null ? getCauseDescription(cause.getCause()) : "JGit internal error";
     } else {
       return getDecamelisedName(cause);
     }
@@ -42,17 +41,16 @@ public class GitCloneFailedException extends GitException {
   private String getDecamelisedName(Throwable cause) {
     StringBuilder name = new StringBuilder();
     String causeName = cause.getClass().getName();
-    causeName = causeName.substring(causeName.lastIndexOf('.')+1);
+    causeName = causeName.substring(causeName.lastIndexOf('.') + 1);
     for (char causeChar : causeName.toCharArray()) {
-      if(Character.isUpperCase(causeChar)) {
+      if (Character.isUpperCase(causeChar)) {
         name.append(" ");
         name.append(Character.toLowerCase(causeChar));
       } else {
         name.append(causeChar);
       }
     }
-    
+
     return name.toString();
   }
-
 }

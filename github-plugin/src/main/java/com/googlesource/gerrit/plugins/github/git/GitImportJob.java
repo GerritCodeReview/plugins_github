@@ -14,11 +14,9 @@
 package com.googlesource.gerrit.plugins.github.git;
 
 import com.googlesource.gerrit.plugins.github.git.GitJobStatus.Code;
-
 import org.eclipse.jgit.lib.ProgressMonitor;
 
-public class GitImportJob extends AbstractCloneJob implements Runnable,
-    ProgressMonitor, GitJob {
+public class GitImportJob extends AbstractCloneJob implements Runnable, ProgressMonitor, GitJob {
   private int currTask;
   private int totUnits;
   private int currUnit;
@@ -47,7 +45,7 @@ public class GitImportJob extends AbstractCloneJob implements Runnable,
       for (ImportStep importStep : importSteps) {
         importStep.doImport(this);
       }
-      status.update(GitJobStatus.Code.COMPLETE,"Done","Done: repository replicated to Gerrit.");
+      status.update(GitJobStatus.Code.COMPLETE, "Done", "Done: repository replicated to Gerrit.");
     } catch (Exception e) {
       if (status.getStatus() == GitJobStatus.Code.SYNC) {
         this.exception = e;
@@ -85,14 +83,13 @@ public class GitImportJob extends AbstractCloneJob implements Runnable,
       case CANCELLED:
         return "Cancelled";
       default:
-        return "Phase-" + currTask + " / " + task + " (" + lastPercentage
-            + "%)";
+        return "Phase-" + currTask + " / " + task + " (" + lastPercentage + "%)";
     }
   }
 
   /*
    * (non-Javadoc)
-   * 
+   *
    * @see com.googlesource.gerrit.plugins.github.git.CloneJob#getStatus()
    */
   @Override
@@ -111,7 +108,7 @@ public class GitImportJob extends AbstractCloneJob implements Runnable,
     if (percentage > lastPercentage) {
       lastPercentage = percentage;
     }
-    
+
     status.update(Code.SYNC, status.getShortDescription(), getStatusDescription());
   }
 
@@ -129,8 +126,7 @@ public class GitImportJob extends AbstractCloneJob implements Runnable,
   }
 
   @Override
-  public void endTask() {
-  }
+  public void endTask() {}
 
   @Override
   public void beginTask(String taskName, int totalUnits) {
@@ -139,7 +135,7 @@ public class GitImportJob extends AbstractCloneJob implements Runnable,
     this.totUnits = totalUnits;
     this.currUnit = 0;
     this.lastPercentage = 0;
-    
+
     status.update(Code.SYNC, status.getShortDescription(), getStatusDescription());
   }
 
@@ -150,8 +146,7 @@ public class GitImportJob extends AbstractCloneJob implements Runnable,
 
   @Override
   public String toString() {
-    return "CloneJob#" + index + " " + getOrganisation() + "/"
-        + getRepository();
+    return "CloneJob#" + index + " " + getOrganisation() + "/" + getRepository();
   }
 
   @Override
@@ -163,5 +158,4 @@ public class GitImportJob extends AbstractCloneJob implements Runnable,
   public String getRepository() {
     return repository;
   }
-
 }

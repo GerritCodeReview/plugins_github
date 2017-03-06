@@ -15,15 +15,16 @@ package com.googlesource.gerrit.plugins.github.git;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonWriter;
-
 import java.io.IOException;
 import java.io.PrintWriter;
-
 
 public class GitJobStatus {
 
   public enum Code {
-    SYNC, COMPLETE, FAILED, CANCELLED;
+    SYNC,
+    COMPLETE,
+    FAILED,
+    CANCELLED;
 
     @Override
     public String toString() {

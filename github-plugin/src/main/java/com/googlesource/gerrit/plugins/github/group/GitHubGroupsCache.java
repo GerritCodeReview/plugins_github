@@ -30,11 +30,6 @@ import com.google.inject.name.Named;
 import com.googlesource.gerrit.plugins.github.groups.OrganizationStructure;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.UserScopedProvider;
-
-import org.kohsuke.github.GHTeam;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collections;
@@ -42,19 +37,19 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
+import org.kohsuke.github.GHTeam;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class GitHubGroupsCache {
-  private static final Logger log = LoggerFactory
-      .getLogger(GitHubGroupsCache.class);
+  private static final Logger log = LoggerFactory.getLogger(GitHubGroupsCache.class);
   private static final String ORGS_CACHE_NAME = "groups";
   protected static final long GROUPS_CACHE_TTL_MINS = 60;
   public static final String EVERYONE_TEAM_NAME = "Everyone";
 
-  public static class OrganisationLoader extends
-      CacheLoader<String, OrganizationStructure> {
-    private static final Logger logger = LoggerFactory
-        .getLogger(OrganisationLoader.class);
+  public static class OrganisationLoader extends CacheLoader<String, OrganizationStructure> {
+    private static final Logger logger = LoggerFactory.getLogger(OrganisationLoader.class);
     private final UserScopedProvider<GitHubLogin> ghLoginProvider;
 
     @Inject
@@ -84,15 +79,11 @@ public class GitHubGroupsCache {
       return orgsTeams;
     }
 
-    private void loadOrganisationsAndTeams(String username,
-        OrganizationStructure orgsTeams, GitHubLogin ghLogin)
-        throws IOException {
-      logger.debug("Getting list of organisations/teams for user '{}'",
-          username);
-      Map<String, Set<GHTeam>> myOrganisationsLogins =
-          ghLogin.getHub().getMyTeams();
-      for (Entry<String, Set<GHTeam>> teamsOrg : myOrganisationsLogins
-          .entrySet()) {
+    private void loadOrganisationsAndTeams(
+        String username, OrganizationStructure orgsTeams, GitHubLogin ghLogin) throws IOException {
+      logger.debug("Getting list of organisations/teams for user '{}'", username);
+      Map<String, Set<GHTeam>> myOrganisationsLogins = ghLogin.getHub().getMyTeams();
+      for (Entry<String, Set<GHTeam>> teamsOrg : myOrganisationsLogins.entrySet()) {
         orgsTeams.put(teamsOrg.getKey(), EVERYONE_TEAM_NAME);
         for (GHTeam team : teamsOrg.getValue()) {
           orgsTeams.put(teamsOrg.getKey(), team.getName());
@@ -100,11 +91,9 @@ public class GitHubGroupsCache {
       }
     }
 
-    private void loadOrganisations(String username,
-        OrganizationStructure orgsTeams, GitHubLogin ghLogin)
-        throws IOException {
-      logger.debug("Getting list of public organisations for user '{}'",
-          username);
+    private void loadOrganisations(
+        String username, OrganizationStructure orgsTeams, GitHubLogin ghLogin) throws IOException {
+      logger.debug("Getting list of public organisations for user '{}'", username);
       Set<String> organisations = ghLogin.getMyOrganisationsLogins();
       for (String org : organisations) {
         orgsTeams.put(org, EVERYONE_TEAM_NAME);
@@ -117,8 +106,8 @@ public class GitHubGroupsCache {
       @Override
       protected void configure() {
         persist(ORGS_CACHE_NAME, String.class, OrganizationStructure.class)
-            .expireAfterWrite(GROUPS_CACHE_TTL_MINS, MINUTES).loader(
-                OrganisationLoader.class);
+            .expireAfterWrite(GROUPS_CACHE_TTL_MINS, MINUTES)
+            .loader(OrganisationLoader.class);
         bind(GitHubGroupsCache.class);
       }
     };
@@ -150,11 +139,17 @@ public class GitHubGroupsCache {
 
   Set<String> getTeamsForUser(String organizationName, String username) {
     try {
-      return new ImmutableSet.Builder<String>().addAll(
-          orgTeamsByUsername.get(username).get(organizationName)).build();
+      return new ImmutableSet.Builder<String>()
+          .addAll(orgTeamsByUsername.get(username).get(organizationName))
+          .build();
     } catch (ExecutionException e) {
-      log.warn("Cannot get Teams membership for organisation '"
-          + organizationName + "' and user '" + username + "'", e);
+      log.warn(
+          "Cannot get Teams membership for organisation '"
+              + organizationName
+              + "' and user '"
+              + username
+              + "'",
+          e);
       return Collections.emptySet();
     }
   }
@@ -169,8 +164,7 @@ public class GitHubGroupsCache {
       groupsBuilder.add(GitHubOrganisationGroup.uuid(org));
 
       for (String team : getTeamsForUser(org, username)) {
-        groupsBuilder.add(GitHubTeamGroup.uuid(
-            GitHubOrganisationGroup.uuid(org), team));
+        groupsBuilder.add(GitHubTeamGroup.uuid(GitHubOrganisationGroup.uuid(org), team));
       }
     }
     return groupsBuilder.build();

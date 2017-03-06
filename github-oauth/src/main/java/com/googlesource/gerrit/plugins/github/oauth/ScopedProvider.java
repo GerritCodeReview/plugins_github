@@ -14,11 +14,9 @@
 package com.googlesource.gerrit.plugins.github.oauth;
 
 import com.google.inject.Provider;
-
 import javax.servlet.http.HttpServletRequest;
 
-
-public interface ScopedProvider<T> extends Provider<T>{
+public interface ScopedProvider<T> extends Provider<T> {
   T get(HttpServletRequest request);
 
   HttpServletRequest getScopedRequest();

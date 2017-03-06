@@ -20,15 +20,13 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.AccessToken;
-
 import java.util.concurrent.ExecutionException;
 
 @Singleton
 public class OAuthCache {
   private static final String CACHE_NAME = "github_oauth";
-  
+
   public static class Loader extends CacheLoader<AccessToken, String> {
     private GitHubLogin ghLogin;
 
@@ -48,22 +46,20 @@ public class OAuthCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        cache(CACHE_NAME, AccessToken.class, String.class)
-          .loader(Loader.class);
+        cache(CACHE_NAME, AccessToken.class, String.class).loader(Loader.class);
         bind(OAuthCache.class);
       }
     };
   }
 
   private LoadingCache<AccessToken, String> byAccesToken;
-  
+
   @Inject
   public OAuthCache(@Named(CACHE_NAME) LoadingCache<AccessToken, String> byAccessToken) {
     this.byAccesToken = byAccessToken;
   }
-  
-  public String getLoginByAccessToken(AccessToken accessToken)
-      throws ExecutionException {
+
+  public String getLoginByAccessToken(AccessToken accessToken) throws ExecutionException {
     return byAccesToken.get(accessToken);
   }
 }

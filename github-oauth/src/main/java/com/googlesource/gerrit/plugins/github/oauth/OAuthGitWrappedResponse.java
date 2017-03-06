@@ -14,13 +14,11 @@
 package com.googlesource.gerrit.plugins.github.oauth;
 
 import java.io.IOException;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
 public class OAuthGitWrappedResponse extends HttpServletResponseWrapper {
-  public static final String GIT_REALM_NAME =
-      "GitHub authentication for Gerrit Code Review";
+  public static final String GIT_REALM_NAME = "GitHub authentication for Gerrit Code Review";
   private static final String GIT_AUTHENTICATION_BASIC = "Basic ";
   private static final String WWW_AUTHENTICATE = "WWW-Authenticate";
 

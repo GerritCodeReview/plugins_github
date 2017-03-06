@@ -15,17 +15,14 @@ package com.googlesource.gerrit.plugins.github.git;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
 import com.googlesource.gerrit.plugins.github.GitHubConfig;
-
+import java.io.File;
+import java.io.IOException;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
-import java.io.IOException;
 
 public class GitCloneStep extends ImportStep {
   private static final Logger LOG = LoggerFactory.getLogger(GitImporter.class);
@@ -34,27 +31,25 @@ public class GitCloneStep extends ImportStep {
   private File destinationDirectory;
 
   public interface Factory {
-    GitCloneStep create(@Assisted("organisation") String organisation,
-        @Assisted("name") String repository);
+    GitCloneStep create(
+        @Assisted("organisation") String organisation, @Assisted("name") String repository);
   }
 
   @Inject
-  public GitCloneStep(GitHubConfig gitConfig,
+  public GitCloneStep(
+      GitHubConfig gitConfig,
       GitHubRepository.Factory gitHubRepoFactory,
       @Assisted("organisation") String organisation,
       @Assisted("name") String repository)
-      throws GitDestinationAlreadyExistsException,
-      GitDestinationNotWritableException {
+      throws GitDestinationAlreadyExistsException, GitDestinationNotWritableException {
     super(gitConfig.gitHubUrl, organisation, repository, gitHubRepoFactory);
     LOG.debug("GitHub Clone " + organisation + "/" + repository);
     this.gitDir = gitConfig.gitDir.toFile();
-    this.destinationDirectory =
-        getDestinationDirectory(organisation, repository);
+    this.destinationDirectory = getDestinationDirectory(organisation, repository);
   }
-  
+
   private File getDestinationDirectory(String organisation, String repository)
-      throws GitDestinationAlreadyExistsException,
-      GitDestinationNotWritableException {
+      throws GitDestinationAlreadyExistsException, GitDestinationNotWritableException {
     File orgDirectory = new File(gitDir, organisation);
     File destDirectory = new File(orgDirectory, repository + ".git");
     if (destDirectory.exists() && isNotEmpty(destDirectory)) {
@@ -71,8 +66,9 @@ public class GitCloneStep extends ImportStep {
   }
 
   @Override
-  public void doImport(ProgressMonitor progress) throws GitCloneFailedException,
-      GitDestinationAlreadyExistsException, GitDestinationNotWritableException {
+  public void doImport(ProgressMonitor progress)
+      throws GitCloneFailedException, GitDestinationAlreadyExistsException,
+          GitDestinationNotWritableException {
     CloneCommand clone = new CloneCommand();
     clone.setCredentialsProvider(getRepository().getCredentialsProvider());
     String sourceUri = getSourceUri();
@@ -101,10 +97,10 @@ public class GitCloneStep extends ImportStep {
   @Override
   public boolean rollback() {
     File gitDirectory = destinationDirectory;
-    if(!gitDirectory.exists()) {
+    if (!gitDirectory.exists()) {
       return false;
     }
-    
+
     try {
       FileUtils.deleteDirectory(gitDirectory);
       return true;

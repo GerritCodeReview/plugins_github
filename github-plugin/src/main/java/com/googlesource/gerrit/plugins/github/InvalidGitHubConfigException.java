@@ -17,6 +17,9 @@ public class InvalidGitHubConfigException extends RuntimeException {
   private static final long serialVersionUID = 7006333621290095732L;
 
   public InvalidGitHubConfigException(String fromTo) {
-    super("Invalid configuration: invalid value " + fromTo + ": expected 'from-page.html => to-page.html");
+    super(
+        "Invalid configuration: invalid value "
+            + fromTo
+            + ": expected 'from-page.html => to-page.html");
   }
 }

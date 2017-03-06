@@ -19,7 +19,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
 import java.util.Set;
 
 public class GitHubGroupMembership implements GroupMembership {
@@ -30,11 +29,11 @@ public class GitHubGroupMembership implements GroupMembership {
   }
 
   @Inject
-  GitHubGroupMembership(GitHubGroupsCache ghOrganisationCache,
-      @Assisted String username) {
+  GitHubGroupMembership(GitHubGroupsCache ghOrganisationCache, @Assisted String username) {
     this.groups =
-        new ImmutableSet.Builder<UUID>().addAll(
-            ghOrganisationCache.getGroupsForUser(username)).build();
+        new ImmutableSet.Builder<UUID>()
+            .addAll(ghOrganisationCache.getGroupsForUser(username))
+            .build();
   }
 
   @Override

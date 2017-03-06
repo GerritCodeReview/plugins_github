@@ -24,7 +24,10 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.GitHubConfig;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
-
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.kohsuke.github.GHMyself.RepositoryListFilter;
 import org.kohsuke.github.GHOrganization;
 import org.kohsuke.github.GHRepository;
@@ -33,36 +36,31 @@ import org.kohsuke.github.PagedIterator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 @Singleton
 public class RepositoriesListController implements VelocityController {
   private static final Logger log = LoggerFactory.getLogger(RepositoriesListController.class);
   private final ProjectCache projects;
   private final GitHubConfig config;
 
-
   @Inject
-  public RepositoriesListController(final ProjectCache projects,
-      final GitHubConfig config) {
+  public RepositoriesListController(final ProjectCache projects, final GitHubConfig config) {
     this.projects = projects;
     this.config = config;
   }
 
   @Override
-  public void doAction(IdentifiedUser user, GitHubLogin hubLogin,
-      HttpServletRequest req, HttpServletResponse resp, ControllerErrors errors)
+  public void doAction(
+      IdentifiedUser user,
+      GitHubLogin hubLogin,
+      HttpServletRequest req,
+      HttpServletResponse resp,
+      ControllerErrors errors)
       throws ServletException, IOException {
     String organisation = req.getParameter("organisation");
 
     JsonArray jsonRepos = new JsonArray();
     int numRepos = 0;
-    PagedIterator<GHRepository> repoIter =
-        getRepositories(hubLogin, organisation).iterator();
+    PagedIterator<GHRepository> repoIter = getRepositories(hubLogin, organisation).iterator();
 
     while (repoIter.hasNext() && numRepos < config.repositoryListLimit) {
       GHRepository ghRepository = repoIter.next();
@@ -73,27 +71,28 @@ public class RepositoriesListController implements VelocityController {
           repository.add("name", new JsonPrimitive(ghRepository.getName()));
           repository.add("organisation", new JsonPrimitive(organisation));
           repository.add(
-              "description",
-              new JsonPrimitive(Strings.nullToEmpty(ghRepository
-                  .getDescription())));
-          repository
-              .add("private", new JsonPrimitive(new Boolean(ghRepository.isPrivate())));
+              "description", new JsonPrimitive(Strings.nullToEmpty(ghRepository.getDescription())));
+          repository.add("private", new JsonPrimitive(new Boolean(ghRepository.isPrivate())));
           jsonRepos.add(repository);
           numRepos++;
         }
       } else {
-        log.warn("Skipping repository {} because user {} has no push/pull access to it",
-            ghRepository.getName(), user.getUserName());
+        log.warn(
+            "Skipping repository {} because user {} has no push/pull access to it",
+            ghRepository.getName(),
+            user.getUserName());
       }
     }
 
     resp.getWriter().println(jsonRepos.toString());
   }
 
-  private PagedIterable<GHRepository> getRepositories(GitHubLogin hubLogin,
-      String organisation) throws IOException {
+  private PagedIterable<GHRepository> getRepositories(GitHubLogin hubLogin, String organisation)
+      throws IOException {
     if (organisation.equals(hubLogin.getMyself().getLogin())) {
-      return hubLogin.getMyself().listRepositories(config.repositoryListPageSize, RepositoryListFilter.OWNER);
+      return hubLogin
+          .getMyself()
+          .listRepositories(config.repositoryListPageSize, RepositoryListFilter.OWNER);
     }
     GHOrganization ghOrganisation =
         hubLogin.getMyself().getAllOrganizations().byLogin(organisation);

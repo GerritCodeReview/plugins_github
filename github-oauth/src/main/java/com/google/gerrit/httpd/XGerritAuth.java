@@ -18,7 +18,6 @@ import com.google.gerrit.httpd.WebSessionManager.Val;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-
 import javax.servlet.http.Cookie;
 
 @Singleton
@@ -27,14 +26,14 @@ public class XGerritAuth {
   private WebSessionManager manager;
 
   @Inject
-  public XGerritAuth(WebSessionManagerFactory managerFactory,
+  public XGerritAuth(
+      WebSessionManagerFactory managerFactory,
       @Named(WebSessionManager.CACHE_NAME) Cache<String, Val> cache) {
     this.manager = managerFactory.create(cache);
   }
 
   public String getAuthValue(Cookie gerritCookie) {
-    Val session =
-        manager.get(new WebSessionManager.Key(gerritCookie.getValue()));
+    Val session = manager.get(new WebSessionManager.Key(gerritCookie.getValue()));
     return session.getAuth();
   }
 }

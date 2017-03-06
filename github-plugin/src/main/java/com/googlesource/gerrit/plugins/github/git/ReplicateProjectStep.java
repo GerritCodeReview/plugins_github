@@ -13,15 +13,12 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
-import java.io.IOException;
-
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
 import com.googlesource.gerrit.plugins.github.GitHubURL;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
-
+import java.io.IOException;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,18 +31,19 @@ public class ReplicateProjectStep extends ImportStep {
   private final String gitHubUrl;
 
   public interface Factory {
-    ReplicateProjectStep create(@Assisted("organisation") String organisation,
-        @Assisted("name") String repository);
+    ReplicateProjectStep create(
+        @Assisted("organisation") String organisation, @Assisted("name") String repository);
   }
 
-
   @Inject
-  public ReplicateProjectStep(final ReplicationConfig replicationConfig,
+  public ReplicateProjectStep(
+      final ReplicationConfig replicationConfig,
       final GitHubRepository.Factory gitHubRepoFactory,
       final ScopedProvider<GitHubLogin> ghLoginProvider,
       @GitHubURL String gitHubUrl,
       @Assisted("organisation") String organisation,
-      @Assisted("name") String repository) throws IOException {
+      @Assisted("name") String repository)
+      throws IOException {
     super(gitHubUrl, organisation, repository, gitHubRepoFactory);
     LOG.debug("Gerrit ReplicateProject " + organisation + "/" + repository);
     this.replicationConfig = replicationConfig;
@@ -63,8 +61,8 @@ public class ReplicateProjectStep extends ImportStep {
     progress.update(1);
     replicationConfig.addSecureCredentials(authUsername, authToken);
     progress.update(1);
-    replicationConfig.addReplicationRemote(authUsername, gitHubUrl
-        + "/${name}.git", repositoryName);
+    replicationConfig.addReplicationRemote(
+        authUsername, gitHubUrl + "/${name}.git", repositoryName);
     progress.endTask();
   }
 
@@ -72,5 +70,4 @@ public class ReplicateProjectStep extends ImportStep {
   public boolean rollback() {
     return false;
   }
-
 }

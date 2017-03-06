@@ -23,5 +23,4 @@ public class OAuthTokenException extends Exception {
   }
 
   private static final long serialVersionUID = -2177841968402814337L;
-
 }

@@ -23,12 +23,10 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig;
-
-import org.eclipse.jgit.lib.Config;
-
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.util.HashMap;
+import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class GitHubConfig extends GitHubOAuthConfig {
@@ -39,12 +37,9 @@ public class GitHubConfig extends GitHubOAuthConfig {
   private static final String FROM_TO_REDIRECT_SEPARATOR = "R>";
   private static final String CONF_JOB_POOL_LIMIT = "jobPoolLimit";
   private static final String CONF_JOB_EXEC_TIMEOUT = "jobExecTimeout";
-  private static final String CONF_PULL_REQUEST_LIST_LIMIT =
-      "pullRequestListLimit";
-  private static final String CONF_REPOSITORY_LIST_PAGE_SIZE =
-      "repositoryListPageSize";
-  private static final String CONF_REPOSITORY_LIST_LIMIT =
-      "repositoryListLimit";
+  private static final String CONF_PULL_REQUEST_LIST_LIMIT = "pullRequestListLimit";
+  private static final String CONF_REPOSITORY_LIST_PAGE_SIZE = "repositoryListPageSize";
+  private static final String CONF_REPOSITORY_LIST_LIMIT = "repositoryListLimit";
   private static final String CONF_PUBLIC_BASE_PROJECT = "publicBaseProject";
   private static final String CONF_PRIVATE_BASE_PROJECT = "privateBaseProject";
   private static final String CONF_WEBHOOK_SECRET = "webhookSecret";
@@ -72,53 +67,46 @@ public class GitHubConfig extends GitHubOAuthConfig {
     }
   }
 
-
   @Inject
-  public GitHubConfig(@GerritServerConfig Config config, 
-      final SitePaths site, 
+  public GitHubConfig(
+      @GerritServerConfig Config config,
+      final SitePaths site,
       AllProjectsNameProvider allProjectsNameProvider,
-      @CanonicalWebUrl String canonicalWebUrl, 
+      @CanonicalWebUrl String canonicalWebUrl,
       AuthConfig authConfig)
       throws MalformedURLException {
     super(config, canonicalWebUrl, authConfig);
-    String[] wizardFlows =
-        config.getStringList(CONF_SECTION, null, CONF_WIZARD_FLOW);
+    String[] wizardFlows = config.getStringList(CONF_SECTION, null, CONF_WIZARD_FLOW);
     for (String fromTo : wizardFlows) {
       boolean redirect = fromTo.indexOf(FROM_TO_REDIRECT_SEPARATOR) > 0;
       int sepPos = getSepPos(fromTo, redirect);
       String fromPage = fromTo.substring(0, sepPos).trim();
       NextPage toPage =
-          new NextPage(fromTo.substring(
-              sepPos + getSeparator(redirect).length() + 1).trim(), redirect);
+          new NextPage(
+              fromTo.substring(sepPos + getSeparator(redirect).length() + 1).trim(), redirect);
       wizardFromTo.put(fromPage, toPage);
     }
 
     jobPoolLimit = config.getInt(CONF_SECTION, CONF_JOB_POOL_LIMIT, 5);
     jobExecTimeout = config.getInt(CONF_SECTION, CONF_JOB_EXEC_TIMEOUT, 10);
-    pullRequestListLimit =
-        config.getInt(CONF_SECTION, CONF_PULL_REQUEST_LIST_LIMIT, 50);
-    repositoryListPageSize =
-        config.getInt(CONF_SECTION, CONF_REPOSITORY_LIST_PAGE_SIZE, 50);
-    repositoryListLimit =
-        config.getInt(CONF_SECTION, CONF_REPOSITORY_LIST_LIMIT, 50);
+    pullRequestListLimit = config.getInt(CONF_SECTION, CONF_PULL_REQUEST_LIST_LIMIT, 50);
+    repositoryListPageSize = config.getInt(CONF_SECTION, CONF_REPOSITORY_LIST_PAGE_SIZE, 50);
+    repositoryListLimit = config.getInt(CONF_SECTION, CONF_REPOSITORY_LIST_LIMIT, 50);
 
     gitDir = site.resolve(config.getString("gerrit", null, "basePath"));
     if (gitDir == null) {
       throw new IllegalStateException("gerrit.basePath must be configured");
     }
 
-    privateBaseProject =
-        config.getString(CONF_SECTION, null, CONF_PRIVATE_BASE_PROJECT);
-    publicBaseProject =
-        config.getString(CONF_SECTION, null, CONF_PUBLIC_BASE_PROJECT);
+    privateBaseProject = config.getString(CONF_SECTION, null, CONF_PRIVATE_BASE_PROJECT);
+    publicBaseProject = config.getString(CONF_SECTION, null, CONF_PUBLIC_BASE_PROJECT);
     allProjectsName = allProjectsNameProvider.get().toString();
     webhookSecret = config.getString(CONF_SECTION, null, CONF_WEBHOOK_SECRET);
     webhookUser = config.getString(CONF_SECTION, null, CONF_WEBHOOK_USER);
   }
 
   private String getSeparator(boolean redirect) {
-    String separator =
-        redirect ? FROM_TO_REDIRECT_SEPARATOR : FROM_TO_SEPARATOR;
+    String separator = redirect ? FROM_TO_REDIRECT_SEPARATOR : FROM_TO_SEPARATOR;
     return separator;
   }
 
@@ -135,7 +123,7 @@ public class GitHubConfig extends GitHubOAuthConfig {
   }
 
   public String getBaseProject(boolean isPrivateProject) {
-    return MoreObjects.firstNonNull(isPrivateProject ? privateBaseProject
-        : publicBaseProject, allProjectsName);
+    return MoreObjects.firstNonNull(
+        isPrivateProject ? privateBaseProject : publicBaseProject, allProjectsName);
   }
 }

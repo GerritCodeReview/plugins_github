@@ -34,11 +34,11 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-
 import com.googlesource.gerrit.plugins.github.git.GitJobStatus.Code;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
-
+import java.io.IOException;
+import java.util.List;
 import org.eclipse.jgit.api.FetchCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -60,20 +60,18 @@ import org.kohsuke.github.GitUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.List;
-
 public class PullRequestImportJob implements GitJob, ProgressMonitor {
 
   public interface Factory {
-    PullRequestImportJob create(@Assisted("index") int jobIndex,
+    PullRequestImportJob create(
+        @Assisted("index") int jobIndex,
         @Assisted("organisation") String organisation,
-        @Assisted("name") String repository, @Assisted int pullRequestId,
+        @Assisted("name") String repository,
+        @Assisted int pullRequestId,
         @Assisted PullRequestImportType importType);
   }
 
-  private static final Logger LOG = LoggerFactory
-      .getLogger(PullRequestImportJob.class);
+  private static final Logger LOG = LoggerFactory.getLogger(PullRequestImportJob.class);
 
   private static final String TOPIC_FORMAT = "GitHub #%d";
 
@@ -92,15 +90,18 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
   private AccountImporter accountImporter;
 
   @Inject
-  public PullRequestImportJob(GitRepositoryManager repoMgr,
+  public PullRequestImportJob(
+      GitRepositoryManager repoMgr,
       PullRequestCreateChange createChange,
       ProjectCache projectCache,
-      Provider<ReviewDb> schema, AccountImporter accountImporter,
+      Provider<ReviewDb> schema,
+      AccountImporter accountImporter,
       GitHubRepository.Factory gitHubRepoFactory,
       ScopedProvider<GitHubLogin> ghLoginProvider,
       @Assisted("index") int jobIndex,
       @Assisted("organisation") String organisation,
-      @Assisted("name") String repoName, @Assisted int pullRequestId) {
+      @Assisted("name") String repoName,
+      @Assisted int pullRequestId) {
     this.jobIndex = jobIndex;
     this.repoMgr = repoMgr;
     this.ghLogin = ghLoginProvider.get();
@@ -115,10 +116,9 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
     this.accountImporter = accountImporter;
   }
 
-  private Project fetchGerritProject(ProjectCache projectCache,
-      String fetchOrganisation, String fetchRepoName) {
-    NameKey projectNameKey =
-        Project.NameKey.parse(fetchOrganisation + "/" + fetchRepoName);
+  private Project fetchGerritProject(
+      ProjectCache projectCache, String fetchOrganisation, String fetchRepoName) {
+    NameKey projectNameKey = Project.NameKey.parse(fetchOrganisation + "/" + fetchRepoName);
     ProjectState projectState = projectCache.get(projectNameKey);
     return projectState.getProject();
   }
@@ -132,27 +132,33 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
 
       exitWhenCancelled();
       try (Repository gitRepo =
-          repoMgr.openRepository(new Project.NameKey(organisation + "/"
-              + repoName))) {
+          repoMgr.openRepository(new Project.NameKey(organisation + "/" + repoName))) {
         exitWhenCancelled();
         fetchGitHubPullRequest(gitRepo, pr);
 
         exitWhenCancelled();
         List<Id> changeIds = addPullRequestToChange(db, pr, gitRepo);
-        status.update(GitJobStatus.Code.COMPLETE, "Imported",
-            "PullRequest imported as Changes " + changeIds);
+        status.update(
+            GitJobStatus.Code.COMPLETE, "Imported", "PullRequest imported as Changes " + changeIds);
       }
     } catch (JobCancelledException e) {
       status.update(GitJobStatus.Code.CANCELLED);
     } catch (Throwable e) {
-      LOG.error("Pull request " + prId + " into repository " + organisation
-          + "/" + repoName + " was failed", e);
-      status.update(GitJobStatus.Code.FAILED, "Failed",  e.getLocalizedMessage());
+      LOG.error(
+          "Pull request "
+              + prId
+              + " into repository "
+              + organisation
+              + "/"
+              + repoName
+              + " was failed",
+          e);
+      status.update(GitJobStatus.Code.FAILED, "Failed", e.getLocalizedMessage());
     }
   }
 
-  private List<Id> addPullRequestToChange(ReviewDb db, GHPullRequest pr,
-      Repository gitRepo) throws Exception {
+  private List<Id> addPullRequestToChange(ReviewDb db, GHPullRequest pr, Repository gitRepo)
+      throws Exception {
     String destinationBranch = REFS_HEADS + pr.getBase().getRef();
     List<Id> prChanges = Lists.newArrayList();
     ObjectId baseObjectId = ObjectId.fromString(pr.getBase().getSha());
@@ -165,10 +171,11 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
 
       int patchNr = 1;
       for (GHPullRequestCommitDetail ghCommitDetail : pr.listCommits()) {
-        status.update(Code.SYNC, "Patch #" + patchNr, "Patch#" + patchNr
-            + ": Inserting PullRequest into Gerrit");
-        RevCommit revCommit =
-            walk.parseCommit(ObjectId.fromString(ghCommitDetail.getSha()));
+        status.update(
+            Code.SYNC,
+            "Patch #" + patchNr,
+            "Patch#" + patchNr + ": Inserting PullRequest into Gerrit");
+        RevCommit revCommit = walk.parseCommit(ObjectId.fromString(ghCommitDetail.getSha()));
 
         GHUser prUser = pr.getUser();
         GitUser commitAuthor = ghCommitDetail.getCommit().getAuthor();
@@ -176,8 +183,13 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
 
         Account.Id pullRequestOwner = getOrRegisterAccount(db, gitHubUser);
         Id changeId =
-            createChange.addCommitToChange(db, project, gitRepo,
-                destinationBranch, pullRequestOwner, revCommit,
+            createChange.addCommitToChange(
+                db,
+                project,
+                gitRepo,
+                destinationBranch,
+                pullRequestOwner,
+                revCommit,
                 getChangeMessage(pr),
                 String.format(TOPIC_FORMAT, new Integer(pr.getNumber())));
         if (changeId != null) {
@@ -190,17 +202,16 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
   }
 
   private com.google.gerrit.reviewdb.client.Account.Id getOrRegisterAccount(
-      ReviewDb db, GitHubUser author) throws BadRequestException,
-      ResourceConflictException, UnprocessableEntityException, OrmException,
-      IOException, ConfigInvalidException {
-    return getOrRegisterAccount(db, author.getLogin(), author.getName(),
-        author.getEmail());
+      ReviewDb db, GitHubUser author)
+      throws BadRequestException, ResourceConflictException, UnprocessableEntityException,
+          OrmException, IOException, ConfigInvalidException {
+    return getOrRegisterAccount(db, author.getLogin(), author.getName(), author.getEmail());
   }
 
   private com.google.gerrit.reviewdb.client.Account.Id getOrRegisterAccount(
       ReviewDb db, String login, String name, String email)
       throws OrmException, BadRequestException, ResourceConflictException,
-      UnprocessableEntityException, IOException, ConfigInvalidException {
+          UnprocessableEntityException, IOException, ConfigInvalidException {
     AccountExternalId.Key userExtKey =
         new AccountExternalId.Key(AccountExternalId.SCHEME_USERNAME, login);
     AccountExternalIdAccess gerritExtIds = db.accountExternalIds();
@@ -212,8 +223,12 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
   }
 
   private String getChangeMessage(GHPullRequest pr) {
-    return "GitHub Pull Request: " + pr.getUrl() + "\n\n" + pr.getTitle()
-        + "\n\n" + pr.getBody().replaceAll("\n", "\n\n");
+    return "GitHub Pull Request: "
+        + pr.getUrl()
+        + "\n\n"
+        + pr.getTitle()
+        + "\n\n"
+        + pr.getBody().replaceAll("\n", "\n\n");
   }
 
   private void exitWhenCancelled() throws JobCancelledException {
@@ -229,8 +244,9 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
     try (Git git = Git.wrap(gitRepo)) {
       FetchCommand fetch = git.fetch();
       fetch.setRemote(ghRepository.getCloneUrl());
-      fetch.setRefSpecs(new RefSpec("+refs/pull/" + pr.getNumber()
-          + "/head:refs/remotes/origin/pr/" + pr.getNumber()));
+      fetch.setRefSpecs(
+          new RefSpec(
+              "+refs/pull/" + pr.getNumber() + "/head:refs/remotes/origin/pr/" + pr.getNumber()));
       fetch.setProgressMonitor(this);
       fetch.setCredentialsProvider(ghRepository.getCredentialsProvider());
       fetch.call();
@@ -262,8 +278,7 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
     if (ghLogin.getMyself().getLogin().equals(organisation)) {
       return ghLogin.getMyself().getRepository(repoName);
     }
-    return ghLogin.getHub().getOrganization(organisation)
-        .getRepository(repoName);
+    return ghLogin.getHub().getOrganization(organisation).getRepository(repoName);
   }
 
   @Override
@@ -282,8 +297,7 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
   }
 
   @Override
-  public void endTask() {
-  }
+  public void endTask() {}
 
   @Override
   public boolean isCancelled() {
@@ -291,10 +305,8 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
   }
 
   @Override
-  public void start(int tot) {
-  }
+  public void start(int tot) {}
 
   @Override
-  public void update(int progress) {
-  }
+  public void update(int progress) {}
 }

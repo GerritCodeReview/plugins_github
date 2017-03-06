@@ -30,8 +30,8 @@ public class ListProjectReplicationStatus implements RestReadView<ProjectResourc
   }
 
   @Override
-  public Object apply(ProjectResource resource) throws AuthException,
-      BadRequestException, ResourceConflictException, Exception {
+  public Object apply(ProjectResource resource)
+      throws AuthException, BadRequestException, ResourceConflictException, Exception {
     return statusStore.list(resource.getNameKey());
   }
 }

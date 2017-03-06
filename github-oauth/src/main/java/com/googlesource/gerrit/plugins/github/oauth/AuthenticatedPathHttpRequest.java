@@ -13,8 +13,6 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.oauth;
 
-
-
 import javax.servlet.http.HttpServletRequest;
 
 public class AuthenticatedPathHttpRequest extends AuthenticatedHttpRequest {
@@ -24,8 +22,8 @@ public class AuthenticatedPathHttpRequest extends AuthenticatedHttpRequest {
   private String requestURI;
   private String requestPath;
 
-  public AuthenticatedPathHttpRequest(HttpServletRequest request, String requestPath,
-      String userHeader, String username) {
+  public AuthenticatedPathHttpRequest(
+      HttpServletRequest request, String requestPath, String userHeader, String username) {
     super(request, userHeader, username);
 
     this.requestPath = requestPath;
@@ -41,14 +39,12 @@ public class AuthenticatedPathHttpRequest extends AuthenticatedHttpRequest {
 
   @Override
   public StringBuffer getRequestURL() {
-    return new StringBuffer(requestURL.substring(0,
-        requestURL.indexOf(requestURI))
-        + getRequestURI());
+    return new StringBuffer(
+        requestURL.substring(0, requestURL.indexOf(requestURI)) + getRequestURI());
   }
 
   @Override
   public String getServletPath() {
     return requestPath;
   }
-
 }

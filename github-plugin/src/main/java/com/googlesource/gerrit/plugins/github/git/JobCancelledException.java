@@ -15,5 +15,4 @@ package com.googlesource.gerrit.plugins.github.git;
 
 public class JobCancelledException extends Exception {
   private static final long serialVersionUID = 4358474273091335160L;
-
 }

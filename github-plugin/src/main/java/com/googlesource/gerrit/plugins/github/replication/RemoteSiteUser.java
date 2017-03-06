@@ -28,8 +28,8 @@ public class RemoteSiteUser extends CurrentUser {
   private final GroupMembership effectiveGroups;
 
   @Inject
-  RemoteSiteUser(CapabilityControl.Factory capabilityControlFactory,
-      @Assisted GroupMembership authGroups) {
+  RemoteSiteUser(
+      CapabilityControl.Factory capabilityControlFactory, @Assisted GroupMembership authGroups) {
     super(capabilityControlFactory);
     effectiveGroups = authGroups;
   }

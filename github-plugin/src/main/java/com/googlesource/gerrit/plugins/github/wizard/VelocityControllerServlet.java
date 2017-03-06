@@ -18,29 +18,24 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import com.googlesource.gerrit.plugins.github.GitHubConfig;
 import com.googlesource.gerrit.plugins.github.GitHubConfig.NextPage;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
-
-import org.apache.http.HttpStatus;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.http.HttpStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class VelocityControllerServlet extends HttpServlet {
   private static final long serialVersionUID = 5565594120346641704L;
-  private static final Logger log = LoggerFactory
-      .getLogger(VelocityControllerServlet.class);
+  private static final Logger log = LoggerFactory.getLogger(VelocityControllerServlet.class);
   private static final String CONTROLLER_PACKAGE =
       VelocityControllerServlet.class.getPackage().getName();
   private final ScopedProvider<GitHubLogin> loginProvider;
@@ -50,9 +45,12 @@ public class VelocityControllerServlet extends HttpServlet {
   private final GitHubConfig githubConfig;
 
   @Inject
-  public VelocityControllerServlet(final ScopedProvider<GitHubLogin> loginProvider,
-      Provider<IdentifiedUser> userProvider, final Injector injector,
-      Provider<ControllerErrors> errorsProvider, GitHubConfig githubConfig) {
+  public VelocityControllerServlet(
+      final ScopedProvider<GitHubLogin> loginProvider,
+      Provider<IdentifiedUser> userProvider,
+      final Injector injector,
+      Provider<ControllerErrors> errorsProvider,
+      GitHubConfig githubConfig) {
     this.loginProvider = loginProvider;
     this.userProvider = userProvider;
     this.injector = injector;
@@ -70,12 +68,11 @@ public class VelocityControllerServlet extends HttpServlet {
 
     try {
       Class<? extends VelocityController> controllerClass =
-          (Class<? extends VelocityController>) Class
-              .forName(CONTROLLER_PACKAGE + "." + controllerName + "Controller");
+          (Class<? extends VelocityController>)
+              Class.forName(CONTROLLER_PACKAGE + "." + controllerName + "Controller");
       controller = injector.getInstance(controllerClass);
     } catch (ClassNotFoundException e) {
-      log.debug("Cannot find any controller for servlet "
-          + req.getServletPath());
+      log.debug("Cannot find any controller for servlet " + req.getServletPath());
       redirectToNextStep(req, resp);
       return;
     }
@@ -85,8 +82,7 @@ public class VelocityControllerServlet extends HttpServlet {
     WrappedResponse wrappedResp = new WrappedResponse(resp);
     controller.doAction(user, hubLogin, req, wrappedResp, errorsProvider.get());
 
-    if (wrappedResp.getStatus() == 0 ||
-        wrappedResp.getStatus() == HttpStatus.SC_OK) {
+    if (wrappedResp.getStatus() == 0 || wrappedResp.getStatus() == HttpStatus.SC_OK) {
       redirectToNextStep(req, resp);
     }
   }
@@ -100,8 +96,7 @@ public class VelocityControllerServlet extends HttpServlet {
     String[] controllerNameParts = reqServletName.split("-");
 
     for (String namePart : controllerNameParts) {
-      controllerName.append(Character.toUpperCase(namePart.charAt(0))
-          + namePart.substring(1));
+      controllerName.append(Character.toUpperCase(namePart.charAt(0)) + namePart.substring(1));
     }
     return controllerName.toString();
   }
@@ -120,8 +115,8 @@ public class VelocityControllerServlet extends HttpServlet {
     return string;
   }
 
-  private void redirectToNextStep(HttpServletRequest req,
-      HttpServletResponse resp) throws IOException, ServletException {
+  private void redirectToNextStep(HttpServletRequest req, HttpServletResponse resp)
+      throws IOException, ServletException {
     String sourceUri = req.getPathInfo();
     int pathPos = sourceUri.lastIndexOf('/') + 1;
     String sourcePage = sourceUri.substring(pathPos);
@@ -144,7 +139,6 @@ public class VelocityControllerServlet extends HttpServlet {
   }
 
   private String nextPageURL(String sourcePath, NextPage nextPage) {
-    return nextPage.uri.startsWith("/") ? nextPage.uri
-        : sourcePath + nextPage.uri;
+    return nextPage.uri.startsWith("/") ? nextPage.uri : sourcePath + nextPage.uri;
   }
 }

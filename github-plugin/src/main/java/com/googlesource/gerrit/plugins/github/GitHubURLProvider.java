@@ -29,5 +29,4 @@ public class GitHubURLProvider implements Provider<String> {
   public String get() {
     return gitHubUrl;
   }
-
 }

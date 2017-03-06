@@ -25,7 +25,8 @@ public class GsonProvider implements Provider<Gson> {
 
   @Override
   public Gson get() {
-    return new GsonBuilder().setFieldNamingPolicy(
-        FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
+    return new GsonBuilder()
+        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+        .create();
   }
 }

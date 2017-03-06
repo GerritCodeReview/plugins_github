@@ -15,17 +15,14 @@ package com.googlesource.gerrit.plugins.github.oauth;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 public abstract class HttpSessionProvider<T> implements ScopedProvider<T> {
 
-  @Inject
-  private Provider<T> provider;
+  @Inject private Provider<T> provider;
 
-  @Inject
-  private Provider<HttpServletRequest> httpRequestProvider;
+  @Inject private Provider<HttpServletRequest> httpRequestProvider;
 
   @Override
   public T get() {

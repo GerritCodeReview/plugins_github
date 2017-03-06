@@ -23,8 +23,7 @@ public class ErrorJob extends AbstractCloneJob implements GitJob {
   private Throwable exception;
   private GitJobStatus status;
 
-  public ErrorJob(int idx, String organisation, String repository,
-      Throwable e) {
+  public ErrorJob(int idx, String organisation, String repository, Throwable e) {
     this.idx = idx;
     this.organisation = organisation;
     this.repository = repository;
@@ -54,11 +53,8 @@ public class ErrorJob extends AbstractCloneJob implements GitJob {
   }
 
   @Override
-  public void cancel() {
-  }
+  public void cancel() {}
 
   @Override
-  public void run() {
-  }
-
+  public void run() {}
 }

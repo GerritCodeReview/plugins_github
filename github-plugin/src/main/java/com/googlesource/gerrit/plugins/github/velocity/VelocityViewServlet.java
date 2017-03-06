@@ -22,7 +22,15 @@ import com.google.inject.name.Named;
 import com.googlesource.gerrit.plugins.github.GitHubConfig;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
-
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Map.Entry;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.apache.http.HttpStatus;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -31,21 +39,9 @@ import org.apache.velocity.runtime.RuntimeInstance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.Map.Entry;
-
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 @Singleton
 public class VelocityViewServlet extends HttpServlet {
-  private static final Logger log = LoggerFactory
-      .getLogger(VelocityViewServlet.class);
+  private static final Logger log = LoggerFactory.getLogger(VelocityViewServlet.class);
   private static final String STATIC_PREFIX = "/static/";
   private static final long serialVersionUID = 529071287765413268L;
   private final RuntimeInstance velocityRuntime;
@@ -58,7 +54,7 @@ public class VelocityViewServlet extends HttpServlet {
   public VelocityViewServlet(
       @Named("PluginRuntimeInstance") final RuntimeInstance velocityRuntime,
       Provider<PluginVelocityModel> modelProvider,
-      ScopedProvider<GitHubLogin> loginProvider, 
+      ScopedProvider<GitHubLogin> loginProvider,
       Provider<CurrentUser> userProvider,
       GitHubConfig config) {
 
@@ -69,7 +65,6 @@ public class VelocityViewServlet extends HttpServlet {
     this.config = config;
   }
 
-
   @Override
   public void service(ServletRequest request, ServletResponse response)
       throws ServletException, IOException {
@@ -78,9 +73,7 @@ public class VelocityViewServlet extends HttpServlet {
 
     String pathInfo =
         STATIC_PREFIX
-            + MoreObjects.firstNonNull(
-                (String) req.getAttribute("destUrl"),
-                req.getPathInfo());
+            + MoreObjects.firstNonNull((String) req.getAttribute("destUrl"), req.getPathInfo());
 
     try {
       Template template = velocityRuntime.getTemplate(pathInfo, "UTF-8");
@@ -94,8 +87,7 @@ public class VelocityViewServlet extends HttpServlet {
       resp.sendError(HttpStatus.SC_NOT_FOUND);
     } catch (Exception e) {
       log.error("Error executing velocity template " + pathInfo, e);
-      resp.sendError(HttpStatus.SC_INTERNAL_SERVER_ERROR,
-          e.getLocalizedMessage());
+      resp.sendError(HttpStatus.SC_INTERNAL_SERVER_ERROR, e.getLocalizedMessage());
     }
   }
 
@@ -104,7 +96,7 @@ public class VelocityViewServlet extends HttpServlet {
     GitHubLogin gitHubLogin = loginProvider.get(request);
     model.put("myself", gitHubLogin.getMyself());
     model.put("config", config);
-    
+
     CurrentUser user = userProvider.get();
     if (user.isIdentifiedUser()) {
       model.put("user", user);

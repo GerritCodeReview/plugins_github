@@ -16,9 +16,7 @@ package com.googlesource.gerrit.plugins.github.git;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import com.googlesource.gerrit.plugins.github.GitHubConfig;
-
 import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -31,17 +29,16 @@ public class JobExecutor {
   private final GitHubConfig config;
 
   @Inject
-  public JobExecutor(final RequestScopePropagator requestScopePropagator,
-      final GitHubConfig config) {
+  public JobExecutor(
+      final RequestScopePropagator requestScopePropagator, final GitHubConfig config) {
     this.requestScopePropagator = requestScopePropagator;
     this.config = config;
-    this.executor = Executors
-        .newScheduledThreadPool(config.jobPoolLimit);
+    this.executor = Executors.newScheduledThreadPool(config.jobPoolLimit);
   }
 
   public void exec(GitJob job) {
-    executor.schedule(requestScopePropagator.wrap(job),
-        getRandomExecutionDelay(job), TimeUnit.SECONDS);
+    executor.schedule(
+        requestScopePropagator.wrap(job), getRandomExecutionDelay(job), TimeUnit.SECONDS);
   }
 
   private int getRandomExecutionDelay(GitJob job) {

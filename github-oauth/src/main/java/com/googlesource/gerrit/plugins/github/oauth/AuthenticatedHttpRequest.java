@@ -14,22 +14,19 @@
 package com.googlesource.gerrit.plugins.github.oauth;
 
 import com.google.common.collect.Iterators;
-
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
 public class AuthenticatedHttpRequest extends HttpServletRequestWrapper {
   private HashMap<String, String> headers = new HashMap<>();
 
-  public AuthenticatedHttpRequest(HttpServletRequest request,
-      String... headerNamesValues) {
+  public AuthenticatedHttpRequest(HttpServletRequest request, String... headerNamesValues) {
     super(request);
 
-    for (int i = 0; i < headerNamesValues.length;) {
+    for (int i = 0; i < headerNamesValues.length; ) {
       String name = headerNamesValues[i++];
       String value = headerNamesValues[i++];
       if (name != null && value != null) {

@@ -14,16 +14,17 @@
 package com.googlesource.gerrit.plugins.github.git;
 
 import com.googlesource.gerrit.plugins.github.GitHubURL;
-
 import org.eclipse.jgit.lib.ProgressMonitor;
 
 public abstract class ImportStep {
   private final GitHubRepository gitHubRepository;
 
-  public ImportStep(@GitHubURL String gitHubUrl, String organisation,
-      String repository, GitHubRepository.Factory ghRepoFactory) {
-    this.gitHubRepository =
-        ghRepoFactory.create(organisation, repository);
+  public ImportStep(
+      @GitHubURL String gitHubUrl,
+      String organisation,
+      String repository,
+      GitHubRepository.Factory ghRepoFactory) {
+    this.gitHubRepository = ghRepoFactory.create(organisation, repository);
   }
 
   protected String getSourceUri() {

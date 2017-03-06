@@ -14,13 +14,6 @@
 
 package com.googlesource.gerrit.plugins.github;
 
-import java.io.IOException;
-
-import org.kohsuke.github.GHMyself;
-import org.kohsuke.github.GitHub;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.auth.oauth.OAuthServiceProvider;
 import com.google.gerrit.extensions.auth.oauth.OAuthToken;
@@ -30,18 +23,21 @@ import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol;
+import java.io.IOException;
+import org.kohsuke.github.GHMyself;
+import org.kohsuke.github.GitHub;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GitHubOAuthServiceProvider implements OAuthServiceProvider {
   public static final String VERSION = "2.10.3";
-  private static final Logger log = LoggerFactory
-      .getLogger(GitHubOAuthServiceProvider.class);
+  private static final Logger log = LoggerFactory.getLogger(GitHubOAuthServiceProvider.class);
 
   private final GitHubOAuthConfig config;
   private final OAuthProtocol oauth;
 
   @Inject
-  public GitHubOAuthServiceProvider(GitHubOAuthConfig config,
-      OAuthProtocol oauth) {
+  public GitHubOAuthServiceProvider(GitHubOAuthConfig config, OAuthProtocol oauth) {
     this.config = config;
     this.oauth = oauth;
   }
@@ -68,8 +64,8 @@ public class GitHubOAuthServiceProvider implements OAuthServiceProvider {
     GitHub hub = GitHub.connectUsingOAuth(oauthToken);
     GHMyself myself = hub.getMyself();
     String login = myself.getLogin();
-    return new OAuthUserInfo(AccountExternalId.SCHEME_GERRIT + login, login,
-        myself.getEmail(), myself.getName(), null);
+    return new OAuthUserInfo(
+        AccountExternalId.SCHEME_GERRIT + login, login, myself.getEmail(), myself.getName(), null);
   }
 
   @Override

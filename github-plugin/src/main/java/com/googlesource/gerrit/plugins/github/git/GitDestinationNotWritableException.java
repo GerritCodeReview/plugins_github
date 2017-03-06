@@ -26,5 +26,4 @@ public class GitDestinationNotWritableException extends GitException {
   public String getErrorDescription() {
     return "Output destination directory is not writeable";
   }
-
 }

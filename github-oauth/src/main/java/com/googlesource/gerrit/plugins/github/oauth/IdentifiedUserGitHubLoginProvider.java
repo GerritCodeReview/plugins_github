@@ -14,12 +14,6 @@
 
 package com.googlesource.gerrit.plugins.github.oauth;
 
-import java.io.IOException;
-import java.util.Collection;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
@@ -29,14 +23,16 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.AccessToken;
+import java.io.IOException;
+import java.util.Collection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
-public class IdentifiedUserGitHubLoginProvider implements
-    UserScopedProvider<GitHubLogin> {
-  private static final Logger log = LoggerFactory
-      .getLogger(IdentifiedUserGitHubLoginProvider.class);
-  private static final String EXTERNAL_ID_PREFIX = "external:"
-      + OAuthWebFilter.GITHUB_EXT_ID;
+public class IdentifiedUserGitHubLoginProvider implements UserScopedProvider<GitHubLogin> {
+  private static final Logger log =
+      LoggerFactory.getLogger(IdentifiedUserGitHubLoginProvider.class);
+  private static final String EXTERNAL_ID_PREFIX = "external:" + OAuthWebFilter.GITHUB_EXT_ID;
 
   private final Provider<IdentifiedUser> userProvider;
   private final GitHubOAuthConfig config;

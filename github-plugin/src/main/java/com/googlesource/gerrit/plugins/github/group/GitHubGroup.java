@@ -16,18 +16,15 @@ package com.googlesource.gerrit.plugins.github.group;
 
 import com.google.gerrit.common.data.GroupDescription.Basic;
 import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
-
 import lombok.Getter;
 
 public abstract class GitHubGroup implements Basic {
   public static final String UUID_PREFIX = "github:";
   public static final String NAME_PREFIX = "github/";
 
-  @Getter
-  protected final UUID groupUUID;
+  @Getter protected final UUID groupUUID;
 
-  @Getter
-  protected final String url;
+  @Getter protected final String url;
 
   GitHubGroup(UUID groupUUID, String url) {
     this.groupUUID = groupUUID;

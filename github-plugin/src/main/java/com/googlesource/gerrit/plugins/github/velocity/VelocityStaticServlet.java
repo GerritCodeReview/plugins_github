@@ -21,13 +21,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.velocity.runtime.RuntimeInstance;
-import org.apache.velocity.runtime.resource.Resource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,18 +28,22 @@ import java.io.OutputStream;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPOutputStream;
-
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.io.IOUtils;
+import org.apache.velocity.runtime.RuntimeInstance;
+import org.apache.velocity.runtime.resource.Resource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Sends static content using Velocity resource resolver */
 @SuppressWarnings("serial")
 @Singleton
 public class VelocityStaticServlet extends HttpServlet {
-  private static final Logger log = LoggerFactory
-      .getLogger(VelocityStaticServlet.class);
+  private static final Logger log = LoggerFactory.getLogger(VelocityStaticServlet.class);
   private static final Map<String, String> MIME_TYPES = Maps.newHashMap();
+
   static {
     MIME_TYPES.put("html", "text/html");
     MIME_TYPES.put("htm", "text/html");
@@ -89,7 +86,7 @@ public class VelocityStaticServlet extends HttpServlet {
     return out.toByteArray();
   }
 
-  private final RuntimeInstance velocity; 
+  private final RuntimeInstance velocity;
 
   @Inject
   VelocityStaticServlet(
@@ -133,8 +130,8 @@ public class VelocityStaticServlet extends HttpServlet {
   }
 
   @Override
-  protected void doGet(final HttpServletRequest req,
-      final HttpServletResponse rsp) throws IOException {
+  protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
+      throws IOException {
     final Resource p = local(req);
     if (p == null) {
       CacheHeaders.setNotCacheable(rsp);
@@ -144,8 +141,7 @@ public class VelocityStaticServlet extends HttpServlet {
 
     final String type = contentType(p.getName());
     final byte[] tosend;
-    if (!type.equals("application/x-javascript")
-        && RPCServletUtils.acceptsGzipEncoding(req)) {
+    if (!type.equals("application/x-javascript") && RPCServletUtils.acceptsGzipEncoding(req)) {
       rsp.setHeader("Content-Encoding", "gzip");
       tosend = compress(readResource(p));
     } else {

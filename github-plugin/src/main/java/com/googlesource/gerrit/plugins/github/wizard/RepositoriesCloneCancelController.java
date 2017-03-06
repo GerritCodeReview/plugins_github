@@ -16,13 +16,10 @@ package com.googlesource.gerrit.plugins.github.wizard;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import com.googlesource.gerrit.plugins.github.git.GitImporter;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,10 +35,13 @@ public class RepositoriesCloneCancelController implements VelocityController {
   }
 
   @Override
-  public void doAction(IdentifiedUser user, GitHubLogin hubLogin,
-      HttpServletRequest req, HttpServletResponse resp, ControllerErrors errors)
+  public void doAction(
+      IdentifiedUser user,
+      GitHubLogin hubLogin,
+      HttpServletRequest req,
+      HttpServletResponse resp,
+      ControllerErrors errors)
       throws ServletException, IOException {
     clonerProvider.get(req).cancel();
   }
-
 }

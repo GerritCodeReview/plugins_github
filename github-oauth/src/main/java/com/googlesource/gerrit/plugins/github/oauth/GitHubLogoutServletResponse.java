@@ -14,9 +14,7 @@
 package com.googlesource.gerrit.plugins.github.oauth;
 
 import com.google.common.base.MoreObjects;
-
 import java.io.IOException;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 

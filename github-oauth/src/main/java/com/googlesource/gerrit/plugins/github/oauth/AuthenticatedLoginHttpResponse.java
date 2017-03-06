@@ -20,7 +20,6 @@ import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Locale;
-
 import javax.servlet.ServletOutputStream;
 import javax.servlet.ServletResponse;
 import javax.servlet.WriteListener;
@@ -41,7 +40,7 @@ public class AuthenticatedLoginHttpResponse extends HttpServletResponseWrapper {
 
   @Override
   public void addCookie(Cookie cookie) {
-    if(cookie.getName().equals(OAuthWebFilter.GERRIT_COOKIE_NAME)) {
+    if (cookie.getName().equals(OAuthWebFilter.GERRIT_COOKIE_NAME)) {
       this.gerritCookie = cookie;
     }
   }
@@ -51,16 +50,13 @@ public class AuthenticatedLoginHttpResponse extends HttpServletResponseWrapper {
   }
 
   @Override
-  public void addDateHeader(String name, long date) {
-  }
-  
-  @Override
-  public void addHeader(String name, String value) {
-  }
+  public void addDateHeader(String name, long date) {}
 
   @Override
-  public void addIntHeader(String name, int value) {
-  }
+  public void addHeader(String name, String value) {}
+
+  @Override
+  public void addIntHeader(String name, int value) {}
 
   @Override
   public boolean containsHeader(String name) {
@@ -103,16 +99,13 @@ public class AuthenticatedLoginHttpResponse extends HttpServletResponseWrapper {
   }
 
   @Override
-  public void setDateHeader(String name, long date) {
-  }
+  public void setDateHeader(String name, long date) {}
 
   @Override
-  public void setHeader(String name, String value) {
-  }
+  public void setHeader(String name, String value) {}
 
   @Override
-  public void setIntHeader(String name, int value) {
-  }
+  public void setIntHeader(String name, int value) {}
 
   @Override
   public void setStatus(int sc, String sm) {
@@ -125,8 +118,7 @@ public class AuthenticatedLoginHttpResponse extends HttpServletResponseWrapper {
   }
 
   @Override
-  public void flushBuffer() throws IOException {
-  }
+  public void flushBuffer() throws IOException {}
 
   @Override
   public int getBufferSize() {
@@ -151,16 +143,15 @@ public class AuthenticatedLoginHttpResponse extends HttpServletResponseWrapper {
   @Override
   public ServletOutputStream getOutputStream() throws IOException {
     return new ServletOutputStream() {
-      
+
       @Override
       public void write(int b) throws IOException {
         outputStream.write(b);
       }
-      
+
       @Override
-      public void setWriteListener(WriteListener arg0) {
-      }
-      
+      public void setWriteListener(WriteListener arg0) {}
+
       @Override
       public boolean isReady() {
         return true;
@@ -175,8 +166,7 @@ public class AuthenticatedLoginHttpResponse extends HttpServletResponseWrapper {
 
   @Override
   public PrintWriter getWriter() throws IOException {
-    return new PrintWriter(new OutputStreamWriter(outputStream,
-        characterEncoding));
+    return new PrintWriter(new OutputStreamWriter(outputStream, characterEncoding));
   }
 
   @Override
@@ -195,16 +185,13 @@ public class AuthenticatedLoginHttpResponse extends HttpServletResponseWrapper {
   }
 
   @Override
-  public void reset() {
-  }
+  public void reset() {}
 
   @Override
-  public void resetBuffer() {
-  }
+  public void resetBuffer() {}
 
   @Override
-  public void setBufferSize(int size) {
-  }
+  public void setBufferSize(int size) {}
 
   @Override
   public void setCharacterEncoding(String charset) {
@@ -212,12 +199,10 @@ public class AuthenticatedLoginHttpResponse extends HttpServletResponseWrapper {
   }
 
   @Override
-  public void setContentLength(int len) {
-  }
+  public void setContentLength(int len) {}
 
   @Override
-  public void setContentLengthLong(long length) {
-  }
+  public void setContentLengthLong(long length) {}
 
   @Override
   public void setContentType(String type) {
@@ -225,10 +210,8 @@ public class AuthenticatedLoginHttpResponse extends HttpServletResponseWrapper {
   }
 
   @Override
-  public void setLocale(Locale loc) {
-  }
+  public void setLocale(Locale loc) {}
 
   @Override
-  public void setResponse(ServletResponse response) {
-  }
+  public void setResponse(ServletResponse response) {}
 }
