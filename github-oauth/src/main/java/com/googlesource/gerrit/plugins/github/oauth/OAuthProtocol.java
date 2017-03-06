@@ -238,7 +238,16 @@ public class OAuthProtocol {
 
     @Override
     public boolean equals(Object obj) {
-      return Objects.deepEquals(this, obj);
+      if (obj == null) {
+        return false;
+      }
+      if (getClass() != obj.getClass()) {
+        return false;
+      }
+      final AccessToken other = (AccessToken) obj;
+      return Objects.equals(this.accessToken, other.accessToken)
+          && Objects.equals(this.raw, other.raw)
+          && Objects.equals(this.tokenType, other.tokenType);
     }
 
     public boolean isError() {
