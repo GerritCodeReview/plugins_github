@@ -22,6 +22,30 @@
       "revId": "a4834f055bbe9842911bc4e07ab78e8a22feedff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64c8c05e_556ef08f",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/IdentifiedUserGitHubLoginProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-03-07T08:32:57Z",
+      "side": 1,
+      "message": "Makes sense, even if is not part of this change :-)",
+      "parentUuid": "2d0fd37b_706eb300",
+      "range": {
+        "startLine": 38,
+        "startChar": 51,
+        "endLine": 38,
+        "endChar": 62
+      },
+      "revId": "a4834f055bbe9842911bc4e07ab78e8a22feedff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
