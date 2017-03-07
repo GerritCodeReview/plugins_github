@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d0fd37b_706eb300",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/IdentifiedUserGitHubLoginProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2017-03-07T05:47:46Z",
+      "side": 1,
+      "message": "Use AccountExternalId.SCHEME_EXTERNAL from core gerrit?",
+      "range": {
+        "startLine": 38,
+        "startChar": 51,
+        "endLine": 38,
+        "endChar": 62
+      },
+      "revId": "a4834f055bbe9842911bc4e07ab78e8a22feedff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}
