@@ -268,14 +268,11 @@ limitations under the License.
       <url>http://repo.jenkins-ci.org/public/</url>
     </repository>
     <repository>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
       <snapshots>
         <enabled>true</enabled>
       </snapshots>
-      <id>gerritforge</id>
-      <url>http://gerritforge.com/snapshot/</url>
+      <id>sonatype</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
     </repository>
     <repository>
       <releases>
