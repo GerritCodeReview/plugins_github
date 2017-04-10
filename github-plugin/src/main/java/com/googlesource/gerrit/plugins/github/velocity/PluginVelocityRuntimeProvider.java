@@ -20,28 +20,21 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
-
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.Properties;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.apache.velocity.runtime.resource.loader.JarResourceLoader;
 
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.Properties;
-
 @Singleton
 public class PluginVelocityRuntimeProvider implements Provider<RuntimeInstance> {
-  private static final String VELOCITY_FILE_RESOURCE_LOADER_PATH =
-      "file.resource.loader.path";
-  private static final String VELOCITY_FILE_RESOURCE_LOADER_CLASS =
-      "file.resource.loader.class";
-  private static final String VELOCITY_CLASS_RESOURCE_LOADER_CLASS =
-      "class.resource.loader.class";
-  private static final String VELOCITY_JAR_RESOURCE_LOADER_CLASS =
-      "jar.resource.loader.class";
-  private static final String VELOCITY_JAR_RESOURCE_LOADER_PATH =
-      "jar.resource.loader.path";
+  private static final String VELOCITY_FILE_RESOURCE_LOADER_PATH = "file.resource.loader.path";
+  private static final String VELOCITY_FILE_RESOURCE_LOADER_CLASS = "file.resource.loader.class";
+  private static final String VELOCITY_CLASS_RESOURCE_LOADER_CLASS = "class.resource.loader.class";
+  private static final String VELOCITY_JAR_RESOURCE_LOADER_CLASS = "jar.resource.loader.class";
+  private static final String VELOCITY_JAR_RESOURCE_LOADER_PATH = "jar.resource.loader.path";
   private static final String VELOCITY_RESOURCE_LOADER = "resource.loader";
   private final SitePaths site;
   private String pluginName;
@@ -58,20 +51,17 @@ public class PluginVelocityRuntimeProvider implements Provider<RuntimeInstance> 
 
     Properties p = new Properties();
     p.setProperty(RuntimeConstants.VM_PERM_INLINE_LOCAL, "true");
-    p.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,
-        Slf4jLogChute.class.getName());
+    p.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS, Slf4jLogChute.class.getName());
     p.setProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT, "true");
     p.setProperty("runtime.log.logsystem.log4j.category", "velocity");
 
     p.setProperty(VELOCITY_RESOURCE_LOADER, "file, class, jar");
-    p.setProperty(VELOCITY_FILE_RESOURCE_LOADER_CLASS, pkg
-        + ".FileResourceLoader");
-    p.setProperty(VELOCITY_FILE_RESOURCE_LOADER_PATH,
+    p.setProperty(VELOCITY_FILE_RESOURCE_LOADER_CLASS, pkg + ".FileResourceLoader");
+    p.setProperty(
+        VELOCITY_FILE_RESOURCE_LOADER_PATH,
         site.static_dir.getParent().toAbsolutePath().toString());
-    p.setProperty(VELOCITY_CLASS_RESOURCE_LOADER_CLASS,
-        ClasspathResourceLoader.class.getName());
-    p.setProperty(VELOCITY_JAR_RESOURCE_LOADER_CLASS,
-        JarResourceLoader.class.getName());
+    p.setProperty(VELOCITY_CLASS_RESOURCE_LOADER_CLASS, ClasspathResourceLoader.class.getName());
+    p.setProperty(VELOCITY_JAR_RESOURCE_LOADER_CLASS, JarResourceLoader.class.getName());
     p.setProperty(VELOCITY_JAR_RESOURCE_LOADER_PATH, detectPluginJar());
 
     RuntimeInstance ri = new RuntimeInstance();
@@ -86,8 +76,7 @@ public class PluginVelocityRuntimeProvider implements Provider<RuntimeInstance> 
   private String detectPluginJar() {
     ClassLoader myClassLoader = this.getClass().getClassLoader();
     if (!URLClassLoader.class.isAssignableFrom(myClassLoader.getClass())) {
-      throw new IllegalStateException(pluginName
-          + " plugin can be loaded only from a Jar file");
+      throw new IllegalStateException(pluginName + " plugin can be loaded only from a Jar file");
     }
 
     @SuppressWarnings("resource")
@@ -99,8 +88,11 @@ public class PluginVelocityRuntimeProvider implements Provider<RuntimeInstance> 
       }
     }
 
-    throw new IllegalStateException("Cannot find any Jar file in " + pluginName
-        + " plugin class loader URLs " + jarUrls
-        + ": unable to initialize Velocity resource loading.");
+    throw new IllegalStateException(
+        "Cannot find any Jar file in "
+            + pluginName
+            + " plugin class loader URLs "
+            + jarUrls
+            + ": unable to initialize Velocity resource loading.");
   }
 }

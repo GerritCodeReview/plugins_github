@@ -14,13 +14,11 @@
 
 package com.googlesource.gerrit.plugins.github.oauth;
 
+import com.google.inject.Inject;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
 import org.kohsuke.github.HttpConnector;
-
-import com.google.inject.Inject;
 
 public class GitHubHttpConnector implements HttpConnector {
 
@@ -39,5 +37,4 @@ public class GitHubHttpConnector implements HttpConnector {
     huc.setReadTimeout((int) config.httpReadTimeout);
     return huc;
   }
-
 }

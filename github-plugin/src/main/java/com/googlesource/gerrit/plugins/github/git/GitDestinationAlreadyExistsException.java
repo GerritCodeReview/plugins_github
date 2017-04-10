@@ -19,8 +19,7 @@ public class GitDestinationAlreadyExistsException extends GitException {
   private static final long serialVersionUID = -6202681486717426148L;
 
   public GitDestinationAlreadyExistsException(File destDirectory) {
-    super("Output Git destination " + destDirectory
-        + " already exists and cannot be overwritten");
+    super("Output Git destination " + destDirectory + " already exists and cannot be overwritten");
   }
 
   @Override

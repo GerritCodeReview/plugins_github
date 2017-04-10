@@ -14,11 +14,6 @@
 
 package com.googlesource.gerrit.plugins.github.replication;
 
-import java.io.IOException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.gerrit.common.EventListener;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.events.Event;
@@ -28,19 +23,21 @@ import com.google.gson.JsonObject;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class ReplicationStatusListener implements EventListener {
   private static final String REF_REPLICATED_EVENT = "ref-replicated";
-  private static Logger log = LoggerFactory
-      .getLogger(ReplicationStatusListener.class);
+  private static Logger log = LoggerFactory.getLogger(ReplicationStatusListener.class);
 
   private final ReplicationStatusStore statusStore;
   private final Gson gson;
 
   @Inject
-  public ReplicationStatusListener(ReplicationStatusStore statusStore,
-      Provider<Gson> gsonProvider) {
+  public ReplicationStatusListener(
+      ReplicationStatusStore statusStore, Provider<Gson> gsonProvider) {
     this.statusStore = statusStore;
     this.gson = gsonProvider.get();
   }
@@ -57,8 +54,12 @@ public class ReplicationStatusListener implements EventListener {
       try {
         statusStore.set(projectNameKey, refKey, eventJson);
       } catch (IOException e) {
-        log.error("Unable to update replication status for event " + eventJson
-            + " on project " + projectNameKey, e);
+        log.error(
+            "Unable to update replication status for event "
+                + eventJson
+                + " on project "
+                + projectNameKey,
+            e);
       }
     }
   }

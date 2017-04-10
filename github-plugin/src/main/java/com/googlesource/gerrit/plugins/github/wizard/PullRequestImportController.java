@@ -17,14 +17,11 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import com.googlesource.gerrit.plugins.github.git.PullRequestImportType;
 import com.googlesource.gerrit.plugins.github.git.PullRequestImporter;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
-
 import java.io.IOException;
 import java.util.Map.Entry;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,39 +32,37 @@ public class PullRequestImportController implements VelocityController {
   private Provider<PullRequestImporter> prImportProvider;
 
   @Inject
-  public PullRequestImportController(
-      final Provider<PullRequestImporter> pullRequestsImporter) {
+  public PullRequestImportController(final Provider<PullRequestImporter> pullRequestsImporter) {
     this.prImportProvider = pullRequestsImporter;
   }
 
   @Override
-  public void doAction(IdentifiedUser user, GitHubLogin hubLogin,
-      HttpServletRequest req, HttpServletResponse resp, ControllerErrors errors)
+  public void doAction(
+      IdentifiedUser user,
+      GitHubLogin hubLogin,
+      HttpServletRequest req,
+      HttpServletResponse resp,
+      ControllerErrors errors)
       throws ServletException, IOException {
     String organisation = req.getParameter("organisation");
     PullRequestImporter prImporter = prImportProvider.get();
 
     for (Entry<String, String[]> param : req.getParameterMap().entrySet()) {
       String name = param.getKey();
-      if (name.endsWith(".selected") && param.getValue().length == 1
+      if (name.endsWith(".selected")
+          && param.getValue().length == 1
           && param.getValue()[0].equalsIgnoreCase("on")) {
 
-        String paramPrefix =
-            name.substring(0, name.length() - ".selected".length());
+        String paramPrefix = name.substring(0, name.length() - ".selected".length());
         int idx = Integer.parseInt(req.getParameter(paramPrefix + ".idx"));
         PullRequestImportType importType =
-            PullRequestImportType.valueOf(req.getParameter(paramPrefix
-                + ".type"));
-        
-        int pullRequestId =
-            Integer.parseInt(req.getParameter(paramPrefix + ".id"));
-        String repoName =
-           req.getParameter(paramPrefix + ".repo");
+            PullRequestImportType.valueOf(req.getParameter(paramPrefix + ".type"));
 
-        prImporter.importPullRequest(idx, organisation, repoName,
-            pullRequestId, importType);
+        int pullRequestId = Integer.parseInt(req.getParameter(paramPrefix + ".id"));
+        String repoName = req.getParameter(paramPrefix + ".repo");
+
+        prImporter.importPullRequest(idx, organisation, repoName, pullRequestId, importType);
       }
     }
-
   }
 }

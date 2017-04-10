@@ -14,13 +14,12 @@
 
 package com.googlesource.gerrit.plugins.github.groups;
 
+import com.google.common.base.MoreObjects;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import com.google.common.base.MoreObjects;
 
 public class OrganizationStructure implements Serializable {
   private static final long serialVersionUID = 1L;
@@ -29,8 +28,7 @@ public class OrganizationStructure implements Serializable {
 
   public Set<String> put(String organisation, String team) {
     HashSet<String> userTeams =
-        MoreObjects.firstNonNull(teams.get(organisation),
-            new HashSet<String>());
+        MoreObjects.firstNonNull(teams.get(organisation), new HashSet<String>());
     userTeams.add(team);
     return teams.put(organisation, userTeams);
   }
@@ -48,8 +46,7 @@ public class OrganizationStructure implements Serializable {
     return teams
         .entrySet()
         .stream()
-        .map(
-            org -> "Organization " + org.getKey() + " Teams: " + org.getValue())
+        .map(org -> "Organization " + org.getKey() + " Teams: " + org.getValue())
         .collect(Collectors.joining(" : "));
   }
 }

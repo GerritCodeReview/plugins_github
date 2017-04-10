@@ -15,15 +15,12 @@ package com.googlesource.gerrit.plugins.github.wizard;
 
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
-
 import com.googlesource.gerrit.plugins.github.git.GitImporter;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
-
 import java.io.IOException;
 import java.util.Map.Entry;
 import java.util.Set;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,10 +35,14 @@ public class RepositoriesCloneController implements VelocityController {
   }
 
   @Override
-  public void doAction(IdentifiedUser user, GitHubLogin hubLogin,
-      HttpServletRequest req, HttpServletResponse resp,
-      ControllerErrors errorMgr) throws ServletException, IOException {
-    
+  public void doAction(
+      IdentifiedUser user,
+      GitHubLogin hubLogin,
+      HttpServletRequest req,
+      HttpServletResponse resp,
+      ControllerErrors errorMgr)
+      throws ServletException, IOException {
+
     GitImporter gitCloner = cloneProvider.get(req);
     gitCloner.reset();
     Set<Entry<String, String[]>> params = req.getParameterMap().entrySet();
@@ -49,29 +50,25 @@ public class RepositoriesCloneController implements VelocityController {
       String paramName = param.getKey();
       String[] paramValue = param.getValue();
 
-      if (!paramName.startsWith(REPO_PARAM_PREFIX) || paramValue.length != 1
+      if (!paramName.startsWith(REPO_PARAM_PREFIX)
+          || paramValue.length != 1
           || paramName.split("_").length != 2) {
         continue;
       }
       String repoIdxString = paramName.split("_")[1];
-      if(!Character.isDigit(repoIdxString.charAt(0))) {
+      if (!Character.isDigit(repoIdxString.charAt(0))) {
         continue;
       }
-      
+
       int repoIdx = Integer.parseInt(repoIdxString);
-      String organisation =
-          req.getParameter(REPO_PARAM_PREFIX + repoIdx + "_organisation");
-      String repository =
-          req.getParameter(REPO_PARAM_PREFIX + repoIdx + "_repository");
-      String description =
-          req.getParameter(REPO_PARAM_PREFIX + repoIdx + "_description");
+      String organisation = req.getParameter(REPO_PARAM_PREFIX + repoIdx + "_organisation");
+      String repository = req.getParameter(REPO_PARAM_PREFIX + repoIdx + "_repository");
+      String description = req.getParameter(REPO_PARAM_PREFIX + repoIdx + "_description");
       try {
-        gitCloner.clone(repoIdx, organisation, repository,
-            description);
+        gitCloner.clone(repoIdx, organisation, repository, description);
       } catch (Exception e) {
         errorMgr.submit(e);
       }
-
     }
   }
 }

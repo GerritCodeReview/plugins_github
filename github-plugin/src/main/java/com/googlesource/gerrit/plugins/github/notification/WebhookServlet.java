@@ -19,30 +19,6 @@ import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import static javax.servlet.http.HttpServletResponse.SC_NO_CONTENT;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.codec.DecoderException;
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
@@ -59,25 +35,43 @@ import com.googlesource.gerrit.plugins.github.GitHubConfig;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
 import com.googlesource.gerrit.plugins.github.oauth.UserScopedProvider;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
- * Handles webhook callbacks sent from Github. Delegates requests to
- * implementations of {@link WebhookEventHandler}.
+ * Handles webhook callbacks sent from Github. Delegates requests to implementations of {@link
+ * WebhookEventHandler}.
  */
 @Singleton
 public class WebhookServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
-  private static final Logger logger =
-      LoggerFactory.getLogger(WebhookServlet.class);
+  private static final Logger logger = LoggerFactory.getLogger(WebhookServlet.class);
 
-  private static final String PACKAGE_NAME =
-      WebhookServlet.class.getPackage().getName();
+  private static final String PACKAGE_NAME = WebhookServlet.class.getPackage().getName();
   private static final String SIGNATURE_PREFIX = "sha1=";
   private static final String HMAC_SHA1_ALGORITHM = "HmacSHA1";
 
   private final Gson gson;
 
-  private final Map<String, WebhookEventHandler<?>> handlerByName =
-      new ConcurrentHashMap<>();
+  private final Map<String, WebhookEventHandler<?>> handlerByName = new ConcurrentHashMap<>();
   private final Injector injector;
   private final GitHubConfig config;
 
@@ -86,9 +80,12 @@ public class WebhookServlet extends HttpServlet {
   private final DynamicItem<WebSession> session;
 
   @Inject
-  public WebhookServlet(UserScopedProvider<GitHubLogin> loginProvider,
+  public WebhookServlet(
+      UserScopedProvider<GitHubLogin> loginProvider,
       ScopedProvider<GitHubLogin> requestScopedLoginProvider,
-      GitHubConfig config, Gson gson, DynamicItem<WebSession> session,
+      GitHubConfig config,
+      Gson gson,
+      DynamicItem<WebSession> session,
       Injector injector) {
     this.loginProvider = loginProvider;
     this.requestScopedLoginProvider = requestScopedLoginProvider;
@@ -125,16 +122,15 @@ public class WebhookServlet extends HttpServlet {
   private String eventClassName(String name) {
     String[] nameParts = name.split("_");
     List<String> classNameParts =
-        Lists.transform(Arrays.asList(nameParts),
+        Lists.transform(
+            Arrays.asList(nameParts),
             new Function<String, String>() {
               @Override
               public String apply(String part) {
-                return Character.toUpperCase(part.charAt(0))
-                    + part.substring(1);
+                return Character.toUpperCase(part.charAt(0)) + part.substring(1);
               }
             });
-    return PACKAGE_NAME + "." + Joiner.on("").join(classNameParts)
-        + "Handler";
+    return PACKAGE_NAME + "." + Joiner.on("").join(classNameParts) + "Handler";
   }
 
   @Override
@@ -146,8 +142,7 @@ public class WebhookServlet extends HttpServlet {
       return;
     }
 
-    WebhookEventHandler<?> handler =
-        getWebhookHandler(req.getHeader("X-Github-Event"));
+    WebhookEventHandler<?> handler = getWebhookHandler(req.getHeader("X-Github-Event"));
     if (handler == null) {
       resp.sendError(SC_NOT_FOUND);
       return;
@@ -155,8 +150,7 @@ public class WebhookServlet extends HttpServlet {
 
     try (BufferedReader reader = req.getReader()) {
       String body = Joiner.on("\n").join(CharStreams.readLines(reader));
-      if (!validateSignature(req.getHeader("X-Hub-Signature"), body,
-          req.getCharacterEncoding())) {
+      if (!validateSignature(req.getHeader("X-Hub-Signature"), body, req.getCharacterEncoding())) {
         logger.error("Signature mismatch to the payload");
         resp.sendError(SC_FORBIDDEN);
         return;
@@ -167,7 +161,8 @@ public class WebhookServlet extends HttpServlet {
       if (login == null || !login.isLoggedIn()) {
         logger.error(
             "Cannot login to github as {}. {}.webhookUser is not correctly configured?",
-            config.webhookUser, GitHubConfig.CONF_SECTION);
+            config.webhookUser,
+            GitHubConfig.CONF_SECTION);
         resp.setStatus(SC_INTERNAL_SERVER_ERROR);
         return;
       }
@@ -187,8 +182,8 @@ public class WebhookServlet extends HttpServlet {
     if (payload != null) {
       return handler.doAction(payload);
     }
-    logger.error("Cannot decode JSON payload '" + jsonBody + "' into "
-        + handler.getPayloadType().getName());
+    logger.error(
+        "Cannot decode JSON payload '" + jsonBody + "' into " + handler.getPayloadType().getName());
     return false;
   }
 
@@ -197,16 +192,16 @@ public class WebhookServlet extends HttpServlet {
    *
    * @param signatureHeader signature HTTP request header of a github webhook
    * @param payload HTTP request body
-   * @return true if webhook secret is not configured or signatureHeader is
-   *         valid against payload and the secret, false if otherwise.
+   * @return true if webhook secret is not configured or signatureHeader is valid against payload
+   *     and the secret, false if otherwise.
    * @throws UnsupportedEncodingException
    */
-  private boolean validateSignature(String signatureHeader, String body,
-      String encoding) throws UnsupportedEncodingException {
+  private boolean validateSignature(String signatureHeader, String body, String encoding)
+      throws UnsupportedEncodingException {
     byte[] payload = body.getBytes(encoding == null ? "UTF-8" : encoding);
     if (config.webhookSecret == null || config.webhookSecret.equals("")) {
-      logger.debug("{}.webhookSecret not configured. Skip signature validation",
-          GitHubConfig.CONF_SECTION);
+      logger.debug(
+          "{}.webhookSecret not configured. Skip signature validation", GitHubConfig.CONF_SECTION);
       return true;
     }
 
@@ -216,8 +211,7 @@ public class WebhookServlet extends HttpServlet {
     }
     byte[] signature;
     try {
-      signature = Hex.decodeHex(
-          signatureHeader.substring(SIGNATURE_PREFIX.length()).toCharArray());
+      signature = Hex.decodeHex(signatureHeader.substring(SIGNATURE_PREFIX.length()).toCharArray());
     } catch (DecoderException e) {
       logger.error("Invalid signature: {}", signatureHeader);
       return false;
@@ -231,12 +225,11 @@ public class WebhookServlet extends HttpServlet {
    * @param payload payload to calculate a signature for
    * @return signature of the payload
    * @see <a href=
-   *      "https://developer.github.com/webhooks/securing/#validating-payloads-from-github">
-   *      Validating payloads from GitHub</a>
+   *     "https://developer.github.com/webhooks/securing/#validating-payloads-from-github">
+   *     Validating payloads from GitHub</a>
    */
   private byte[] getExpectedSignature(byte[] payload) {
-    SecretKeySpec key =
-        new SecretKeySpec(config.webhookSecret.getBytes(), HMAC_SHA1_ALGORITHM);
+    SecretKeySpec key = new SecretKeySpec(config.webhookSecret.getBytes(), HMAC_SHA1_ALGORITHM);
     Mac hmac;
     try {
       hmac = Mac.getInstance(HMAC_SHA1_ALGORITHM);
@@ -244,8 +237,7 @@ public class WebhookServlet extends HttpServlet {
     } catch (NoSuchAlgorithmException e) {
       throw new IllegalStateException("Hmac SHA1 must be supported", e);
     } catch (InvalidKeyException e) {
-      throw new IllegalStateException(
-          "Hmac SHA1 must be compatible to Hmac SHA1 Secret Key", e);
+      throw new IllegalStateException("Hmac SHA1 must be compatible to Hmac SHA1 Secret Key", e);
     }
     return hmac.doFinal(payload);
   }

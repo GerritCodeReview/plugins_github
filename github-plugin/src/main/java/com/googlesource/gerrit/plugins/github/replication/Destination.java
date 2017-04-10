@@ -28,14 +28,12 @@ import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Injector;
-
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.transport.RemoteConfig;
-import org.eclipse.jgit.transport.URIish;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.transport.RemoteConfig;
+import org.eclipse.jgit.transport.URIish;
 
 public class Destination {
   private final RemoteConfig remote;
@@ -43,33 +41,31 @@ public class Destination {
   private final String remoteNameStyle;
   private final CurrentUser remoteUser;
 
-  Destination(final Injector injector, final RemoteConfig rc, final Config cfg,
+  Destination(
+      final Injector injector,
+      final RemoteConfig rc,
+      final Config cfg,
       final RemoteSiteUser.Factory replicationUserFactory,
       final PluginUser pluginUser,
       final GroupBackend groupBackend) {
     remote = rc;
 
     remoteNameStyle =
-        MoreObjects.firstNonNull(
-            cfg.getString("remote", rc.getName(), "remoteNameStyle"), "slash");
+        MoreObjects.firstNonNull(cfg.getString("remote", rc.getName(), "remoteNameStyle"), "slash");
 
-    String[] authGroupNames =
-        cfg.getStringList("remote", rc.getName(), "authGroup");
+    String[] authGroupNames = cfg.getStringList("remote", rc.getName(), "authGroup");
     if (authGroupNames.length > 0) {
       ImmutableSet.Builder<AccountGroup.UUID> builder = ImmutableSet.builder();
       for (String name : authGroupNames) {
-        GroupReference g =
-            GroupBackends.findExactSuggestion(groupBackend, name);
+        GroupReference g = GroupBackends.findExactSuggestion(groupBackend, name);
         if (g != null) {
           builder.add(g.getUUID());
         } else {
-          GitHubDestinations.log.warn(String.format(
-              "Group \"%s\" not recognized, removing from authGroup", name));
+          GitHubDestinations.log.warn(
+              String.format("Group \"%s\" not recognized, removing from authGroup", name));
         }
       }
-      remoteUser =
-          replicationUserFactory
-              .create(new ListGroupMembership(builder.build()));
+      remoteUser = replicationUserFactory.create(new ListGroupMembership(builder.build()));
     } else {
       remoteUser = pluginUser;
     }
@@ -77,8 +73,7 @@ public class Destination {
     projectControlFactory = injector.getInstance(ProjectControl.Factory.class);
   }
 
-  ProjectControl controlFor(Project.NameKey project)
-      throws NoSuchProjectException {
+  ProjectControl controlFor(Project.NameKey project) throws NoSuchProjectException {
     return projectControlFactory.controlFor(project);
   }
 
@@ -95,12 +90,10 @@ public class Destination {
         } else if (remoteNameStyle.equals("underscore")) {
           name = name.replace("/", "_");
         } else if (!remoteNameStyle.equals("slash")) {
-          GitHubDestinations.log.debug(String.format(
-              "Unknown remoteNameStyle: %s, falling back to slash",
-              remoteNameStyle));
+          GitHubDestinations.log.debug(
+              String.format("Unknown remoteNameStyle: %s, falling back to slash", remoteNameStyle));
         }
-        String replacedPath =
-            GitHubDestinations.replaceName(uri.getPath(), name);
+        String replacedPath = GitHubDestinations.replaceName(uri.getPath(), name);
         if (replacedPath != null) {
           uri = uri.setPath(replacedPath);
           r.add(uri);
@@ -125,8 +118,7 @@ public class Destination {
       // context. In the path part of a URI space should be %20, but in form
       // data
       // space is '+'. Our cleanup replace fixes these two issues.
-      return URLEncoder.encode(str, "UTF-8").replaceAll("%2[fF]", "/")
-          .replace("+", "%20");
+      return URLEncoder.encode(str, "UTF-8").replaceAll("%2[fF]", "/").replace("+", "%20");
     } catch (UnsupportedEncodingException e) {
       throw new RuntimeException(e);
     }

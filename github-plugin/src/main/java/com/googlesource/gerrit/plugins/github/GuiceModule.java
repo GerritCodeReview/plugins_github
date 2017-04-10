@@ -41,8 +41,8 @@ import com.googlesource.gerrit.plugins.github.replication.ReplicationStatusStore
 public class GuiceModule extends AbstractModule {
   @Override
   protected void configure() {
-    bind(new TypeLiteral<UserScopedProvider<GitHubLogin>>() {}).to(
-        IdentifiedUserGitHubLoginProvider.class);
+    bind(new TypeLiteral<UserScopedProvider<GitHubLogin>>() {})
+        .to(IdentifiedUserGitHubLoginProvider.class);
 
     install(GitHubGroupsCache.module());
 
@@ -50,21 +50,18 @@ public class GuiceModule extends AbstractModule {
     DynamicSet.bind(binder(), GroupBackend.class).to(GitHubGroupBackend.class);
     DynamicSet.bind(binder(), EventListener.class).to(ReplicationStatusListener.class);
 
-    install(new FactoryModuleBuilder()
-        .build(GitHubOrganisationGroup.Factory.class));
-    install(new FactoryModuleBuilder()
-        .build(GitHubGroupMembership.Factory.class));
+    install(new FactoryModuleBuilder().build(GitHubOrganisationGroup.Factory.class));
+    install(new FactoryModuleBuilder().build(GitHubGroupMembership.Factory.class));
 
-    install(new RestApiModule() {
-      @Override
-      protected void configure() {
-        get(ProjectResource.PROJECT_KIND, "replication").to(
-            ListProjectReplicationStatus.class);
-      }
-    });
+    install(
+        new RestApiModule() {
+          @Override
+          protected void configure() {
+            get(ProjectResource.PROJECT_KIND, "replication").to(ListProjectReplicationStatus.class);
+          }
+        });
 
-    bind(ReplicationStatusStore.class).to(ReplicationStatusFlatFile.class)
-        .in(Scopes.SINGLETON);
+    bind(ReplicationStatusStore.class).to(ReplicationStatusFlatFile.class).in(Scopes.SINGLETON);
     bind(Gson.class).toProvider(GerritGsonProvider.class);
   }
 }

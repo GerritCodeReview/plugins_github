@@ -14,23 +14,19 @@
 
 package com.googlesource.gerrit.plugins.github.notification;
 
+import com.google.inject.Singleton;
 import java.io.IOException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.inject.Singleton;
 
 /**
  * Handles ping event in github webhook.
  *
- * @see <a href="https://developer.github.com/webhooks/#ping-event">Ping
- *      Event</a>
+ * @see <a href="https://developer.github.com/webhooks/#ping-event">Ping Event</a>
  */
 @Singleton
 class PingHandler implements WebhookEventHandler<PingHandler.Ping> {
-  private static final Logger logger =
-      LoggerFactory.getLogger(PingHandler.class);
+  private static final Logger logger = LoggerFactory.getLogger(PingHandler.class);
 
   static class Ping {
     String zen;

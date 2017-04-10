@@ -24,5 +24,4 @@ public interface GitJob extends Runnable {
   String getRepository();
 
   public abstract void cancel();
-
 }

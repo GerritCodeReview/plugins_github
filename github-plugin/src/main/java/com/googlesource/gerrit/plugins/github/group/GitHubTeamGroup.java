@@ -23,16 +23,20 @@ import com.google.inject.assistedinject.Assisted;
 
 public class GitHubTeamGroup extends GitHubGroup {
   public interface Factory {
-    GitHubTeamGroup get(@Assisted GitHubOrganisationGroup orgGroup,
-        @Assisted String teamName, @Nullable String teamUrl);
+    GitHubTeamGroup get(
+        @Assisted GitHubOrganisationGroup orgGroup,
+        @Assisted String teamName,
+        @Nullable String teamUrl);
   }
 
   private final GitHubOrganisationGroup orgGroup;
   private final String teamName;
 
   @Inject
-  GitHubTeamGroup(@Assisted GitHubOrganisationGroup orgGroup,
-      @Assisted String teamName, @Nullable String teamUrl) {
+  GitHubTeamGroup(
+      @Assisted GitHubOrganisationGroup orgGroup,
+      @Assisted String teamName,
+      @Nullable String teamUrl) {
     super(uuid(orgGroup.getGroupUUID(), teamName), teamUrl);
     this.orgGroup = orgGroup;
     this.teamName = teamName;
@@ -47,9 +51,8 @@ public class GitHubTeamGroup extends GitHubGroup {
     return new AccountGroup.UUID(orgUUID.get() + "/" + teamName);
   }
 
-  public static GroupReference groupReference(GroupReference orgReference,
-      String teamName) {
-    return new GroupReference(uuid(orgReference.getUUID(), teamName),
-        orgReference.getName() + "/" + teamName);
+  public static GroupReference groupReference(GroupReference orgReference, String teamName) {
+    return new GroupReference(
+        uuid(orgReference.getUUID(), teamName), orgReference.getName() + "/" + teamName);
   }
 }

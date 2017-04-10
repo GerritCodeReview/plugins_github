@@ -29,13 +29,8 @@ import com.googlesource.gerrit.plugins.github.oauth.OAuthFilter;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.AccessToken;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthWebFilter;
 import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.Collection;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -43,6 +38,8 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class GitHubOAuthFilter implements Filter {
@@ -53,7 +50,8 @@ public class GitHubOAuthFilter implements Filter {
   private final AccountCache accountCache;
 
   @Inject
-  public GitHubOAuthFilter(ScopedProvider<GitHubLogin> loginProvider,
+  public GitHubOAuthFilter(
+      ScopedProvider<GitHubLogin> loginProvider,
       Provider<CurrentUser> userProvider,
       AccountCache accountCache) {
     this.loginProvider = loginProvider;
@@ -62,12 +60,11 @@ public class GitHubOAuthFilter implements Filter {
   }
 
   @Override
-  public void init(FilterConfig filterConfig) throws ServletException {
-  }
+  public void init(FilterConfig filterConfig) throws ServletException {}
 
   @Override
-  public void doFilter(ServletRequest request, ServletResponse response,
-      FilterChain chain) throws IOException, ServletException {
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+      throws IOException, ServletException {
     GitHubLogin hubLogin = loginProvider.get((HttpServletRequest) request);
     LOG.debug("GitHub login: " + hubLogin);
     CurrentUser user = userProvider.get();
@@ -77,8 +74,7 @@ public class GitHubOAuthFilter implements Filter {
       AccountExternalId gitHubExtId = getGitHubExternalId(user);
 
       String oauthToken =
-          gitHubExtId.getSchemeRest()
-              .substring(OAuthWebFilter.GITHUB_EXT_ID.length());
+          gitHubExtId.getSchemeRest().substring(OAuthWebFilter.GITHUB_EXT_ID.length());
       hubLogin.login(new AccessToken(oauthToken));
     }
 
@@ -87,30 +83,27 @@ public class GitHubOAuthFilter implements Filter {
 
   private AccountExternalId getGitHubExternalId(CurrentUser user) {
     Collection<ExternalId> accountExtIds =
-        accountCache.get(((IdentifiedUser) user).getAccountId())
-            .getExternalIds();
+        accountCache.get(((IdentifiedUser) user).getAccountId()).getExternalIds();
     Collection<ExternalId> gitHubExtId =
-        Collections2.filter(accountExtIds,
+        Collections2.filter(
+            accountExtIds,
             new Predicate<ExternalId>() {
               @Override
               public boolean apply(ExternalId externalId) {
-            return externalId
-                .key()
-                .get()
-                .startsWith(
-                    IdentifiedUserGitHubLoginProvider.EXTERNAL_ID_PREFIX);
+                return externalId
+                    .key()
+                    .get()
+                    .startsWith(IdentifiedUserGitHubLoginProvider.EXTERNAL_ID_PREFIX);
               }
             });
 
     if (gitHubExtId.isEmpty()) {
-      throw new IllegalStateException("Current Gerrit user "
-          + user.getUserName() + " has no GitHub OAuth external ID");
+      throw new IllegalStateException(
+          "Current Gerrit user " + user.getUserName() + " has no GitHub OAuth external ID");
     }
     return gitHubExtId.iterator().next().asAccountExternalId();
   }
 
   @Override
-  public void destroy() {
-  }
-
+  public void destroy() {}
 }

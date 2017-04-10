@@ -16,9 +16,7 @@ package com.googlesource.gerrit.plugins.github.git;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import com.googlesource.gerrit.plugins.github.oauth.HttpSessionProvider;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,11 +30,12 @@ public class GitImporter extends BatchImporter {
   private final CreateProjectStep.Factory projectFactory;
   private final ReplicateProjectStep.Factory replicateFactory;
 
-
   @Inject
-  public GitImporter(GitCloneStep.Factory cloneFactory,
+  public GitImporter(
+      GitCloneStep.Factory cloneFactory,
       CreateProjectStep.Factory projectFactory,
-      ReplicateProjectStep.Factory replicateFactory, JobExecutor executor,
+      ReplicateProjectStep.Factory replicateFactory,
+      JobExecutor executor,
       IdentifiedUser user) {
     super(executor, user);
     this.cloneFactory = cloneFactory;
@@ -44,18 +43,14 @@ public class GitImporter extends BatchImporter {
     this.replicateFactory = replicateFactory;
   }
 
-  public void clone(int idx, String organisation, String repository,
-      String description) {
+  public void clone(int idx, String organisation, String repository, String description) {
     try {
       GitCloneStep cloneStep = cloneFactory.create(organisation, repository);
       CreateProjectStep projectStep =
-          projectFactory.create(organisation, repository, description,
-              user.getUserName());
-      ReplicateProjectStep replicateStep =
-          replicateFactory.create(organisation, repository);
+          projectFactory.create(organisation, repository, description, user.getUserName());
+      ReplicateProjectStep replicateStep = replicateFactory.create(organisation, repository);
       GitImportJob gitCloneJob =
-          new GitImportJob(idx, organisation, repository, cloneStep,
-              projectStep, replicateStep);
+          new GitImportJob(idx, organisation, repository, cloneStep, projectStep, replicateStep);
       log.debug("New Git clone job created: " + gitCloneJob);
       schedule(idx, gitCloneJob);
     } catch (Throwable e) {

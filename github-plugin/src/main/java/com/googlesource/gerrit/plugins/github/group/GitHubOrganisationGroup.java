@@ -26,15 +26,15 @@ import com.google.inject.assistedinject.Assisted;
 
 public class GitHubOrganisationGroup extends GitHubGroup implements Basic {
   public interface Factory {
-    GitHubOrganisationGroup get(@Assisted("orgName") String orgName,
-        @Assisted("orgUrl") @Nullable String orgUrl);
+    GitHubOrganisationGroup get(
+        @Assisted("orgName") String orgName, @Assisted("orgUrl") @Nullable String orgUrl);
   }
 
   private final String orgName;
 
   @Inject
-  GitHubOrganisationGroup(@Assisted("orgName") String orgName,
-      @Assisted("orgUrl") @Nullable String orgUrl) {
+  GitHubOrganisationGroup(
+      @Assisted("orgName") String orgName, @Assisted("orgUrl") @Nullable String orgUrl) {
     super(uuid(orgName), orgUrl);
     this.orgName = orgName;
   }
@@ -45,10 +45,8 @@ public class GitHubOrganisationGroup extends GitHubGroup implements Basic {
   }
 
   public static GitHubOrganisationGroup fromUUID(UUID uuid) {
-    checkArgument(uuid.get().startsWith(UUID_PREFIX), "Invalid GitHub UUID '"
-        + uuid + "'");
-    return new GitHubOrganisationGroup(uuid.get().substring(
-        UUID_PREFIX.length()), null);
+    checkArgument(uuid.get().startsWith(UUID_PREFIX), "Invalid GitHub UUID '" + uuid + "'");
+    return new GitHubOrganisationGroup(uuid.get().substring(UUID_PREFIX.length()), null);
   }
 
   public static UUID uuid(String orgName) {

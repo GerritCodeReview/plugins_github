@@ -17,7 +17,6 @@ package com.googlesource.gerrit.plugins.github;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,8 +25,7 @@ public class OnStartStop implements LifecycleListener {
   private static final Logger LOG = LoggerFactory.getLogger(OnStartStop.class);
 
   @Inject
-  public OnStartStop() {
-  }
+  public OnStartStop() {}
 
   @Override
   public void start() {

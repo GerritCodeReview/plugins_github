@@ -29,27 +29,25 @@ import com.google.gerrit.server.account.CreateAccount.Factory;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import org.apache.http.HttpStatus;
-import org.eclipse.jgit.errors.ConfigInvalidException;
-
 import java.io.IOException;
 import java.util.Arrays;
+import org.apache.http.HttpStatus;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 public class AccountImporter {
   private final Factory createAccountFactory;
   private final Provider<ReviewDb> schema;
 
   @Inject
-  public AccountImporter(final CreateAccount.Factory createAccountFactory,
-      final Provider<ReviewDb> schema) {
+  public AccountImporter(
+      final CreateAccount.Factory createAccountFactory, final Provider<ReviewDb> schema) {
     this.createAccountFactory = createAccountFactory;
     this.schema = schema;
   }
 
   public Account.Id importAccount(String login, String name, String email)
       throws IOException, BadRequestException, ResourceConflictException,
-      UnprocessableEntityException, OrmException, ConfigInvalidException {
+          UnprocessableEntityException, OrmException, ConfigInvalidException {
     try (ReviewDb db = schema.get()) {
       CreateAccount createAccount = createAccountFactory.create(login);
       AccountInput accountInput = new AccountInput();
@@ -59,16 +57,19 @@ public class AccountImporter {
       Response<AccountInfo> accountResponse =
           createAccount.apply(TopLevelResource.INSTANCE, accountInput);
       if (accountResponse.statusCode() != HttpStatus.SC_CREATED) {
-        throw new IOException("Cannot import GitHub account " + login
-            + ": HTTP Status " + accountResponse.statusCode());
+        throw new IOException(
+            "Cannot import GitHub account "
+                + login
+                + ": HTTP Status "
+                + accountResponse.statusCode());
       }
-      Id accountId = new Account.Id(
-          accountResponse.value()._accountId.intValue());
-      db.accountExternalIds().insert(
-          Arrays
-              .asList(new AccountExternalId(accountId,
-                  new AccountExternalId.Key(AccountExternalId.SCHEME_GERRIT,
-                      login))));
+      Id accountId = new Account.Id(accountResponse.value()._accountId.intValue());
+      db.accountExternalIds()
+          .insert(
+              Arrays.asList(
+                  new AccountExternalId(
+                      accountId,
+                      new AccountExternalId.Key(AccountExternalId.SCHEME_GERRIT, login))));
       return accountId;
     }
   }

@@ -16,12 +16,9 @@ package com.googlesource.gerrit.plugins.github.wizard;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
 import com.googlesource.gerrit.plugins.github.git.PullRequestImporter;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,8 +35,12 @@ public class PullRequestImportStatusController extends JobStatusController
   }
 
   @Override
-  public void doAction(IdentifiedUser user, GitHubLogin hubLogin,
-      HttpServletRequest req, HttpServletResponse resp, ControllerErrors errors)
+  public void doAction(
+      IdentifiedUser user,
+      GitHubLogin hubLogin,
+      HttpServletRequest req,
+      HttpServletResponse resp,
+      ControllerErrors errors)
       throws ServletException, IOException {
     respondWithJobStatusJson(resp, pullRequestsImporter.get());
   }

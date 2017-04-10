@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 
 public class AuthenticatedLoginHttpRequest extends AuthenticatedPathHttpRequest {
 
-  public AuthenticatedLoginHttpRequest(HttpServletRequest request,
-      String userHeader, String username) {
+  public AuthenticatedLoginHttpRequest(
+      HttpServletRequest request, String userHeader, String username) {
     super(request, "/login", userHeader, username);
   }
 }

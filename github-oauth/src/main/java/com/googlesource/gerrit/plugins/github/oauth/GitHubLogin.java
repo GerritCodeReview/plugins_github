@@ -16,6 +16,12 @@ package com.googlesource.gerrit.plugins.github.oauth;
 
 import static java.util.concurrent.TimeUnit.DAYS;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.AccessToken;
+import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Arrays;
@@ -25,13 +31,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import lombok.Getter;
-
 import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GitHub;
 import org.kohsuke.github.GitHubBuilder;
@@ -39,20 +42,12 @@ import org.kohsuke.github.HttpConnector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.MoreObjects;
-import com.google.common.base.Strings;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.AccessToken;
-import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
-
 public class GitHubLogin implements Serializable {
   private static final long serialVersionUID = 1L;
   private static final Logger log = LoggerFactory.getLogger(GitHubLogin.class);
-  private static final List<Scope> DEFAULT_SCOPES = Arrays.asList(
-      Scope.PUBLIC_REPO, Scope.USER_EMAIL, Scope.READ_ORG);
-  private static final long SCOPE_COOKIE_NEVER_EXPIRES = DAYS
-      .toSeconds(50 * 365);
+  private static final List<Scope> DEFAULT_SCOPES =
+      Arrays.asList(Scope.PUBLIC_REPO, Scope.USER_EMAIL, Scope.READ_ORG);
+  private static final long SCOPE_COOKIE_NEVER_EXPIRES = DAYS.toSeconds(50 * 365);
 
   @Singleton
   public static class Provider extends HttpSessionProvider<GitHubLogin> {
@@ -62,8 +57,7 @@ public class GitHubLogin implements Serializable {
     }
   }
 
-  @Getter
-  private AccessToken token;
+  @Getter private AccessToken token;
 
   private String state;
 
@@ -86,8 +80,7 @@ public class GitHubLogin implements Serializable {
   }
 
   @Inject
-  public GitHubLogin(GitHubOAuthConfig config,
-                     GitHubHttpConnector httpConnector) {
+  public GitHubLogin(GitHubOAuthConfig config, GitHubHttpConnector httpConnector) {
     this.config = config;
     this.httpConnector = httpConnector;
   }
@@ -96,8 +89,12 @@ public class GitHubLogin implements Serializable {
     return token != null;
   }
 
-  public void login(HttpServletRequest request,
-      HttpServletResponse response, OAuthProtocol oauth, Scope... scopes) throws IOException {
+  public void login(
+      HttpServletRequest request,
+      HttpServletResponse response,
+      OAuthProtocol oauth,
+      Scope... scopes)
+      throws IOException {
 
     log.debug("Login " + this);
     if (OAuthProtocol.isOAuthFinal(request)) {
@@ -112,13 +109,10 @@ public class GitHubLogin implements Serializable {
     } else {
       Set<String> configuredScopesProfiles = config.scopes.keySet();
       String scopeRequested = getScopesKey(request, response);
-      if (Strings.isNullOrEmpty(scopeRequested)
-          && configuredScopesProfiles.size() > 1) {
+      if (Strings.isNullOrEmpty(scopeRequested) && configuredScopesProfiles.size() > 1) {
         response.sendRedirect(config.scopeSelectionUrl);
       } else {
-        this.loginScopes =
-            getScopes(MoreObjects.firstNonNull(scopeRequested, "scopes"),
-                scopes);
+        this.loginScopes = getScopes(MoreObjects.firstNonNull(scopeRequested, "scopes"), scopes);
         log.debug("Login-PHASE1 " + this);
         state = oauth.loginPhase1(request, response, loginScopes);
       }
@@ -137,8 +131,7 @@ public class GitHubLogin implements Serializable {
 
   @Override
   public String toString() {
-    return "GitHubLogin [token=" + token + ", scopes="
-        + loginScopes + "]";
+    return "GitHubLogin [token=" + token + ", scopes=" + loginScopes + "]";
   }
 
   public GitHub getHub() throws IOException {
@@ -146,29 +139,27 @@ public class GitHubLogin implements Serializable {
       return null;
     }
     return new GitHubBuilder()
-      .withEndpoint(config.gitHubApiUrl)
-      .withOAuthToken(token.accessToken)
-      .withConnector(httpConnector)
-      .build();
+        .withEndpoint(config.gitHubApiUrl)
+        .withOAuthToken(token.accessToken)
+        .withConnector(httpConnector)
+        .build();
   }
 
-  private String getScopesKey(HttpServletRequest request,
-      HttpServletResponse response) {
+  private String getScopesKey(HttpServletRequest request, HttpServletResponse response) {
     String scopeRequested = request.getParameter("scope");
     if (scopeRequested == null) {
       scopeRequested = getScopesKeyFromCookie(request);
     }
 
     boolean rememberScope =
-        Strings.nullToEmpty(request.getParameter("rememberScope"))
-            .equalsIgnoreCase("on");
+        Strings.nullToEmpty(request.getParameter("rememberScope")).equalsIgnoreCase("on");
     if (scopeRequested != null && rememberScope) {
       Cookie scopeCookie = new Cookie("scope", scopeRequested);
       scopeCookie.setPath("/");
       scopeCookie.setMaxAge((int) SCOPE_COOKIE_NEVER_EXPIRES);
       response.addCookie(scopeCookie);
     }
-    
+
     return scopeRequested;
   }
 
@@ -194,7 +185,6 @@ public class GitHubLogin implements Serializable {
   }
 
   private List<Scope> scopesForKey(String baseScopeKey) {
-    return MoreObjects
-        .firstNonNull(config.scopes.get(baseScopeKey), DEFAULT_SCOPES);
+    return MoreObjects.firstNonNull(config.scopes.get(baseScopeKey), DEFAULT_SCOPES);
   }
 }

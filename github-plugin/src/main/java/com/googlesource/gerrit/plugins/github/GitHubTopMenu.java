@@ -24,7 +24,6 @@ import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -37,17 +36,21 @@ public class GitHubTopMenu implements TopMenu {
   private final AuthConfig authConfig;
 
   @Inject
-  public GitHubTopMenu(@PluginName String pluginName,
+  public GitHubTopMenu(
+      @PluginName String pluginName,
       Provider<CurrentUser> userProvider,
       AuthConfig authConfig,
       GitHubConfig ghConfig) {
     String baseUrl = "/plugins/" + pluginName;
     this.menuEntries =
-        Arrays.asList(new MenuEntry("GitHub", Arrays.asList(
-            getItem("Scope", ghConfig.scopeSelectionUrl),
-            getItem("Profile", baseUrl + "/static/account.html"),
-            getItem("Repositories", baseUrl + "/static/repositories.html"),
-            getItem("Pull Requests", baseUrl + "/static/pullrequests.html"))));
+        Arrays.asList(
+            new MenuEntry(
+                "GitHub",
+                Arrays.asList(
+                    getItem("Scope", ghConfig.scopeSelectionUrl),
+                    getItem("Profile", baseUrl + "/static/account.html"),
+                    getItem("Repositories", baseUrl + "/static/repositories.html"),
+                    getItem("Pull Requests", baseUrl + "/static/pullrequests.html"))));
     this.userProvider = userProvider;
     this.authConfig = authConfig;
   }
@@ -58,7 +61,8 @@ public class GitHubTopMenu implements TopMenu {
 
   @Override
   public List<MenuEntry> getEntries() {
-    if (userProvider.get() instanceof IdentifiedUser &&
+    if (userProvider.get() instanceof IdentifiedUser
+        &&
         // Only with HTTP authentication we can transparently trigger OAuth if needed
         authConfig.getAuthType().equals(AuthType.HTTP)) {
       return menuEntries;

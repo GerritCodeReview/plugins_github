@@ -16,32 +16,35 @@ package com.googlesource.gerrit.plugins.github.git;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.servlet.SessionScoped;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @SessionScoped
 public class PullRequestImporter extends BatchImporter {
   private static final Logger log = LoggerFactory.getLogger(PullRequestImporter.class);
-  
+
   private final PullRequestImportJob.Factory prImportJobProvider;
-  
+
   @Inject
-  public PullRequestImporter(JobExecutor executor, IdentifiedUser user,
-      PullRequestImportJob.Factory  prImportJobProvider) {
+  public PullRequestImporter(
+      JobExecutor executor, IdentifiedUser user, PullRequestImportJob.Factory prImportJobProvider) {
     super(executor, user);
     this.prImportJobProvider = prImportJobProvider;
   }
 
-  public void importPullRequest(int idx, String organisation, String repoName,
-      int pullRequestId, PullRequestImportType importType) {
+  public void importPullRequest(
+      int idx,
+      String organisation,
+      String repoName,
+      int pullRequestId,
+      PullRequestImportType importType) {
     try {
-      PullRequestImportJob pullRequestImportJob = prImportJobProvider.create(idx, organisation, repoName, pullRequestId, importType);
+      PullRequestImportJob pullRequestImportJob =
+          prImportJobProvider.create(idx, organisation, repoName, pullRequestId, importType);
       log.debug("New Pull request import job created: " + pullRequestImportJob);
       schedule(idx, pullRequestImportJob);
     } catch (Throwable e) {
       schedule(idx, new ErrorJob(idx, organisation, repoName, e));
     }
-    
   }
 }

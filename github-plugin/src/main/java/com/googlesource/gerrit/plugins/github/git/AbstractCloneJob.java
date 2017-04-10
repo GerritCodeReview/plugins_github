@@ -14,7 +14,6 @@
 package com.googlesource.gerrit.plugins.github.git;
 
 import com.google.inject.ProvisionException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,9 +26,9 @@ public class AbstractCloneJob {
 
   protected String getErrorDescription(Throwable exception) {
     LOG.error("Job " + this + " FAILED", exception);
-    if(GitException.class.isAssignableFrom(exception.getClass())) {
+    if (GitException.class.isAssignableFrom(exception.getClass())) {
       return ((GitException) exception).getErrorDescription();
-    } else if(ProvisionException.class.isAssignableFrom(exception.getClass())){
+    } else if (ProvisionException.class.isAssignableFrom(exception.getClass())) {
       Throwable cause = exception.getCause();
       if (cause != null) {
         return getErrorDescription(cause);
@@ -39,5 +38,4 @@ public class AbstractCloneJob {
       return "Internal error";
     }
   }
-
 }

@@ -36,7 +36,16 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.GitHubConfig;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
-
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.github.GHIssueState;
@@ -46,22 +55,9 @@ import org.kohsuke.github.GHRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 @Singleton
 public class PullRequestListController implements VelocityController {
-  private static final Logger LOG = LoggerFactory
-      .getLogger(PullRequestListController.class);
+  private static final Logger LOG = LoggerFactory.getLogger(PullRequestListController.class);
   private static final String DATE_FMT = "yyyy-MM-dd HH:mm z";
 
   private final GitHubConfig config;
@@ -72,7 +68,8 @@ public class PullRequestListController implements VelocityController {
   private final ChangeQueryBuilder changeQuery;
 
   @Inject
-  public PullRequestListController(ProjectCache projectsCache,
+  public PullRequestListController(
+      ProjectCache projectsCache,
       GitRepositoryManager repoMgr,
       Provider<ReviewDb> schema,
       GitHubConfig config,
@@ -87,8 +84,12 @@ public class PullRequestListController implements VelocityController {
   }
 
   @Override
-  public void doAction(IdentifiedUser user, GitHubLogin hubLogin,
-      HttpServletRequest req, HttpServletResponse resp, ControllerErrors errors)
+  public void doAction(
+      IdentifiedUser user,
+      GitHubLogin hubLogin,
+      HttpServletRequest req,
+      HttpServletResponse resp,
+      ControllerErrors errors)
       throws ServletException, IOException {
     try (PrintWriter out = resp.getWriter()) {
       SimpleDateFormat dateFmt = new SimpleDateFormat(DATE_FMT);
@@ -110,11 +111,10 @@ public class PullRequestListController implements VelocityController {
             prObj.add("id", new JsonPrimitive(new Integer(pr.getNumber())));
             prObj.add("title", new JsonPrimitive(pr.getTitle()));
             prObj.add("body", new JsonPrimitive(pr.getBody()));
-            prObj.add("author", new JsonPrimitive(pr.getUser() == null ? "" : pr
-                .getUser().getLogin()));
+            prObj.add(
+                "author", new JsonPrimitive(pr.getUser() == null ? "" : pr.getUser().getLogin()));
             prObj.add("status", new JsonPrimitive(pr.getState().name()));
-            prObj.add("date",
-                new JsonPrimitive(dateFmt.format(pr.getUpdatedAt())));
+            prObj.add("date", new JsonPrimitive(dateFmt.format(pr.getUpdatedAt())));
 
             prArray.add(prObj);
           }
@@ -128,28 +128,24 @@ public class PullRequestListController implements VelocityController {
   }
 
   private Map<String, List<GHPullRequest>> getPullRequests(
-      GitHubLogin hubLogin, String organisation, String repository)
-      throws IOException {
+      GitHubLogin hubLogin, String organisation, String repository) throws IOException {
     return getPullRequests(
-        hubLogin,
-        projectsCache.byName(organisation + "/"
-            + Strings.nullToEmpty(repository)));
+        hubLogin, projectsCache.byName(organisation + "/" + Strings.nullToEmpty(repository)));
   }
 
-  private Map<String, List<GHPullRequest>> getPullRequests(GitHubLogin login,
-      Iterable<NameKey> repos) throws IOException {
+  private Map<String, List<GHPullRequest>> getPullRequests(
+      GitHubLogin login, Iterable<NameKey> repos) throws IOException {
     int numPullRequests = 0;
     Map<String, List<GHPullRequest>> allPullRequests = Maps.newHashMap();
     try (ReviewDb db = schema.get()) {
       for (NameKey gerritRepoName : repos) {
         try (Repository gitRepo = repoMgr.openRepository(gerritRepoName)) {
           String ghRepoName = gerritRepoName.get().split("/")[1];
-          Optional<GHRepository> githubRepo =
-              getGHRepository(login, gerritRepoName);
+          Optional<GHRepository> githubRepo = getGHRepository(login, gerritRepoName);
           if (githubRepo.isPresent()) {
             numPullRequests =
-                collectPullRequestsFromGitHubRepository(numPullRequests, db,
-                    allPullRequests, gitRepo, ghRepoName, githubRepo);
+                collectPullRequestsFromGitHubRepository(
+                    numPullRequests, db, allPullRequests, gitRepo, ghRepoName, githubRepo);
           }
         }
       }
@@ -157,19 +153,21 @@ public class PullRequestListController implements VelocityController {
     }
   }
 
-  private int collectPullRequestsFromGitHubRepository(int numPullRequests, ReviewDb db,
-      Map<String, List<GHPullRequest>> allPullRequests, Repository gitRepo,
-      String ghRepoName, Optional<GHRepository> githubRepo)
+  private int collectPullRequestsFromGitHubRepository(
+      int numPullRequests,
+      ReviewDb db,
+      Map<String, List<GHPullRequest>> allPullRequests,
+      Repository gitRepo,
+      String ghRepoName,
+      Optional<GHRepository> githubRepo)
       throws IncorrectObjectTypeException, IOException {
     List<GHPullRequest> repoPullRequests = Lists.newArrayList();
 
     int count = numPullRequests;
     if (count < config.pullRequestListLimit) {
-      for (GHPullRequest ghPullRequest : githubRepo.get()
-          .listPullRequests(GHIssueState.OPEN)) {
+      for (GHPullRequest ghPullRequest : githubRepo.get().listPullRequests(GHIssueState.OPEN)) {
 
-        if (isAnyCommitOfPullRequestToBeImported(db, gitRepo,
-            ghPullRequest)) {
+        if (isAnyCommitOfPullRequestToBeImported(db, gitRepo, ghPullRequest)) {
           repoPullRequests.add(ghPullRequest);
           count++;
         }
@@ -183,8 +181,8 @@ public class PullRequestListController implements VelocityController {
     return count;
   }
 
-  private Optional<GHRepository> getGHRepository(GitHubLogin login,
-      NameKey gerritRepoName) throws IOException {
+  private Optional<GHRepository> getGHRepository(GitHubLogin login, NameKey gerritRepoName)
+      throws IOException {
     try {
       return Optional.of(login.getHub().getRepository(gerritRepoName.get()));
     } catch (FileNotFoundException e) {
@@ -193,21 +191,18 @@ public class PullRequestListController implements VelocityController {
     }
   }
 
-  private boolean isAnyCommitOfPullRequestToBeImported(ReviewDb db,
-      Repository gitRepo, GHPullRequest ghPullRequest)
+  private boolean isAnyCommitOfPullRequestToBeImported(
+      ReviewDb db, Repository gitRepo, GHPullRequest ghPullRequest)
       throws IncorrectObjectTypeException, IOException {
     boolean pullRequestToImport = false;
     try {
-      for (GHPullRequestCommitDetail pullRequestCommit : ghPullRequest
-          .listCommits()) {
+      for (GHPullRequestCommitDetail pullRequestCommit : ghPullRequest.listCommits()) {
         pullRequestToImport |=
-            qp.query(changeQuery.commit(pullRequestCommit.getSha()))
-                .entities().isEmpty();
+            qp.query(changeQuery.commit(pullRequestCommit.getSha())).entities().isEmpty();
       }
       return pullRequestToImport;
     } catch (OrmException | QueryParseException e) {
-      LOG.error("Unable to query Gerrit changes for pull-request "
-          + ghPullRequest.getNumber(), e);
+      LOG.error("Unable to query Gerrit changes for pull-request " + ghPullRequest.getNumber(), e);
       return false;
     }
   }

@@ -21,5 +21,4 @@ public class WrappedResponse extends HttpServletResponseWrapper {
   public WrappedResponse(HttpServletResponse response) {
     super(response);
   }
-
 }

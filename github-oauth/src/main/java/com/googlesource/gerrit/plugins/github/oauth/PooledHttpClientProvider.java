@@ -19,7 +19,7 @@ import com.google.gerrit.httpd.ProxyProperties;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
+import java.net.URL;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -30,16 +30,13 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.ProxyAuthenticationStrategy;
 import org.eclipse.jgit.lib.Config;
 
-import java.net.URL;
-
 public class PooledHttpClientProvider implements Provider<HttpClient> {
   private final int maxTotalConnection;
   private final int maxConnectionPerRoute;
   private final ProxyProperties proxy;
 
   @Inject
-  PooledHttpClientProvider(@GerritServerConfig Config config,
-      ProxyProperties proxyProperties) {
+  PooledHttpClientProvider(@GerritServerConfig Config config, ProxyProperties proxyProperties) {
     this.proxy = proxyProperties;
     URL proxyUrl = proxyProperties.getProxyUrl();
     if (proxyUrl != null) {
@@ -49,10 +46,8 @@ public class PooledHttpClientProvider implements Provider<HttpClient> {
       setProxyProperty("proxyPassword", proxyProperties.getPassword());
     }
 
-    maxConnectionPerRoute = config.getInt("http", null,
-        "pooledMaxConnectionsPerRoute", 16);
-    maxTotalConnection = config.getInt("http", null,
-        "pooledMaxTotalConnections", 32);
+    maxConnectionPerRoute = config.getInt("http", null, "pooledMaxConnectionsPerRoute", 16);
+    maxTotalConnection = config.getInt("http", null, "pooledMaxTotalConnections", 32);
   }
 
   private static void setProxyProperty(String property, String value) {
@@ -64,24 +59,22 @@ public class PooledHttpClientProvider implements Provider<HttpClient> {
 
   @Override
   public HttpClient get() {
-    HttpClientBuilder builder = HttpClientBuilder
-        .create()
-        .setMaxConnPerRoute(maxConnectionPerRoute)
-        .setMaxConnTotal(maxTotalConnection);
+    HttpClientBuilder builder =
+        HttpClientBuilder.create()
+            .setMaxConnPerRoute(maxConnectionPerRoute)
+            .setMaxConnTotal(maxTotalConnection);
 
     if (proxy.getProxyUrl() != null) {
       URL url = proxy.getProxyUrl();
       builder.setProxy(new HttpHost(url.getHost(), url.getPort()));
       if (!Strings.isNullOrEmpty(proxy.getUsername())
           && !Strings.isNullOrEmpty(proxy.getPassword())) {
-        UsernamePasswordCredentials creds = new UsernamePasswordCredentials(
-            proxy.getUsername(), proxy.getPassword());
+        UsernamePasswordCredentials creds =
+            new UsernamePasswordCredentials(proxy.getUsername(), proxy.getPassword());
         CredentialsProvider credsProvider = new BasicCredentialsProvider();
-        credsProvider.setCredentials(new AuthScope(url.getHost(),
-            url.getPort()), creds);
+        credsProvider.setCredentials(new AuthScope(url.getHost(), url.getPort()), creds);
         builder.setDefaultCredentialsProvider(credsProvider);
-        builder.setProxyAuthenticationStrategy(
-            new ProxyAuthenticationStrategy());
+        builder.setProxyAuthenticationStrategy(new ProxyAuthenticationStrategy());
       }
     }
 

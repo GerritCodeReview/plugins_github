@@ -15,7 +15,6 @@ package com.googlesource.gerrit.plugins.github.velocity;
 
 import com.google.inject.Inject;
 import com.google.inject.servlet.RequestScoped;
-
 import org.apache.velocity.VelocityContext;
 
 @RequestScoped

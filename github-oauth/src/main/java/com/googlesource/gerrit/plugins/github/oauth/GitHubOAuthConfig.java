@@ -13,16 +13,6 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.oauth;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
-
-import lombok.Getter;
-
-import org.eclipse.jgit.lib.Config;
-
 import com.google.common.base.CharMatcher;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
@@ -36,14 +26,19 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+import lombok.Getter;
+import org.eclipse.jgit.lib.Config;
 
 @Singleton
-public
-class GitHubOAuthConfig {
+public class GitHubOAuthConfig {
   public static final String CONF_SECTION = "github";
   public static final String GITHUB_OAUTH_AUTHORIZE = "/login/oauth/authorize";
-  public static final String GITHUB_OAUTH_ACCESS_TOKEN =
-      "/login/oauth/access_token";
+  public static final String GITHUB_OAUTH_ACCESS_TOKEN = "/login/oauth/access_token";
   public static final String GITHUB_GET_USER = "/user";
   public static final String GERRIT_OAUTH_FINAL = "/oauth";
   public static final String GITHUB_URL_DEFAULT = "https://github.com";
@@ -63,21 +58,19 @@ class GitHubOAuthConfig {
   public final String gitHubOAuthAccessTokenUrl;
   public final boolean enabled;
 
-  @Getter
-  public final Map<String, List<OAuthProtocol.Scope>> scopes;
+  @Getter public final Map<String, List<OAuthProtocol.Scope>> scopes;
 
   public final int fileUpdateMaxRetryCount;
   public final int fileUpdateMaxRetryIntervalMsec;
   public final String oauthHttpHeader;
 
-  @Getter
-  public final String scopeSelectionUrl;
+  @Getter public final String scopeSelectionUrl;
   public final long httpConnectionTimeout;
   public final long httpReadTimeout;
 
   @Inject
-  protected
-  GitHubOAuthConfig(@GerritServerConfig Config config,
+  protected GitHubOAuthConfig(
+      @GerritServerConfig Config config,
       @CanonicalWebUrl String canonicalWebUrl,
       AuthConfig authConfig) {
     httpHeader =
@@ -85,16 +78,16 @@ class GitHubOAuthConfig {
             config.getString("auth", null, "httpHeader"),
             "HTTP Header for GitHub user must be provided");
     gitHubUrl =
-        trimTrailingSlash(MoreObjects.firstNonNull(
-            config.getString(CONF_SECTION, null, "url"), GITHUB_URL_DEFAULT));
+        trimTrailingSlash(
+            MoreObjects.firstNonNull(
+                config.getString(CONF_SECTION, null, "url"), GITHUB_URL_DEFAULT));
     gitHubApiUrl =
-        trimTrailingSlash(MoreObjects.firstNonNull(
-            config.getString(CONF_SECTION, null, "apiUrl"),
-            GITHUB_API_URL_DEFAULT));
+        trimTrailingSlash(
+            MoreObjects.firstNonNull(
+                config.getString(CONF_SECTION, null, "apiUrl"), GITHUB_API_URL_DEFAULT));
     gitHubClientId =
         Preconditions.checkNotNull(
-            config.getString(CONF_SECTION, null, "clientId"),
-            "GitHub `clientId` must be provided");
+            config.getString(CONF_SECTION, null, "clientId"), "GitHub `clientId` must be provided");
     gitHubClientSecret =
         Preconditions.checkNotNull(
             config.getString(CONF_SECTION, null, "clientSecret"),
@@ -103,37 +96,32 @@ class GitHubOAuthConfig {
     oauthHttpHeader = config.getString("auth", null, "httpExternalIdHeader");
     gitHubOAuthUrl = gitHubUrl + GITHUB_OAUTH_AUTHORIZE;
     gitHubOAuthAccessTokenUrl = gitHubUrl + GITHUB_OAUTH_ACCESS_TOKEN;
-    logoutRedirectUrl =
-        config.getString(CONF_SECTION, null, "logoutRedirectUrl");
-    oAuthFinalRedirectUrl =
-        trimTrailingSlash(canonicalWebUrl) + GERRIT_OAUTH_FINAL;
+    logoutRedirectUrl = config.getString(CONF_SECTION, null, "logoutRedirectUrl");
+    oAuthFinalRedirectUrl = trimTrailingSlash(canonicalWebUrl) + GERRIT_OAUTH_FINAL;
     scopeSelectionUrl =
         trimTrailingSlash(canonicalWebUrl)
             + MoreObjects.firstNonNull(
                 config.getString(CONF_SECTION, null, "scopeSelectionUrl"),
                 GITHUB_PLUGIN_OAUTH_SCOPE);
 
-    enabled =
-        config.getString("auth", null, "type").equalsIgnoreCase(
-            AuthType.HTTP.toString());
+    enabled = config.getString("auth", null, "type").equalsIgnoreCase(AuthType.HTTP.toString());
     scopes = getScopes(config);
 
-    fileUpdateMaxRetryCount =
-        config.getInt(CONF_SECTION, "fileUpdateMaxRetryCount", 3);
+    fileUpdateMaxRetryCount = config.getInt(CONF_SECTION, "fileUpdateMaxRetryCount", 3);
     fileUpdateMaxRetryIntervalMsec =
         config.getInt(CONF_SECTION, "fileUpdateMaxRetryIntervalMsec", 3000);
 
     httpConnectionTimeout =
         TimeUnit.MILLISECONDS.convert(
-            ConfigUtil.getTimeUnit(config,
-                CONF_SECTION, null, "httpConnectionTimeout",
-                30, TimeUnit.SECONDS), TimeUnit.SECONDS);
+            ConfigUtil.getTimeUnit(
+                config, CONF_SECTION, null, "httpConnectionTimeout", 30, TimeUnit.SECONDS),
+            TimeUnit.SECONDS);
 
     httpReadTimeout =
         TimeUnit.MILLISECONDS.convert(
-            ConfigUtil.getTimeUnit(config,
-                CONF_SECTION, null, "httpReadTimeout",
-                30, TimeUnit.SECONDS), TimeUnit.SECONDS);
+            ConfigUtil.getTimeUnit(
+                config, CONF_SECTION, null, "httpReadTimeout", 30, TimeUnit.SECONDS),
+            TimeUnit.SECONDS);
   }
 
   private Map<String, List<Scope>> getScopes(Config config) {

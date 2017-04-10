@@ -35,5 +35,4 @@ public abstract class GitException extends IOException {
   }
 
   public abstract String getErrorDescription();
-
 }
