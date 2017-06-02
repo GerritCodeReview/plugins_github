@@ -20,13 +20,13 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.Change.Id;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
-import com.google.gerrit.reviewdb.server.AccountExternalIdAccess;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountImporter;
+import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -39,6 +39,7 @@ import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import org.eclipse.jgit.api.FetchCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -82,6 +83,7 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
   private final int prId;
   private final GitRepositoryManager repoMgr;
   private final int jobIndex;
+  private final ExternalIds externalIds;
   private PullRequestCreateChange createChange;
   private Project project;
   private GitJobStatus status;
@@ -98,6 +100,7 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
       AccountImporter accountImporter,
       GitHubRepository.Factory gitHubRepoFactory,
       ScopedProvider<GitHubLogin> ghLoginProvider,
+      ExternalIds externalIds,
       @Assisted("index") int jobIndex,
       @Assisted("organisation") String organisation,
       @Assisted("name") String repoName,
@@ -114,6 +117,7 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
     this.status = new GitJobStatus(jobIndex);
     this.schema = schema;
     this.accountImporter = accountImporter;
+    this.externalIds = externalIds;
   }
 
   private Project fetchGerritProject(
@@ -212,14 +216,20 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
       ReviewDb db, String login, String name, String email)
       throws OrmException, BadRequestException, ResourceConflictException,
           UnprocessableEntityException, IOException, ConfigInvalidException {
-    AccountExternalId.Key userExtKey =
-        new AccountExternalId.Key(AccountExternalId.SCHEME_USERNAME, login);
-    AccountExternalIdAccess gerritExtIds = db.accountExternalIds();
-    AccountExternalId userExtId = gerritExtIds.get(userExtKey);
-    if (userExtId == null) {
-      return accountImporter.importAccount(login, name, email);
+    Optional<ExternalId> gerritId = externalIdByScheme(ExternalId.SCHEME_GERRIT, login);
+    if (gerritId.isPresent()) {
+      return gerritId.get().accountId();
     }
-    return userExtId.getAccountId();
+    return accountImporter.importAccount(login, name, email);
+  }
+
+  private Optional<ExternalId> externalIdByScheme(String scheme, String id) {
+    try {
+      return Optional.ofNullable(externalIds.get(ExternalId.Key.create(scheme, id)));
+    } catch (IOException | ConfigInvalidException e) {
+      LOG.error("Unable to get external id for " + scheme + ":" + id, e);
+      return Optional.empty();
+    }
   }
 
   private String getChangeMessage(GHPullRequest pr) {
