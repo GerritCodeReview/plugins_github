@@ -15,7 +15,6 @@ package com.googlesource.gerrit.plugins.github.filters;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
@@ -71,17 +70,21 @@ public class GitHubOAuthFilter implements Filter {
     if (!hubLogin.isLoggedIn()
         && !OAuthFilter.skipOAuth((HttpServletRequest) request)
         && user.isIdentifiedUser()) {
-      AccountExternalId gitHubExtId = getGitHubExternalId(user);
+      ExternalId gitHubExtId = getGitHubExternalId(user);
 
       String oauthToken =
-          gitHubExtId.getSchemeRest().substring(OAuthWebFilter.GITHUB_EXT_ID.length());
+          gitHubExtId
+              .key()
+              .get()
+              .substring(
+                  ExternalId.SCHEME_EXTERNAL.length() + OAuthWebFilter.GITHUB_EXT_ID.length() + 1);
       hubLogin.login(new AccessToken(oauthToken));
     }
 
     chain.doFilter(request, response);
   }
 
-  private AccountExternalId getGitHubExternalId(CurrentUser user) {
+  private ExternalId getGitHubExternalId(CurrentUser user) {
     Collection<ExternalId> accountExtIds =
         accountCache.get(((IdentifiedUser) user).getAccountId()).getExternalIds();
     Collection<ExternalId> gitHubExtId =
@@ -101,7 +104,7 @@ public class GitHubOAuthFilter implements Filter {
       throw new IllegalStateException(
           "Current Gerrit user " + user.getUserName() + " has no GitHub OAuth external ID");
     }
-    return gitHubExtId.iterator().next().asAccountExternalId();
+    return gitHubExtId.iterator().next();
   }
 
   @Override

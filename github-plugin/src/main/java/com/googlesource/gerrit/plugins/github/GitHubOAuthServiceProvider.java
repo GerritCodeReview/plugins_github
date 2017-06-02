@@ -19,7 +19,7 @@ import com.google.gerrit.extensions.auth.oauth.OAuthServiceProvider;
 import com.google.gerrit.extensions.auth.oauth.OAuthToken;
 import com.google.gerrit.extensions.auth.oauth.OAuthUserInfo;
 import com.google.gerrit.extensions.auth.oauth.OAuthVerifier;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol;
@@ -65,7 +65,7 @@ public class GitHubOAuthServiceProvider implements OAuthServiceProvider {
     GHMyself myself = hub.getMyself();
     String login = myself.getLogin();
     return new OAuthUserInfo(
-        AccountExternalId.SCHEME_GERRIT + login, login, myself.getEmail(), myself.getName(), null);
+        ExternalId.SCHEME_GERRIT + login, login, myself.getEmail(), myself.getName(), null);
   }
 
   @Override

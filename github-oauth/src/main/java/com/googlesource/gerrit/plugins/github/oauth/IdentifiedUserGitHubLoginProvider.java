@@ -15,7 +15,6 @@
 package com.googlesource.gerrit.plugins.github.oauth;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
@@ -34,7 +33,7 @@ public class IdentifiedUserGitHubLoginProvider implements UserScopedProvider<Git
   private static final Logger log =
       LoggerFactory.getLogger(IdentifiedUserGitHubLoginProvider.class);
   public static final String EXTERNAL_ID_PREFIX =
-      AccountExternalId.SCHEME_EXTERNAL + OAuthWebFilter.GITHUB_EXT_ID;
+      ExternalId.SCHEME_EXTERNAL + ":" + OAuthWebFilter.GITHUB_EXT_ID;
 
   private final Provider<IdentifiedUser> userProvider;
   private final GitHubOAuthConfig config;
@@ -80,7 +79,7 @@ public class IdentifiedUserGitHubLoginProvider implements UserScopedProvider<Git
     AccountState account = accountCache.getByUsername(username);
     Collection<ExternalId> externalIds = account.getExternalIds();
     for (ExternalId accountExternalId : externalIds) {
-      String key = accountExternalId.asAccountExternalId().getKey().get();
+      String key = accountExternalId.key().get();
       if (key.startsWith(EXTERNAL_ID_PREFIX)) {
         return new AccessToken(key.substring(EXTERNAL_ID_PREFIX.length()));
       }
