@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "521b07ab_2147c984",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestImportJob.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-06-06T09:19:20Z",
+      "side": 1,
+      "message": "We do not use the SCHEME_USERNAME but only SCHEME_GERRIT: can then be possibly removed here as well.",
+      "range": {
+        "startLine": 219,
+        "startChar": 57,
+        "endLine": 219,
+        "endChar": 83
+      },
+      "revId": "e690bb5d68884341e8cbccee862c7e1a5595037a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
