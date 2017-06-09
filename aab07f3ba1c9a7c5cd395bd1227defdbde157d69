@@ -22,6 +22,30 @@
       "revId": "aab07f3ba1c9a7c5cd395bd1227defdbde157d69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b8fd017_a0f0c2c6",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestImportJob.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2017-06-09T12:36:05Z",
+      "side": 1,
+      "message": "True, leftover of a previous patch-set :-(",
+      "parentUuid": "dd8a8a16_7f289de9",
+      "range": {
+        "startLine": 221,
+        "startChar": 13,
+        "endLine": 221,
+        "endChar": 45
+      },
+      "revId": "aab07f3ba1c9a7c5cd395bd1227defdbde157d69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
