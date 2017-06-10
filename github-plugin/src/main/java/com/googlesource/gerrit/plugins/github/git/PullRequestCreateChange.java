@@ -31,6 +31,7 @@ import com.google.gerrit.server.IdentifiedUser.GenericFactory;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.git.IntegrationException;
+import com.google.gerrit.server.git.validators.CommitValidators.Policy;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -217,7 +218,7 @@ public class PullRequestCreateChange {
       PatchSetInserter patchSetInserter =
           patchSetInserterFactory.create(changeControl, psId, cherryPickCommit);
       patchSetInserter.setMessage(pullRequestMessage);
-      patchSetInserter.setValidate(false);
+      patchSetInserter.setValidatePolicy(Policy.NONE);
 
       bu.addOp(change.getId(), patchSetInserter);
       bu.execute();
@@ -228,7 +229,7 @@ public class PullRequestCreateChange {
       Change.Key changeKey, Project.NameKey project, Ref destRef,
       Account.Id pullRequestOwner, RevCommit pullRequestCommit,
       RefControl refControl, String pullRequestMessage, String topic)
-      throws OrmException, UpdateException, RestApiException, IOException {
+      throws OrmException, UpdateException, RestApiException {
     Change change =
         new Change(changeKey, new Change.Id(db.nextChangeId()),
             pullRequestOwner, new Branch.NameKey(project, destRef.getName()),
