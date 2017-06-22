@@ -15,7 +15,6 @@
 package com.googlesource.gerrit.plugins.github.replication;
 
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -28,9 +27,7 @@ public class RemoteSiteUser extends CurrentUser {
   private final GroupMembership effectiveGroups;
 
   @Inject
-  RemoteSiteUser(
-      CapabilityControl.Factory capabilityControlFactory, @Assisted GroupMembership authGroups) {
-    super(capabilityControlFactory);
+  RemoteSiteUser(@Assisted GroupMembership authGroups) {
     effectiveGroups = authGroups;
   }
 
