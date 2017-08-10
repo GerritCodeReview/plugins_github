@@ -200,11 +200,12 @@ public class PullRequestCreateChange {
     if (destChanges.size() == 1) {
       // The change key exists on the destination branch: adding a new
       // patch-set
-      Change destChange = destChanges.get(0).change();
+      ChangeData destChangeData = destChanges.get(0);
+      Change destChange = destChangeData.change();
       ChangeControl changeControl =
           projectControlFactory
               .controlFor(project.getNameKey())
-              .controlForIndexedChange(destChange);
+              .controlFor(destChangeData.notes());
       insertPatchSet(bu, repo, destChange, pullRequestCommit, changeControl, pullRequestMesage);
       return destChange.getId();
     }
