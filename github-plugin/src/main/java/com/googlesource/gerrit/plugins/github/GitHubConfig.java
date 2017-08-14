@@ -15,9 +15,9 @@ package com.googlesource.gerrit.plugins.github;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Maps;
+import com.google.gerrit.httpd.CanonicalWebUrl;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.AuthConfig;
-import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
@@ -72,7 +72,7 @@ public class GitHubConfig extends GitHubOAuthConfig {
       @GerritServerConfig Config config,
       final SitePaths site,
       AllProjectsNameProvider allProjectsNameProvider,
-      @CanonicalWebUrl String canonicalWebUrl,
+      CanonicalWebUrl canonicalWebUrl,
       AuthConfig authConfig)
       throws MalformedURLException {
     super(config, canonicalWebUrl, authConfig);

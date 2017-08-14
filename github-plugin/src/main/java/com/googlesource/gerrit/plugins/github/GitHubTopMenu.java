@@ -47,7 +47,7 @@ public class GitHubTopMenu implements TopMenu {
             new MenuEntry(
                 "GitHub",
                 Arrays.asList(
-                    getItem("Scope", ghConfig.scopeSelectionUrl),
+                    getItem("Scope", ghConfig.getScopeSelectionUrl(null)),
                     getItem("Profile", baseUrl + "/static/account.html"),
                     getItem("Repositories", baseUrl + "/static/repositories.html"),
                     getItem("Pull Requests", baseUrl + "/static/pullrequests.html"))));

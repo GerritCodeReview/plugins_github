@@ -45,7 +45,7 @@ public class GitHubOAuthServiceProvider implements OAuthServiceProvider {
   @Override
   public String getAuthorizationUrl() {
     return oauth.getAuthorizationUrl(
-        oauth.getScope(Sets.newHashSet(config.getDefaultScopes())), null);
+        oauth.getScope(Sets.newHashSet(config.getDefaultScopes())), null, null);
   }
 
   @Override

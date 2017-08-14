@@ -19,8 +19,8 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.google.gerrit.extensions.client.AuthType;
+import com.google.gerrit.httpd.CanonicalWebUrl;
 import com.google.gerrit.server.config.AuthConfig;
-import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
@@ -31,11 +31,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import javax.servlet.http.HttpServletRequest;
 import lombok.Getter;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class GitHubOAuthConfig {
+  private final Config config;
+  private final CanonicalWebUrl canonicalWebUrl;
+
   public static final String CONF_SECTION = "github";
   public static final String GITHUB_OAUTH_AUTHORIZE = "/login/oauth/authorize";
   public static final String GITHUB_OAUTH_ACCESS_TOKEN = "/login/oauth/access_token";
@@ -54,7 +58,6 @@ public class GitHubOAuthConfig {
   public final String logoutRedirectUrl;
   public final String httpHeader;
   public final String gitHubOAuthUrl;
-  public final String oAuthFinalRedirectUrl;
   public final String gitHubOAuthAccessTokenUrl;
   public final boolean enabled;
 
@@ -64,15 +67,15 @@ public class GitHubOAuthConfig {
   public final int fileUpdateMaxRetryIntervalMsec;
   public final String oauthHttpHeader;
 
-  @Getter public final String scopeSelectionUrl;
   public final long httpConnectionTimeout;
   public final long httpReadTimeout;
 
   @Inject
   protected GitHubOAuthConfig(
-      @GerritServerConfig Config config,
-      @CanonicalWebUrl String canonicalWebUrl,
-      AuthConfig authConfig) {
+      @GerritServerConfig Config config, CanonicalWebUrl canonicalWebUrl, AuthConfig authConfig) {
+    this.config = config;
+    this.canonicalWebUrl = canonicalWebUrl;
+
     httpHeader =
         Preconditions.checkNotNull(
             config.getString("auth", null, "httpHeader"),
@@ -97,12 +100,6 @@ public class GitHubOAuthConfig {
     gitHubOAuthUrl = gitHubUrl + GITHUB_OAUTH_AUTHORIZE;
     gitHubOAuthAccessTokenUrl = gitHubUrl + GITHUB_OAUTH_ACCESS_TOKEN;
     logoutRedirectUrl = config.getString(CONF_SECTION, null, "logoutRedirectUrl");
-    oAuthFinalRedirectUrl = trimTrailingSlash(canonicalWebUrl) + GERRIT_OAUTH_FINAL;
-    scopeSelectionUrl =
-        trimTrailingSlash(canonicalWebUrl)
-            + MoreObjects.firstNonNull(
-                config.getString(CONF_SECTION, null, "scopeSelectionUrl"),
-                GITHUB_PLUGIN_OAUTH_SCOPE);
 
     enabled = config.getString("auth", null, "type").equalsIgnoreCase(AuthType.HTTP.toString());
     scopes = getScopes(config);
@@ -122,6 +119,19 @@ public class GitHubOAuthConfig {
             ConfigUtil.getTimeUnit(
                 config, CONF_SECTION, null, "httpReadTimeout", 30, TimeUnit.SECONDS),
             TimeUnit.SECONDS);
+  }
+
+  public String getOAuthFinalRedirectUrl(HttpServletRequest req) {
+    return req == null
+        ? GERRIT_OAUTH_FINAL
+        : trimTrailingSlash(canonicalWebUrl.get(req)) + GERRIT_OAUTH_FINAL;
+  }
+
+  public String getScopeSelectionUrl(HttpServletRequest req) {
+    String canonicalUrl = req == null ? "" : trimTrailingSlash(canonicalWebUrl.get(req));
+    return canonicalUrl
+        + MoreObjects.firstNonNull(
+            config.getString(CONF_SECTION, null, "scopeSelectionUrl"), GITHUB_PLUGIN_OAUTH_SCOPE);
   }
 
   private Map<String, List<Scope>> getScopes(Config config) {

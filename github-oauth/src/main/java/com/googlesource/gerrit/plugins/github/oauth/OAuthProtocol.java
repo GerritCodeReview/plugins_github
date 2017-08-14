@@ -248,12 +248,12 @@ public class OAuthProtocol {
     }
   }
 
-  public String getAuthorizationUrl(String scopesString, String state) {
+  public String getAuthorizationUrl(String scopesString, String state, HttpServletRequest req) {
     return config.gitHubOAuthUrl
         + "?client_id="
         + config.gitHubClientId
         + getURLEncodedParameter("&scope=", scopesString)
-        + getURLEncodedParameter("&redirect_uri=", config.oAuthFinalRedirectUrl)
+        + getURLEncodedParameter("&redirect_uri=", config.getOAuthFinalRedirectUrl(req))
         + getURLEncodedParameter("&state=", state);
   }
 
@@ -272,7 +272,7 @@ public class OAuthProtocol {
             + config.gitHubClientId
             + " Scopes="
             + scopesString);
-    response.sendRedirect(getAuthorizationUrl(scopesString, state));
+    response.sendRedirect(getAuthorizationUrl(scopesString, state, request));
     return state;
   }
 
