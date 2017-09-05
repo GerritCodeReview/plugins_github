@@ -28,7 +28,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
-import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import java.util.Collection;
 import java.util.Collections;
@@ -66,7 +66,7 @@ public class GitHubGroupBackend implements GroupBackend {
   }
 
   @Override
-  public Collection<GroupReference> suggest(String name, ProjectControl project) {
+  public Collection<GroupReference> suggest(String name, ProjectState project) {
     if (!name.startsWith(NAME_PREFIX)) {
       return Collections.emptyList();
     }

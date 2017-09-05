@@ -18,26 +18,22 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.RawInput;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.Id;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AddSshKey;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.GetSshKeys;
-import com.google.gwtorm.server.OrmException;
+import com.google.gerrit.server.account.PutName;
+import com.google.gerrit.server.account.PutPreferred;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -57,21 +53,24 @@ public class AccountController implements VelocityController {
   private final AddSshKey restAddSshKey;
   private final GetSshKeys restGetSshKeys;
   private final AccountManager accountManager;
-  private final Provider<ReviewDb> dbProvider;
   private final AccountCache accountCache;
+  private final PutPreferred putPreferred;
+  private final PutName putName;
 
   @Inject
   public AccountController(
       final AddSshKey restAddSshKey,
       final GetSshKeys restGetSshKeys,
       final AccountManager accountManager,
-      final Provider<ReviewDb> dbProvider,
-      final AccountCache accountCache) {
+      final AccountCache accountCache,
+      final PutPreferred putPreferred,
+      final PutName putName) {
     this.restAddSshKey = restAddSshKey;
     this.restGetSshKeys = restGetSshKeys;
     this.accountManager = accountManager;
-    this.dbProvider = dbProvider;
     this.accountCache = accountCache;
+    this.putPreferred = putPreferred;
+    this.putName = putName;
   }
 
   @Override
@@ -102,10 +101,10 @@ public class AccountController implements VelocityController {
       AuthResult result = accountManager.link(accountId, AuthRequest.forEmail(email));
       log.debug("Account {} linked to email {}: result = {}", accountId, email, result);
 
-      Account a = dbProvider.get().accounts().get(accountId);
-      a.setPreferredEmail(email);
-      a.setFullName(fullName);
-      dbProvider.get().accounts().update(Collections.singleton(a));
+      putPreferred.apply(new AccountResource.Email(user, email), null);
+      PutName.Input nameInput = new PutName.Input();
+      nameInput.name = fullName;
+      putName.apply(user, nameInput);
       log.debug(
           "Account {} updated with preferredEmail = {} and fullName = {}",
           accountId,
@@ -114,7 +113,7 @@ public class AccountController implements VelocityController {
 
       accountCache.evict(accountId);
       log.debug("Account cache evicted for {}", accountId);
-    } catch (AccountException | OrmException | IOException e) {
+    } catch (Exception e) {
       throw new ServletException(
           "Cannot associate email '" + email + "' to current user '" + user + "'", e);
     }
