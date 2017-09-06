@@ -203,9 +203,7 @@ public class PullRequestCreateChange {
       ChangeData destChangeData = destChanges.get(0);
       Change destChange = destChangeData.change();
       ChangeControl changeControl =
-          projectControlFactory
-              .controlFor(project.getNameKey())
-              .controlFor(destChangeData.notes());
+          projectControlFactory.controlFor(project.getNameKey()).controlFor(destChangeData.notes());
       insertPatchSet(bu, repo, destChange, pullRequestCommit, changeControl, pullRequestMesage);
       return destChange.getId();
     }
