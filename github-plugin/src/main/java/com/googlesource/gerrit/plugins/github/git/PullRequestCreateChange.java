@@ -34,7 +34,7 @@ import com.google.gerrit.server.IdentifiedUser.GenericFactory;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.git.IntegrationException;
-import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -202,9 +202,7 @@ public class PullRequestCreateChange {
       // patch-set
       ChangeData destChangeData = destChanges.get(0);
       Change destChange = destChangeData.change();
-      ChangeControl changeControl =
-          projectControlFactory.controlFor(project.getNameKey()).controlFor(destChangeData.notes());
-      insertPatchSet(bu, repo, destChange, pullRequestCommit, changeControl, pullRequestMesage);
+      insertPatchSet(bu, repo, destChange, pullRequestCommit, destChangeData.notes(), pullRequestMesage);
       return destChange.getId();
     }
 
@@ -240,14 +238,14 @@ public class PullRequestCreateChange {
       Repository git,
       Change change,
       RevCommit cherryPickCommit,
-      ChangeControl changeControl,
+      ChangeNotes changeNotes,
       String pullRequestMessage)
       throws IOException, UpdateException, RestApiException {
     try (RevWalk revWalk = new RevWalk(git)) {
       PatchSet.Id psId = ChangeUtil.nextPatchSetId(git, change.currentPatchSetId());
 
       PatchSetInserter patchSetInserter =
-          patchSetInserterFactory.create(changeControl, psId, cherryPickCommit);
+          patchSetInserterFactory.create(changeNotes, psId, cherryPickCommit);
       patchSetInserter.setMessage(pullRequestMessage);
       patchSetInserter.setValidate(false);
 
