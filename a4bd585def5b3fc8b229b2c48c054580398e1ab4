@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e38d0c94_48d5ab14",
+        "filename": "github-oauth/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-02-17T10:05:06Z",
+      "side": 1,
+      "message": "2.15 is going to be back to 2.15-SNAPSHOT",
+      "range": {
+        "startLine": 24,
+        "startChar": 18,
+        "endLine": 24,
+        "endChar": 21
+      },
+      "revId": "a4bd585def5b3fc8b229b2c48c054580398e1ab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e84b649c_3830b308",
+        "filename": "github-plugin/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-02-17T10:05:06Z",
+      "side": 1,
+      "message": "Same as above",
+      "range": {
+        "startLine": 23,
+        "startChar": 18,
+        "endLine": 23,
+        "endChar": 21
+      },
+      "revId": "a4bd585def5b3fc8b229b2c48c054580398e1ab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62ac19e9_6c3a9708",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-02-17T10:05:06Z",
+      "side": 1,
+      "message": "Same as above",
+      "range": {
+        "startLine": 21,
+        "startChar": 16,
+        "endLine": 21,
+        "endChar": 19
+      },
+      "revId": "a4bd585def5b3fc8b229b2c48c054580398e1ab4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
