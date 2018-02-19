@@ -16,6 +16,24 @@
       "revId": "aa1cb6901f61a1fa7ad726221adeca0993e1cfd1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e9cc87d_50e01f38",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-02-19T02:57:17Z",
+      "side": 1,
+      "message": "Yes, I thought about that. However, there wasn\u0027t so much value in tracing them also.",
+      "parentUuid": "b568c4b6_27c4a9e2",
+      "revId": "aa1cb6901f61a1fa7ad726221adeca0993e1cfd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }
