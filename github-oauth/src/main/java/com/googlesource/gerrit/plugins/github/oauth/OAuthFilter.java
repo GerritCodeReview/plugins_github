@@ -69,7 +69,6 @@ public class OAuthFilter implements Filter {
       if (GIT_HTTP_REQUEST_PATTERN.matcher(requestUrl).matches()) {
         chain.doFilter(request, response);
       } else {
-        System.out.println("Authorising " + requestUrl);
         webFilter.doFilter(request, response, chain);
       }
     }
@@ -93,10 +92,7 @@ public class OAuthFilter implements Filter {
       return false;
     }
 
-    boolean staticResource = GERRIT_STATIC_RESOURCES_EXTS.contains(pathExt.toLowerCase());
-    System.out.println(
-        "requestUri: " + requestURI + " pathExt: " + pathExt + " static: " + staticResource);
-    return staticResource;
+    return GERRIT_STATIC_RESOURCES_EXTS.contains(pathExt.toLowerCase());
   }
 
   private static boolean isWhitelisted(HttpServletRequest httpRequest) {
