@@ -64,7 +64,7 @@ public class PullRequestListController implements VelocityController {
   private final ProjectCache projectsCache;
   private final GitRepositoryManager repoMgr;
   private final Provider<ReviewDb> schema;
-  private final QueryProcessor<ChangeData> qp;
+  private final ChangeQueryProcessor qp;
   private final ChangeQueryBuilder changeQuery;
 
   @Inject
