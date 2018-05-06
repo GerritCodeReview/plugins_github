@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a21846b_af2c3215",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/GitHubOAuthServiceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1016072
+      },
+      "writtenOn": "2018-05-06T11:35:37Z",
+      "side": 1,
+      "message": "Passing null here causes the redirect_url to become \"/oauth\", which breaks the github oauth.",
+      "revId": "7ad91d000340064400d73947c5f2e08e63c96a5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
