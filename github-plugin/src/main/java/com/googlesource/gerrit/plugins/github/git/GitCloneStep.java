@@ -90,10 +90,6 @@ public class GitCloneStep extends ImportStep {
     return destDirectory.listFiles().length > 0;
   }
 
-  public File getDestinationDirectory() {
-    return destinationDirectory;
-  }
-
   @Override
   public boolean rollback() {
     File gitDirectory = destinationDirectory;
