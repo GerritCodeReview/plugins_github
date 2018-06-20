@@ -23,6 +23,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -58,6 +59,7 @@ public class GitHubOAuthConfig {
   public final boolean enabled;
 
   @Getter public final Map<ScopeKey, List<OAuthProtocol.Scope>> scopes;
+  @Getter public final List<ScopeKey> sortedScopesKeys;
 
   public final int fileUpdateMaxRetryCount;
   public final int fileUpdateMaxRetryIntervalMsec;
@@ -99,6 +101,12 @@ public class GitHubOAuthConfig {
 
     enabled = config.getString("auth", null, "type").equalsIgnoreCase(AuthType.HTTP.toString());
     scopes = getScopes(config);
+    sortedScopesKeys =
+        scopes
+            .keySet()
+            .stream()
+            .sorted(Comparator.comparing(ScopeKey::getSequence))
+            .collect(Collectors.toList());
 
     fileUpdateMaxRetryCount = config.getInt(CONF_SECTION, "fileUpdateMaxRetryCount", 3);
     fileUpdateMaxRetryIntervalMsec =
@@ -136,9 +144,14 @@ public class GitHubOAuthConfig {
         .stream()
         .filter(k -> k.startsWith("scopes"))
         .filter(k -> !k.endsWith("Description"))
+        .filter(k -> !k.endsWith("Sequence"))
         .collect(
             Collectors.toMap(
-                k -> new ScopeKey(k, config.getString(CONF_SECTION, null, k + "Description")),
+                k ->
+                    new ScopeKey(
+                        k,
+                        config.getString(CONF_SECTION, null, k + "Description"),
+                        config.getInt(CONF_SECTION, k + "Sequence", 0)),
                 v -> parseScopesString(config.getString(CONF_SECTION, null, v))));
   }
 
