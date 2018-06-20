@@ -15,7 +15,7 @@ package com.googlesource.gerrit.plugins.github.git;
 
 import java.io.IOException;
 
-public abstract class GitException extends IOException {
+public class GitException extends IOException {
   private static final long serialVersionUID = -1180349547385523064L;
 
   public GitException() {
@@ -34,5 +34,7 @@ public abstract class GitException extends IOException {
     super(message, cause);
   }
 
-  public abstract String getErrorDescription();
+  public String getErrorDescription() {
+    return getMessage();
+  }
 }

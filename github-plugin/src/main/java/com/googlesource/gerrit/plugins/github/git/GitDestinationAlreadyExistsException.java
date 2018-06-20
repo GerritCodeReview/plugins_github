@@ -13,13 +13,12 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
-import java.io.File;
 
 public class GitDestinationAlreadyExistsException extends GitException {
   private static final long serialVersionUID = -6202681486717426148L;
 
-  public GitDestinationAlreadyExistsException(File destDirectory) {
-    super("Output Git destination " + destDirectory + " already exists and cannot be overwritten");
+  public GitDestinationAlreadyExistsException(String projectName) {
+    super("Git project " + projectName + " already exists");
   }
 
   @Override
