@@ -67,7 +67,7 @@ public class GitHubLogin implements Serializable {
 
   public GHMyself getMyself() throws IOException {
     if (isLoggedIn()) {
-      return getHub().getMyself();
+      return new GitHubMyselfWrapper(getHub().getMyself());
     }
     return null;
   }
