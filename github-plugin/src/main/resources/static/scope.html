@@ -36,7 +36,7 @@
         <form class="signupform" method="get" action="/login">
           <h5>Which level of GitHub access do you need?</h5>
           <ul class="scopes">
-                #foreach ( $scope in $config.scopes.keySet() )
+                #foreach ( $scope in $config.sortedScopesKeys )
                     <li>
                         #set ( $scopeName = $scope.name.substring(6) )
                         #set ( $scopeDescription = $scope.description )
