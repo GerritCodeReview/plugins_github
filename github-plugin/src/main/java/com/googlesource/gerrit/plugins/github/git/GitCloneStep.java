@@ -13,13 +13,18 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
+import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.github.GitHubConfig;
 import java.io.File;
 import java.io.IOException;
 import org.apache.commons.io.FileUtils;
-import org.eclipse.jgit.api.CloneCommand;
+import org.eclipse.jgit.api.FetchCommand;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +33,7 @@ public class GitCloneStep extends ImportStep {
   private static final Logger LOG = LoggerFactory.getLogger(GitImporter.class);
 
   private final File gitDir;
+  private final GerritApi gerritApi;
   private File destinationDirectory;
 
   public interface Factory {
@@ -39,59 +45,47 @@ public class GitCloneStep extends ImportStep {
   public GitCloneStep(
       GitHubConfig gitConfig,
       GitHubRepository.Factory gitHubRepoFactory,
+      GerritApi gerritApi,
       @Assisted("organisation") String organisation,
       @Assisted("name") String repository)
-      throws GitDestinationAlreadyExistsException, GitDestinationNotWritableException {
+      throws GitException {
     super(gitConfig.gitHubUrl, organisation, repository, gitHubRepoFactory);
     LOG.debug("GitHub Clone " + organisation + "/" + repository);
     this.gitDir = gitConfig.gitDir.toFile();
-    this.destinationDirectory = getDestinationDirectory(organisation, repository);
+    this.gerritApi = gerritApi;
+    this.destinationDirectory =
+        getDestinationDirectory(gerritApi, gitDir, organisation, repository);
   }
 
-  private File getDestinationDirectory(String organisation, String repository)
-      throws GitDestinationAlreadyExistsException, GitDestinationNotWritableException {
-    File orgDirectory = new File(gitDir, organisation);
-    File destDirectory = new File(orgDirectory, repository + ".git");
-    if (destDirectory.exists() && isNotEmpty(destDirectory)) {
-      throw new GitDestinationAlreadyExistsException(destDirectory);
+  private static File getDestinationDirectory(
+      GerritApi gerritApi, File gitDir, String organisation, String repository)
+      throws GitException {
+    String projectName = organisation + "/" + repository;
+    try {
+      gerritApi.projects().create(projectName).get();
+      return new File(gitDir, projectName + ".git");
+    } catch (ResourceConflictException e) {
+      throw new GitDestinationAlreadyExistsException(projectName);
+    } catch (RestApiException e) {
+      throw new GitException("Unable to create repository " + projectName, e);
     }
-
-    if (!orgDirectory.exists()) {
-      if (!orgDirectory.mkdirs()) {
-        throw new GitDestinationNotWritableException(destDirectory);
-      }
-    }
-
-    return destDirectory;
   }
 
   @Override
-  public void doImport(ProgressMonitor progress)
-      throws GitCloneFailedException, GitDestinationAlreadyExistsException,
-          GitDestinationNotWritableException {
-    CloneCommand clone = new CloneCommand();
-    clone.setCredentialsProvider(getRepository().getCredentialsProvider());
+  public void doImport(ProgressMonitor progress) throws GitCloneFailedException {
     String sourceUri = getSourceUri();
-    clone.setURI(sourceUri);
-    clone.setBare(true);
-    clone.setDirectory(destinationDirectory);
-    if (progress != null) {
-      clone.setProgressMonitor(progress);
-    }
-    try {
+    try (Git git = Git.open(destinationDirectory)) {
+      FetchCommand fetch = git.fetch().setRefSpecs("refs/*:refs/*").setRemote(sourceUri);
+      fetch.setCredentialsProvider(getRepository().getCredentialsProvider());
+      if (progress != null) {
+        fetch.setProgressMonitor(progress);
+      }
       LOG.info(sourceUri + "| Clone into " + destinationDirectory);
-      clone.call();
-    } catch (Throwable e) {
+      fetch.call();
+    } catch (IOException | GitAPIException e) {
+      LOG.error("Unable to fetch from {} into {}", sourceUri, destinationDirectory, e);
       throw new GitCloneFailedException(sourceUri, e);
     }
-  }
-
-  private boolean isNotEmpty(File destDirectory) {
-    return destDirectory.listFiles().length > 0;
-  }
-
-  public File getDestinationDirectory() {
-    return destinationDirectory;
   }
 
   @Override
