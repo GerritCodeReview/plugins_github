@@ -202,7 +202,8 @@ public class PullRequestCreateChange {
       // patch-set
       ChangeData destChangeData = destChanges.get(0);
       Change destChange = destChangeData.change();
-      insertPatchSet(bu, repo, destChange, pullRequestCommit, destChangeData.notes(), pullRequestMesage);
+      insertPatchSet(
+          bu, repo, destChange, pullRequestCommit, destChangeData.notes(), pullRequestMesage);
       return destChange.getId();
     }
 
