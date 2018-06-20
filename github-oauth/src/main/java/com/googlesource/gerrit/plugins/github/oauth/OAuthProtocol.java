@@ -50,7 +50,7 @@ public class OAuthProtocol {
      * Grants read-only access to public information (includes public user profile info, public
      * repository info, and gists)
      */
-    DEFAULT("", "Read-only public information"),
+    DEFAULT("", "Read public information"),
 
     /**
      * Grants read/write access to profile info only. Note that this scope includes user:email and
@@ -59,7 +59,7 @@ public class OAuthProtocol {
     USER("user", "Read/write profile info"),
 
     /** Grants read access to a user’s email addresses. */
-    USER_EMAIL("user:email", "Read-only user's e-mail"),
+    USER_EMAIL("user:email", "Access e-mail addresses"),
 
     /** Grants access to follow or unfollow other users. */
     USER_FOLLOW("user:follow", "(Un)Follow users"),
@@ -68,46 +68,46 @@ public class OAuthProtocol {
      * Grants read/write access to code, commit statuses, collaborators, and deployment statuses for
      * public repositories. Also required for starring public repositories.
      */
-    PUBLIC_REPO("public_repo", "Read/write to public repositories"),
+    PUBLIC_REPO("public_repo", "Read and push to public repos"),
 
     /**
      * Grants read/write access to code, commit statuses, collaborators, and deployment statuses for
      * public and private repositories and organizations.
      */
-    REPO("repo", "Read/write to all public/private repositories"),
+    REPO("repo", "Read and push to public and private repos"),
 
     /**
      * Grants access to deployment statuses for public and private repositories. This scope is only
      * necessary to grant other users or services access to deployment statuses, without granting
      * access to the code.
      */
-    REPO_DEPLOYMENT("repo_deployment", "Read-only deployment statuses"),
+    REPO_DEPLOYMENT("repo_deployment", "Read deployment statuses"),
 
     /**
      * Grants read/write access to public and private repository commit statuses. This scope is only
      * necessary to grant other users or services access to private repository commit statuses
      * without granting access to the code.
      */
-    REPO_STATUS("repo:status", "Read/write commit statuses"),
+    REPO_STATUS("repo:status", "Read commit statuses"),
 
     /** Grants access to delete admin-able repositories. */
-    DELETE_REPO("delete_repo", "Delete repositories"),
+    DELETE_REPO("delete_repo", "Delete repos"),
 
     /** Grants read access to a user’s notifications. repo also provides this access. */
-    NOTIFICATIONS("notifications", "Read user's notifications"),
+    NOTIFICATIONS("notifications", "Read notifications"),
 
     /** Grants write access to gists. */
     GIST("gist", "Write Gists"),
 
     /** Grants read and ping access to hooks in public or private repositories. */
-    READ_REPO_HOOK("read:repo_hook", "Read/ping public/private repositories' hooks"),
+    READ_REPO_HOOK("read:repo_hook", "Read/ping public/private repos' hooks"),
 
     /** Grants read, write, and ping access to hooks in public or private repositories. */
-    WRITE_REPO_HOOK("write:repo_hook", "Read/write/ping public/private repositories' hooks"),
+    WRITE_REPO_HOOK("write:repo_hook", "Read/write/ping public/private repos' hooks"),
 
     /** Grants read, write, ping, and delete access to hooks in public or private repositories. */
     ADMIN_REPO_HOOK(
-        "admin:repo_hook", "Read/write/ping/delete access to public/private repositories' hooks"),
+        "admin:repo_hook", "Read/write/ping/delete access to public/private repos' hooks"),
 
     /**
      * Grants read, write, ping, and delete access to organization hooks. Note: OAuth tokens will
@@ -119,7 +119,7 @@ public class OAuthProtocol {
         "admin:org_hook", "Read/write/ping/delete access to public/private organizations' hooks"),
 
     /** Read-only access to organization, teams, and membership. */
-    READ_ORG("read:org", "Read-only organizations"),
+    READ_ORG("read:org", "Read membership to public/private organizations"),
 
     /** Publicize and un-publicize organization membership. */
     WRITE_ORG("write:org", "(Un)Publicize organizations membership"),
@@ -128,13 +128,13 @@ public class OAuthProtocol {
     ADMIN_ORG("admin:org", "Manage organizations, teams and memberships"),
 
     /** List and view details for public keys. */
-    READ_PUBLIC_KEY("read:public_key", "Read-only user's public keys"),
+    READ_PUBLIC_KEY("read:public_key", "Read owned public keys"),
 
     /** Create, list, and view details for public keys. */
-    WRITE_PUBLIC_KEY("write:public_key", "Read/write/list user's public keys"),
+    WRITE_PUBLIC_KEY("write:public_key", "Read/write/list owned public keys"),
 
     /** Fully manage public keys. */
-    ADMIN_PUBLIC_KEY("admin:public_key", "Fully manage user's public keys");
+    ADMIN_PUBLIC_KEY("admin:public_key", "Fully manage owned public keys");
 
     @Getter private final String value;
 
