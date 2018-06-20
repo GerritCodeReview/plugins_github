@@ -14,8 +14,6 @@
 package com.googlesource.gerrit.plugins.github.git;
 
 import com.google.gerrit.extensions.api.GerritApi;
-import com.google.gerrit.extensions.api.projects.ProjectApi;
-import com.google.gerrit.extensions.api.projects.Projects;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.inject.Inject;
@@ -88,8 +86,7 @@ public class GitCloneStep extends ImportStep {
   }
 
   @Override
-  public void doImport(ProgressMonitor progress)
-      throws GitCloneFailedException {
+  public void doImport(ProgressMonitor progress) throws GitCloneFailedException {
     String sourceUri = getSourceUri();
     try (Git git = Git.open(destinationDirectory)) {
       FetchCommand fetch = git.fetch().setRefSpecs("refs/*:refs/*").setRemote(sourceUri);
@@ -97,8 +94,8 @@ public class GitCloneStep extends ImportStep {
       if (progress != null) {
         fetch.setProgressMonitor(progress);
       }
-        LOG.info(sourceUri + "| Clone into " + destinationDirectory);
-        fetch.call();
+      LOG.info(sourceUri + "| Clone into " + destinationDirectory);
+      fetch.call();
     } catch (IOException | GitAPIException e) {
       LOG.error("Unable to fetch from {} into {}", sourceUri, destinationDirectory, e);
       throw new GitCloneFailedException(sourceUri, e);
