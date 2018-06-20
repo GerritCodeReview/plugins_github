@@ -13,11 +13,7 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.oauth;
 
-import com.google.common.base.CharMatcher;
-import com.google.common.base.MoreObjects;
-import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
-import com.google.common.collect.Maps;
+import com.google.common.base.*;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.httpd.CanonicalWebUrl;
 import com.google.gerrit.server.config.AuthConfig;
@@ -29,8 +25,8 @@ import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import lombok.Getter;
 import org.eclipse.jgit.lib.Config;
@@ -61,7 +57,7 @@ public class GitHubOAuthConfig {
   public final String gitHubOAuthAccessTokenUrl;
   public final boolean enabled;
 
-  @Getter public final Map<String, List<OAuthProtocol.Scope>> scopes;
+  @Getter public final Map<ScopeKey, List<OAuthProtocol.Scope>> scopes;
 
   public final int fileUpdateMaxRetryCount;
   public final int fileUpdateMaxRetryIntervalMsec;
@@ -134,16 +130,16 @@ public class GitHubOAuthConfig {
             config.getString(CONF_SECTION, null, "scopeSelectionUrl"), GITHUB_PLUGIN_OAUTH_SCOPE);
   }
 
-  private Map<String, List<Scope>> getScopes(Config config) {
-    Map<String, List<Scope>> result = Maps.newHashMap();
-    Set<String> configKeys = config.getNames(CONF_SECTION, true);
-    for (String key : configKeys) {
-      if (key.startsWith("scopes")) {
-        String scopesString = config.getString(CONF_SECTION, null, key);
-        result.put(key, parseScopesString(scopesString));
-      }
-    }
-    return result;
+  private Map<ScopeKey, List<Scope>> getScopes(Config config) {
+    return config
+        .getNames(CONF_SECTION, true)
+        .stream()
+        .filter(k -> k.startsWith("scopes"))
+        .filter(k -> !k.endsWith("Description"))
+        .collect(
+            Collectors.toMap(
+                k -> new ScopeKey(k, config.getString(CONF_SECTION, null, k + "Description")),
+                v -> parseScopesString(config.getString(CONF_SECTION, null, v))));
   }
 
   private String trimTrailingSlash(String url) {
