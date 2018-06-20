@@ -18,8 +18,11 @@ import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.events.NewProjectCreatedListener;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
@@ -45,6 +48,7 @@ public class CreateProjectStep extends ImportStep {
 
   private final String organisation;
   private final String repository;
+  private final DynamicSet<NewProjectCreatedListener> projectCreatedListeners;
 
   private User metaDataUpdateFactory;
   private String description;
@@ -62,6 +66,29 @@ public class CreateProjectStep extends ImportStep {
         @Assisted("username") String username);
   }
 
+  static class ProjectImportedEvent implements NewProjectCreatedListener.Event {
+    private final String projectName;
+
+    ProjectImportedEvent(String projectName) {
+      this.projectName = projectName;
+    }
+
+    @Override
+    public String getHeadName() {
+      return "";
+    }
+
+    @Override
+    public String getProjectName() {
+      return projectName;
+    }
+
+    @Override
+    public NotifyHandling getNotify() {
+      return NotifyHandling.NONE;
+    }
+  }
+
   @Inject
   public CreateProjectStep(
       @GitHubURL String gitHubUrl,
@@ -70,6 +97,7 @@ public class CreateProjectStep extends ImportStep {
       ProjectCache projectCache,
       GitHubRepository.Factory ghRepoFactory,
       GitHubConfig gitHubConfig,
+      DynamicSet<NewProjectCreatedListener> projectCreatedListeners,
       @Assisted("organisation") String organisation,
       @Assisted("name") String repository,
       @Assisted("description") String description,
@@ -85,6 +113,7 @@ public class CreateProjectStep extends ImportStep {
     this.projectCache = projectCache;
     this.username = username;
     this.config = gitHubConfig;
+    this.projectCreatedListeners = projectCreatedListeners;
   }
 
   private void setProjectPermissions() {
@@ -164,6 +193,10 @@ public class CreateProjectStep extends ImportStep {
       md.setMessage("Imported from " + getSourceUri());
       projectConfig.commit(md);
       projectCache.onCreateProject(getProjectNameKey());
+      for (NewProjectCreatedListener projectCreatedListener : projectCreatedListeners) {
+        projectCreatedListener.onNewProjectCreated(
+            new ProjectImportedEvent(organisation + "/" + repository));
+      }
     } finally {
       if (md != null) {
         md.close();
