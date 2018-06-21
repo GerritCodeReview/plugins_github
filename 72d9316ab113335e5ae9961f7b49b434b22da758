@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "02fe1629_c62ff60a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-06-21T20:31:34Z",
+      "side": 1,
+      "message": "That\u0027s a good point :-)\nLet me try and see if that would work with the current status of the code.",
+      "parentUuid": "702cdf01_0eb0d74d",
+      "range": {
+        "startLine": 9,
+        "startChar": 1,
+        "endLine": 10,
+        "endChar": 42
+      },
+      "revId": "72d9316ab113335e5ae9961f7b49b434b22da758",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7d1cf7cc_21c02b68",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/CreateProjectStep.java",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2018-06-21T02:23:11Z",
       "side": 1,
       "message": "Shouldn\u0027t this return a valid branch name?",
+      "range": {
+        "startLine": 78,
+        "startChar": 6,
+        "endLine": 78,
+        "endChar": 16
+      },
+      "revId": "72d9316ab113335e5ae9961f7b49b434b22da758",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3af47684_68cae4d6",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/CreateProjectStep.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-06-21T20:31:34Z",
+      "side": 1,
+      "message": "It is still unclear to me why we need to return the HEAD value.\nWhen you create a repo, most of the time it doesn\u0027t contain anything, so the head will just be the zeros SHA1.",
+      "parentUuid": "7d1cf7cc_21c02b68",
       "range": {
         "startLine": 78,
         "startChar": 6,
