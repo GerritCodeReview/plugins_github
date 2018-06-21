@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8cf7a76_08e3be76",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/GitCloneStep.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-21T23:46:26Z",
+      "side": 1,
+      "message": "This method is also creating the repository, and it happens during the construction (it\u0027s called at line 58).\n\nShould this be renamed?  Or should the creation be moved into the doImport method?",
+      "range": {
+        "startLine": 62,
+        "startChar": 22,
+        "endLine": 62,
+        "endChar": 45
+      },
+      "revId": "e3a45c3886a00432100c3bfd9c1af8d33bcb8011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe206a41_6e1e07f8",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/GitCloneStep.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-21T23:46:26Z",
+      "side": 1,
+      "message": "Why not juts catch the ResourceConflictException on the call to create?",
+      "range": {
+        "startLine": 67,
+        "startChar": 6,
+        "endLine": 71,
+        "endChar": 53
+      },
+      "revId": "e3a45c3886a00432100c3bfd9c1af8d33bcb8011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a61c08ac_b0db4ad6",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/GitCloneStep.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-21T23:46:26Z",
+      "side": 1,
+      "message": "Unnecessary line wrap.",
+      "revId": "e3a45c3886a00432100c3bfd9c1af8d33bcb8011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6cdc527_ce70361c",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/GitCloneStep.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-21T23:46:26Z",
+      "side": 1,
+      "message": "Wrong indentation",
+      "range": {
+        "startLine": 100,
+        "startChar": 6,
+        "endLine": 101,
+        "endChar": 21
+      },
+      "revId": "e3a45c3886a00432100c3bfd9c1af8d33bcb8011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
