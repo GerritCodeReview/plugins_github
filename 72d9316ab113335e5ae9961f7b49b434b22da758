@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "702cdf01_0eb0d74d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-21T02:23:11Z",
+      "side": 1,
+      "message": "Why not just create the project with the API?",
+      "range": {
+        "startLine": 9,
+        "startChar": 1,
+        "endLine": 10,
+        "endChar": 42
+      },
+      "revId": "72d9316ab113335e5ae9961f7b49b434b22da758",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d1cf7cc_21c02b68",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/CreateProjectStep.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-21T02:23:11Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this return a valid branch name?",
+      "range": {
+        "startLine": 78,
+        "startChar": 6,
+        "endLine": 78,
+        "endChar": 16
+      },
+      "revId": "72d9316ab113335e5ae9961f7b49b434b22da758",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
