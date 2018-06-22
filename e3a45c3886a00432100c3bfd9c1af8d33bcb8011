@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6b87b2ca_5838fa3b",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/GitCloneStep.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-06-22T07:55:38Z",
+      "side": 1,
+      "message": "Yes, actually it was the wrong name anyway even before this change. Let me rename it in a separate change and rebase on that.",
+      "parentUuid": "b8cf7a76_08e3be76",
+      "range": {
+        "startLine": 62,
+        "startChar": 22,
+        "endLine": 62,
+        "endChar": 45
+      },
+      "revId": "e3a45c3886a00432100c3bfd9c1af8d33bcb8011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe206a41_6e1e07f8",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/GitCloneStep.java",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2018-06-21T23:46:26Z",
       "side": 1,
       "message": "Why not juts catch the ResourceConflictException on the call to create?",
+      "range": {
+        "startLine": 67,
+        "startChar": 6,
+        "endLine": 71,
+        "endChar": 53
+      },
+      "revId": "e3a45c3886a00432100c3bfd9c1af8d33bcb8011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7cd2a1d6_5a3c38f2",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/GitCloneStep.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-06-22T07:55:38Z",
+      "side": 1,
+      "message": "Yes, good idea, less code.",
+      "parentUuid": "fe206a41_6e1e07f8",
       "range": {
         "startLine": 67,
         "startChar": 6,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "e98d7bae_70732c19",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/GitCloneStep.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-06-22T07:55:38Z",
+      "side": 1,
+      "message": "I believe I forgot to run GJF on this, will do it in next PS.",
+      "parentUuid": "a61c08ac_b0db4ad6",
+      "revId": "e3a45c3886a00432100c3bfd9c1af8d33bcb8011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a6cdc527_ce70361c",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/GitCloneStep.java",
         "patchSetId": 6
@@ -76,6 +142,30 @@
       "writtenOn": "2018-06-21T23:46:26Z",
       "side": 1,
       "message": "Wrong indentation",
+      "range": {
+        "startLine": 100,
+        "startChar": 6,
+        "endLine": 101,
+        "endChar": 21
+      },
+      "revId": "e3a45c3886a00432100c3bfd9c1af8d33bcb8011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74a9da7f_d133a336",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/GitCloneStep.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-06-22T07:55:38Z",
+      "side": 1,
+      "message": "I believe I forgot to run GJF on this, will do it in next PS.",
+      "parentUuid": "a6cdc527_ce70361c",
       "range": {
         "startLine": 100,
         "startChar": 6,
