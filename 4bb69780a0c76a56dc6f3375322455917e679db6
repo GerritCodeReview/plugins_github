@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4d05b13_87d90436",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/GitCloneStep.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-23T09:39:52Z",
+      "side": 1,
+      "message": "shouldn\u0027t this one keep the same name?",
+      "range": {
+        "startLine": 93,
+        "startChar": 14,
+        "endLine": 93,
+        "endChar": 39
+      },
+      "revId": "4bb69780a0c76a56dc6f3375322455917e679db6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
