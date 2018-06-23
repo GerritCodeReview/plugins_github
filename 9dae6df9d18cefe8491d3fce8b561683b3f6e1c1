@@ -22,6 +22,30 @@
       "revId": "9dae6df9d18cefe8491d3fce8b561683b3f6e1c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d87b9b80_e9192c7c",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/GitCloneStep.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-06-23T21:26:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "380a5a3c_ece572bf",
+      "range": {
+        "startLine": 60,
+        "startChar": 22,
+        "endLine": 60,
+        "endChar": 45
+      },
+      "revId": "9dae6df9d18cefe8491d3fce8b561683b3f6e1c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
