@@ -45,10 +45,10 @@ public class GitCloneStep extends ImportStep {
     super(gitConfig.gitHubUrl, organisation, repository, gitHubRepoFactory);
     LOG.debug("GitHub Clone " + organisation + "/" + repository);
     this.gitDir = gitConfig.gitDir.toFile();
-    this.destinationDirectory = getDestinationDirectory(organisation, repository);
+    this.destinationDirectory = createDestinationGitDirectory(organisation, repository);
   }
 
-  private File getDestinationDirectory(String organisation, String repository)
+  private File createDestinationGitDirectory(String organisation, String repository)
       throws GitDestinationAlreadyExistsException, GitDestinationNotWritableException {
     File orgDirectory = new File(gitDir, organisation);
     File destDirectory = new File(orgDirectory, repository + ".git");
@@ -90,7 +90,7 @@ public class GitCloneStep extends ImportStep {
     return destDirectory.listFiles().length > 0;
   }
 
-  public File getDestinationDirectory() {
+  public File createDestinationGitDirectory() {
     return destinationDirectory;
   }
 
