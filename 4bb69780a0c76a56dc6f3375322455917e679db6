@@ -22,6 +22,30 @@
       "revId": "4bb69780a0c76a56dc6f3375322455917e679db6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9798c7d8_e13505da",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/GitCloneStep.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-06-25T08:06:14Z",
+      "side": 1,
+      "message": "this method should not even exist: we use Lombok here and should be turned into an annotation.",
+      "parentUuid": "e4d05b13_87d90436",
+      "range": {
+        "startLine": 93,
+        "startChar": 14,
+        "endLine": 93,
+        "endChar": 39
+      },
+      "revId": "4bb69780a0c76a56dc6f3375322455917e679db6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }
