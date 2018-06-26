@@ -107,7 +107,7 @@ public class GitHubLogin implements Serializable {
         response.sendRedirect(OAuthProtocol.getTargetUrl(request));
       }
     } else {
-      Set<String> configuredScopesProfiles = config.scopes.keySet();
+      Set<ScopeKey> configuredScopesProfiles = config.scopes.keySet();
       String scopeRequested = getScopesKey(request, response);
       if (Strings.isNullOrEmpty(scopeRequested) && configuredScopesProfiles.size() > 1) {
         response.sendRedirect(config.getScopeSelectionUrl(request));
@@ -185,6 +185,13 @@ public class GitHubLogin implements Serializable {
   }
 
   private List<Scope> scopesForKey(String baseScopeKey) {
-    return MoreObjects.firstNonNull(config.scopes.get(baseScopeKey), DEFAULT_SCOPES);
+    return config
+        .scopes
+        .entrySet()
+        .stream()
+        .filter(entry -> entry.getKey().name.equals(baseScopeKey))
+        .map(entry -> entry.getValue())
+        .findFirst()
+        .orElse(DEFAULT_SCOPES);
   }
 }
