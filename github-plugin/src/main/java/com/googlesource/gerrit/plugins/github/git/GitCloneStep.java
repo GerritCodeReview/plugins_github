@@ -16,6 +16,9 @@ package com.googlesource.gerrit.plugins.github.git;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.util.ManualRequestContext;
+import com.google.gerrit.server.util.OneOffRequestContext;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.github.GitHubConfig;
@@ -34,7 +37,10 @@ public class GitCloneStep extends ImportStep {
 
   private final File gitDir;
   private final GerritApi gerritApi;
-  private File destinationDirectory;
+  private final OneOffRequestContext context;
+  private final String organisation;
+  private final String repository;
+  private final File destinationDirectory;
 
   public interface Factory {
     GitCloneStep create(
@@ -46,6 +52,7 @@ public class GitCloneStep extends ImportStep {
       GitHubConfig gitConfig,
       GitHubRepository.Factory gitHubRepoFactory,
       GerritApi gerritApi,
+      OneOffRequestContext context,
       @Assisted("organisation") String organisation,
       @Assisted("name") String repository)
       throws GitException {
@@ -54,26 +61,39 @@ public class GitCloneStep extends ImportStep {
     this.gitDir = gitConfig.gitDir.toFile();
 
     this.gerritApi = gerritApi;
+    this.context = context;
+    this.organisation = organisation;
+    this.repository = repository;
     this.destinationDirectory =
-        prepareTargetGitDirectory(gerritApi, gitDir, organisation, repository);
+        prepareTargetGitDirectory(gitDir, organisation, repository);
   }
 
-  private static File prepareTargetGitDirectory(
-      GerritApi gerritApi, File gitDir, String organisation, String repository)
+  private static File prepareTargetGitDirectory(File gitDir, String organisation, String repository)
       throws GitException {
     String projectName = organisation + "/" + repository;
-    try {
+    File repositoryDir = new File(gitDir, projectName + ".git");
+    if(repositoryDir.exists()) {
+      throw new GitDestinationAlreadyExistsException(projectName);
+    }
+    return repositoryDir;
+  }
+
+  private void createNewProject() throws GitException {
+    String projectName = organisation + "/" + repository;
+    try (ManualRequestContext requestContext = context.open()) {
       gerritApi.projects().create(projectName).get();
-      return new File(gitDir, projectName + ".git");
     } catch (ResourceConflictException e) {
       throw new GitDestinationAlreadyExistsException(projectName);
     } catch (RestApiException e) {
       throw new GitException("Unable to create repository " + projectName, e);
+    } catch (OrmException e) {
+      throw new GitException("Unable to create request context to create a new project " + projectName, e);
     }
   }
 
   @Override
-  public void doImport(ProgressMonitor progress) throws GitCloneFailedException {
+  public void doImport(ProgressMonitor progress) throws GitException {
+    createNewProject();
     String sourceUri = getSourceUri();
     try (Git git = Git.open(destinationDirectory)) {
       FetchCommand fetch = git.fetch().setRefSpecs("refs/*:refs/*").setRemote(sourceUri);
