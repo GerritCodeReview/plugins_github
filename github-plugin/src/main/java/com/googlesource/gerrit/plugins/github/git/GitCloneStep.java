@@ -35,6 +35,7 @@ import org.slf4j.LoggerFactory;
 public class GitCloneStep extends ImportStep {
   private static final Logger LOG = LoggerFactory.getLogger(GitImporter.class);
 
+  private final GitHubConfig config;
   private final File gitDir;
   private final GerritApi gerritApi;
   private final OneOffRequestContext context;
@@ -49,30 +50,30 @@ public class GitCloneStep extends ImportStep {
 
   @Inject
   public GitCloneStep(
-      GitHubConfig gitConfig,
+      GitHubConfig config,
       GitHubRepository.Factory gitHubRepoFactory,
       GerritApi gerritApi,
       OneOffRequestContext context,
       @Assisted("organisation") String organisation,
       @Assisted("name") String repository)
       throws GitException {
-    super(gitConfig.gitHubUrl, organisation, repository, gitHubRepoFactory);
+    super(config.gitHubUrl, organisation, repository, gitHubRepoFactory);
     LOG.debug("GitHub Clone " + organisation + "/" + repository);
-    this.gitDir = gitConfig.gitDir.toFile();
+    this.config = config;
+    this.gitDir = config.gitDir.toFile();
 
     this.gerritApi = gerritApi;
     this.context = context;
     this.organisation = organisation;
     this.repository = repository;
-    this.destinationDirectory =
-        prepareTargetGitDirectory(gitDir, organisation, repository);
+    this.destinationDirectory = prepareTargetGitDirectory(gitDir, organisation, repository);
   }
 
   private static File prepareTargetGitDirectory(File gitDir, String organisation, String repository)
       throws GitException {
     String projectName = organisation + "/" + repository;
     File repositoryDir = new File(gitDir, projectName + ".git");
-    if(repositoryDir.exists()) {
+    if (repositoryDir.exists()) {
       throw new GitDestinationAlreadyExistsException(projectName);
     }
     return repositoryDir;
@@ -80,14 +81,15 @@ public class GitCloneStep extends ImportStep {
 
   private void createNewProject() throws GitException {
     String projectName = organisation + "/" + repository;
-    try (ManualRequestContext requestContext = context.open()) {
+    try (ManualRequestContext requestContext = context.openAs(config.importAccountId)) {
       gerritApi.projects().create(projectName).get();
     } catch (ResourceConflictException e) {
       throw new GitDestinationAlreadyExistsException(projectName);
     } catch (RestApiException e) {
       throw new GitException("Unable to create repository " + projectName, e);
     } catch (OrmException e) {
-      throw new GitException("Unable to create request context to create a new project " + projectName, e);
+      throw new GitException(
+          "Unable to create request context to create a new project " + projectName, e);
     }
   }
 
