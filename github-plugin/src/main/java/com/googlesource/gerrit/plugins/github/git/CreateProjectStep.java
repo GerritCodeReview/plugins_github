@@ -28,6 +28,8 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.MetaDataUpdate.User;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.util.ManualRequestContext;
+import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.github.GitHubConfig;
@@ -42,6 +44,7 @@ public class CreateProjectStep extends ImportStep {
   private static final String TAGS_REFS = "refs/tags/*";
   private static final String CODE_REVIEW_LABEL = "Code-Review";
   private static final String VERIFIED_LABEL = "Verified";
+  private final OneOffRequestContext context;
 
   private final String organisation;
   private final String repository;
@@ -70,6 +73,7 @@ public class CreateProjectStep extends ImportStep {
       ProjectCache projectCache,
       GitHubRepository.Factory ghRepoFactory,
       GitHubConfig gitHubConfig,
+      OneOffRequestContext context,
       @Assisted("organisation") String organisation,
       @Assisted("name") String repository,
       @Assisted("description") String description,
@@ -85,6 +89,7 @@ public class CreateProjectStep extends ImportStep {
     this.projectCache = projectCache;
     this.username = username;
     this.config = gitHubConfig;
+    this.context = context;
   }
 
   private void setProjectPermissions() {
@@ -153,7 +158,7 @@ public class CreateProjectStep extends ImportStep {
   @Override
   public void doImport(ProgressMonitor progress) throws Exception {
     MetaDataUpdate md = null;
-    try {
+    try (ManualRequestContext requestContext = context.openAs(config.importAccountId)) {
       md = metaDataUpdateFactory.create(getProjectNameKey());
       projectConfig = ProjectConfig.read(md);
       progress.beginTask("Configure Gerrit project", 2);
