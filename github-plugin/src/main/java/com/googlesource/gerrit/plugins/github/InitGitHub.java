@@ -14,12 +14,14 @@
 package com.googlesource.gerrit.plugins.github;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.InitUtil;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.inject.Inject;
 import java.net.URISyntaxException;
+import java.util.EnumSet;
 
 public class InitGitHub implements InitStep {
   private static final String GITHUB_URL = "https://github.com";
@@ -32,14 +34,6 @@ public class InitGitHub implements InitStep {
   private final Section httpd;
   private final Section github;
   private final Section gerrit;
-
-  public enum OAuthType {
-    /* Legacy Gerrit/HTTP authentication for GitHub through HTTP Header enrichment */
-    HTTP,
-
-    /* New native Gerrit/OAuth authentication provider */
-    OAUTH
-  }
 
   @Inject
   InitGitHub(final ConsoleUI ui, final Section.Factory sections) {
@@ -74,8 +68,8 @@ public class InitGitHub implements InitStep {
     github.string("GitHub Client ID", "clientId", null);
     github.passwordForKey("GitHub Client Secret", "clientSecret");
 
-    OAuthType authType = auth.select("Gerrit OAuth implementation", "type", OAuthType.HTTP);
-    if (authType.equals(OAuthType.HTTP)) {
+    AuthType authType = auth.select("Gerrit OAuth implementation", "type", AuthType.HTTP, EnumSet.of(AuthType.HTTP, AuthType.OAUTH));
+    if (authType.equals(AuthType.HTTP)) {
       auth.string("HTTP Authentication Header", "httpHeader", "GITHUB_USER");
       httpd.set("filterClass", "com.googlesource.gerrit.plugins.github.oauth.OAuthFilter");
       authSetDefault("httpExternalIdHeader", "GITHUB_OAUTH_TOKEN");
