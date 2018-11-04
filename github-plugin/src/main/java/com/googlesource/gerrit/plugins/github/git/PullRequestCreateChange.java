@@ -74,7 +74,7 @@ public class PullRequestCreateChange {
   private final GenericFactory userFactory;
   private final Provider<InternalChangeQuery> queryProvider;
   private final BatchUpdate.Factory updateFactory;
-  private final QueryProcessor<ChangeData> qp;
+  private final Provider<ChangeQueryProcessor> qp;
   private final ChangeQueryBuilder changeQuery;
 
   @Inject
@@ -85,7 +85,7 @@ public class PullRequestCreateChange {
       IdentifiedUser.GenericFactory userFactory,
       Provider<InternalChangeQuery> queryProvider,
       BatchUpdate.Factory batchUpdateFactory,
-      ChangeQueryProcessor qp,
+      Provider<ChangeQueryProcessor> qp,
       ChangeQueryBuilder changeQuery) {
     this.changeInserterFactory = changeInserterFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
@@ -225,7 +225,7 @@ public class PullRequestCreateChange {
   private List<ChangeData> queryChangesForSha1(String pullRequestSha1) {
     QueryResult<ChangeData> results;
     try {
-      results = qp.query(changeQuery.commit(pullRequestSha1));
+      results = qp.get().query(changeQuery.commit(pullRequestSha1));
       return results.entities();
     } catch (OrmException | QueryParseException e) {
       LOG.error(

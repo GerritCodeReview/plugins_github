@@ -62,7 +62,7 @@ public class PullRequestListController implements VelocityController {
   private final ProjectCache projectsCache;
   private final GitRepositoryManager repoMgr;
   private final Provider<ReviewDb> schema;
-  private final ChangeQueryProcessor qp;
+  private final Provider<ChangeQueryProcessor> qp;
   private final ChangeQueryBuilder changeQuery;
 
   @Inject
@@ -71,7 +71,7 @@ public class PullRequestListController implements VelocityController {
       GitRepositoryManager repoMgr,
       Provider<ReviewDb> schema,
       GitHubConfig config,
-      ChangeQueryProcessor qp,
+      Provider<ChangeQueryProcessor> qp,
       ChangeQueryBuilder changeQuery) {
     this.projectsCache = projectsCache;
     this.repoMgr = repoMgr;
@@ -196,7 +196,7 @@ public class PullRequestListController implements VelocityController {
     try {
       for (GHPullRequestCommitDetail pullRequestCommit : ghPullRequest.listCommits()) {
         pullRequestToImport |=
-            qp.query(changeQuery.commit(pullRequestCommit.getSha())).entities().isEmpty();
+            qp.get().query(changeQuery.commit(pullRequestCommit.getSha())).entities().isEmpty();
       }
       return pullRequestToImport;
     } catch (OrmException | QueryParseException e) {
