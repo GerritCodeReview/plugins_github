@@ -234,11 +234,11 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
 
   private String getChangeMessage(GHPullRequest pr) {
     return "GitHub Pull Request: "
-        + pr.getUrl()
+        + pr.getHtmlUrl()
         + "\n\n"
         + pr.getTitle()
         + "\n\n"
-        + pr.getBody().replaceAll("\n", "\n\n");
+        + pr.getBody();
   }
 
   private void exitWhenCancelled() throws JobCancelledException {
