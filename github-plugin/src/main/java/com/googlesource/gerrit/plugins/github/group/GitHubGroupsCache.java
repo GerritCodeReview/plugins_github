@@ -14,8 +14,6 @@
 
 package com.googlesource.gerrit.plugins.github.group;
 
-import static java.util.concurrent.TimeUnit.MINUTES;
-
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSet;
@@ -30,16 +28,21 @@ import com.google.inject.name.Named;
 import com.googlesource.gerrit.plugins.github.groups.OrganizationStructure;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.UserScopedProvider;
+import org.kohsuke.github.GHTeam;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
-import org.kohsuke.github.GHTeam;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import static java.time.temporal.ChronoUnit.MINUTES;
 
 @Singleton
 public class GitHubGroupsCache {
@@ -106,7 +109,7 @@ public class GitHubGroupsCache {
       @Override
       protected void configure() {
         persist(ORGS_CACHE_NAME, String.class, OrganizationStructure.class)
-            .expireAfterWrite(GROUPS_CACHE_TTL_MINS, MINUTES)
+            .expireAfterWrite(Duration.of(GROUPS_CACHE_TTL_MINS, MINUTES))
             .loader(OrganisationLoader.class);
         bind(GitHubGroupsCache.class);
       }
@@ -134,7 +137,7 @@ public class GitHubGroupsCache {
   }
 
   Set<String> getOrganizationsForCurrentUser() throws ExecutionException {
-    return orgTeamsByUsername.get(userProvider.get().getUserName()).keySet();
+    return orgTeamsByUsername.get(userProvider.get().getUserName().get()).keySet();
   }
 
   Set<String> getTeamsForUser(String organizationName, String username) {
@@ -155,7 +158,7 @@ public class GitHubGroupsCache {
   }
 
   Set<String> getTeamsForCurrentUser(String organizationName) {
-    return getTeamsForUser(organizationName, userProvider.get().getUserName());
+    return getTeamsForUser(organizationName, userProvider.get().getUserName().get());
   }
 
   public Set<UUID> getGroupsForUser(String username) {

@@ -112,7 +112,7 @@ public class GitHubGroupBackend implements GroupBackend {
 
   @Override
   public GroupMembership membershipsOf(IdentifiedUser user) {
-    String username = user.getUserName();
+    String username = user.getUserName().orElse(null);
     if (Strings.isNullOrEmpty(username)) {
       return GroupMembership.EMPTY;
     }

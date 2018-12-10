@@ -131,7 +131,7 @@ public class GitHubDestinations {
             new RefSpec().setSourceDestination("refs/*", "refs/*").setForceUpdate(true));
       }
 
-      dest.add(new Destination(injector, c, cfg, replicationUserFactory, pluginUser, groupBackend));
+      dest.add(new Destination(c, cfg, replicationUserFactory, pluginUser, groupBackend));
     }
     return dest.build();
   }

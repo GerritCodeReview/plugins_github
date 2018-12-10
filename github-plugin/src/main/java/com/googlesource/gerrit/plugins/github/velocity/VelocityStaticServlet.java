@@ -15,7 +15,7 @@
 package com.googlesource.gerrit.plugins.github.velocity;
 
 import com.google.common.collect.Maps;
-import com.google.gwtexpui.server.CacheHeaders;
+import com.google.gerrit.util.http.CacheHeaders;
 import com.google.gwtjsonrpc.server.RPCServletUtils;
 import com.google.inject.Inject;
 import com.google.inject.Provider;

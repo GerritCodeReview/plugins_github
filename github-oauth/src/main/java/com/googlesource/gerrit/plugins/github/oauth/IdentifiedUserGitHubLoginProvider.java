@@ -55,7 +55,7 @@ public class IdentifiedUserGitHubLoginProvider implements UserScopedProvider<Git
   @Override
   public GitHubLogin get() {
     IdentifiedUser currentUser = userProvider.get();
-    return get(currentUser.getUserName());
+    return get(currentUser.getUserName().get());
   }
 
   @Override
@@ -76,7 +76,7 @@ public class IdentifiedUserGitHubLoginProvider implements UserScopedProvider<Git
   }
 
   private AccessToken newAccessTokenFromUser(String username) {
-    AccountState account = accountCache.getByUsername(username);
+    AccountState account = accountCache.getByUsername(username).get();
     Collection<ExternalId> externalIds = account.getExternalIds();
     for (ExternalId accountExternalId : externalIds) {
       String key = accountExternalId.key().get();

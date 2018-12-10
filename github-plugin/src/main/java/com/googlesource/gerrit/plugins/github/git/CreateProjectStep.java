@@ -21,13 +21,13 @@ import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.account.GroupBackend;
-import com.google.gerrit.server.git.MetaDataUpdate;
-import com.google.gerrit.server.git.MetaDataUpdate.User;
-import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.inject.Inject;
@@ -49,7 +49,7 @@ public class CreateProjectStep extends ImportStep {
   private final String organisation;
   private final String repository;
 
-  private User metaDataUpdateFactory;
+  private MetaDataUpdate.User metaDataUpdateFactory;
   private String description;
   private GroupBackend groupBackend;
   private String username;
@@ -182,10 +182,10 @@ public class CreateProjectStep extends ImportStep {
     project.setParentName(config.getBaseProject(getRepository().isPrivate()));
     project.setDescription(description);
     project.setSubmitType(SubmitType.MERGE_IF_NECESSARY);
-    project.setUseContributorAgreements(InheritableBoolean.INHERIT);
-    project.setUseSignedOffBy(InheritableBoolean.INHERIT);
-    project.setUseContentMerge(InheritableBoolean.INHERIT);
-    project.setRequireChangeID(InheritableBoolean.INHERIT);
+    project.setBooleanConfig(BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS, InheritableBoolean.INHERIT);
+    project.setBooleanConfig(BooleanProjectConfig.USE_SIGNED_OFF_BY, InheritableBoolean.INHERIT);
+    project.setBooleanConfig(BooleanProjectConfig.USE_CONTENT_MERGE, InheritableBoolean.INHERIT);
+    project.setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.INHERIT);
   }
 
   @Override

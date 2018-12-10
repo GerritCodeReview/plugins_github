@@ -86,7 +86,7 @@ public class GitHubOAuthFilter implements Filter {
 
   private ExternalId getGitHubExternalId(CurrentUser user) {
     Collection<ExternalId> accountExtIds =
-        accountCache.get(((IdentifiedUser) user).getAccountId()).getExternalIds();
+        accountCache.get(((IdentifiedUser) user).getAccountId()).get().getExternalIds();
     Collection<ExternalId> gitHubExtId =
         Collections2.filter(
             accountExtIds,

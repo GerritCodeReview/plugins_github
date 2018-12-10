@@ -47,7 +47,7 @@ public class GitImporter extends BatchImporter {
     try {
       GitCloneStep cloneStep = cloneFactory.create(organisation, repository);
       CreateProjectStep projectStep =
-          projectFactory.create(organisation, repository, description, user.getUserName());
+          projectFactory.create(organisation, repository, description, user.getUserName().get());
       ReplicateProjectStep replicateStep = replicateFactory.create(organisation, repository);
       GitImportJob gitCloneJob =
           new GitImportJob(idx, organisation, repository, cloneStep, projectStep, replicateStep);

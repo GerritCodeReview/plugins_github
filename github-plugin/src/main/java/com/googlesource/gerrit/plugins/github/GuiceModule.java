@@ -14,11 +14,11 @@
 
 package com.googlesource.gerrit.plugins.github;
 
-import com.google.gerrit.common.EventListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.extensions.webui.TopMenu;
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.events.EventListener;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gson.Gson;
 import com.google.inject.AbstractModule;

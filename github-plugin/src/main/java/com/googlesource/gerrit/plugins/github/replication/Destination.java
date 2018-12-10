@@ -25,24 +25,20 @@ import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.account.ListGroupMembership;
-import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectControl;
-import com.google.inject.Injector;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.List;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.List;
+
 public class Destination {
   private final RemoteConfig remote;
-  private final ProjectControl.Factory projectControlFactory;
   private final String remoteNameStyle;
   private final CurrentUser remoteUser;
 
   Destination(
-      final Injector injector,
       final RemoteConfig rc,
       final Config cfg,
       final RemoteSiteUser.Factory replicationUserFactory,
@@ -69,12 +65,6 @@ public class Destination {
     } else {
       remoteUser = pluginUser;
     }
-
-    projectControlFactory = injector.getInstance(ProjectControl.Factory.class);
-  }
-
-  ProjectControl controlFor(Project.NameKey project) throws NoSuchProjectException {
-    return projectControlFactory.controlFor(project);
   }
 
   List<URIish> getURIs(Project.NameKey project, String urlMatch) {
