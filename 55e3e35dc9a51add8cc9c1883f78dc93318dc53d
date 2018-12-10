@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a79827e6_336f94bf",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestCreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012838
+      },
+      "writtenOn": "2018-12-10T17:01:07Z",
+      "side": 1,
+      "message": "I\u0027m not sure my approach here is consistent with what was happening before. We\u0027re not using the PR/Change mirror functionality in our environment so I haven\u0027t been able to test it.",
+      "revId": "55e3e35dc9a51add8cc9c1883f78dc93318dc53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
