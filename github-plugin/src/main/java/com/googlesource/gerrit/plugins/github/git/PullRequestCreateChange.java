@@ -14,13 +14,9 @@
 
 package com.googlesource.gerrit.plugins.github.git;
 
-import static com.google.gerrit.reviewdb.client.RefNames.REFS_HEADS;
-
-import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.index.query.QueryParseException;
-import com.google.gerrit.index.query.QueryProcessor;
 import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -33,25 +29,21 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.PatchSetInserter;
-import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryProcessor;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.submit.IntegrationException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -64,13 +56,18 @@ import org.eclipse.jgit.util.ChangeIdUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
+
+import static com.google.gerrit.reviewdb.client.RefNames.REFS_HEADS;
+
 public class PullRequestCreateChange {
   private static final Logger LOG = LoggerFactory.getLogger(PullRequestCreateChange.class);
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
 
   private final ChangeInserter.Factory changeInserterFactory;
   private final PatchSetInserter.Factory patchSetInserterFactory;
-  private final ProjectControl.Factory projectControlFactory;
   private final GenericFactory userFactory;
   private final Provider<InternalChangeQuery> queryProvider;
   private final BatchUpdate.Factory updateFactory;
@@ -81,7 +78,6 @@ public class PullRequestCreateChange {
   PullRequestCreateChange(
       ChangeInserter.Factory changeInserterFactory,
       PatchSetInserter.Factory patchSetInserterFactory,
-      ProjectControl.Factory projectControlFactory,
       IdentifiedUser.GenericFactory userFactory,
       Provider<InternalChangeQuery> queryProvider,
       BatchUpdate.Factory batchUpdateFactory,
@@ -89,7 +85,6 @@ public class PullRequestCreateChange {
       ChangeQueryBuilder changeQuery) {
     this.changeInserterFactory = changeInserterFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
-    this.projectControlFactory = projectControlFactory;
     this.userFactory = userFactory;
     this.queryProvider = queryProvider;
     this.updateFactory = batchUpdateFactory;
@@ -145,9 +140,6 @@ public class PullRequestCreateChange {
     if (destRef == null) {
       throw new InvalidChangeOperationException("Branch " + destinationBranch + " does not exist.");
     }
-
-    RefControl refControl =
-        projectControlFactory.controlFor(project.getNameKey()).controlForRef(destinationBranch);
 
     String pullRequestSha1 = pullRequestCommit.getId().getName();
     List<ChangeData> existingChanges = queryChangesForSha1(pullRequestSha1);
@@ -217,7 +209,7 @@ public class PullRequestCreateChange {
         destRef,
         pullRequestOwner,
         pullRequestCommit,
-        refControl,
+        "refs/for/" + destinationBranch,
         pullRequestMesage,
         topic);
   }
@@ -263,7 +255,7 @@ public class PullRequestCreateChange {
       Ref destRef,
       Account.Id pullRequestOwner,
       RevCommit pullRequestCommit,
-      RefControl refControl,
+      String refName,
       String pullRequestMessage,
       String topic)
       throws OrmException, UpdateException, RestApiException, IOException {
@@ -278,7 +270,7 @@ public class PullRequestCreateChange {
       change.setTopic(topic);
     }
     ChangeInserter ins =
-        changeInserterFactory.create(change.getId(), pullRequestCommit, refControl.getRefName());
+        changeInserterFactory.create(change.getId(), pullRequestCommit, refName);
 
     ins.setMessage(pullRequestMessage);
     bu.insertChange(ins);

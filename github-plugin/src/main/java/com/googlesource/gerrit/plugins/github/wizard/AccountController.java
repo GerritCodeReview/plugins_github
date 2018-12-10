@@ -16,6 +16,8 @@ package com.googlesource.gerrit.plugins.github.wizard;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.gerrit.extensions.api.accounts.SshKeyInput;
+import com.google.gerrit.extensions.common.NameInput;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.reviewdb.client.Account.Id;
@@ -23,12 +25,12 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountResource;
-import com.google.gerrit.server.account.AddSshKey;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
-import com.google.gerrit.server.account.GetSshKeys;
-import com.google.gerrit.server.account.PutName;
-import com.google.gerrit.server.account.PutPreferred;
+import com.google.gerrit.server.restapi.account.AddSshKey;
+import com.google.gerrit.server.restapi.account.GetSshKeys;
+import com.google.gerrit.server.restapi.account.PutName;
+import com.google.gerrit.server.restapi.account.PutPreferred;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import java.io.ByteArrayInputStream;
@@ -102,7 +104,7 @@ public class AccountController implements VelocityController {
       log.debug("Account {} linked to email {}: result = {}", accountId, email, result);
 
       putPreferred.apply(new AccountResource.Email(user, email), null);
-      PutName.Input nameInput = new PutName.Input();
+      NameInput nameInput = new NameInput();
       nameInput.name = fullName;
       putName.apply(user, nameInput);
       log.debug(
@@ -160,7 +162,7 @@ public class AccountController implements VelocityController {
       throws IOException {
     AccountResource res = new AccountResource(user);
     final ByteArrayInputStream keyIs = new ByteArrayInputStream(sshKeyWithLabel.getBytes());
-    AddSshKey.Input key = new AddSshKey.Input();
+    SshKeyInput key = new SshKeyInput();
     key.raw =
         new RawInput() {
 

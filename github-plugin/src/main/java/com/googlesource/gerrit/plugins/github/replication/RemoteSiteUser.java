@@ -35,4 +35,9 @@ public class RemoteSiteUser extends CurrentUser {
   public GroupMembership getEffectiveGroups() {
     return effectiveGroups;
   }
+
+  @Override
+  public Object getCacheKey() {
+    return effectiveGroups.getKnownGroups();
+  }
 }

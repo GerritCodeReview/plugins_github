@@ -225,7 +225,7 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
 
   private Optional<ExternalId> externalIdByScheme(String scheme, String id) {
     try {
-      return Optional.ofNullable(externalIds.get(ExternalId.Key.create(scheme, id)));
+      return externalIds.get(ExternalId.Key.create(scheme, id));
     } catch (IOException | ConfigInvalidException e) {
       LOG.error("Unable to get external id for " + scheme + ":" + id, e);
       return Optional.empty();

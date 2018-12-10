@@ -14,57 +14,40 @@
 package com.google.gerrit.server.account;
 
 import com.google.common.base.MoreObjects;
-import com.google.gerrit.extensions.api.accounts.AccountInput;
-import com.google.gerrit.extensions.common.AccountInfo;
-import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.Response;
-import com.google.gerrit.extensions.restapi.TopLevelResource;
-import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Account.Id;
-import com.google.gerrit.server.account.CreateAccount.Factory;
+import com.google.gerrit.server.Sequences;
+import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import java.io.IOException;
-import org.apache.http.HttpStatus;
+import com.google.inject.Provider;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class AccountImporter {
-  private final Factory createAccountFactory;
-  private final ExternalIdsUpdate.Server externalIdsUpdateServer;
+  private final Sequences sequences;
+  private final Provider<AccountsUpdate> accountsUpdateProvider;
 
   @Inject
   public AccountImporter(
-      final CreateAccount.Factory createAccountFactory,
-      ExternalIdsUpdate.Server externalIdsUpdateServer) {
-    this.createAccountFactory = createAccountFactory;
-    this.externalIdsUpdateServer = externalIdsUpdateServer;
+      Sequences sequences,
+      @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider) {
+    this.sequences = sequences;
+    this.accountsUpdateProvider = accountsUpdateProvider;
   }
 
   public Account.Id importAccount(String login, String name, String email)
-      throws IOException, BadRequestException, ResourceConflictException,
-          UnprocessableEntityException, OrmException, ConfigInvalidException {
-    CreateAccount createAccount = createAccountFactory.create(login);
-    AccountInput accountInput = new AccountInput();
-    accountInput.email = email;
-    accountInput.username = login;
-    accountInput.name = MoreObjects.firstNonNull(name, login);
-    Response<AccountInfo> accountResponse =
-        createAccount.apply(TopLevelResource.INSTANCE, accountInput);
-    if (accountResponse.statusCode() != HttpStatus.SC_CREATED) {
-      throw new IOException(
-          "Cannot import GitHub account "
-              + login
-              + ": HTTP Status "
-              + accountResponse.statusCode());
-    }
-    Id accountId = new Account.Id(accountResponse.value()._accountId.intValue());
-    externalIdsUpdateServer
-        .create()
-        .insert(ExternalId.create(ExternalId.SCHEME_GERRIT, login, accountId));
-    return accountId;
+      throws IOException, OrmException, ConfigInvalidException {
+    Account.Id id = new Account.Id(sequences.nextAccountId());
+    List<ExternalId> extIds = new ArrayList<>();
+    extIds.add(ExternalId.createEmail(id, email));
+    extIds.add(ExternalId.create(ExternalId.SCHEME_GERRIT, login, id));
+    AccountState accountUpdate = accountsUpdateProvider.get()
+        .insert("Create GitHub account for " + login, id,
+            u -> u.setFullName(MoreObjects.firstNonNull(name, login)).setPreferredEmail(email).addExternalIds(extIds));
+    return accountUpdate.getAccount().getId();
   }
 }
