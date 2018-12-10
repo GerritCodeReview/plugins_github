@@ -2,6 +2,98 @@
   "comments": [
     {
       "key": {
+        "uuid": "e602bd9b_762097dd",
+        "filename": "github-oauth/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-10T23:41:03Z",
+      "side": 1,
+      "message": "Better to bump directly to 2.16.1, which is the latest",
+      "range": {
+        "startLine": 24,
+        "startChar": 16,
+        "endLine": 24,
+        "endChar": 17
+      },
+      "revId": "55e3e35dc9a51add8cc9c1883f78dc93318dc53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb61a620_08851c78",
+        "filename": "github-plugin/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-10T23:41:03Z",
+      "side": 1,
+      "message": "Same as above",
+      "range": {
+        "startLine": 23,
+        "startChar": 16,
+        "endLine": 23,
+        "endChar": 17
+      },
+      "revId": "55e3e35dc9a51add8cc9c1883f78dc93318dc53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cfbdb7a_4abfcaba",
+        "filename": "github-plugin/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-10T23:41:03Z",
+      "side": 1,
+      "message": "This is a big *FIXME* ... we should et rid of Velocity because isn\u0027t included anymore in Gerrit. However, let\u0027s keep in a separate change.",
+      "range": {
+        "startLine": 157,
+        "startChar": 0,
+        "endLine": 161,
+        "endChar": 17
+      },
+      "revId": "55e3e35dc9a51add8cc9c1883f78dc93318dc53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a33b5f27_10c02696",
+        "filename": "github-plugin/src/main/java/com/google/gerrit/server/account/AccountImporter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-10T23:41:03Z",
+      "side": 1,
+      "message": "Have you checked that all external ids are created correctly?",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 46
+      },
+      "revId": "55e3e35dc9a51add8cc9c1883f78dc93318dc53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a79827e6_336f94bf",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestCreateChange.java",
         "patchSetId": 1
@@ -13,6 +105,75 @@
       "writtenOn": "2018-12-10T17:01:07Z",
       "side": 1,
       "message": "I\u0027m not sure my approach here is consistent with what was happening before. We\u0027re not using the PR/Change mirror functionality in our environment so I haven\u0027t been able to test it.",
+      "revId": "55e3e35dc9a51add8cc9c1883f78dc93318dc53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb41f1a5_3e6944c6",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestCreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-10T23:41:03Z",
+      "side": 1,
+      "message": "should be the destination branch here, not the magic branch.",
+      "range": {
+        "startLine": 212,
+        "startChar": 8,
+        "endLine": 212,
+        "endChar": 19
+      },
+      "revId": "55e3e35dc9a51add8cc9c1883f78dc93318dc53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5255635c_3d04c82c",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/group/GitHubGroupBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-10T23:41:03Z",
+      "side": 1,
+      "message": "This is wrong: if there is no username, then the check at L116 should apply.\nIn here, by calling get() explicitly, you throw an exception if the username is not defined.",
+      "range": {
+        "startLine": 115,
+        "startChar": 40,
+        "endLine": 115,
+        "endChar": 46
+      },
+      "revId": "55e3e35dc9a51add8cc9c1883f78dc93318dc53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "695089d8_2f43e4f0",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-10T23:41:03Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 21,
+        "startChar": 14,
+        "endLine": 21,
+        "endChar": 15
+      },
       "revId": "55e3e35dc9a51add8cc9c1883f78dc93318dc53d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
