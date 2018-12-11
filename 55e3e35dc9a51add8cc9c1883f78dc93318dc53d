@@ -190,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "e60fb949_f9f75aa6",
+        "filename": "github-plugin/src/main/java/com/google/gerrit/server/account/AccountImporter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-11T15:24:41Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3fda3176_529e9ae4",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 46
+      },
+      "revId": "55e3e35dc9a51add8cc9c1883f78dc93318dc53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a79827e6_336f94bf",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestCreateChange.java",
         "patchSetId": 1
@@ -204,6 +228,24 @@
       "revId": "55e3e35dc9a51add8cc9c1883f78dc93318dc53d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b425c02_2dba577e",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestCreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-11T15:24:41Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a79827e6_336f94bf",
+      "revId": "55e3e35dc9a51add8cc9c1883f78dc93318dc53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -251,6 +293,30 @@
       "revId": "55e3e35dc9a51add8cc9c1883f78dc93318dc53d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5087ef58_cf5a0d8f",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestCreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-12-11T15:24:41Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2813c544_b059c63c",
+      "range": {
+        "startLine": 212,
+        "startChar": 8,
+        "endLine": 212,
+        "endChar": 19
+      },
+      "revId": "55e3e35dc9a51add8cc9c1883f78dc93318dc53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
