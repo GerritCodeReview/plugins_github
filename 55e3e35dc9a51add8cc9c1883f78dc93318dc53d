@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4a7faa20_3751221a",
+        "filename": "github-oauth/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1012838
+      },
+      "writtenOn": "2018-12-11T15:20:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e602bd9b_762097dd",
+      "range": {
+        "startLine": 24,
+        "startChar": 16,
+        "endLine": 24,
+        "endChar": 17
+      },
+      "revId": "55e3e35dc9a51add8cc9c1883f78dc93318dc53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb61a620_08851c78",
         "filename": "github-plugin/pom.xml",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "55e3e35dc9a51add8cc9c1883f78dc93318dc53d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d51fc326_2d777db1",
+        "filename": "github-plugin/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1012838
+      },
+      "writtenOn": "2018-12-11T15:20:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb61a620_08851c78",
+      "range": {
+        "startLine": 23,
+        "startChar": 16,
+        "endLine": 23,
+        "endChar": 17
+      },
+      "revId": "55e3e35dc9a51add8cc9c1883f78dc93318dc53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "4f62060c_a4522774",
+        "filename": "github-plugin/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1012838
+      },
+      "writtenOn": "2018-12-11T15:20:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1cfbdb7a_4abfcaba",
+      "range": {
+        "startLine": 157,
+        "startChar": 0,
+        "endLine": 161,
+        "endChar": 17
+      },
+      "revId": "55e3e35dc9a51add8cc9c1883f78dc93318dc53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a33b5f27_10c02696",
         "filename": "github-plugin/src/main/java/com/google/gerrit/server/account/AccountImporter.java",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2018-12-10T23:41:03Z",
       "side": 1,
       "message": "Have you checked that all external ids are created correctly?",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 46
+      },
+      "revId": "55e3e35dc9a51add8cc9c1883f78dc93318dc53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fda3176_529e9ae4",
+        "filename": "github-plugin/src/main/java/com/google/gerrit/server/account/AccountImporter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1012838
+      },
+      "writtenOn": "2018-12-11T15:20:10Z",
+      "side": 1,
+      "message": "It certainly seems to be okay. We get an externalId created for `username:GITHUB_USERNAME`, and then an auto-updating token `external:github_oauth:TOKEN`.",
+      "parentUuid": "a33b5f27_10c02696",
       "range": {
         "startLine": 43,
         "startChar": 0,
@@ -134,6 +230,30 @@
     },
     {
       "key": {
+        "uuid": "2813c544_b059c63c",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestCreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1012838
+      },
+      "writtenOn": "2018-12-11T15:20:10Z",
+      "side": 1,
+      "message": "Done. Good catch.",
+      "parentUuid": "eb41f1a5_3e6944c6",
+      "range": {
+        "startLine": 212,
+        "startChar": 8,
+        "endLine": 212,
+        "endChar": 19
+      },
+      "revId": "55e3e35dc9a51add8cc9c1883f78dc93318dc53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5255635c_3d04c82c",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/group/GitHubGroupBackend.java",
         "patchSetId": 1
@@ -157,6 +277,30 @@
     },
     {
       "key": {
+        "uuid": "b28f83b8_abc628c7",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/group/GitHubGroupBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1012838
+      },
+      "writtenOn": "2018-12-11T15:20:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5255635c_3d04c82c",
+      "range": {
+        "startLine": 115,
+        "startChar": 40,
+        "endLine": 115,
+        "endChar": 46
+      },
+      "revId": "55e3e35dc9a51add8cc9c1883f78dc93318dc53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "695089d8_2f43e4f0",
         "filename": "pom.xml",
         "patchSetId": 1
@@ -177,6 +321,30 @@
       "revId": "55e3e35dc9a51add8cc9c1883f78dc93318dc53d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a1652ca_901acf70",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1012838
+      },
+      "writtenOn": "2018-12-11T15:20:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "695089d8_2f43e4f0",
+      "range": {
+        "startLine": 21,
+        "startChar": 14,
+        "endLine": 21,
+        "endChar": 15
+      },
+      "revId": "55e3e35dc9a51add8cc9c1883f78dc93318dc53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
