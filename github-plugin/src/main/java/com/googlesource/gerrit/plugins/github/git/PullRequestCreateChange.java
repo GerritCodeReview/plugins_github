@@ -14,6 +14,8 @@
 
 package com.googlesource.gerrit.plugins.github.git;
 
+import static com.google.gerrit.reviewdb.client.RefNames.REFS_HEADS;
+
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.index.query.QueryParseException;
@@ -44,6 +46,9 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -55,12 +60,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.ChangeIdUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-
-import static com.google.gerrit.reviewdb.client.RefNames.REFS_HEADS;
 
 public class PullRequestCreateChange {
   private static final Logger LOG = LoggerFactory.getLogger(PullRequestCreateChange.class);
@@ -269,8 +268,7 @@ public class PullRequestCreateChange {
     if (topic != null) {
       change.setTopic(topic);
     }
-    ChangeInserter ins =
-        changeInserterFactory.create(change.getId(), pullRequestCommit, refName);
+    ChangeInserter ins = changeInserterFactory.create(change.getId(), pullRequestCommit, refName);
 
     ins.setMessage(pullRequestMessage);
     bu.insertChange(ins);
