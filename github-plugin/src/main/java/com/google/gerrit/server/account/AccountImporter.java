@@ -21,11 +21,10 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import org.eclipse.jgit.errors.ConfigInvalidException;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 public class AccountImporter {
   private final Sequences sequences;
@@ -33,8 +32,7 @@ public class AccountImporter {
 
   @Inject
   public AccountImporter(
-      Sequences sequences,
-      @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider) {
+      Sequences sequences, @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider) {
     this.sequences = sequences;
     this.accountsUpdateProvider = accountsUpdateProvider;
   }
@@ -45,9 +43,16 @@ public class AccountImporter {
     List<ExternalId> extIds = new ArrayList<>();
     extIds.add(ExternalId.createEmail(id, email));
     extIds.add(ExternalId.create(ExternalId.SCHEME_GERRIT, login, id));
-    AccountState accountUpdate = accountsUpdateProvider.get()
-        .insert("Create GitHub account for " + login, id,
-            u -> u.setFullName(MoreObjects.firstNonNull(name, login)).setPreferredEmail(email).addExternalIds(extIds));
+    AccountState accountUpdate =
+        accountsUpdateProvider
+            .get()
+            .insert(
+                "Create GitHub account for " + login,
+                id,
+                u ->
+                    u.setFullName(MoreObjects.firstNonNull(name, login))
+                        .setPreferredEmail(email)
+                        .addExternalIds(extIds));
     return accountUpdate.getAccount().getId();
   }
 }
