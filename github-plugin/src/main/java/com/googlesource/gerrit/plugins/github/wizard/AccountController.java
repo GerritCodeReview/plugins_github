@@ -13,6 +13,8 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.wizard;
 
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
+
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -22,22 +24,29 @@ import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
+import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.restapi.account.AddSshKey;
 import com.google.gerrit.server.restapi.account.GetSshKeys;
 import com.google.gerrit.server.restapi.account.PutName;
 import com.google.gerrit.server.restapi.account.PutPreferred;
+import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -58,6 +67,8 @@ public class AccountController implements VelocityController {
   private final AccountCache accountCache;
   private final PutPreferred putPreferred;
   private final PutName putName;
+  private final Provider<AccountsUpdate> accountsUpdateProvider;
+  private final ExternalIds externalIds;
 
   @Inject
   public AccountController(
@@ -66,13 +77,17 @@ public class AccountController implements VelocityController {
       final AccountManager accountManager,
       final AccountCache accountCache,
       final PutPreferred putPreferred,
-      final PutName putName) {
+      final PutName putName,
+      @ServerInitiated final Provider<AccountsUpdate> accountsUpdateProvider,
+      final ExternalIds externalIds) {
     this.restAddSshKey = restAddSshKey;
     this.restGetSshKeys = restGetSshKeys;
     this.accountManager = accountManager;
     this.accountCache = accountCache;
     this.putPreferred = putPreferred;
     this.putName = putName;
+    this.accountsUpdateProvider = accountsUpdateProvider;
+    this.externalIds = externalIds;
   }
 
   @Override
@@ -87,7 +102,12 @@ public class AccountController implements VelocityController {
       setAccountIdentity(user, req);
       setAccoutPublicKeys(user, hubLogin, req);
 
-      log.info("Created account '" + user.getUserName() + "'");
+      log.info(
+          "Updated account '"
+              + user.getAccountId()
+              + "' with username='"
+              + req.getParameter("username")
+              + "'");
     } catch (IOException | ConfigInvalidException e) {
       log.error("Account '" + user.getUserName() + "' creation failed", e);
       throw new IOException(e);
@@ -98,6 +118,7 @@ public class AccountController implements VelocityController {
       throws ServletException, ConfigInvalidException {
     String fullName = req.getParameter("fullname");
     String email = req.getParameter("email");
+    String username = req.getParameter("username");
     try {
       Id accountId = user.getAccountId();
       AuthResult result = accountManager.link(accountId, AuthRequest.forEmail(email));
@@ -107,11 +128,41 @@ public class AccountController implements VelocityController {
       NameInput nameInput = new NameInput();
       nameInput.name = fullName;
       putName.apply(user, nameInput);
+
+      ExternalId.Key key = ExternalId.Key.create(SCHEME_USERNAME, username);
+      Optional<ExternalId> other;
+      try {
+        other = externalIds.get(key);
+      } catch (IOException | ConfigInvalidException e) {
+        throw new IllegalArgumentException(
+            "Internal error while fetching username='" + username + "'");
+      }
+
+      if (other.map(externalId -> externalId.accountId().equals(accountId)).orElse(false)) {
+        // Current account has already an external id with SCHEME_USERNAME set to the username
+        return;
+      }
+
+      try {
+        accountsUpdateProvider
+            .get()
+            .update(
+                "Set Username from GitHub",
+                accountId,
+                u -> u.addExternalId(ExternalId.create(key, accountId, null, null)));
+      } catch (OrmDuplicateKeyException dupeErr) {
+        throw new IllegalArgumentException("username " + username + " already in use");
+      } catch (Exception e) {
+        throw new IllegalArgumentException(
+            "Internal error while trying to set username='" + username + "'");
+      }
+
       log.debug(
-          "Account {} updated with preferredEmail = {} and fullName = {}",
+          "Account {} updated with preferredEmail = {}, fullName = {}, username = {}",
           accountId,
           email,
-          fullName);
+          fullName,
+          username);
 
       accountCache.evict(accountId);
       log.debug("Account cache evicted for {}", accountId);
