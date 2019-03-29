@@ -19,15 +19,14 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.Properties;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.runtime.log.Log4JLogChute;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.apache.velocity.runtime.resource.loader.JarResourceLoader;
-
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.Properties;
 
 @Singleton
 public class PluginVelocityRuntimeProvider implements Provider<RuntimeInstance> {
