@@ -68,7 +68,12 @@ public class InitGitHub implements InitStep {
     github.string("GitHub Client ID", "clientId", null);
     github.passwordForKey("GitHub Client Secret", "clientSecret");
 
-    AuthType authType = auth.select("Gerrit OAuth implementation", "type", AuthType.HTTP, EnumSet.of(AuthType.HTTP, AuthType.OAUTH));
+    AuthType authType =
+        auth.select(
+            "Gerrit OAuth implementation",
+            "type",
+            AuthType.HTTP,
+            EnumSet.of(AuthType.HTTP, AuthType.OAUTH));
     if (authType.equals(AuthType.HTTP)) {
       auth.string("HTTP Authentication Header", "httpHeader", "GITHUB_USER");
       httpd.set("filterClass", "com.googlesource.gerrit.plugins.github.oauth.OAuthFilter");

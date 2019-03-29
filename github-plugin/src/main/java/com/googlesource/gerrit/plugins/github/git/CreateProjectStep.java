@@ -182,7 +182,8 @@ public class CreateProjectStep extends ImportStep {
     project.setParentName(config.getBaseProject(getRepository().isPrivate()));
     project.setDescription(description);
     project.setSubmitType(SubmitType.MERGE_IF_NECESSARY);
-    project.setBooleanConfig(BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS, InheritableBoolean.INHERIT);
+    project.setBooleanConfig(
+        BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS, InheritableBoolean.INHERIT);
     project.setBooleanConfig(BooleanProjectConfig.USE_SIGNED_OFF_BY, InheritableBoolean.INHERIT);
     project.setBooleanConfig(BooleanProjectConfig.USE_CONTENT_MERGE, InheritableBoolean.INHERIT);
     project.setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.INHERIT);
