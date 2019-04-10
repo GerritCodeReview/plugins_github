@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a33e3c28_7b4b12c1",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/wizard/AccountController.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-04-10T15:27:43Z",
+      "side": 1,
+      "message": "Should this be done conditionally? Otherwise it would try to update username even though it is already set? Or am I missing something?",
+      "revId": "797879e53810ed809baa9786782ac8c7b43c23c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
