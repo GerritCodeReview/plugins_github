@@ -45,6 +45,7 @@ public class AccountImporter {
     List<ExternalId> extIds = new ArrayList<>();
     extIds.add(ExternalId.createEmail(id, email));
     extIds.add(ExternalId.create(ExternalId.SCHEME_GERRIT, login, id));
+    extIds.add(ExternalId.create(ExternalId.SCHEME_USERNAME, login, id));
     AccountState accountUpdate = accountsUpdateProvider.get()
         .insert("Create GitHub account for " + login, id,
             u -> u.setFullName(MoreObjects.firstNonNull(name, login)).setPreferredEmail(email).addExternalIds(extIds));
