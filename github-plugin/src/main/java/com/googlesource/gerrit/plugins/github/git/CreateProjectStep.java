@@ -48,6 +48,7 @@ public class CreateProjectStep extends ImportStep {
 
   private final String organisation;
   private final String repository;
+  private final ProjectConfig.Factory projectConfigFactory;
 
   private MetaDataUpdate.User metaDataUpdateFactory;
   private String description;
@@ -74,6 +75,7 @@ public class CreateProjectStep extends ImportStep {
       GitHubRepository.Factory ghRepoFactory,
       GitHubConfig gitHubConfig,
       OneOffRequestContext context,
+      ProjectConfig.Factory projectConfigFactory,
       @Assisted("organisation") String organisation,
       @Assisted("name") String repository,
       @Assisted("description") String description,
@@ -90,6 +92,7 @@ public class CreateProjectStep extends ImportStep {
     this.username = username;
     this.config = gitHubConfig;
     this.context = context;
+    this.projectConfigFactory = projectConfigFactory;
   }
 
   private void setProjectPermissions() {
@@ -160,7 +163,7 @@ public class CreateProjectStep extends ImportStep {
     MetaDataUpdate md = null;
     try (ManualRequestContext requestContext = context.openAs(config.importAccountId)) {
       md = metaDataUpdateFactory.create(getProjectNameKey());
-      projectConfig = ProjectConfig.read(md);
+      projectConfig = projectConfigFactory.read(md);
       progress.beginTask("Configure Gerrit project", 2);
       setProjectSettings();
       progress.update(1);

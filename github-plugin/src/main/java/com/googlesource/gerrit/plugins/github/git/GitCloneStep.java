@@ -18,7 +18,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.github.GitHubConfig;
@@ -87,9 +86,6 @@ public class GitCloneStep extends ImportStep {
       throw new GitDestinationAlreadyExistsException(projectName);
     } catch (RestApiException e) {
       throw new GitException("Unable to create repository " + projectName, e);
-    } catch (OrmException e) {
-      throw new GitException(
-          "Unable to create request context to create a new project " + projectName, e);
     }
   }
 
