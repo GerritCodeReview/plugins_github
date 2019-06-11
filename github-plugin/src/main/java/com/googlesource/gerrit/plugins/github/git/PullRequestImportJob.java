@@ -23,16 +23,13 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change.Id;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountImporter;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.github.git.GitJobStatus.Code;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
@@ -88,7 +85,6 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
   private Project project;
   private GitJobStatus status;
   private boolean cancelRequested;
-  private Provider<ReviewDb> schema;
   private AccountImporter accountImporter;
 
   @Inject
@@ -96,7 +92,6 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
       GitRepositoryManager repoMgr,
       PullRequestCreateChange createChange,
       ProjectCache projectCache,
-      Provider<ReviewDb> schema,
       AccountImporter accountImporter,
       GitHubRepository.Factory gitHubRepoFactory,
       ScopedProvider<GitHubLogin> ghLoginProvider,
@@ -115,7 +110,6 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
     this.project = fetchGerritProject(projectCache, organisation, repoName);
     this.ghRepository = gitHubRepoFactory.create(organisation, repoName);
     this.status = new GitJobStatus(jobIndex);
-    this.schema = schema;
     this.accountImporter = accountImporter;
     this.externalIds = externalIds;
   }
@@ -129,7 +123,7 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
 
   @Override
   public void run() {
-    try (ReviewDb db = schema.get()) {
+    try {
       status.update(GitJobStatus.Code.SYNC);
       exitWhenCancelled();
       GHPullRequest pr = fetchGitHubPullRequestInfo();
@@ -141,7 +135,7 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
         fetchGitHubPullRequest(gitRepo, pr);
 
         exitWhenCancelled();
-        List<Id> changeIds = addPullRequestToChange(db, pr, gitRepo);
+        List<Id> changeIds = addPullRequestToChange(pr, gitRepo);
         status.update(
             GitJobStatus.Code.COMPLETE, "Imported", "PullRequest imported as Changes " + changeIds);
       }
@@ -161,8 +155,7 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
     }
   }
 
-  private List<Id> addPullRequestToChange(ReviewDb db, GHPullRequest pr, Repository gitRepo)
-      throws Exception {
+  private List<Id> addPullRequestToChange(GHPullRequest pr, Repository gitRepo) throws Exception {
     String destinationBranch = REFS_HEADS + pr.getBase().getRef();
     List<Id> prChanges = Lists.newArrayList();
     ObjectId baseObjectId = ObjectId.fromString(pr.getBase().getSha());
@@ -185,10 +178,9 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
         GitUser commitAuthor = ghCommitDetail.getCommit().getAuthor();
         GitHubUser gitHubUser = GitHubUser.from(prUser, commitAuthor);
 
-        Account.Id pullRequestOwner = getOrRegisterAccount(db, gitHubUser);
+        Account.Id pullRequestOwner = getOrRegisterAccount(gitHubUser);
         Id changeId =
             createChange.addCommitToChange(
-                db,
                 project,
                 gitRepo,
                 destinationBranch,
@@ -205,17 +197,16 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
     }
   }
 
-  private com.google.gerrit.reviewdb.client.Account.Id getOrRegisterAccount(
-      ReviewDb db, GitHubUser author)
+  private com.google.gerrit.reviewdb.client.Account.Id getOrRegisterAccount(GitHubUser author)
       throws BadRequestException, ResourceConflictException, UnprocessableEntityException,
-          OrmException, IOException, ConfigInvalidException {
-    return getOrRegisterAccount(db, author.getLogin(), author.getName(), author.getEmail());
+          IOException, ConfigInvalidException {
+    return getOrRegisterAccount(author.getLogin(), author.getName(), author.getEmail());
   }
 
   private com.google.gerrit.reviewdb.client.Account.Id getOrRegisterAccount(
-      ReviewDb db, String login, String name, String email)
-      throws OrmException, BadRequestException, ResourceConflictException,
-          UnprocessableEntityException, IOException, ConfigInvalidException {
+      String login, String name, String email)
+      throws BadRequestException, ResourceConflictException, UnprocessableEntityException,
+          IOException, ConfigInvalidException {
     Optional<ExternalId> gerritId = externalIdByScheme(ExternalId.SCHEME_GERRIT, login);
     if (gerritId.isPresent()) {
       return gerritId.get().accountId();

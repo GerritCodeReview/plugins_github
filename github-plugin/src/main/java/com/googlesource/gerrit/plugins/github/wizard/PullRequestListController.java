@@ -19,7 +19,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectCache;
@@ -28,7 +27,6 @@ import com.google.gerrit.server.query.change.ChangeQueryProcessor;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -61,7 +59,6 @@ public class PullRequestListController implements VelocityController {
   private final GitHubConfig config;
   private final ProjectCache projectsCache;
   private final GitRepositoryManager repoMgr;
-  private final Provider<ReviewDb> schema;
   private final Provider<ChangeQueryProcessor> qp;
   private final ChangeQueryBuilder changeQuery;
 
@@ -69,13 +66,11 @@ public class PullRequestListController implements VelocityController {
   public PullRequestListController(
       ProjectCache projectsCache,
       GitRepositoryManager repoMgr,
-      Provider<ReviewDb> schema,
       GitHubConfig config,
       Provider<ChangeQueryProcessor> qp,
       ChangeQueryBuilder changeQuery) {
     this.projectsCache = projectsCache;
     this.repoMgr = repoMgr;
-    this.schema = schema;
     this.config = config;
     this.qp = qp;
     this.changeQuery = changeQuery;
@@ -135,25 +130,22 @@ public class PullRequestListController implements VelocityController {
       GitHubLogin login, Iterable<NameKey> repos) throws IOException {
     int numPullRequests = 0;
     Map<String, List<GHPullRequest>> allPullRequests = Maps.newHashMap();
-    try (ReviewDb db = schema.get()) {
-      for (NameKey gerritRepoName : repos) {
-        try (Repository gitRepo = repoMgr.openRepository(gerritRepoName)) {
-          String ghRepoName = gerritRepoName.get().split("/")[1];
-          Optional<GHRepository> githubRepo = getGHRepository(login, gerritRepoName);
-          if (githubRepo.isPresent()) {
-            numPullRequests =
-                collectPullRequestsFromGitHubRepository(
-                    numPullRequests, db, allPullRequests, gitRepo, ghRepoName, githubRepo);
-          }
+    for (NameKey gerritRepoName : repos) {
+      try (Repository gitRepo = repoMgr.openRepository(gerritRepoName)) {
+        String ghRepoName = gerritRepoName.get().split("/")[1];
+        Optional<GHRepository> githubRepo = getGHRepository(login, gerritRepoName);
+        if (githubRepo.isPresent()) {
+          numPullRequests =
+              collectPullRequestsFromGitHubRepository(
+                  numPullRequests, allPullRequests, gitRepo, ghRepoName, githubRepo);
         }
       }
-      return allPullRequests;
     }
+    return allPullRequests;
   }
 
   private int collectPullRequestsFromGitHubRepository(
       int numPullRequests,
-      ReviewDb db,
       Map<String, List<GHPullRequest>> allPullRequests,
       Repository gitRepo,
       String ghRepoName,
@@ -165,7 +157,7 @@ public class PullRequestListController implements VelocityController {
     if (count < config.pullRequestListLimit) {
       for (GHPullRequest ghPullRequest : githubRepo.get().listPullRequests(GHIssueState.OPEN)) {
 
-        if (isAnyCommitOfPullRequestToBeImported(db, gitRepo, ghPullRequest)) {
+        if (isAnyCommitOfPullRequestToBeImported(gitRepo, ghPullRequest)) {
           repoPullRequests.add(ghPullRequest);
           count++;
         }
@@ -190,7 +182,7 @@ public class PullRequestListController implements VelocityController {
   }
 
   private boolean isAnyCommitOfPullRequestToBeImported(
-      ReviewDb db, Repository gitRepo, GHPullRequest ghPullRequest)
+      Repository gitRepo, GHPullRequest ghPullRequest)
       throws IncorrectObjectTypeException, IOException {
     boolean pullRequestToImport = false;
     try {
@@ -199,7 +191,7 @@ public class PullRequestListController implements VelocityController {
             qp.get().query(changeQuery.commit(pullRequestCommit.getSha())).entities().isEmpty();
       }
       return pullRequestToImport;
-    } catch (OrmException | QueryParseException e) {
+    } catch (QueryParseException e) {
       LOG.error("Unable to query Gerrit changes for pull-request " + ghPullRequest.getNumber(), e);
       return false;
     }

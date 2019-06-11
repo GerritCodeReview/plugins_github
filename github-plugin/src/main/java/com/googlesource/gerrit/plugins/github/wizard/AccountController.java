@@ -37,7 +37,6 @@ import com.google.gerrit.server.restapi.account.AddSshKey;
 import com.google.gerrit.server.restapi.account.GetSshKeys;
 import com.google.gerrit.server.restapi.account.PutName;
 import com.google.gerrit.server.restapi.account.PutPreferred;
-import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
@@ -150,8 +149,6 @@ public class AccountController implements VelocityController {
                 "Set Username from GitHub",
                 accountId,
                 u -> u.addExternalId(ExternalId.create(key, accountId, null, null)));
-      } catch (OrmDuplicateKeyException dupeErr) {
-        throw new IllegalArgumentException("username " + username + " already in use");
       } catch (Exception e) {
         throw new IllegalArgumentException(
             "Internal error while trying to set username='" + username + "'");

@@ -16,7 +16,7 @@ package com.googlesource.gerrit.plugins.github.velocity;
 
 import com.google.common.collect.Maps;
 import com.google.gerrit.util.http.CacheHeaders;
-import com.google.gwtjsonrpc.server.RPCServletUtils;
+import com.google.gerrit.util.http.RequestUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -141,7 +141,7 @@ public class VelocityStaticServlet extends HttpServlet {
 
     final String type = contentType(p.getName());
     final byte[] tosend;
-    if (!type.equals("application/x-javascript") && RPCServletUtils.acceptsGzipEncoding(req)) {
+    if (!type.equals("application/x-javascript") && RequestUtil.acceptsGzipEncoding(req)) {
       rsp.setHeader("Content-Encoding", "gzip");
       tosend = compress(readResource(p));
     } else {
