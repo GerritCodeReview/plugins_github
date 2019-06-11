@@ -14,7 +14,7 @@
 
 package com.googlesource.gerrit.plugins.github.replication;
 
-import com.google.gerrit.server.OutputFormat;
+import com.google.gerrit.json.OutputFormat;
 import com.google.gson.Gson;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
