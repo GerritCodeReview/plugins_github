@@ -86,7 +86,12 @@ public class GitHubLogin implements Serializable {
   }
 
   public boolean isLoggedIn() {
-    return token != null;
+    try {
+      return token != null && getMyself() != null;
+    } catch (IOException e) {
+      log.warn("GitHub token expired: user request has been logged out", e);
+      return false;
+    }
   }
 
   public void login(
