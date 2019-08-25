@@ -14,8 +14,14 @@
 package com.googlesource.gerrit.plugins.github.git;
 
 import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.events.ProjectDeletedListener;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gwtorm.server.OrmException;
@@ -29,6 +35,8 @@ import org.eclipse.jgit.api.FetchCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.RepositoryCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,6 +50,9 @@ public class GitCloneStep extends ImportStep {
   private final String organisation;
   private final String repository;
   private final File destinationDirectory;
+  private final DynamicSet<ProjectDeletedListener> deletedListeners;
+  private final ProjectCache projectCache;
+  private final GitRepositoryManager repoManager;
 
   public interface Factory {
     GitCloneStep create(
@@ -54,6 +65,9 @@ public class GitCloneStep extends ImportStep {
       GitHubRepository.Factory gitHubRepoFactory,
       GerritApi gerritApi,
       OneOffRequestContext context,
+      DynamicSet<ProjectDeletedListener> deletedListeners,
+      ProjectCache projectCache,
+      GitRepositoryManager repoManager,
       @Assisted("organisation") String organisation,
       @Assisted("name") String repository)
       throws GitException {
@@ -67,6 +81,9 @@ public class GitCloneStep extends ImportStep {
     this.organisation = organisation;
     this.repository = repository;
     this.destinationDirectory = prepareTargetGitDirectory(gitDir, organisation, repository);
+    this.deletedListeners = deletedListeners;
+    this.projectCache = projectCache;
+    this.repoManager = repoManager;
   }
 
   private static File prepareTargetGitDirectory(File gitDir, String organisation, String repository)
@@ -123,11 +140,44 @@ public class GitCloneStep extends ImportStep {
     }
 
     try {
+      String projectName = organisation + "/" + repository;
+      Project.NameKey key = new Project.NameKey(projectName);
+      cleanJGitCache(key);
       FileUtils.deleteDirectory(gitDirectory);
+      projectCache.remove(key);
+      sendProjectDeletedEvent(projectName);
       return true;
     } catch (IOException e) {
       LOG.error("Cannot clean-up output Git directory " + gitDirectory);
       return false;
+    }
+  }
+
+  private void cleanJGitCache(Project.NameKey key) throws IOException {
+    try (Repository repository = repoManager.openRepository(key)) {
+      RepositoryCache.close(repository);
+    }
+  }
+
+  private void sendProjectDeletedEvent(String projectName) {
+    ProjectDeletedListener.Event event =
+        new ProjectDeletedListener.Event() {
+          @Override
+          public String getProjectName() {
+            return projectName;
+          }
+
+          @Override
+          public NotifyHandling getNotify() {
+            return NotifyHandling.NONE;
+          }
+        };
+    for (ProjectDeletedListener l : deletedListeners) {
+      try {
+        l.onProjectDeleted(event);
+      } catch (RuntimeException e) {
+        LOG.warn("Failure in ProjectDeletedListener", e);
+      }
     }
   }
 }
