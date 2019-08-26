@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10b11bac_ee984009",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/GitCloneStep.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-26T06:40:41Z",
+      "side": 1,
+      "message": "This is most likely going to cause a warning that the resource should be managed by try-with-resource.",
+      "range": {
+        "startLine": 158,
+        "startChar": 4,
+        "endLine": 159,
+        "endChar": 23
+      },
+      "revId": "e251f0e374b8ab0015e8084aa96117c08684c920",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
