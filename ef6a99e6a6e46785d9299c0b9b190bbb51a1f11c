@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ce08287_9a82eaa0",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/GitCloneStep.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-08-26T09:35:19Z",
+      "side": 1,
+      "message": "Instead of commenting it, just rename cleanCache to cleanJGitCache, so that you don\u0027t need a comment on it.",
+      "range": {
+        "startLine": 145,
+        "startChar": 6,
+        "endLine": 145,
+        "endChar": 35
+      },
+      "revId": "ef6a99e6a6e46785d9299c0b9b190bbb51a1f11c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
