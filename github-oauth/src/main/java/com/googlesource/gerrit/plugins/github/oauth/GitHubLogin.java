@@ -185,10 +185,7 @@ public class GitHubLogin implements Serializable {
   }
 
   private List<Scope> scopesForKey(String baseScopeKey) {
-    return config
-        .scopes
-        .entrySet()
-        .stream()
+    return config.scopes.entrySet().stream()
         .filter(entry -> entry.getKey().name.equals(baseScopeKey))
         .map(entry -> entry.getValue())
         .findFirst()

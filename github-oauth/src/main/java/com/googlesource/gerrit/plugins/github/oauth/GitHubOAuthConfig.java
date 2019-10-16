@@ -105,9 +105,7 @@ public class GitHubOAuthConfig {
     enabled = config.getString("auth", null, "type").equalsIgnoreCase(AuthType.HTTP.toString());
     scopes = getScopes(config);
     sortedScopesKeys =
-        scopes
-            .keySet()
-            .stream()
+        scopes.keySet().stream()
             .sorted(Comparator.comparing(ScopeKey::getSequence))
             .collect(Collectors.toList());
 
@@ -142,9 +140,7 @@ public class GitHubOAuthConfig {
   }
 
   private Map<ScopeKey, List<Scope>> getScopes(Config config) {
-    return config
-        .getNames(CONF_SECTION, true)
-        .stream()
+    return config.getNames(CONF_SECTION, true).stream()
         .filter(k -> k.startsWith("scopes"))
         .filter(k -> !k.endsWith("Description"))
         .filter(k -> !k.endsWith("Sequence"))

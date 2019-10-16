@@ -43,9 +43,7 @@ public class OrganizationStructure implements Serializable {
 
   @Override
   public String toString() {
-    return teams
-        .entrySet()
-        .stream()
+    return teams.entrySet().stream()
         .map(org -> "Organization " + org.getKey() + " Teams: " + org.getValue())
         .collect(Collectors.joining(" : "));
   }
