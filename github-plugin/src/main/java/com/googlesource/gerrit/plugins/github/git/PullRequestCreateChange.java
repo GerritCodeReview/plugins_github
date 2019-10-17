@@ -16,41 +16,31 @@ package com.googlesource.gerrit.plugins.github.git;
 
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_HEADS;
 
-import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryResult;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.reviewdb.client.*;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryProcessor;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gerrit.server.submit.IntegrationException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -72,6 +62,7 @@ public class PullRequestCreateChange {
   private final BatchUpdate.Factory updateFactory;
   private final Provider<ChangeQueryProcessor> qp;
   private final ChangeQueryBuilder changeQuery;
+  private final Sequences sequences;
 
   @Inject
   PullRequestCreateChange(
@@ -81,7 +72,8 @@ public class PullRequestCreateChange {
       Provider<InternalChangeQuery> queryProvider,
       BatchUpdate.Factory batchUpdateFactory,
       Provider<ChangeQueryProcessor> qp,
-      ChangeQueryBuilder changeQuery) {
+      ChangeQueryBuilder changeQuery,
+      Sequences sequences) {
     this.changeInserterFactory = changeInserterFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.userFactory = userFactory;
@@ -89,10 +81,10 @@ public class PullRequestCreateChange {
     this.updateFactory = batchUpdateFactory;
     this.qp = qp;
     this.changeQuery = changeQuery;
+    this.sequences = sequences;
   }
 
   public Change.Id addCommitToChange(
-      ReviewDb db,
       final Project project,
       final Repository repo,
       final String destinationBranch,
@@ -100,15 +92,13 @@ public class PullRequestCreateChange {
       final RevCommit pullRequestCommit,
       final String pullRequestMessage,
       final String topic)
-      throws NoSuchChangeException, EmailException, OrmException, MissingObjectException,
-          IncorrectObjectTypeException, IOException, InvalidChangeOperationException,
-          IntegrationException, NoSuchProjectException, UpdateException, RestApiException {
+      throws NoSuchChangeException, IOException, InvalidChangeOperationException, UpdateException,
+          RestApiException {
     try (BatchUpdate bu =
         updateFactory.create(
-            db, project.getNameKey(), userFactory.create(pullRequestOwner), TimeUtil.nowTs())) {
+            project.getNameKey(), userFactory.create(pullRequestOwner), TimeUtil.nowTs())) {
 
       return internalAddCommitToChange(
-          db,
           bu,
           project,
           repo,
@@ -121,7 +111,6 @@ public class PullRequestCreateChange {
   }
 
   public Change.Id internalAddCommitToChange(
-      ReviewDb db,
       BatchUpdate bu,
       final Project project,
       final Repository repo,
@@ -130,8 +119,7 @@ public class PullRequestCreateChange {
       final RevCommit pullRequestCommit,
       final String pullRequestMesage,
       final String topic)
-      throws InvalidChangeOperationException, IOException, NoSuchProjectException, OrmException,
-          UpdateException, RestApiException {
+      throws InvalidChangeOperationException, IOException, UpdateException, RestApiException {
     if (destinationBranch == null || destinationBranch.length() == 0) {
       throw new InvalidChangeOperationException("Destination branch cannot be null or empty");
     }
@@ -201,7 +189,6 @@ public class PullRequestCreateChange {
     // Change key not found on destination branch. We can create a new
     // change.
     return createNewChange(
-        db,
         bu,
         changeKey,
         project.getNameKey(),
@@ -218,7 +205,7 @@ public class PullRequestCreateChange {
     try {
       results = qp.get().query(changeQuery.commit(pullRequestSha1));
       return results.entities();
-    } catch (OrmException | QueryParseException e) {
+    } catch (QueryParseException e) {
       LOG.error(
           "Invalid SHA1 " + pullRequestSha1 + ": cannot query changes for this pull request", e);
       return Collections.emptyList();
@@ -247,7 +234,6 @@ public class PullRequestCreateChange {
   }
 
   private Change.Id createNewChange(
-      ReviewDb db,
       BatchUpdate bu,
       Change.Key changeKey,
       Project.NameKey project,
@@ -257,11 +243,11 @@ public class PullRequestCreateChange {
       String refName,
       String pullRequestMessage,
       String topic)
-      throws OrmException, UpdateException, RestApiException, IOException {
+      throws UpdateException, RestApiException, IOException {
     Change change =
         new Change(
             changeKey,
-            new Change.Id(db.nextChangeId()),
+            new Change.Id(sequences.nextChangeId()),
             pullRequestOwner,
             new Branch.NameKey(project, destRef.getName()),
             TimeUtil.nowTs());
