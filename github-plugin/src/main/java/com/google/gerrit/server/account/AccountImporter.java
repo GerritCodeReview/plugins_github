@@ -14,7 +14,7 @@
 package com.google.gerrit.server.account;
 
 import com.google.common.base.MoreObjects;
-import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.externalids.ExternalId;

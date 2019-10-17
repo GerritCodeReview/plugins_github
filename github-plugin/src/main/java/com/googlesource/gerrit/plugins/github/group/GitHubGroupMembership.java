@@ -15,7 +15,7 @@
 package com.googlesource.gerrit.plugins.github.group;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
+import com.google.gerrit.entities.AccountGroup.UUID;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;

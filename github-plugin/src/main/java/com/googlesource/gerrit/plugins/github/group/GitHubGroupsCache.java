@@ -19,7 +19,7 @@ import static java.time.temporal.ChronoUnit.MINUTES;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
+import com.google.gerrit.entities.AccountGroup.UUID;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.inject.Inject;

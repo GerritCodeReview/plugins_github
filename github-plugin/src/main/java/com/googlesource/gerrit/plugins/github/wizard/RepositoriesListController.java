@@ -14,7 +14,7 @@
 package com.googlesource.gerrit.plugins.github.wizard;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gson.JsonArray;

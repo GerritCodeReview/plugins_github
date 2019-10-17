@@ -19,8 +19,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupDescription.Basic;
 import com.google.gerrit.common.data.GroupReference;
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
+import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.AccountGroup.UUID;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 

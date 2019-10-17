@@ -15,8 +15,8 @@ package com.googlesource.gerrit.plugins.github;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Maps;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.httpd.CanonicalWebUrl;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;

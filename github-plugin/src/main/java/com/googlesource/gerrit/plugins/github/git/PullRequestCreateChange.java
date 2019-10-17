@@ -14,17 +14,17 @@
 
 package com.googlesource.gerrit.plugins.github.git;
 
-import static com.google.gerrit.reviewdb.client.RefNames.REFS_HEADS;
+import static com.google.gerrit.entities.RefNames.REFS_HEADS;
 
 import com.google.gerrit.common.errors.EmailException;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Branch;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryResult;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
