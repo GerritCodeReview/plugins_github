@@ -14,12 +14,12 @@
 
 package com.googlesource.gerrit.plugins.github.git;
 
-import static com.google.gerrit.reviewdb.client.RefNames.REFS_HEADS;
+import static com.google.gerrit.entities.RefNames.REFS_HEADS;
 
+import com.google.gerrit.entities.*;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryResult;
-import com.google.gerrit.reviewdb.client.*;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
@@ -143,7 +143,7 @@ public class PullRequestCreateChange {
     final List<String> idList = pullRequestCommit.getFooterLines(CHANGE_ID);
     if (!idList.isEmpty()) {
       final String idStr = idList.get(idList.size() - 1).trim();
-      changeKey = new Change.Key(idStr);
+      changeKey = Change.key(idStr);
     } else {
       final ObjectId computedChangeId =
           ChangeIdUtil.computeChangeId(
@@ -153,7 +153,7 @@ public class PullRequestCreateChange {
               pullRequestCommit.getCommitterIdent(),
               pullRequestMesage);
 
-      changeKey = new Change.Key("I" + computedChangeId.name());
+      changeKey = Change.key("I" + computedChangeId.name());
     }
 
     String branchName = destRef.getName();
@@ -161,7 +161,7 @@ public class PullRequestCreateChange {
         queryProvider
             .get()
             .byBranchKey(
-                new Branch.NameKey(
+                BranchNameKey.create(
                     project.getNameKey(),
                     branchName.startsWith(REFS_HEADS)
                         ? branchName.substring(REFS_HEADS.length())
@@ -247,9 +247,9 @@ public class PullRequestCreateChange {
     Change change =
         new Change(
             changeKey,
-            new Change.Id(sequences.nextChangeId()),
+            Change.id(sequences.nextChangeId()),
             pullRequestOwner,
-            new Branch.NameKey(project, destRef.getName()),
+            BranchNameKey.create(project, destRef.getName()),
             TimeUtil.nowTs());
     if (topic != null) {
       change.setTopic(topic);

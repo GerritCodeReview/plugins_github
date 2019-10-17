@@ -13,16 +13,16 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
-import static com.google.gerrit.reviewdb.client.RefNames.REFS_HEADS;
+import static com.google.gerrit.entities.RefNames.REFS_HEADS;
 
 import com.google.common.collect.Lists;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Change.Id;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Change.Id;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.account.AccountImporter;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
@@ -130,7 +130,7 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
 
       exitWhenCancelled();
       try (Repository gitRepo =
-          repoMgr.openRepository(new Project.NameKey(organisation + "/" + repoName))) {
+          repoMgr.openRepository(Project.nameKey(organisation + "/" + repoName))) {
         exitWhenCancelled();
         fetchGitHubPullRequest(gitRepo, pr);
 
@@ -197,13 +197,13 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
     }
   }
 
-  private com.google.gerrit.reviewdb.client.Account.Id getOrRegisterAccount(GitHubUser author)
+  private com.google.gerrit.entities.Account.Id getOrRegisterAccount(GitHubUser author)
       throws BadRequestException, ResourceConflictException, UnprocessableEntityException,
           IOException, ConfigInvalidException {
     return getOrRegisterAccount(author.getLogin(), author.getName(), author.getEmail());
   }
 
-  private com.google.gerrit.reviewdb.client.Account.Id getOrRegisterAccount(
+  private com.google.gerrit.entities.Account.Id getOrRegisterAccount(
       String login, String name, String email)
       throws BadRequestException, ResourceConflictException, UnprocessableEntityException,
           IOException, ConfigInvalidException {

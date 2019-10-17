@@ -19,8 +19,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupDescription.Basic;
 import com.google.gerrit.common.data.GroupReference;
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
+import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.AccountGroup.UUID;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -50,7 +50,7 @@ public class GitHubOrganisationGroup extends GitHubGroup implements Basic {
   }
 
   public static UUID uuid(String orgName) {
-    return new AccountGroup.UUID(UUID_PREFIX + orgName);
+    return AccountGroup.uuid(UUID_PREFIX + orgName);
   }
 
   public static GroupReference groupReference(String orgName) {

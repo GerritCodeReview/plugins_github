@@ -14,7 +14,7 @@
 package com.google.gerrit.server.account;
 
 import com.google.common.base.MoreObjects;
-import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.notedb.Sequences;
@@ -38,7 +38,7 @@ public class AccountImporter {
 
   public Account.Id importAccount(String login, String name, String email)
       throws IOException, ConfigInvalidException {
-    Account.Id id = new Account.Id(sequences.nextAccountId());
+    Account.Id id = Account.id(sequences.nextAccountId());
     List<ExternalId> extIds = new ArrayList<>();
     extIds.add(ExternalId.createEmail(id, email));
     extIds.add(ExternalId.create(ExternalId.SCHEME_GERRIT, login, id));
@@ -53,6 +53,6 @@ public class AccountImporter {
                     u.setFullName(MoreObjects.firstNonNull(name, login))
                         .setPreferredEmail(email)
                         .addExternalIds(extIds));
-    return accountUpdate.getAccount().getId();
+    return accountUpdate.account().id();
   }
 }

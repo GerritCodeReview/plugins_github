@@ -77,7 +77,7 @@ public class IdentifiedUserGitHubLoginProvider implements UserScopedProvider<Git
 
   private AccessToken newAccessTokenFromUser(String username) {
     AccountState account = accountCache.getByUsername(username).get();
-    Collection<ExternalId> externalIds = account.getExternalIds();
+    Collection<ExternalId> externalIds = account.externalIds();
     for (ExternalId accountExternalId : externalIds) {
       String key = accountExternalId.key().get();
       if (key.startsWith(EXTERNAL_ID_PREFIX)) {

@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.github.replication;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
@@ -30,8 +31,8 @@ public class ListProjectReplicationStatus implements RestReadView<ProjectResourc
   }
 
   @Override
-  public Object apply(ProjectResource resource)
+  public Response<Object> apply(ProjectResource resource)
       throws AuthException, BadRequestException, ResourceConflictException, Exception {
-    return statusStore.list(resource.getNameKey());
+    return Response.ok(statusStore.list(resource.getNameKey()));
   }
 }
