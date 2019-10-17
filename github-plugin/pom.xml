@@ -52,6 +52,10 @@ limitations under the License.
               <exclude>commons-codec:*:*</exclude>
               <exclude>commons-io:*:*</exclude>
               <exclude>com.google.guava:*</exclude>
+              <exclude>com.fasterxml.jackson.core:*</exclude>
+              <exclude>org.kohsuke:github-api:*</exclude>
+              <exclude>org.jenkins-ci:annotation-indexer:*</exclude>
+              <exclude>com.infradna.tool:*</exclude>
             </excludes>
           </artifactSet>
           <transformers>
