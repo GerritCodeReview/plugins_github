@@ -19,7 +19,7 @@ import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.ManualRequestContext;
@@ -137,7 +137,7 @@ public class GitCloneStep extends ImportStep {
 
     try {
       String projectName = organisation + "/" + repository;
-      Project.NameKey key = new Project.NameKey(projectName);
+      Project.NameKey key = Project.nameKey(projectName);
       cleanJGitCache(key);
       FileUtils.deleteDirectory(gitDirectory);
       projectCache.remove(key);

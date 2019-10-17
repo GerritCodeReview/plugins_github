@@ -14,7 +14,7 @@
 
 package com.googlesource.gerrit.plugins.github.replication;
 
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Project;
 import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.util.List;

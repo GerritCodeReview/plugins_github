@@ -16,8 +16,8 @@ package com.googlesource.gerrit.plugins.github.group;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
+import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.AccountGroup.UUID;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -48,7 +48,7 @@ public class GitHubTeamGroup extends GitHubGroup {
   }
 
   public static UUID uuid(UUID orgUUID, String teamName) {
-    return new AccountGroup.UUID(orgUUID.get() + "/" + teamName);
+    return AccountGroup.uuid(orgUUID.get() + "/" + teamName);
   }
 
   public static GroupReference groupReference(GroupReference orgReference, String teamName) {

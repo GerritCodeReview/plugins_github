@@ -15,7 +15,7 @@
 package com.googlesource.gerrit.plugins.github.group;
 
 import com.google.gerrit.common.data.GroupDescription.Basic;
-import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
+import com.google.gerrit.entities.AccountGroup.UUID;
 import lombok.Getter;
 
 public abstract class GitHubGroup implements Basic {

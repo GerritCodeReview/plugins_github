@@ -15,8 +15,8 @@ package com.googlesource.gerrit.plugins.github;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Maps;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.httpd.CanonicalWebUrl;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -106,7 +106,7 @@ public class GitHubConfig extends GitHubOAuthConfig {
     allProjectsName = allProjectsNameProvider.get().toString();
     webhookSecret = config.getString(CONF_SECTION, null, CONF_WEBHOOK_SECRET);
     webhookUser = config.getString(CONF_SECTION, null, CONF_WEBHOOK_USER);
-    importAccountId = new Account.Id(config.getInt(CONF_SECTION, CONF_IMPORT_ACCOUNT_ID, 1000000));
+    importAccountId = Account.id(config.getInt(CONF_SECTION, CONF_IMPORT_ACCOUNT_ID, 1000000));
   }
 
   private String getSeparator(boolean redirect) {
