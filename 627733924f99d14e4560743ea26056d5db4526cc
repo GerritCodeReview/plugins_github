@@ -22,6 +22,30 @@
       "revId": "627733924f99d14e4560743ea26056d5db4526cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1db8ea0f_0ea24744",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestCreateChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-10-20T22:10:48Z",
+      "side": 1,
+      "message": "Done in Change-Id: I34911d341",
+      "parentUuid": "6eef3983_b6a47d86",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 35
+      },
+      "revId": "627733924f99d14e4560743ea26056d5db4526cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }
