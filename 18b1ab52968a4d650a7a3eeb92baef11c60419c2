@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b6b15e71_7effe283",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-04-08T12:13:39Z",
+      "side": 1,
+      "message": "Replication plugin supports both config structures, gerrit admin can decide which one want to use.",
+      "parentUuid": "ec350e1c_71fe069e",
+      "range": {
+        "startLine": 9,
+        "startChar": 41,
+        "endLine": 10,
+        "endChar": 16
+      },
+      "revId": "18b1ab52968a4d650a7a3eeb92baef11c60419c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e0535a9c_f7f02a32",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/GuiceModule.java",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2020-04-08T08:50:16Z",
       "side": 1,
       "message": "Is there an easy way of testing this logic? Never looked at the github plugin so I am not sure about that, it might tricky",
+      "revId": "18b1ab52968a4d650a7a3eeb92baef11c60419c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1ae235e_182cfd4d",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/GuiceModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-04-08T12:13:39Z",
+      "side": 1,
+      "message": "I remember that during the Munich hackathon Luca mentioned that testing GitHub Api is complex and time consuming that why we don\u0027t want to spend time on it. There is no tests for github plugin",
+      "parentUuid": "e0535a9c_f7f02a32",
       "revId": "18b1ab52968a4d650a7a3eeb92baef11c60419c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "43afc019_9b4e4e01",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/FanoutReplicationConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-04-08T12:13:39Z",
+      "side": 1,
+      "message": "Yes it\u0027s confusing but I kept the naming from original code. I will change it",
+      "parentUuid": "7f73dfaf_f19c14d6",
+      "range": {
+        "startLine": 48,
+        "startChar": 42,
+        "endLine": 48,
+        "endChar": 50
+      },
+      "revId": "18b1ab52968a4d650a7a3eeb92baef11c60419c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "215deeed_d70c8da6",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/FileBasedReplicationConfig.java",
         "patchSetId": 1
@@ -76,6 +142,30 @@
       "writtenOn": "2020-04-08T08:50:16Z",
       "side": 1,
       "message": "2020",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "18b1ab52968a4d650a7a3eeb92baef11c60419c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4c215c2_b83b0a5e",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/FileBasedReplicationConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-04-08T12:13:39Z",
+      "side": 1,
+      "message": "This is the original code. File was renamed from ReplicationConfig to FileBasedReplicationConfig",
+      "parentUuid": "215deeed_d70c8da6",
       "range": {
         "startLine": 1,
         "startChar": 17,
