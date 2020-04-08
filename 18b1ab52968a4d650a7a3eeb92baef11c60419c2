@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec350e1c_71fe069e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-08T08:50:16Z",
+      "side": 1,
+      "message": "Just to make sure I understand. The etc/replicaton directory is added by the replication plugin, correct? So depending on the replication plugin version the github plugin will adapt its behaviour.",
+      "range": {
+        "startLine": 9,
+        "startChar": 41,
+        "endLine": 10,
+        "endChar": 16
+      },
+      "revId": "18b1ab52968a4d650a7a3eeb92baef11c60419c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0535a9c_f7f02a32",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/GuiceModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-08T08:50:16Z",
+      "side": 1,
+      "message": "Is there an easy way of testing this logic? Never looked at the github plugin so I am not sure about that, it might tricky",
+      "revId": "18b1ab52968a4d650a7a3eeb92baef11c60419c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f73dfaf_f19c14d6",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/FanoutReplicationConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-08T08:50:16Z",
+      "side": 1,
+      "message": "nit: This is the github username, right?\nIf so, shall we make it explicit?",
+      "range": {
+        "startLine": 48,
+        "startChar": 42,
+        "endLine": 48,
+        "endChar": 50
+      },
+      "revId": "18b1ab52968a4d650a7a3eeb92baef11c60419c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "215deeed_d70c8da6",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/FileBasedReplicationConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-08T08:50:16Z",
+      "side": 1,
+      "message": "2020",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "18b1ab52968a4d650a7a3eeb92baef11c60419c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
