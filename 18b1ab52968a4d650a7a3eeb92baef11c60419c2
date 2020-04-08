@@ -131,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "2b336e08_6c2c17ee",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/FanoutReplicationConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-04-08T12:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43afc019_9b4e4e01",
+      "range": {
+        "startLine": 48,
+        "startChar": 42,
+        "endLine": 48,
+        "endChar": 50
+      },
+      "revId": "18b1ab52968a4d650a7a3eeb92baef11c60419c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "215deeed_d70c8da6",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/FileBasedReplicationConfig.java",
         "patchSetId": 1
