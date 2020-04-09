@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "7d7ad3bd_2b853612",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-09T21:29:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b6b15e71_7effe283",
+      "range": {
+        "startLine": 9,
+        "startChar": 41,
+        "endLine": 10,
+        "endChar": 16
+      },
+      "revId": "18b1ab52968a4d650a7a3eeb92baef11c60419c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0535a9c_f7f02a32",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/GuiceModule.java",
         "patchSetId": 1
@@ -81,6 +105,24 @@
       "revId": "18b1ab52968a4d650a7a3eeb92baef11c60419c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfb034d3_ac8b154c",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/GuiceModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-09T21:29:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e1ae235e_182cfd4d",
+      "revId": "18b1ab52968a4d650a7a3eeb92baef11c60419c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -199,6 +241,30 @@
       "revId": "18b1ab52968a4d650a7a3eeb92baef11c60419c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23fb3415_09879df8",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/FileBasedReplicationConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-09T21:29:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d4c215c2_b83b0a5e",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "18b1ab52968a4d650a7a3eeb92baef11c60419c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
