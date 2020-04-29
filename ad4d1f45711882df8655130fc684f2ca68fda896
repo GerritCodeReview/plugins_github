@@ -22,6 +22,30 @@
       "revId": "ad4d1f45711882df8655130fc684f2ca68fda896",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b4a8f88_dd94b193",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestImportJob.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-29T15:59:22Z",
+      "side": 1,
+      "message": "I wish I could :-( but the addCommitToChange() throws exceptions and therefore I can\u0027t use map in that case.\n\nJava is so far away from doing a proper functional-style coding possible.",
+      "parentUuid": "09b95a42_d8d138dd",
+      "range": {
+        "startLine": 181,
+        "startChar": 8,
+        "endLine": 181,
+        "endChar": 34
+      },
+      "revId": "ad4d1f45711882df8655130fc684f2ca68fda896",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

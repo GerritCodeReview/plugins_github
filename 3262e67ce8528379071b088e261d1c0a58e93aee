@@ -22,6 +22,30 @@
       "revId": "3262e67ce8528379071b088e261d1c0a58e93aee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a93f6fb7_b5f72bc8",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/wizard/AccountController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-29T15:59:22Z",
+      "side": 0,
+      "message": "The cache key isn\u0027t the accountId anymore, but it is calculated based on its content. Whenever you change anything about the account, it creates a new cache key and therefore gets automatically evicted.",
+      "parentUuid": "806a39b6_72953fdf",
+      "range": {
+        "startLine": 164,
+        "startChar": 6,
+        "endLine": 164,
+        "endChar": 36
+      },
+      "revId": "3262e67ce8528379071b088e261d1c0a58e93aee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
