@@ -70,6 +70,30 @@
       "revId": "ad4d1f45711882df8655130fc684f2ca68fda896",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d1a3f94_6282a1e7",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestImportJob.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-29T23:56:11Z",
+      "side": 1,
+      "message": "Can we extract the content of this if-block to a method and then call it in:\n\n  project.ifPresent( ... )\n\n?",
+      "parentUuid": "f3ea04c2_2c0a6a6c",
+      "range": {
+        "startLine": 181,
+        "startChar": 8,
+        "endLine": 181,
+        "endChar": 34
+      },
+      "revId": "ad4d1f45711882df8655130fc684f2ca68fda896",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
