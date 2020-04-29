@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "806a39b6_72953fdf",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/wizard/AccountController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-04-29T14:47:32Z",
+      "side": 0,
+      "message": "so how the cache is evicted now?",
+      "range": {
+        "startLine": 164,
+        "startChar": 6,
+        "endLine": 164,
+        "endChar": 36
+      },
+      "revId": "3262e67ce8528379071b088e261d1c0a58e93aee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
