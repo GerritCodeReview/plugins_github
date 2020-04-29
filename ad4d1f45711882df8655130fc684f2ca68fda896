@@ -46,6 +46,30 @@
       "revId": "ad4d1f45711882df8655130fc684f2ca68fda896",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3ea04c2_2c0a6a6c",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestImportJob.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-29T15:59:48Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4b4a8f88_dd94b193",
+      "range": {
+        "startLine": 181,
+        "startChar": 8,
+        "endLine": 181,
+        "endChar": 34
+      },
+      "revId": "ad4d1f45711882df8655130fc684f2ca68fda896",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
