@@ -160,9 +160,6 @@ public class AccountController implements VelocityController {
           email,
           fullName,
           username);
-
-      accountCache.evict(accountId);
-      log.debug("Account cache evicted for {}", accountId);
     } catch (Exception e) {
       throw new ServletException(
           "Cannot associate email '" + email + "' to current user '" + user + "'", e);

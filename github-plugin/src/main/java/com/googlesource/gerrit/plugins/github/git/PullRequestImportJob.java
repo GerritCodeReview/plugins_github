@@ -82,7 +82,7 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
   private final int jobIndex;
   private final ExternalIds externalIds;
   private PullRequestCreateChange createChange;
-  private Project project;
+  private Optional<Project> project;
   private GitJobStatus status;
   private boolean cancelRequested;
   private AccountImporter accountImporter;
@@ -114,11 +114,10 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
     this.externalIds = externalIds;
   }
 
-  private Project fetchGerritProject(
+  private Optional<Project> fetchGerritProject(
       ProjectCache projectCache, String fetchOrganisation, String fetchRepoName) {
     NameKey projectNameKey = Project.NameKey.parse(fetchOrganisation + "/" + fetchRepoName);
-    ProjectState projectState = projectCache.get(projectNameKey);
-    return projectState.getProject();
+    return projectCache.get(projectNameKey).map(ProjectState::getProject);
   }
 
   @Override
@@ -179,17 +178,19 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
         GitHubUser gitHubUser = GitHubUser.from(prUser, commitAuthor);
 
         Account.Id pullRequestOwner = getOrRegisterAccount(gitHubUser);
-        Id changeId =
-            createChange.addCommitToChange(
-                project,
-                gitRepo,
-                destinationBranch,
-                pullRequestOwner,
-                revCommit,
-                getChangeMessage(pr),
-                String.format(TOPIC_FORMAT, new Integer(pr.getNumber())));
-        if (changeId != null) {
-          prChanges.add(changeId);
+        if (project.isPresent()) {
+          Id changeId =
+              createChange.addCommitToChange(
+                  project.get(),
+                  gitRepo,
+                  destinationBranch,
+                  pullRequestOwner,
+                  revCommit,
+                  getChangeMessage(pr),
+                  String.format(TOPIC_FORMAT, new Integer(pr.getNumber())));
+          if (changeId != null) {
+            prChanges.add(changeId);
+          }
         }
       }
 
