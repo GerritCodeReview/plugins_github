@@ -67,7 +67,7 @@ public class RepositoriesListController implements VelocityController {
       if (ghRepository.hasPushAccess() && ghRepository.hasPullAccess()) {
         JsonObject repository = new JsonObject();
         String projectName = organisation + "/" + ghRepository.getName();
-        if (projects.get(Project.NameKey.parse(projectName)) == null) {
+        if (!projects.get(Project.NameKey.parse(projectName)).isPresent()) {
           repository.add("name", new JsonPrimitive(ghRepository.getName()));
           repository.add("organisation", new JsonPrimitive(organisation));
           repository.add(
