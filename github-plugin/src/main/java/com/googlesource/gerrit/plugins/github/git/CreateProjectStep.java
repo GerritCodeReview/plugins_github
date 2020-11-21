@@ -13,13 +13,13 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
-import com.google.gerrit.common.data.AccessSection;
-import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.data.GroupReference;
-import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.BooleanProjectConfig;
+import com.google.gerrit.entities.GroupDescription;
+import com.google.gerrit.entities.GroupReference;
+import com.google.gerrit.entities.Permission;
+import com.google.gerrit.entities.PermissionRule;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.client.InheritableBoolean;
@@ -106,47 +106,54 @@ public class CreateProjectStep extends ImportStep {
         Permission.SUBMIT,
         Permission.REBASE);
 
-    PermissionRule reviewRange = new PermissionRule(getMyGroup());
-    reviewRange.setMin(new Integer(-2));
-    reviewRange.setMax(new Integer(+2));
-    addPermission(CODE_REVIEW_REFS, Permission.LABEL + CODE_REVIEW_LABEL, reviewRange);
+    PermissionRule.Builder reviewRangeBuilder = PermissionRule.create(getMyGroup()).toBuilder();
+    reviewRangeBuilder.setMin(-2).setMax(2);
+    addPermission(
+        CODE_REVIEW_REFS, Permission.LABEL + CODE_REVIEW_LABEL, reviewRangeBuilder.build());
 
-    PermissionRule verifiedRange = new PermissionRule(getMyGroup());
-    verifiedRange.setMin(new Integer(-1));
-    verifiedRange.setMax(new Integer(+1));
-    addPermission(CODE_REVIEW_REFS, Permission.LABEL + VERIFIED_LABEL, verifiedRange);
+    PermissionRule.Builder verifiedRangeBuilder = PermissionRule.create(getMyGroup()).toBuilder();
+    verifiedRangeBuilder.setMin(-1).setMax(1);
+    addPermission(
+        CODE_REVIEW_REFS, Permission.LABEL + VERIFIED_LABEL, verifiedRangeBuilder.build());
 
     addPermissions(AccessSection.HEADS, Permission.READ, Permission.CREATE, Permission.PUSH_MERGE);
 
-    PermissionRule forcePush = new PermissionRule(getMyGroup());
-    forcePush.setForce(Boolean.TRUE);
-    addPermission(AccessSection.HEADS, Permission.PUSH, forcePush);
+    PermissionRule.Builder forcePushBuilder = PermissionRule.create(getMyGroup()).toBuilder();
+    forcePushBuilder.setForce(true);
+    addPermission(AccessSection.HEADS, Permission.PUSH, forcePushBuilder.build());
 
     addPermissions(TAGS_REFS, Permission.PUSH);
 
-    PermissionRule removeTag = new PermissionRule(getMyGroup());
-    removeTag.setForce(Boolean.TRUE);
-    addPermission(TAGS_REFS, Permission.PUSH, removeTag);
+    PermissionRule.Builder removeTagBuilder = PermissionRule.create(getMyGroup()).toBuilder();
+    removeTagBuilder.setForce(true);
+    addPermission(TAGS_REFS, Permission.PUSH, removeTagBuilder.build());
   }
 
   private void addPermissions(String refSpec, String... permissions) {
-    AccessSection accessSection = projectConfig.getAccessSection(refSpec, true);
-    for (String permission : permissions) {
-      String[] permParts = permission.split("=");
-      String action = permParts[0];
-      PermissionRule rule;
-      if (permParts.length > 1) {
-        rule = PermissionRule.fromString(permParts[1], true);
-        rule.setGroup(getMyGroup());
-      } else {
-        rule = new PermissionRule(getMyGroup());
-      }
-      accessSection.getPermission(action, true).add(rule);
-    }
+    projectConfig.upsertAccessSection(
+        refSpec,
+        as -> {
+          for (String permission : permissions) {
+            String[] permParts = permission.split("=");
+            String action = permParts[0];
+            PermissionRule.Builder ruleBuilder;
+            if (permParts.length > 1) {
+              ruleBuilder =
+                  PermissionRule.fromString(permParts[1], true).toBuilder().setGroup(getMyGroup());
+            } else {
+              ruleBuilder = PermissionRule.builder(getMyGroup());
+            }
+            as.upsertPermission(action).add(ruleBuilder);
+          }
+        });
   }
 
   private void addPermission(String refSpec, String action, PermissionRule rule) {
-    projectConfig.getAccessSection(refSpec, true).getPermission(action, true).add(rule);
+    projectConfig.upsertAccessSection(
+        refSpec,
+        as -> {
+          as.upsertPermission(action).add(rule.toBuilder());
+        });
   }
 
   private GroupReference getMyGroup() {
@@ -181,15 +188,17 @@ public class CreateProjectStep extends ImportStep {
   }
 
   private void setProjectSettings() {
-    Project project = projectConfig.getProject();
-    project.setParentName(config.getBaseProject(getRepository().isPrivate()));
-    project.setDescription(description);
-    project.setSubmitType(SubmitType.MERGE_IF_NECESSARY);
-    project.setBooleanConfig(
-        BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS, InheritableBoolean.INHERIT);
-    project.setBooleanConfig(BooleanProjectConfig.USE_SIGNED_OFF_BY, InheritableBoolean.INHERIT);
-    project.setBooleanConfig(BooleanProjectConfig.USE_CONTENT_MERGE, InheritableBoolean.INHERIT);
-    project.setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.INHERIT);
+    projectConfig.updateProject(
+        b -> {
+          b.setParent(config.getBaseProject(getRepository().isPrivate()));
+          b.setDescription(description);
+          b.setSubmitType(SubmitType.MERGE_IF_NECESSARY);
+          b.setBooleanConfig(
+              BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS, InheritableBoolean.INHERIT);
+          b.setBooleanConfig(BooleanProjectConfig.USE_SIGNED_OFF_BY, InheritableBoolean.INHERIT);
+          b.setBooleanConfig(BooleanProjectConfig.USE_CONTENT_MERGE, InheritableBoolean.INHERIT);
+          b.setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.INHERIT);
+        });
   }
 
   @Override
