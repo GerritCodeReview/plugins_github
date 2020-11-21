@@ -21,10 +21,10 @@ import static com.googlesource.gerrit.plugins.github.group.GitHubGroup.UUID_PREF
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSet.Builder;
-import com.google.gerrit.common.data.GroupDescription.Basic;
-import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.AccountGroup.UUID;
+import com.google.gerrit.entities.GroupDescription.Basic;
+import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
