@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78b536be_a3719de2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-21T19:50:56Z",
+      "side": 1,
+      "message": "It still cannot be built. It seems that the github-plugin code must be adapted to stable-3.3 branch. For example java/com/google/gerrit/common/data/GroupDescription.java was renamed to java/com/google/gerrit/entities/GroupDescription.java in this CL: [1]. But on master the import is still:\n\n  github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/CreateProjectStep.java:import com.google.gerrit.common.data.GroupDescription;\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/275075",
+      "revId": "a51e172e934961e290bdfc69674d11dbc5634b7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
