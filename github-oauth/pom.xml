@@ -107,7 +107,12 @@ limitations under the License.
     <dependency>
       <groupId>org.kohsuke</groupId>
       <artifactId>github-api</artifactId>
-      <version>1.70</version>
+      <version>1.116</version>
+    </dependency>
+    <dependency>
+      <groupId>com.infradna.tool</groupId>
+      <artifactId>bridge-method-injector</artifactId>
+      <version>1.19</version>
     </dependency>
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
