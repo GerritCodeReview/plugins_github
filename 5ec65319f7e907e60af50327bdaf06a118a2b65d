@@ -22,6 +22,30 @@
       },
       "revId": "5ec65319f7e907e60af50327bdaf06a118a2b65d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "805c7ee9_9ec42df1",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-11-21T11:55:57Z",
+      "side": 0,
+      "message": "unfortunately that isn’t an option: using the Gerrit v3.3 API implies switching to Java 11",
+      "parentUuid": "0f269241_89701030",
+      "range": {
+        "startLine": 244,
+        "startChar": 10,
+        "endLine": 245,
+        "endChar": 30
+      },
+      "revId": "5ec65319f7e907e60af50327bdaf06a118a2b65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
