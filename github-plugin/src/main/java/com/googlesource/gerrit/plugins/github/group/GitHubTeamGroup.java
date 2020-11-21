@@ -15,9 +15,9 @@
 package com.googlesource.gerrit.plugins.github.group;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.AccountGroup.UUID;
+import com.google.gerrit.entities.GroupReference;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 

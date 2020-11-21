@@ -13,13 +13,13 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
-import com.google.gerrit.common.data.AccessSection;
-import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.data.GroupReference;
-import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.BooleanProjectConfig;
+import com.google.gerrit.entities.GroupDescription;
+import com.google.gerrit.entities.GroupReference;
+import com.google.gerrit.entities.Permission;
+import com.google.gerrit.entities.PermissionRule;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.client.InheritableBoolean;
