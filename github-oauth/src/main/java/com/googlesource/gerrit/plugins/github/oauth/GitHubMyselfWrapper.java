@@ -278,9 +278,9 @@ public class GitHubMyselfWrapper extends GHMyself {
 
   @Override
   @WithBridgeMethods(
-      value = {String.class},
-      adapterMethod = "intToString")
-  public int getId() {
+      value = {String.class, int.class},
+      adapterMethod = "longToStringOrInt")
+  public long getId() {
     return wrapped.getId();
   }
 }
