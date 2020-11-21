@@ -46,6 +46,30 @@
       },
       "revId": "5ec65319f7e907e60af50327bdaf06a118a2b65d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3d835bb_6ab6bb58",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-21T12:17:51Z",
+      "side": 0,
+      "message": "That\u0027s not the full story. Only official released binaries required switching to Java 11. Gerrit release 3.3 is fully compatible with Java 8. So that every gerrit site administrator, that still rely on Java 8, could build 100% Java compatible release, by saying just that:\n\n  $ bazel build --java_toolchain\u003d@bazel_tools//tools/jdk:toolchain_java8 :release\n\nThe produced binary for gerrit core and plugin would run on Java 8.\n\nIt would be great, if Java 8 compatibility could be preserved in Github plugin as well. To do that, just revert this chunk, and keep producing Java 8 byte code version. That way, the plugin artifact would run on both Java 8 and Java 11 runtime.",
+      "parentUuid": "805c7ee9_9ec42df1",
+      "range": {
+        "startLine": 244,
+        "startChar": 10,
+        "endLine": 245,
+        "endChar": 30
+      },
+      "revId": "5ec65319f7e907e60af50327bdaf06a118a2b65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
