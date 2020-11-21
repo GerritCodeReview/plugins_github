@@ -66,14 +66,25 @@ a Change in Gerrit submitted for review.
 How to build this plugin
 ------------------------
 
-### Gerrit 2.10 build
+### Gerrit 3.3 build
 
-GitHub plugin is designed to work with Gerrit 2.10 (currently in development).
-In order to build the GitHub plugin you need to have a working Gerrit 2.10
+GitHub plugin is designed to work with Gerrit 3.3 (currently in development).
+In order to build the GitHub plugin you need to have a working Gerrit 3.3
 build in place.
 
-See https://gerrit-review.googlesource.com/Documentation/dev-buck.html for a
-reference on how to build Gerrit 2.10 (master branch) using BUCK.
+See https://gerrit-review.googlesource.com/Documentation/dev-bazel.html for a
+reference on how to build Gerrit using Bazel.
+
+Gerrit 3.3 is distributed for Java 11 only. However, the source code is compatible
+with Java 8 assuming you build it from the source repository by yourself.
+
+The GitHub plugin can be built for Java 8 by using the `javaVersion=1.8` Maven
+parameter.
+
+Example:
+  git clone https://gerrit.googlesource.com/plugins/github
+  git github
+  mvn -DjavaVersion=1.8 install
 
 ### GitHub API
 
@@ -90,17 +101,17 @@ Example:
 
 ### singleusergroup plugin
 
-You need to clone, build and install the singleusergroup plugin for Gerrit
+You need to install the singleusergroup plugin for Gerrit
 (see https://gerrit-review.googlesource.com/#/admin/projects/plugins/singleusergroup).
 
 This plugin is needed to allow Gerrit to use individual users as Groups for being
-used in Gerrit ACLs. As of Gerrit 2.10 singleuserplugin is a core plugin and
+used in Gerrit ACLs. As of Gerrit 3.3 singleuserplugin is a core plugin and
 included in Gerrit tree (if it was cloned recursively).
 
 Example:
   cd gerrit
-  buck build plugins/singleusergroup
-  cp buck-out/gen/plugins/singleusergroup/singleusergroup.jar $GERRIT_SITE/plugins/.
+  bazelisk build plugins/singleusergroup
+  cp bazel-bin/plugins/singleusergroup/singleusergroup.jar $GERRIT_SITE/plugins/.
 
 ### Building GitHub integration for Gerrit
 
