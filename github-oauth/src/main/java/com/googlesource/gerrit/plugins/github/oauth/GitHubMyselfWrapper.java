@@ -280,7 +280,7 @@ public class GitHubMyselfWrapper extends GHMyself {
   @WithBridgeMethods(
       value = {String.class},
       adapterMethod = "intToString")
-  public int getId() {
+  public long getId() {
     return wrapped.getId();
   }
 }
