@@ -17,10 +17,10 @@ package com.googlesource.gerrit.plugins.github.group;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.data.GroupDescription.Basic;
-import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.AccountGroup.UUID;
+import com.google.gerrit.entities.GroupDescription.Basic;
+import com.google.gerrit.entities.GroupReference;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -54,6 +54,6 @@ public class GitHubOrganisationGroup extends GitHubGroup implements Basic {
   }
 
   public static GroupReference groupReference(String orgName) {
-    return new GroupReference(uuid(orgName), NAME_PREFIX + orgName);
+    return GroupReference.create(uuid(orgName), NAME_PREFIX + orgName);
   }
 }
