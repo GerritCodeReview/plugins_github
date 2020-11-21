@@ -70,6 +70,30 @@
       },
       "revId": "5ec65319f7e907e60af50327bdaf06a118a2b65d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31c1984a_f693a768",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-11-21T13:25:59Z",
+      "side": 0,
+      "message": "I see your point, however, we don\u0027t distribute the Gerrit API on Java 8.\n\nThis build is downloading the API from:\n\u003curl\u003ehttps://gerrit-api.commondatastorage.googleapis.com/release/\u003c/url\u003e\n\nWhat we *can* do for assuming Java 8 compatibility is to rebuild everything from source, which is what we do for Gerrit core plugins. The GitHub plugin isn\u0027t a core one and we don\u0027t rebuild the whole Gerrit on the CI.\n\nAlso, I can introduce parameters to allow building it for Java 8, as we do for Gerrit. The default build should align with Gerrit default build: Java 11.\n\nLet me do that in a separate change.",
+      "parentUuid": "e3d835bb_6ab6bb58",
+      "range": {
+        "startLine": 244,
+        "startChar": 10,
+        "endLine": 245,
+        "endChar": 30
+      },
+      "revId": "5ec65319f7e907e60af50327bdaf06a118a2b65d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
