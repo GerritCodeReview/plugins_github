@@ -34,7 +34,6 @@ import java.util.TreeSet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import lombok.Getter;
 import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GitHub;
 import org.kohsuke.github.GitHubBuilder;
@@ -57,7 +56,11 @@ public class GitHubLogin implements Serializable {
     }
   }
 
-  @Getter private AccessToken token;
+  private AccessToken token;
+
+  public AccessToken getToken() {
+    return token;
+  }
 
   private String state;
 
