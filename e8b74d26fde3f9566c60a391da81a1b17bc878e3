@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06788ae6_fb67bf69",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-22T18:30:43Z",
+      "side": 1,
+      "message": "To verify, link both directories to gerrit plugins directory:\n\n  github\n  github/github-plugin\n\nand run:\n\n  $ bazel build plugins/github-plugin\n\nI have not tested whether or not the plugin actually works in gerrit server. It could well be, that some transitive dependencies are still missing.",
+      "revId": "e8b74d26fde3f9566c60a391da81a1b17bc878e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
