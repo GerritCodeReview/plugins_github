@@ -17,19 +17,30 @@ package com.googlesource.gerrit.plugins.github.git;
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import java.io.IOException;
-import lombok.Getter;
 import org.kohsuke.github.GHUser;
 import org.kohsuke.github.GitUser;
 
 public class GitHubUser {
-  @Getter private final String login;
-  @Getter private final String name;
-  @Getter private final String email;
+  private final String login;
+  private final String name;
+  private final String email;
 
   private GitHubUser(GHUser gitHubUser, GitUser author) throws IOException {
     this.login = initLogin(gitHubUser).or(generateLogin(author.getName()));
     this.name = initFullName(gitHubUser).or(author.getName());
     this.email = initEmail(gitHubUser).or(author.getEmail());
+  }
+
+  public String getLogin() {
+    return login;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public String getEmail() {
+    return email;
   }
 
   private static String generateLogin(String fullName) {
