@@ -19,7 +19,6 @@ import java.net.URL;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import org.kohsuke.github.GHEmail;
 import org.kohsuke.github.GHEventInfo;
 import org.kohsuke.github.GHGist;
