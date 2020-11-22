@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3beacc7e_8066b53f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-22T10:20:28Z",
+      "side": 1,
+      "message": "Verified, that with custom bridge-method-injector: 1.19 built from my PR, and with this series of adaptation to stable-3.3 branch and main branch: [1] I can build the plugin with against plugin API built with Java 11 (I used Java 15 locally) and produce Java language level 11:\n\n  $ javap -v -cp /home/davido/projects/github/github-plugin/target/github-plugin-3.4.0-SNAPSHOT.jar com.googlesource.gerrit.plugins.github.oauth.GitHubLogin | grep major\n  major version: 55\n\n[2] https://gerrit-review.googlesource.com/c/plugins/github/+/289465",
+      "revId": "ab19f9707cd9c74ce336b2957b32bd6dff7191e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
