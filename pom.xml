@@ -18,7 +18,7 @@ limitations under the License.
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.googlesource.gerrit.plugins.github</groupId>
   <artifactId>github-parent</artifactId>
-  <version>3.3.0-rc6</version>
+  <version>3.4.0-SNAPSHOT</version>
   <name>Gerrit Code Review - GitHub integration</name>
   <url>http://www.gerritforge.com</url>
   <packaging>pom</packaging>
@@ -289,6 +289,12 @@ limitations under the License.
     </repository>
   </repositories>
   <dependencies>
+    <dependency>
+        <groupId>com.ryanharter.auto.value</groupId>
+        <artifactId>auto-value-gson</artifactId>
+        <version>1.3.0</version>
+        <scope>provided</scope>
+    </dependency>
     <dependency>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
