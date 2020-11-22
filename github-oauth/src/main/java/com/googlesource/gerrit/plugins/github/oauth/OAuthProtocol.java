@@ -26,7 +26,6 @@ import java.util.Set;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import lombok.Getter;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -136,9 +135,16 @@ public class OAuthProtocol {
     /** Fully manage public keys. */
     ADMIN_PUBLIC_KEY("admin:public_key", "Fully manage owned public keys");
 
-    @Getter private final String value;
+    private final String value;
+    private final String description;
 
-    @Getter private final String description;
+    public String getValue() {
+      return value;
+    }
+
+    public String getDescription() {
+      return description;
+    }
 
     private Scope(final String value, final String description) {
       this.value = value;

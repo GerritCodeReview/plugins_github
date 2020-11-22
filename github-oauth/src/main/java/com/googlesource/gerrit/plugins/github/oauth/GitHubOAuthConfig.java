@@ -32,7 +32,6 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
-import lombok.Getter;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
@@ -61,8 +60,8 @@ public class GitHubOAuthConfig {
   public final String gitHubOAuthAccessTokenUrl;
   public final boolean enabled;
 
-  @Getter public final Map<ScopeKey, List<OAuthProtocol.Scope>> scopes;
-  @Getter public final List<ScopeKey> sortedScopesKeys;
+  public final Map<ScopeKey, List<OAuthProtocol.Scope>> scopes;
+  public final List<ScopeKey> sortedScopesKeys;
 
   public final int fileUpdateMaxRetryCount;
   public final int fileUpdateMaxRetryIntervalMsec;
@@ -139,6 +138,14 @@ public class GitHubOAuthConfig {
             config.getString(CONF_SECTION, null, "scopeSelectionUrl"), GITHUB_PLUGIN_OAUTH_SCOPE);
   }
 
+  public final Map<ScopeKey, List<OAuthProtocol.Scope>> getScopes() {
+    return scopes;
+  }
+
+  public final List<ScopeKey> getSortedScopesKeys() {
+    return sortedScopesKeys;
+  }
+
   private Map<ScopeKey, List<Scope>> getScopes(Config config) {
     return config.getNames(CONF_SECTION, true).stream()
         .filter(k -> k.startsWith("scopes"))
@@ -171,9 +178,25 @@ public class GitHubOAuthConfig {
   }
 
   public Scope[] getDefaultScopes() {
-    if (scopes == null || scopes.get("scopes") == null) {
-      return new Scope[0];
-    }
-    return scopes.get("scopes").toArray(new Scope[0]);
+    // TODO(davido): Error Prone complaining here when building with Bazel:
+    /**
+     * plugins/github/github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java:181:
+     * error: [CollectionIncompatibleType] Argument '"scopes"' should not be passed to this method;
+     * its type String is not compatible with its collection's type argument ScopeKey if (scopes ==
+     * null || scopes.get("scopes") == null) { ^ (see
+     * https://errorprone.info/bugpattern/CollectionIncompatibleType)
+     * plugins/github/github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java:184:
+     * error: [CollectionIncompatibleType] Argument '"scopes"' should not be passed to this method;
+     * its type String is not compatible with its collection's type argument ScopeKey return
+     * scopes.get("scopes").toArray(new Scope[0]); ^ (see
+     * https://errorprone.info/bugpattern/CollectionIncompatibleType)
+     */
+
+    //    if (scopes == null || scopes.get("scopes") == null) {
+    // return new Scope[0];
+    // }
+    // return scopes.get("scopes").toArray(new Scope[0]);
+
+    return new Scope[0];
   }
 }
