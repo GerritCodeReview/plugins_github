@@ -39,6 +39,30 @@
       },
       "revId": "91abea5fce58a1e5b8447074aa43789d72de3e40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74dd000c_9b18c28f",
+        "filename": "github-oauth/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-23T09:51:57Z",
+      "side": 1,
+      "message": "Yes, it is documented in the commit message, 1.18 release doesn\u0027t work with Java 11 and higher, see my PR: [1]:\n\n  add dependency to the custom release of bridge-method-injector, from this PR: [1].\n\nHowever, I wonder if all this complexity is really needed. As Maven plugin for bridge-method-injector wasn\u0027t added in github pom.xml anyway, the bridhe method annotations are actually unused, as there wasn\u0027t byte code postprocessor invoked anyway.\n\nThe are two options to simplify the build setup:\n\n1. Remove all @WithBridgeMethods annotations from github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubMyselfWrapper.java. They are not actually used, as demonstrated in change 289466. base class already had those bridge methods generated, and that\u0027s fine\n\n2. Remove the override of GitHubMyselfWrapper.java entirely. It was added to only change the behaviour of getAllOrgnaization()-method. We could fix one single caller site instead.\n\n[1] https://github.com/infradna/bridge-method-injector/pull/24",
+      "parentUuid": "a10505fe_58867c77",
+      "range": {
+        "startLine": 115,
+        "startChar": 15,
+        "endLine": 115,
+        "endChar": 19
+      },
+      "revId": "91abea5fce58a1e5b8447074aa43789d72de3e40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
