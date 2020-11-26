@@ -22,6 +22,30 @@
       },
       "revId": "c523a4123ff2b8fe99e91b157a711b4045654f89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "809e52ba_f16720fd",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/replication/RemoteSiteUser.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-11-26T22:00:39Z",
+      "side": 0,
+      "message": "Found it, it was removed from the parent class. Makes sense.",
+      "parentUuid": "e83a4ef2_bf8ea2f0",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 3
+      },
+      "revId": "c523a4123ff2b8fe99e91b157a711b4045654f89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
