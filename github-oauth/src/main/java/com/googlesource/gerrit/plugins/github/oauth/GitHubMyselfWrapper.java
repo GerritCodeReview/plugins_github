@@ -14,7 +14,6 @@
 
 package com.googlesource.gerrit.plugins.github.oauth;
 
-import com.infradna.tool.bridge_method_injector.WithBridgeMethods;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
@@ -111,13 +110,11 @@ public class GitHubMyselfWrapper extends GHMyself {
   }
 
   @Override
-  @WithBridgeMethods({Set.class})
   public GHPersonSet<GHUser> getFollows() throws IOException {
     return wrapped.getFollows();
   }
 
   @Override
-  @WithBridgeMethods({Set.class})
   public GHPersonSet<GHUser> getFollowers() throws IOException {
     return wrapped.getFollowers();
   }
@@ -143,7 +140,6 @@ public class GitHubMyselfWrapper extends GHMyself {
   }
 
   @Override
-  @WithBridgeMethods({Set.class})
   public GHPersonSet<GHOrganization> getOrganizations() throws IOException {
     try {
       return wrapped.getOrganizations();
@@ -269,18 +265,12 @@ public class GitHubMyselfWrapper extends GHMyself {
   }
 
   @Override
-  @WithBridgeMethods(
-      value = {String.class},
-      adapterMethod = "urlToString")
   public URL getUrl() {
     return wrapped.getUrl();
   }
 
   @Override
-  @WithBridgeMethods(
-      value = {String.class},
-      adapterMethod = "intToString")
-  public int getId() {
+  public long getId() {
     return wrapped.getId();
   }
 }
