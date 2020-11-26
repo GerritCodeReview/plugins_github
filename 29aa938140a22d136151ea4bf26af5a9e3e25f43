@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1425a54_f0ec85fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-11-26T21:26:54Z",
+      "side": 1,
+      "message": "It works, that\u0027s a very good job @Davido, thanks !",
+      "revId": "29aa938140a22d136151ea4bf26af5a9e3e25f43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
