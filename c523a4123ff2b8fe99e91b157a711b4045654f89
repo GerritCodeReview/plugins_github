@@ -81,6 +81,24 @@
       "parentUuid": "703f38a0_ec00ed8a",
       "revId": "c523a4123ff2b8fe99e91b157a711b4045654f89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "363d1071_009f4220",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubMyselfWrapper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-11-26T21:30:20Z",
+      "side": 1,
+      "message": "Cool, let me do that in a follow-up change and rebase this on top.",
+      "parentUuid": "e052b858_97a8ee1f",
+      "revId": "c523a4123ff2b8fe99e91b157a711b4045654f89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
