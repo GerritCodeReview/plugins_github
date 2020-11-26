@@ -63,6 +63,24 @@
       "message": "This can be removed and all usages in this class. The bridge methods are already generated in the parent class. This is a no op because current pom.xml does include maven plugin for byte code post processing.",
       "revId": "c523a4123ff2b8fe99e91b157a711b4045654f89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e052b858_97a8ee1f",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubMyselfWrapper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-11-26T21:01:21Z",
+      "side": 1,
+      "message": "Typo: does not include.",
+      "parentUuid": "703f38a0_ec00ed8a",
+      "revId": "c523a4123ff2b8fe99e91b157a711b4045654f89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
