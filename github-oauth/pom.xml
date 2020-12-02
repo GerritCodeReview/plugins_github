@@ -21,7 +21,7 @@ limitations under the License.
   <parent>
     <groupId>com.googlesource.gerrit.plugins.github</groupId>
     <artifactId>github-parent</artifactId>
-    <version>3.3.0-rc7</version>
+    <version>3.3.0</version>
   </parent>
   <artifactId>github-oauth</artifactId>
   <name>Gerrit Code Review - GitHub OAuth login</name>
