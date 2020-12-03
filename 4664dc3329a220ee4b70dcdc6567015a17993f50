@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e44a3101_4019f998",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-03T00:20:41Z",
+      "side": 1,
+      "message": "I would prefer to rather add Lombok support on Bazel: I really like Lombok as it provides all the goodies that I love (btw Scala has them already) to my Java coding.\n\nThe build system would be flexible enough to build my code, including the processing of my annotations at compile time.",
+      "revId": "4664dc3329a220ee4b70dcdc6567015a17993f50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
