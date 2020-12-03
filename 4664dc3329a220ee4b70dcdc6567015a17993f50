@@ -51,6 +51,29 @@
       "parentUuid": "e44a3101_4019f998",
       "revId": "4664dc3329a220ee4b70dcdc6567015a17993f50",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6615d642_cf3e16b1",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-03T07:21:25Z",
+      "side": 1,
+      "message": "I extracted change 290633 to fix Error Prone warnings flagged by error prone during Bazel build. You can reproduce the warnings by applying this change, restoring the original code and building with Bazel.",
+      "range": {
+        "startLine": 181,
+        "startChar": 4,
+        "endLine": 198,
+        "endChar": 57
+      },
+      "revId": "4664dc3329a220ee4b70dcdc6567015a17993f50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
