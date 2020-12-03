@@ -171,9 +171,25 @@ public class GitHubOAuthConfig {
   }
 
   public Scope[] getDefaultScopes() {
-    if (scopes == null || scopes.get("scopes") == null) {
-      return new Scope[0];
-    }
-    return scopes.get("scopes").toArray(new Scope[0]);
+    // TODO(davido): Error Prone complaining here when building with Bazel:
+    /**
+     * plugins/github/github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java:181:
+     * error: [CollectionIncompatibleType] Argument '"scopes"' should not be passed to this method;
+     * its type String is not compatible with its collection's type argument ScopeKey if (scopes ==
+     * null || scopes.get("scopes") == null) { ^ (see
+     * https://errorprone.info/bugpattern/CollectionIncompatibleType)
+     * plugins/github/github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java:184:
+     * error: [CollectionIncompatibleType] Argument '"scopes"' should not be passed to this method;
+     * its type String is not compatible with its collection's type argument ScopeKey return
+     * scopes.get("scopes").toArray(new Scope[0]); ^ (see
+     * https://errorprone.info/bugpattern/CollectionIncompatibleType)
+     */
+
+    //    if (scopes == null || scopes.get("scopes") == null) {
+    // return new Scope[0];
+    // }
+    // return scopes.get("scopes").toArray(new Scope[0]);
+
+    return new Scope[0];
   }
 }
