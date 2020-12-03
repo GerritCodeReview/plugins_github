@@ -20,7 +20,7 @@ limitations under the License.
   <parent>
     <artifactId>github-parent</artifactId>
     <groupId>com.googlesource.gerrit.plugins.github</groupId>
-    <version>3.3.0</version>
+    <version>3.4.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>github-plugin</artifactId>
