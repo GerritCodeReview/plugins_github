@@ -16,6 +16,24 @@
       "message": "Surprisingly, this bug has been around since Gerrit v2.15 and nobody notified the issue.\nGoing to fix on the earliest supported release of Gerrit (v3.1) but it can be potentially cherry-picked to v2.15, v2.16 and v3.0.",
       "revId": "c1ae1048ff84156808f24430e64063133e924ce5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62741b27_2d4f047d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-29T07:30:21Z",
+      "side": 1,
+      "message": "Strange, but Error Prone rocks?!",
+      "parentUuid": "05b72b45_379a34f7",
+      "revId": "c1ae1048ff84156808f24430e64063133e924ce5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
