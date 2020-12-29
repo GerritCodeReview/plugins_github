@@ -22,6 +22,30 @@
       },
       "revId": "306ff3f5ad6233165adb277b422db5c2d67a1e86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "446e211a_7621534a",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-12-29T07:34:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7d375b8_875bea55",
+      "range": {
+        "startLine": 174,
+        "startChar": 0,
+        "endLine": 193,
+        "endChar": 24
+      },
+      "revId": "306ff3f5ad6233165adb277b422db5c2d67a1e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
