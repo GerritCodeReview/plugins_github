@@ -20,11 +20,14 @@ import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.github.GitHubConfig;
 import java.io.File;
@@ -34,6 +37,7 @@ import org.eclipse.jgit.api.FetchCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.slf4j.Logger;
@@ -52,6 +56,8 @@ public class GitCloneStep extends ImportStep {
   private final DynamicSet<ProjectDeletedListener> deletedListeners;
   private final ProjectCache projectCache;
   private final GitRepositoryManager repoManager;
+  private final GitReferenceUpdated referenceUpdated;
+  private final Provider<IdentifiedUser> identifiedUser;
 
   public interface Factory {
     GitCloneStep create(
@@ -67,6 +73,8 @@ public class GitCloneStep extends ImportStep {
       DynamicSet<ProjectDeletedListener> deletedListeners,
       ProjectCache projectCache,
       GitRepositoryManager repoManager,
+      GitReferenceUpdated referenceUpdated,
+      Provider<IdentifiedUser> identifiedUser,
       @Assisted("organisation") String organisation,
       @Assisted("name") String repository)
       throws GitException {
@@ -83,6 +91,8 @@ public class GitCloneStep extends ImportStep {
     this.deletedListeners = deletedListeners;
     this.projectCache = projectCache;
     this.repoManager = repoManager;
+    this.referenceUpdated = referenceUpdated;
+    this.identifiedUser = identifiedUser;
   }
 
   private static File prepareTargetGitDirectory(File gitDir, String organisation, String repository)
@@ -118,6 +128,16 @@ public class GitCloneStep extends ImportStep {
       }
       LOG.info(sourceUri + "| Clone into " + destinationDirectory);
       fetch.call();
+
+      String projectName = organisation + "/" + repository;
+      for (Ref branch : git.branchList().call()) {
+        referenceUpdated.fire(
+            Project.nameKey(projectName),
+            branch.getName(),
+            branch.getObjectId(),
+            branch.getObjectId(),
+            identifiedUser.get().state());
+      }
     } catch (IOException | GitAPIException e) {
       LOG.error("Unable to fetch from {} into {}", sourceUri, destinationDirectory, e);
       throw new GitCloneFailedException(sourceUri, e);
