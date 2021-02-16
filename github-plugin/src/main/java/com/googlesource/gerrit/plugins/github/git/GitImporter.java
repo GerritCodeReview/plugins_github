@@ -26,18 +26,21 @@ public class GitImporter extends BatchImporter {
   public static class Provider extends HttpSessionProvider<GitImporter> {}
 
   private static final Logger log = LoggerFactory.getLogger(GitImporter.class);
+  private final ProtectedBranchesCheckStep.Factory protectedBranchesCheckFactory;
   private final GitCloneStep.Factory cloneFactory;
   private final CreateProjectStep.Factory projectFactory;
   private final ReplicateProjectStep.Factory replicateFactory;
 
   @Inject
   public GitImporter(
+      ProtectedBranchesCheckStep.Factory protectedBranchesCheckFactory,
       GitCloneStep.Factory cloneFactory,
       CreateProjectStep.Factory projectFactory,
       ReplicateProjectStep.Factory replicateFactory,
       JobExecutor executor,
       IdentifiedUser user) {
     super(executor, user);
+    this.protectedBranchesCheckFactory = protectedBranchesCheckFactory;
     this.cloneFactory = cloneFactory;
     this.projectFactory = projectFactory;
     this.replicateFactory = replicateFactory;
@@ -45,12 +48,21 @@ public class GitImporter extends BatchImporter {
 
   public void clone(int idx, String organisation, String repository, String description) {
     try {
+      ProtectedBranchesCheckStep protectedBranchesCheckStep =
+          protectedBranchesCheckFactory.create(organisation, repository);
       GitCloneStep cloneStep = cloneFactory.create(organisation, repository);
       CreateProjectStep projectStep =
           projectFactory.create(organisation, repository, description, user.getUserName().get());
       ReplicateProjectStep replicateStep = replicateFactory.create(organisation, repository);
       GitImportJob gitCloneJob =
-          new GitImportJob(idx, organisation, repository, cloneStep, projectStep, replicateStep);
+          new GitImportJob(
+              idx,
+              organisation,
+              repository,
+              protectedBranchesCheckStep,
+              cloneStep,
+              projectStep,
+              replicateStep);
       log.debug("New Git clone job created: " + gitCloneJob);
       schedule(idx, gitCloneJob);
     } catch (Throwable e) {

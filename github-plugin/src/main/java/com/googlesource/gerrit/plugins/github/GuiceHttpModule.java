@@ -24,6 +24,7 @@ import com.googlesource.gerrit.plugins.github.git.CreateProjectStep;
 import com.googlesource.gerrit.plugins.github.git.GitCloneStep;
 import com.googlesource.gerrit.plugins.github.git.GitHubRepository;
 import com.googlesource.gerrit.plugins.github.git.GitImporter;
+import com.googlesource.gerrit.plugins.github.git.ProtectedBranchesCheckStep;
 import com.googlesource.gerrit.plugins.github.git.PullRequestImportJob;
 import com.googlesource.gerrit.plugins.github.git.ReplicateProjectStep;
 import com.googlesource.gerrit.plugins.github.notification.WebhookServlet;
@@ -49,6 +50,10 @@ public class GuiceHttpModule extends ServletModule {
 
     install(new FactoryModuleBuilder().build(RemoteSiteUser.Factory.class));
 
+    install(
+        new FactoryModuleBuilder()
+            .implement(ProtectedBranchesCheckStep.class, ProtectedBranchesCheckStep.class)
+            .build(ProtectedBranchesCheckStep.Factory.class));
     install(
         new FactoryModuleBuilder()
             .implement(GitCloneStep.class, GitCloneStep.class)
