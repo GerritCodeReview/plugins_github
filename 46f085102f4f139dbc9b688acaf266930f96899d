@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "729af008_35f521ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-16T10:07:52Z",
+      "side": 1,
+      "message": "fixes",
+      "range": {
+        "startLine": 11,
+        "startChar": 46,
+        "endLine": 11,
+        "endChar": 49
+      },
+      "revId": "46f085102f4f139dbc9b688acaf266930f96899d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91c59e10_d517a863",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/GitCloneStep.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-16T10:07:52Z",
+      "side": 1,
+      "message": "This can be returned as part of the createNewProject() at L121",
+      "range": {
+        "startLine": 132,
+        "startChar": 6,
+        "endLine": 132,
+        "endChar": 59
+      },
+      "revId": "46f085102f4f139dbc9b688acaf266930f96899d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c09586f_9ab8957c",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/GitCloneStep.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-16T10:07:52Z",
+      "side": 1,
+      "message": "This would not important the other refs though.\n\nYou should use instead: \u0027git.getRepository().getRefDatabase().getRefs()\u0027",
+      "range": {
+        "startLine": 133,
+        "startChar": 28,
+        "endLine": 133,
+        "endChar": 40
+      },
+      "revId": "46f085102f4f139dbc9b688acaf266930f96899d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8eddb41_c3f73ee3",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/GitCloneStep.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-16T10:07:52Z",
+      "side": 1,
+      "message": "This isn\u0027t going to change across branches: it can be created at L132",
+      "range": {
+        "startLine": 135,
+        "startChar": 12,
+        "endLine": 135,
+        "endChar": 40
+      },
+      "revId": "46f085102f4f139dbc9b688acaf266930f96899d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c20c9fd7_99d5e15b",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/GitCloneStep.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-16T10:07:52Z",
+      "side": 1,
+      "message": "We need to simulate the creation of refs: the oldObjectId should be ObjectId.ZEROID",
+      "range": {
+        "startLine": 137,
+        "startChar": 11,
+        "endLine": 137,
+        "endChar": 32
+      },
+      "revId": "46f085102f4f139dbc9b688acaf266930f96899d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66e87074_4c4232c9",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/GitCloneStep.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-16T10:07:52Z",
+      "side": 1,
+      "message": "This isn\u0027t going to change across branches: it can be. created at L132",
+      "range": {
+        "startLine": 139,
+        "startChar": 12,
+        "endLine": 139,
+        "endChar": 40
+      },
+      "revId": "46f085102f4f139dbc9b688acaf266930f96899d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
