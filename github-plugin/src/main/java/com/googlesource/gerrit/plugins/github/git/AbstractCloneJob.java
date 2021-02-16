@@ -26,6 +26,9 @@ public class AbstractCloneJob {
 
   protected String getErrorDescription(Throwable exception) {
     LOG.error("Job " + this + " FAILED", exception);
+    if (exception instanceof ProtectedBranchFoundException) {
+      return exception.getMessage();
+    }
     if (GitException.class.isAssignableFrom(exception.getClass())) {
       return ((GitException) exception).getErrorDescription();
     } else if (ProvisionException.class.isAssignableFrom(exception.getClass())) {
