@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91913b05_750bc720",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-02-16T17:02:08Z",
+      "side": 1,
+      "message": "I will wait for replay on this discussion https://github.com/hub4j/github-api/discussions/1036\nBasically I found two ways of checking if the branch is protected and both are marked as deprecated 😊\n\n",
+      "revId": "f05219da448813e0cd7d7552f86d2950e3ba4f36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
