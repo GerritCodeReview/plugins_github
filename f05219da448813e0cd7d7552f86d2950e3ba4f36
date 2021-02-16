@@ -16,6 +16,29 @@
       "message": "I will wait for replay on this discussion https://github.com/hub4j/github-api/discussions/1036\nBasically I found two ways of checking if the branch is protected and both are marked as deprecated 😊\n\n",
       "revId": "f05219da448813e0cd7d7552f86d2950e3ba4f36",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a4b6108_57ce626f",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/ProtectedBranchesCheckStep.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-16T22:20:48Z",
+      "side": 1,
+      "message": "you should remove protection",
+      "range": {
+        "startLine": 58,
+        "startChar": 62,
+        "endLine": 58,
+        "endChar": 79
+      },
+      "revId": "f05219da448813e0cd7d7552f86d2950e3ba4f36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
