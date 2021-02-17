@@ -39,6 +39,30 @@
       },
       "revId": "f05219da448813e0cd7d7552f86d2950e3ba4f36",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a2bccc2_1dd089fb",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/ProtectedBranchesCheckStep.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-02-17T12:13:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a4b6108_57ce626f",
+      "range": {
+        "startLine": 58,
+        "startChar": 62,
+        "endLine": 58,
+        "endChar": 79
+      },
+      "revId": "f05219da448813e0cd7d7552f86d2950e3ba4f36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
