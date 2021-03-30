@@ -38,8 +38,8 @@ public class OAuthFilter implements Filter {
   private static Pattern GIT_HTTP_REQUEST_PATTERN = Pattern.compile(GitOverHttpServlet.URL_REGEX);
   private static final Set<String> GERRIT_STATIC_RESOURCES_EXTS =
       Sets.newHashSet("css", "png", "jpg", "gif", "woff", "otf", "ttf", "map", "js", "swf", "txt");
-  private static final Set<String> GERRIT_WHITELISTED_PATHS = Sets.newHashSet("Documentation");
-  private static final Set<String> GERRIT_WHITELISTED_PAGES = Sets.newHashSet("scope.html");
+  private static final Set<String> GERRIT_ALLOWED_PATHS = Sets.newHashSet("Documentation");
+  private static final Set<String> GERRIT_ALLOWED_PAGES = Sets.newHashSet("scope.html");
 
   private final GitHubOAuthConfig config;
   private final OAuthWebFilter webFilter;
@@ -78,7 +78,7 @@ public class OAuthFilter implements Filter {
     return isStaticResource(httpRequest)
         || isRpcCall(httpRequest)
         || isAuthenticatedRestCall(httpRequest)
-        || isWhitelisted(httpRequest);
+        || isAllowed(httpRequest);
   }
 
   private static boolean isAuthenticatedRestCall(HttpServletRequest httpRequest) {
@@ -95,11 +95,11 @@ public class OAuthFilter implements Filter {
     return GERRIT_STATIC_RESOURCES_EXTS.contains(pathExt.toLowerCase());
   }
 
-  private static boolean isWhitelisted(HttpServletRequest httpRequest) {
+  private static boolean isAllowed(HttpServletRequest httpRequest) {
     String[] requestPathParts = httpRequest.getRequestURI().split("/");
     return (requestPathParts.length > 1
-        && (GERRIT_WHITELISTED_PATHS.contains(requestPathParts[1])
-            || GERRIT_WHITELISTED_PAGES.contains(requestPathParts[requestPathParts.length - 1])));
+        && (GERRIT_ALLOWED_PATHS.contains(requestPathParts[1])
+            || GERRIT_ALLOWED_PAGES.contains(requestPathParts[requestPathParts.length - 1])));
   }
 
   private static boolean isRpcCall(HttpServletRequest httpRequest) {
