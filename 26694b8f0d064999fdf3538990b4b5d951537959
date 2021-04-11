@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cd34f35_f651500e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-11T08:17:51Z",
+      "side": 1,
+      "message": "We should create stable-3.4 branch from the parent change and set version to 3.4.0-rc0 there.",
+      "revId": "26694b8f0d064999fdf3538990b4b5d951537959",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
