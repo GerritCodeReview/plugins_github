@@ -25,7 +25,7 @@ import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.AccountGroup.UUID;
 import com.google.gerrit.entities.GroupDescription.Basic;
 import com.google.gerrit.entities.GroupReference;
-import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.project.ProjectState;
@@ -111,7 +111,7 @@ public class GitHubGroupBackend implements GroupBackend {
   }
 
   @Override
-  public GroupMembership membershipsOf(IdentifiedUser user) {
+  public GroupMembership membershipsOf(CurrentUser user) {
     String username = user.getUserName().orElse(null);
     if (Strings.isNullOrEmpty(username)) {
       return GroupMembership.EMPTY;
