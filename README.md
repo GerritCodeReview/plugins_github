@@ -190,3 +190,21 @@ installer cannot detect it automatically.
 
 After the installation, Eclipse must be restarted and compilation
 errors should disappear.
+
+### Notes
+
+#### Magic refs
+
+Before importing a repository from github, this plugin checks that its git refs
+do not clash with Gerrit magic refs, since importing those refs would prevent
+users from creating change requests.
+
+Attempting to import repositories having refs starting with `refs/for/` will
+fail with an error message.
+For example:
+
+```text
+Found 2 ref(s): Please remove or rename the following refs and try again: refs/for/foo, refs/for/bar,
+```
+
+More information on Gerrit magic refs can be found [here](https://gerrit-review.googlesource.com/Documentation/intro-user.html#upload-change)
