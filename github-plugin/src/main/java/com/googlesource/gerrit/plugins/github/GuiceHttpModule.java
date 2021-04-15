@@ -21,6 +21,7 @@ import com.google.inject.name.Names;
 import com.google.inject.servlet.ServletModule;
 import com.googlesource.gerrit.plugins.github.filters.GitHubOAuthFilter;
 import com.googlesource.gerrit.plugins.github.git.CreateProjectStep;
+import com.googlesource.gerrit.plugins.github.git.GerritManagedRefsCheckStep;
 import com.googlesource.gerrit.plugins.github.git.GitCloneStep;
 import com.googlesource.gerrit.plugins.github.git.GitHubRepository;
 import com.googlesource.gerrit.plugins.github.git.GitImporter;
@@ -66,6 +67,10 @@ public class GuiceHttpModule extends ServletModule {
         new FactoryModuleBuilder()
             .implement(ReplicateProjectStep.class, ReplicateProjectStep.class)
             .build(ReplicateProjectStep.Factory.class));
+    install(
+        new FactoryModuleBuilder()
+            .implement(GerritManagedRefsCheckStep.class, GerritManagedRefsCheckStep.class)
+            .build(GerritManagedRefsCheckStep.Factory.class));
     install(
         new FactoryModuleBuilder()
             .implement(PullRequestImportJob.class, PullRequestImportJob.class)
