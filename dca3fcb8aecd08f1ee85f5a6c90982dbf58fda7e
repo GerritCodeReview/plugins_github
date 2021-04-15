@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9596c664_853859d6",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/MagicRefCheckStep.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-15T17:14:02Z",
+      "side": 1,
+      "message": "Not used.",
+      "range": {
+        "startLine": 29,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 79
+      },
+      "revId": "dca3fcb8aecd08f1ee85f5a6c90982dbf58fda7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aea91577_2707a1c4",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/MagicRefCheckStep.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-04-15T17:14:02Z",
+      "side": 1,
+      "message": "Should we also check for refs/meta? E.g.:\n\n   if (MagicBranch.isMagicBranch(ref.getRef()) ||\n     ref.getRef().startsWith(RefNames.REFS_META)) {\n   [...]",
+      "range": {
+        "startLine": 53,
+        "startChar": 12,
+        "endLine": 53,
+        "endChar": 51
+      },
+      "revId": "dca3fcb8aecd08f1ee85f5a6c90982dbf58fda7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
