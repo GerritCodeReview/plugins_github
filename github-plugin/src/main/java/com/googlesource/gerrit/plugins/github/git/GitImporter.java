@@ -27,6 +27,7 @@ public class GitImporter extends BatchImporter {
 
   private static final Logger log = LoggerFactory.getLogger(GitImporter.class);
   private final ProtectedBranchesCheckStep.Factory protectedBranchesCheckFactory;
+  private final MagicRefCheckStep.Factory magicRefCheckFactory;
   private final GitCloneStep.Factory cloneFactory;
   private final CreateProjectStep.Factory projectFactory;
   private final ReplicateProjectStep.Factory replicateFactory;
@@ -37,6 +38,7 @@ public class GitImporter extends BatchImporter {
       GitCloneStep.Factory cloneFactory,
       CreateProjectStep.Factory projectFactory,
       ReplicateProjectStep.Factory replicateFactory,
+      MagicRefCheckStep.Factory magicRefCheckFactory,
       JobExecutor executor,
       IdentifiedUser user) {
     super(executor, user);
@@ -44,6 +46,7 @@ public class GitImporter extends BatchImporter {
     this.cloneFactory = cloneFactory;
     this.projectFactory = projectFactory;
     this.replicateFactory = replicateFactory;
+    this.magicRefCheckFactory = magicRefCheckFactory;
   }
 
   public void clone(int idx, String organisation, String repository, String description) {
@@ -51,6 +54,7 @@ public class GitImporter extends BatchImporter {
       ProtectedBranchesCheckStep protectedBranchesCheckStep =
           protectedBranchesCheckFactory.create(organisation, repository);
       GitCloneStep cloneStep = cloneFactory.create(organisation, repository);
+      MagicRefCheckStep magicRefCheckStep = magicRefCheckFactory.create(organisation, repository);
       CreateProjectStep projectStep =
           projectFactory.create(organisation, repository, description, user.getUserName().get());
       ReplicateProjectStep replicateStep = replicateFactory.create(organisation, repository);
@@ -60,6 +64,7 @@ public class GitImporter extends BatchImporter {
               organisation,
               repository,
               protectedBranchesCheckStep,
+              magicRefCheckStep,
               cloneStep,
               projectStep,
               replicateStep);
