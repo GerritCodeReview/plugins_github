@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f35bc81_f5a75395",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/MagicRefCheckStep.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-04-16T09:44:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "004c2ead_af009549",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 31
+      },
+      "revId": "587483c10f44bbe450527b9632ca694f04b9894b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "40dfbbaa_e2df4989",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-04-16T09:37:36Z",
       "side": 1,
       "message": "Run Google-Java-Format.",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 22
+      },
+      "revId": "587483c10f44bbe450527b9632ca694f04b9894b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c44835bd_f0eefd18",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/MagicRefCheckStep.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-04-16T09:44:53Z",
+      "side": 1,
+      "message": "Thanks, I had forgotten.",
+      "parentUuid": "40dfbbaa_e2df4989",
       "range": {
         "startLine": 27,
         "startChar": 0,
