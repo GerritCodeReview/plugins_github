@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2a407e0_183a3337",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/MagicRefCheckStep.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-04-16T07:58:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9596c664_853859d6",
+      "range": {
+        "startLine": 29,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 79
+      },
+      "revId": "dca3fcb8aecd08f1ee85f5a6c90982dbf58fda7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aea91577_2707a1c4",
@@ -61,6 +85,30 @@
       "side": 1,
       "message": "good idea @david, let me do that.",
       "parentUuid": "aea91577_2707a1c4",
+      "range": {
+        "startLine": 53,
+        "startChar": 12,
+        "endLine": 53,
+        "endChar": 51
+      },
+      "revId": "dca3fcb8aecd08f1ee85f5a6c90982dbf58fda7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2dcd55a7_f41c561f",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/MagicRefCheckStep.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-04-16T07:58:28Z",
+      "side": 1,
+      "message": "I have extended this to all gerrit-managed refs.\n\nWDYT?",
+      "parentUuid": "dfabe2c2_3359601c",
       "range": {
         "startLine": 53,
         "startChar": 12,
