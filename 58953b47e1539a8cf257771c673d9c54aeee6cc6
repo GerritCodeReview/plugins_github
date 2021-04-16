@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b35a2c1_b65a9cfa",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/MagicRefCheckStep.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-04-16T19:34:24Z",
+      "side": 1,
+      "message": "I have noticed there are no tests at all in this repo. Worth starting from this or do you think is too much trouble for a small benefit?",
+      "revId": "58953b47e1539a8cf257771c673d9c54aeee6cc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07ebca93_b6c83189",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/MagicRefCheckStep.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-04-16T19:34:24Z",
+      "side": 1,
+      "message": "Might be worth telling the user why they cannot import those particular refs (i.e.: they are internally used by Gerrit), since the user might not be aware of the Gerrit internals.",
+      "range": {
+        "startLine": 60,
+        "startChar": 34,
+        "endLine": 60,
+        "endChar": 93
+      },
+      "revId": "58953b47e1539a8cf257771c673d9c54aeee6cc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
