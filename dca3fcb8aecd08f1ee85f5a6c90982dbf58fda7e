@@ -117,6 +117,30 @@
       },
       "revId": "dca3fcb8aecd08f1ee85f5a6c90982dbf58fda7e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1673da5a_9aca0157",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/MagicRefCheckStep.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-04-16T08:55:31Z",
+      "side": 1,
+      "message": "Reverted to check refs/for and refs/meta",
+      "parentUuid": "2dcd55a7_f41c561f",
+      "range": {
+        "startLine": 53,
+        "startChar": 12,
+        "endLine": 53,
+        "endChar": 51
+      },
+      "revId": "dca3fcb8aecd08f1ee85f5a6c90982dbf58fda7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
