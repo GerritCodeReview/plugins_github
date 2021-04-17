@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0aadfc78_5e3ccc6f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-04-17T02:25:48Z",
+      "side": 1,
+      "message": "nit: empty space at the beginning of the line",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 1
+      },
+      "revId": "58953b47e1539a8cf257771c673d9c54aeee6cc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3b35a2c1_b65a9cfa",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/MagicRefCheckStep.java",
         "patchSetId": 8
