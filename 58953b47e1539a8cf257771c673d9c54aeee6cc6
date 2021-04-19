@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4526d89_66c1d1e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-04-19T08:39:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0aadfc78_5e3ccc6f",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 1
+      },
+      "revId": "58953b47e1539a8cf257771c673d9c54aeee6cc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b35a2c1_b65a9cfa",
@@ -43,6 +67,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d4dc9bb6_dcf2af7f",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/MagicRefCheckStep.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-04-19T08:39:25Z",
+      "side": 1,
+      "message": "As discussed, this is the result of github not playing nicely with testing, since it provides no testing environment or emulator.\n\nWDYT?",
+      "parentUuid": "3b35a2c1_b65a9cfa",
+      "revId": "58953b47e1539a8cf257771c673d9c54aeee6cc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "07ebca93_b6c83189",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/MagicRefCheckStep.java",
         "patchSetId": 8
@@ -54,6 +96,30 @@
       "writtenOn": "2021-04-16T19:34:24Z",
       "side": 1,
       "message": "Might be worth telling the user why they cannot import those particular refs (i.e.: they are internally used by Gerrit), since the user might not be aware of the Gerrit internals.",
+      "range": {
+        "startLine": 60,
+        "startChar": 34,
+        "endLine": 60,
+        "endChar": 93
+      },
+      "revId": "58953b47e1539a8cf257771c673d9c54aeee6cc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49723faa_3fadaf8d",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/MagicRefCheckStep.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-04-19T08:39:25Z",
+      "side": 1,
+      "message": "I have added a link do the docs in the README.md, do you think that\u0027s not enough?",
+      "parentUuid": "07ebca93_b6c83189",
       "range": {
         "startLine": 60,
         "startChar": 34,
