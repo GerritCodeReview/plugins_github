@@ -24,6 +24,8 @@ import com.googlesource.gerrit.plugins.github.git.CreateProjectStep;
 import com.googlesource.gerrit.plugins.github.git.GitCloneStep;
 import com.googlesource.gerrit.plugins.github.git.GitHubRepository;
 import com.googlesource.gerrit.plugins.github.git.GitImporter;
+import com.googlesource.gerrit.plugins.github.git.MagicRefCheckStep;
+import com.googlesource.gerrit.plugins.github.git.ProtectedBranchesCheckStep;
 import com.googlesource.gerrit.plugins.github.git.PullRequestImportJob;
 import com.googlesource.gerrit.plugins.github.git.ReplicateProjectStep;
 import com.googlesource.gerrit.plugins.github.notification.WebhookServlet;
@@ -51,6 +53,10 @@ public class GuiceHttpModule extends ServletModule {
 
     install(
         new FactoryModuleBuilder()
+            .implement(ProtectedBranchesCheckStep.class, ProtectedBranchesCheckStep.class)
+            .build(ProtectedBranchesCheckStep.Factory.class));
+    install(
+        new FactoryModuleBuilder()
             .implement(GitCloneStep.class, GitCloneStep.class)
             .build(GitCloneStep.Factory.class));
     install(
@@ -61,6 +67,10 @@ public class GuiceHttpModule extends ServletModule {
         new FactoryModuleBuilder()
             .implement(ReplicateProjectStep.class, ReplicateProjectStep.class)
             .build(ReplicateProjectStep.Factory.class));
+    install(
+        new FactoryModuleBuilder()
+            .implement(MagicRefCheckStep.class, MagicRefCheckStep.class)
+            .build(MagicRefCheckStep.Factory.class));
     install(
         new FactoryModuleBuilder()
             .implement(PullRequestImportJob.class, PullRequestImportJob.class)
