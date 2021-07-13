@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "503ed453_bebb9c63",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-07-13T15:42:42Z",
+      "side": 1,
+      "message": "Tested this E2E.\n\n- Add workflow scope:\n  \n```\n  scopes \u003d USER_EMAIL,PUBLIC_REPO,READ_ORG,WORKFLOW\n  scopesSequence \u003d 0\n  scopesDescription \u003d \"Default scopes and permission to manage github actions\"\n```\n  \n- Make a change to a workflow:\n\n```\n  .github/workflows/blank.yml\n```\n\n- Replicate to github.\n\n```\nssh -p 29418 admin@localhost replication start --url \u0027syntonyze/test-repo-10\u0027 --now --wait\n```\n\n* Without this change I get:\n\n```\n[2021-07-13 17:23:38,466] Failed replicate of refs/changes/01/1/1 to https://github.com/syntonyze/test-repo-10.git, reason: refusing to allow an OAuth App to create or update workflow `.github/workflows/blank.yml` without `workflow` scope [CONTEXT pushOneId\u003d\"d3d28964\" ]\n```\n\n* With the additional workflow I get:\n\n\n```\n[2021-07-13 17:33:40,002] Replication to https://github.com/syntonyze/test-repo-10.git completed in 3110ms, 15005ms delay, 0 retries [CONTEXT PLUGIN\u003d\"replication\" RECEIVE_ID\u003d\"syntonyze/test-repo-10-1626190401584-71f7d3e6\" project\u003d\"syntonyze/test-repo-10\" pushOneId\u003d\"94318f5a\" ]\n```\n\n*NOTE*: in order for this to work the user has to logout/login (or *explicitly* change their chosen scope, but this is expected).\n\ngithub will inform the user of the added scope via email:\n\n```\nHey syntonyze!\n\nPreviously, a third-party OAuth application (Gerrit - github plugin development) had public_repo, read:org, and user:email scopes. It was recently granted an additional scope (workflow). Visit https://github.com/settings/connections/applications/c70fa50442b6b4348cae for more information.\n```",
+      "revId": "e2d41bda2ddd4b8212ef8ece018b8d2efa0ecc73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
