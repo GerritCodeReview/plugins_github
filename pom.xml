@@ -265,7 +265,7 @@ limitations under the License.
         <enabled>false</enabled>
       </snapshots>
       <id>repo.jenkins-ci.org</id>
-      <url>http://repo.jenkins-ci.org/public/</url>
+      <url>https://repo.jenkins-ci.org/artifactory/public/</url>
     </repository>
     <repository>
       <snapshots>
