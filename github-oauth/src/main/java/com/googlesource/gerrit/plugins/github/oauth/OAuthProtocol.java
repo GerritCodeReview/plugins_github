@@ -134,7 +134,10 @@ public class OAuthProtocol {
     WRITE_PUBLIC_KEY("write:public_key", "Read/write/list owned public keys"),
 
     /** Fully manage public keys. */
-    ADMIN_PUBLIC_KEY("admin:public_key", "Fully manage owned public keys");
+    ADMIN_PUBLIC_KEY("admin:public_key", "Fully manage owned public keys"),
+
+    /** Grants the ability to add and update GitHub Actions workflow files. */
+    WORKFLOW("workflow", "Manage actions workflow files.");
 
     @Getter private final String value;
 
