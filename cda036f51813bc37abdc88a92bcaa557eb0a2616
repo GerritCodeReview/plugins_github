@@ -46,6 +46,30 @@
       },
       "revId": "cda036f51813bc37abdc88a92bcaa557eb0a2616",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bfef730_a8a1e9d8",
+        "filename": "github-oauth/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-12-07T13:01:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0df41b7f_dcdeb35a",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 20
+      },
+      "revId": "cda036f51813bc37abdc88a92bcaa557eb0a2616",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
