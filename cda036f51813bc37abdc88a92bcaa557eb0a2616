@@ -22,6 +22,30 @@
       },
       "revId": "cda036f51813bc37abdc88a92bcaa557eb0a2616",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0df41b7f_dcdeb35a",
+        "filename": "github-oauth/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-12-07T12:58:48Z",
+      "side": 1,
+      "message": "Nope, the project contains all of them, we don\u0027t need to publish them to Maven Central.",
+      "parentUuid": "307f3a8a_1295a64c",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 20
+      },
+      "revId": "cda036f51813bc37abdc88a92bcaa557eb0a2616",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
