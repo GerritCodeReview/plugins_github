@@ -17,6 +17,7 @@ import com.google.common.base.MoreObjects;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -28,21 +29,25 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public class AccountImporter {
   private final Sequences sequences;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
+  private final ExternalIdFactory externalIdFactory;
 
   @Inject
   public AccountImporter(
-      Sequences sequences, @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider) {
+      Sequences sequences,
+      @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider,
+      ExternalIdFactory externalIdFactory) {
     this.sequences = sequences;
     this.accountsUpdateProvider = accountsUpdateProvider;
+    this.externalIdFactory = externalIdFactory;
   }
 
   public Account.Id importAccount(String login, String name, String email)
       throws IOException, ConfigInvalidException {
     Account.Id id = Account.id(sequences.nextAccountId());
     List<ExternalId> extIds = new ArrayList<>();
-    extIds.add(ExternalId.createEmail(id, email));
-    extIds.add(ExternalId.create(ExternalId.SCHEME_GERRIT, login, id));
-    extIds.add(ExternalId.create(ExternalId.SCHEME_USERNAME, login, id));
+    extIds.add(externalIdFactory.createEmail(id, email));
+    extIds.add(externalIdFactory.create(ExternalId.SCHEME_GERRIT, login, id));
+    extIds.add(externalIdFactory.create(ExternalId.SCHEME_USERNAME, login, id));
     AccountState accountUpdate =
         accountsUpdateProvider
             .get()
