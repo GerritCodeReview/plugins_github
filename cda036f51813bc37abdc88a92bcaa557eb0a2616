@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "307f3a8a_1295a64c",
+        "filename": "github-oauth/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-12-07T11:20:25Z",
+      "side": 1,
+      "message": "This is also used by gerrit-plugin-api which means we will have to publish the 3.5.0.1 gerrit-plugin-api version to maven [1] first, right?\n\n\n[1]: https://mvnrepository.com/artifact/com.google.gerrit/gerrit-plugin-api",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 20
+      },
+      "revId": "cda036f51813bc37abdc88a92bcaa557eb0a2616",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
