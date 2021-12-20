@@ -34,6 +34,7 @@ import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.restapi.account.AddSshKey;
 import com.google.gerrit.server.restapi.account.GetSshKeys;
 import com.google.gerrit.server.restapi.account.PutName;
@@ -71,6 +72,7 @@ public class AccountController implements VelocityController {
   private final ExternalIds externalIds;
   private final ExternalIdFactory externalIdFactory;
   private final AuthRequest.Factory authRequestFactory;
+  private final AuthConfig authConfig;
 
   @Inject
   public AccountController(
@@ -83,7 +85,8 @@ public class AccountController implements VelocityController {
       @ServerInitiated final Provider<AccountsUpdate> accountsUpdateProvider,
       final ExternalIds externalIds,
       final ExternalIdFactory externalIdFactory,
-      final AuthRequest.Factory authRequestFactory) {
+      final AuthRequest.Factory authRequestFactory,
+      final AuthConfig authConfig) {
     this.restAddSshKey = restAddSshKey;
     this.restGetSshKeys = restGetSshKeys;
     this.accountManager = accountManager;
@@ -94,6 +97,7 @@ public class AccountController implements VelocityController {
     this.externalIds = externalIds;
     this.externalIdFactory = externalIdFactory;
     this.authRequestFactory = authRequestFactory;
+    this.authConfig = authConfig;
   }
 
   @Override
@@ -135,7 +139,8 @@ public class AccountController implements VelocityController {
       nameInput.name = fullName;
       putName.apply(user, nameInput);
 
-      ExternalId.Key key = ExternalId.Key.create(SCHEME_USERNAME, username, true);
+      ExternalId.Key key =
+          ExternalId.Key.create(SCHEME_USERNAME, username, authConfig.isUserNameCaseInsensitive());
       Optional<ExternalId> other;
       try {
         other = externalIds.get(key);
