@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.account.AccountImporter;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -79,6 +80,7 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
   private final String repoName;
   private final int prId;
   private final GitRepositoryManager repoMgr;
+  private final AuthConfig authConfig;
   private final int jobIndex;
   private final ExternalIds externalIds;
   private PullRequestCreateChange createChange;
@@ -96,10 +98,12 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
       GitHubRepository.Factory gitHubRepoFactory,
       ScopedProvider<GitHubLogin> ghLoginProvider,
       ExternalIds externalIds,
+      AuthConfig authConfig,
       @Assisted("index") int jobIndex,
       @Assisted("organisation") String organisation,
       @Assisted("name") String repoName,
       @Assisted int pullRequestId) {
+    this.authConfig = authConfig;
     this.jobIndex = jobIndex;
     this.repoMgr = repoMgr;
     this.ghLogin = ghLoginProvider.get();
@@ -217,8 +221,9 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
 
   private Optional<ExternalId> externalIdByScheme(String scheme, String id) {
     try {
-      return externalIds.get(ExternalId.Key.create(scheme, id));
-    } catch (IOException | ConfigInvalidException e) {
+      return externalIds.get(
+          ExternalId.Key.create(scheme, id, authConfig.isUserNameCaseInsensitive()));
+    } catch (IOException e) {
       LOG.error("Unable to get external id for " + scheme + ":" + id, e);
       return Optional.empty();
     }

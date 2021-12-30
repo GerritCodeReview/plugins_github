@@ -32,7 +32,9 @@ import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.restapi.account.AddSshKey;
 import com.google.gerrit.server.restapi.account.GetSshKeys;
 import com.google.gerrit.server.restapi.account.PutName;
@@ -68,6 +70,9 @@ public class AccountController implements VelocityController {
   private final PutName putName;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
   private final ExternalIds externalIds;
+  private final ExternalIdFactory externalIdFactory;
+  private final AuthRequest.Factory authRequestFactory;
+  private final AuthConfig authConfig;
 
   @Inject
   public AccountController(
@@ -78,7 +83,10 @@ public class AccountController implements VelocityController {
       final PutPreferred putPreferred,
       final PutName putName,
       @ServerInitiated final Provider<AccountsUpdate> accountsUpdateProvider,
-      final ExternalIds externalIds) {
+      final ExternalIds externalIds,
+      final ExternalIdFactory externalIdFactory,
+      final AuthRequest.Factory authRequestFactory,
+      final AuthConfig authConfig) {
     this.restAddSshKey = restAddSshKey;
     this.restGetSshKeys = restGetSshKeys;
     this.accountManager = accountManager;
@@ -87,6 +95,9 @@ public class AccountController implements VelocityController {
     this.putName = putName;
     this.accountsUpdateProvider = accountsUpdateProvider;
     this.externalIds = externalIds;
+    this.externalIdFactory = externalIdFactory;
+    this.authRequestFactory = authRequestFactory;
+    this.authConfig = authConfig;
   }
 
   @Override
@@ -120,7 +131,7 @@ public class AccountController implements VelocityController {
     String username = req.getParameter("username");
     try {
       Id accountId = user.getAccountId();
-      AuthResult result = accountManager.link(accountId, AuthRequest.forEmail(email));
+      AuthResult result = accountManager.link(accountId, authRequestFactory.createForEmail(email));
       log.debug("Account {} linked to email {}: result = {}", accountId, email, result);
 
       putPreferred.apply(new AccountResource.Email(user, email), null);
@@ -128,11 +139,12 @@ public class AccountController implements VelocityController {
       nameInput.name = fullName;
       putName.apply(user, nameInput);
 
-      ExternalId.Key key = ExternalId.Key.create(SCHEME_USERNAME, username);
+      ExternalId.Key key =
+          ExternalId.Key.create(SCHEME_USERNAME, username, authConfig.isUserNameCaseInsensitive());
       Optional<ExternalId> other;
       try {
         other = externalIds.get(key);
-      } catch (IOException | ConfigInvalidException e) {
+      } catch (IOException e) {
         throw new IllegalArgumentException(
             "Internal error while fetching username='" + username + "'");
       }
@@ -148,7 +160,7 @@ public class AccountController implements VelocityController {
             .update(
                 "Set Username from GitHub",
                 accountId,
-                u -> u.addExternalId(ExternalId.create(key, accountId, null, null)));
+                u -> u.addExternalId(externalIdFactory.create(key, accountId, null, null)));
       } catch (Exception e) {
         throw new IllegalArgumentException(
             "Internal error while trying to set username='" + username + "'");
