@@ -43,6 +43,7 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
@@ -100,7 +101,9 @@ public class PullRequestCreateChange {
           RestApiException {
     try (BatchUpdate bu =
         updateFactory.create(
-            project.getNameKey(), userFactory.create(pullRequestOwner), TimeUtil.nowTs())) {
+            project.getNameKey(),
+            userFactory.create(pullRequestOwner),
+            Instant.ofEpochMilli(TimeUtil.nowMs()))) {
 
       return internalAddCommitToChange(
           bu,
@@ -254,7 +257,7 @@ public class PullRequestCreateChange {
             Change.id(sequences.nextChangeId()),
             pullRequestOwner,
             BranchNameKey.create(project, destRef.getName()),
-            TimeUtil.nowTs());
+            Instant.ofEpochMilli(TimeUtil.nowMs()));
     if (topic != null) {
       change.setTopic(topic);
     }
