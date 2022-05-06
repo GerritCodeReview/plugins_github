@@ -14,6 +14,7 @@
 
 package com.googlesource.gerrit.plugins.github.notification;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -22,8 +23,6 @@ import com.googlesource.gerrit.plugins.github.git.PullRequestImporter;
 import java.io.IOException;
 import org.kohsuke.github.GHEventPayload.PullRequest;
 import org.kohsuke.github.GHRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Handles pull_request event in github webhook.
@@ -33,7 +32,7 @@ import org.slf4j.LoggerFactory;
  */
 @Singleton
 class PullRequestHandler implements WebhookEventHandler<PullRequest> {
-  private static final Logger logger = LoggerFactory.getLogger(PullRequestHandler.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private final Provider<PullRequestImporter> prImportProvider;
 
   @Inject
@@ -50,10 +49,10 @@ class PullRequestHandler implements WebhookEventHandler<PullRequest> {
       PullRequestImporter prImporter = prImportProvider.get();
       String organization = repository.getOwnerName();
       String name = repository.getName();
-      logger.info("Importing {}/{}#{}", organization, name, prNumber);
+      logger.atInfo().log("Importing %s/%s#%d", organization, name, prNumber);
       prImporter.importPullRequest(
           0, organization, name, prNumber.intValue(), PullRequestImportType.Commits);
-      logger.info("Imported {}/{}#{}", organization, name, prNumber);
+      logger.atInfo().log("Imported %s/%s#%d", organization, name, prNumber);
       return true;
     }
     return false;
