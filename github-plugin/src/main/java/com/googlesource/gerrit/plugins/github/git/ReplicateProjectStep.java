@@ -13,6 +13,7 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.github.GitHubURL;
@@ -20,11 +21,9 @@ import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
 import java.io.IOException;
 import org.eclipse.jgit.lib.ProgressMonitor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ReplicateProjectStep extends ImportStep {
-  private static final Logger LOG = LoggerFactory.getLogger(ReplicateProjectStep.class);
+  private static final FluentLogger LOG = FluentLogger.forEnclosingClass();
   private final ReplicationConfig replicationConfig;
   private final String authUsername;
   private final String authToken;
@@ -45,7 +44,7 @@ public class ReplicateProjectStep extends ImportStep {
       @Assisted("name") String repository)
       throws IOException {
     super(gitHubUrl, organisation, repository, gitHubRepoFactory);
-    LOG.debug("Gerrit ReplicateProject " + organisation + "/" + repository);
+    LOG.atFine().log("Gerrit ReplicateProject " + organisation + "/" + repository);
     this.replicationConfig = replicationConfig;
     GitHubLogin ghLogin = ghLoginProvider.get();
     this.authUsername = ghLogin.getMyself().getLogin();

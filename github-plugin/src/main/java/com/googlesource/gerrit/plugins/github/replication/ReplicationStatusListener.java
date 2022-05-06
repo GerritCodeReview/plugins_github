@@ -14,6 +14,7 @@
 
 package com.googlesource.gerrit.plugins.github.replication;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventListener;
@@ -24,13 +25,11 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class ReplicationStatusListener implements EventListener {
   private static final String REF_REPLICATED_EVENT = "ref-replicated";
-  private static Logger log = LoggerFactory.getLogger(ReplicationStatusListener.class);
+  private static FluentLogger log = FluentLogger.forEnclosingClass();
 
   private final ReplicationStatusStore statusStore;
   private final Gson gson;
@@ -54,12 +53,11 @@ public class ReplicationStatusListener implements EventListener {
       try {
         statusStore.set(projectNameKey, refKey, eventJson);
       } catch (IOException e) {
-        log.error(
+        log.atSevere().withCause(e).log(
             "Unable to update replication status for event "
                 + eventJson
                 + " on project "
-                + projectNameKey,
-            e);
+                + projectNameKey);
       }
     }
   }

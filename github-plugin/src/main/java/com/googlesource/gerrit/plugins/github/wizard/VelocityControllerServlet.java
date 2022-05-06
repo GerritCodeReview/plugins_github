@@ -13,6 +13,7 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.wizard;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -29,13 +30,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.http.HttpStatus;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class VelocityControllerServlet extends HttpServlet {
   private static final long serialVersionUID = 5565594120346641704L;
-  private static final Logger log = LoggerFactory.getLogger(VelocityControllerServlet.class);
+  private static final FluentLogger log = FluentLogger.forEnclosingClass();
   private static final String CONTROLLER_PACKAGE =
       VelocityControllerServlet.class.getPackage().getName();
   private final ScopedProvider<GitHubLogin> loginProvider;
@@ -72,7 +71,7 @@ public class VelocityControllerServlet extends HttpServlet {
               Class.forName(CONTROLLER_PACKAGE + "." + controllerName + "Controller");
       controller = injector.getInstance(controllerClass);
     } catch (ClassNotFoundException e) {
-      log.debug("Cannot find any controller for servlet " + req.getServletPath());
+      log.atFine().log("Cannot find any controller for servlet " + req.getServletPath());
       redirectToNextStep(req, resp);
       return;
     }

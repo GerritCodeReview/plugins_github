@@ -14,6 +14,7 @@
 
 package com.googlesource.gerrit.plugins.github.oauth;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
@@ -25,13 +26,10 @@ import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.AccessToken;
 import java.io.IOException;
 import java.util.Collection;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class IdentifiedUserGitHubLoginProvider implements UserScopedProvider<GitHubLogin> {
-  private static final Logger log =
-      LoggerFactory.getLogger(IdentifiedUserGitHubLoginProvider.class);
+  private static final FluentLogger log = FluentLogger.forEnclosingClass();
   public static final String EXTERNAL_ID_PREFIX =
       ExternalId.SCHEME_EXTERNAL + ":" + OAuthWebFilter.GITHUB_EXT_ID;
 
@@ -70,7 +68,7 @@ public class IdentifiedUserGitHubLoginProvider implements UserScopedProvider<Git
       }
       return null;
     } catch (IOException e) {
-      log.error("Cannot login to GitHub as '" + username + "'", e);
+      log.atSevere().withCause(e).log("Cannot login to GitHub as '" + username + "'");
       return null;
     }
   }
