@@ -13,19 +13,18 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.inject.ProvisionException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class AbstractCloneJob {
-  private static final Logger LOG = LoggerFactory.getLogger(AbstractCloneJob.class);
+  private static final FluentLogger LOG = FluentLogger.forEnclosingClass();
 
   public AbstractCloneJob() {
     super();
   }
 
   protected String getErrorDescription(Throwable exception) {
-    LOG.error("Job " + this + " FAILED", exception);
+    LOG.atSevere().withCause(exception).log("Job " + this + " FAILED");
     if (exception instanceof ProtectedBranchFoundException) {
       return exception.getMessage();
     }

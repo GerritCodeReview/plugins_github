@@ -14,6 +14,7 @@
 package com.googlesource.gerrit.plugins.github.oauth;
 
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.httpd.GitOverHttpServlet;
 import com.google.gerrit.httpd.XGerritAuth;
 import com.google.inject.Inject;
@@ -30,11 +31,10 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class OAuthFilter implements Filter {
-  private static final org.slf4j.Logger log = LoggerFactory.getLogger(OAuthFilter.class);
+  private static final FluentLogger log = FluentLogger.forEnclosingClass();
   private static Pattern GIT_HTTP_REQUEST_PATTERN = Pattern.compile(GitOverHttpServlet.URL_REGEX);
   private static final Set<String> GERRIT_STATIC_RESOURCES_EXTS =
       Sets.newHashSet("css", "png", "jpg", "gif", "woff", "otf", "ttf", "map", "js", "swf", "txt");
@@ -108,7 +108,7 @@ public class OAuthFilter implements Filter {
 
   @Override
   public void destroy() {
-    log.info("Destroy");
+    log.atInfo().log("Destroy");
     webFilter.destroy();
   }
 }

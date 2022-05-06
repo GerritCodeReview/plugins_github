@@ -56,8 +56,9 @@ public class Destination {
         if (g != null) {
           builder.add(g.getUUID());
         } else {
-          GitHubDestinations.log.warn(
-              String.format("Group \"%s\" not recognized, removing from authGroup", name));
+          GitHubDestinations.log
+              .atWarning()
+              .log(String.format("Group \"%s\" not recognized, removing from authGroup", name));
         }
       }
       remoteUser = replicationUserFactory.create(new ListGroupMembership(builder.build()));
@@ -79,8 +80,11 @@ public class Destination {
         } else if (remoteNameStyle.equals("underscore")) {
           name = name.replace("/", "_");
         } else if (!remoteNameStyle.equals("slash")) {
-          GitHubDestinations.log.debug(
-              String.format("Unknown remoteNameStyle: %s, falling back to slash", remoteNameStyle));
+          GitHubDestinations.log
+              .atFine()
+              .log(
+                  String.format(
+                      "Unknown remoteNameStyle: %s, falling back to slash", remoteNameStyle));
         }
         String replacedPath = GitHubDestinations.replaceName(uri.getPath(), name);
         if (replacedPath != null) {

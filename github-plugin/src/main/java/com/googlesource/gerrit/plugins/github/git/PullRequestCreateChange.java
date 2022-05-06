@@ -16,6 +16,7 @@ package com.googlesource.gerrit.plugins.github.git;
 
 import static com.google.gerrit.entities.RefNames.REFS_HEADS;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
@@ -39,7 +40,6 @@ import com.google.gerrit.server.query.change.ChangeQueryProcessor;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
-import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
@@ -53,11 +53,9 @@ import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.ChangeIdUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class PullRequestCreateChange {
-  private static final Logger LOG = LoggerFactory.getLogger(PullRequestCreateChange.class);
+  private static final FluentLogger LOG = FluentLogger.forEnclosingClass();
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
 
   private final ChangeInserter.Factory changeInserterFactory;
@@ -101,9 +99,7 @@ public class PullRequestCreateChange {
           RestApiException {
     try (BatchUpdate bu =
         updateFactory.create(
-            project.getNameKey(),
-            userFactory.create(pullRequestOwner),
-            Instant.now())) {
+            project.getNameKey(), userFactory.create(pullRequestOwner), Instant.now())) {
 
       return internalAddCommitToChange(
           bu,
@@ -138,7 +134,7 @@ public class PullRequestCreateChange {
     String pullRequestSha1 = pullRequestCommit.getId().getName();
     List<ChangeData> existingChanges = queryChangesForSha1(pullRequestSha1);
     if (!existingChanges.isEmpty()) {
-      LOG.debug(
+      LOG.atFine().log(
           "Pull request commit ID "
               + pullRequestSha1
               + " has been already uploaded as Change-Id="
@@ -213,8 +209,8 @@ public class PullRequestCreateChange {
       results = qp.get().query(changeQuery.commit(pullRequestSha1));
       return results.entities();
     } catch (QueryParseException e) {
-      LOG.error(
-          "Invalid SHA1 " + pullRequestSha1 + ": cannot query changes for this pull request", e);
+      LOG.atSevere().withCause(e).log(
+          "Invalid SHA1 " + pullRequestSha1 + ": cannot query changes for this pull request");
       return Collections.emptyList();
     }
   }

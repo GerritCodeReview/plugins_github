@@ -15,6 +15,7 @@
 package com.googlesource.gerrit.plugins.github.velocity;
 
 import com.google.common.collect.Maps;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.httpd.raw.SiteStaticDirectoryServlet;
 import com.google.gerrit.server.plugins.Plugin;
 import com.google.gerrit.server.plugins.PluginEntry;
@@ -39,14 +40,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
 import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.runtime.resource.Resource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Sends static content using Velocity resource resolver */
 @SuppressWarnings("serial")
 @Singleton
 public class VelocityStaticServlet extends HttpServlet {
-  private static final Logger log = LoggerFactory.getLogger(VelocityStaticServlet.class);
+  private static final FluentLogger log = FluentLogger.forEnclosingClass();
   private static final Map<String, String> MIME_TYPES = Maps.newHashMap();
   private static final String STATIC_PATH_PREFIX = "static/";
 
@@ -131,7 +130,7 @@ public class VelocityStaticServlet extends HttpServlet {
     try {
       return velocity.getContent(resourceName);
     } catch (Exception e) {
-      log.error("Cannot resolve resource " + resourceName, e);
+      log.atSevere().withCause(e).log("Cannot resolve resource " + resourceName);
       return null;
     }
   }

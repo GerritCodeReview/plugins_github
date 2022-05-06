@@ -13,6 +13,7 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.wizard;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.github.git.GitImporter;
@@ -26,6 +27,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class RepositoriesCloneController implements VelocityController {
+  private static final FluentLogger log = FluentLogger.forEnclosingClass();
+
   private static final String REPO_PARAM_PREFIX = "repo_";
   private final ScopedProvider<GitImporter> cloneProvider;
 
@@ -65,7 +68,9 @@ public class RepositoriesCloneController implements VelocityController {
       String repository = req.getParameter(REPO_PARAM_PREFIX + repoIdx + "_repository");
       String description = req.getParameter(REPO_PARAM_PREFIX + repoIdx + "_description");
       try {
+        log.atInfo().log("Running clone for %s/%s", organisation, repository);
         gitCloner.clone(repoIdx, organisation, repository, description);
+        log.atInfo().log("Clone of %s/%s finished", organisation, repository);
       } catch (Exception e) {
         errorMgr.submit(e);
       }
