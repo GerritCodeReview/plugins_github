@@ -13,19 +13,18 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.HttpSessionProvider;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class GitImporter extends BatchImporter {
 
   @Singleton
   public static class Provider extends HttpSessionProvider<GitImporter> {}
 
-  private static final Logger log = LoggerFactory.getLogger(GitImporter.class);
+  private static final FluentLogger log = FluentLogger.forEnclosingClass();
   private final ProtectedBranchesCheckStep.Factory protectedBranchesCheckFactory;
   private final MagicRefCheckStep.Factory magicRefCheckFactory;
   private final GitCloneStep.Factory cloneFactory;
@@ -68,7 +67,7 @@ public class GitImporter extends BatchImporter {
               cloneStep,
               projectStep,
               replicateStep);
-      log.debug("New Git clone job created: " + gitCloneJob);
+      log.atFine().log("New Git clone job created: " + gitCloneJob);
       schedule(idx, gitCloneJob);
     } catch (Throwable e) {
       schedule(idx, new ErrorJob(idx, organisation, repository, e));

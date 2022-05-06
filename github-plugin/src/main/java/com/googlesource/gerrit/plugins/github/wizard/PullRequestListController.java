@@ -17,6 +17,7 @@ import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.IdentifiedUser;
@@ -48,12 +49,10 @@ import org.kohsuke.github.GHIssueState;
 import org.kohsuke.github.GHPullRequest;
 import org.kohsuke.github.GHPullRequestCommitDetail;
 import org.kohsuke.github.GHRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class PullRequestListController implements VelocityController {
-  private static final Logger LOG = LoggerFactory.getLogger(PullRequestListController.class);
+  private static final FluentLogger LOG = FluentLogger.forEnclosingClass();
   private static final String DATE_FMT = "yyyy-MM-dd HH:mm z";
 
   private final GitHubConfig config;
@@ -176,7 +175,7 @@ public class PullRequestListController implements VelocityController {
     try {
       return Optional.of(login.getHub().getRepository(gerritRepoName.get()));
     } catch (FileNotFoundException e) {
-      LOG.debug("GitHub repository {} cannot be found", gerritRepoName.get());
+      LOG.atFine().log("GitHub repository %s cannot be found", gerritRepoName.get());
       return Optional.absent();
     }
   }
@@ -192,7 +191,8 @@ public class PullRequestListController implements VelocityController {
       }
       return pullRequestToImport;
     } catch (QueryParseException e) {
-      LOG.error("Unable to query Gerrit changes for pull-request " + ghPullRequest.getNumber(), e);
+      LOG.atSevere().withCause(e).log(
+          "Unable to query Gerrit changes for pull-request " + ghPullRequest.getNumber());
       return false;
     }
   }

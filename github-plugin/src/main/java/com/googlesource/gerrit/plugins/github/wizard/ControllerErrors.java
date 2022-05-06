@@ -13,15 +13,14 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.wizard;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class ControllerErrors {
-  private static final Logger log = LoggerFactory.getLogger(ControllerErrors.class);
+  private static final FluentLogger log = FluentLogger.forEnclosingClass();
 
   private final IdentifiedUser user;
 
@@ -31,11 +30,9 @@ public class ControllerErrors {
   }
 
   public void submit(Exception e) {
-    log.error(
-        String.format(
-            "User:%s Controller:%s Exception:%s '%s'",
-            getUser(), getController(), e.getClass(), e.getLocalizedMessage()),
-        e);
+    log.atSevere().withCause(e).log(
+        "User:%s Controller:%s Exception:%s '%s'",
+        getUser(), getController(), e.getClass(), e.getLocalizedMessage());
   }
 
   private String getController() {

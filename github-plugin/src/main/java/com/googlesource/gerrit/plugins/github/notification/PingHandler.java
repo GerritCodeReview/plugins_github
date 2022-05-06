@@ -14,10 +14,9 @@
 
 package com.googlesource.gerrit.plugins.github.notification;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Handles ping event in github webhook.
@@ -26,7 +25,7 @@ import org.slf4j.LoggerFactory;
  */
 @Singleton
 class PingHandler implements WebhookEventHandler<PingHandler.Ping> {
-  private static final Logger logger = LoggerFactory.getLogger(PingHandler.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   static class Ping {
     String zen;
@@ -40,7 +39,7 @@ class PingHandler implements WebhookEventHandler<PingHandler.Ping> {
 
   @Override
   public boolean doAction(Ping payload) throws IOException {
-    logger.info(payload.toString());
+    logger.atInfo().log(payload.toString());
     return true;
   }
 
