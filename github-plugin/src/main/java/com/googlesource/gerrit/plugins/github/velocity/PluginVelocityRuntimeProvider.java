@@ -24,7 +24,6 @@ import java.net.URLClassLoader;
 import java.util.Properties;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeInstance;
-import org.apache.velocity.runtime.log.Log4JLogChute;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.apache.velocity.runtime.resource.loader.JarResourceLoader;
 
@@ -51,7 +50,6 @@ public class PluginVelocityRuntimeProvider implements Provider<RuntimeInstance> 
 
     Properties p = new Properties();
     p.setProperty(RuntimeConstants.VM_PERM_INLINE_LOCAL, "true");
-    p.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS, Log4JLogChute.class.getName());
     p.setProperty(RuntimeConstants.RUNTIME_REFERENCES_STRICT, "true");
     p.setProperty("runtime.log.logsystem.log4j.category", "velocity");
 
