@@ -51,7 +51,7 @@ import java.util.Optional;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.kohsuke.github.GHKey;
 import org.kohsuke.github.GHMyself;
