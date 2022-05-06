@@ -43,7 +43,7 @@ public class PluginVelocityModel {
     return context.put(key, value);
   }
 
-  public Object remove(Object key) {
+  public Object remove(String key) {
     return context.remove(key);
   }
 }

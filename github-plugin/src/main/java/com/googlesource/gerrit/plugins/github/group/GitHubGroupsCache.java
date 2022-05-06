@@ -19,6 +19,7 @@ import static java.time.temporal.ChronoUnit.MINUTES;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.AccountGroup.UUID;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.cache.CacheModule;
@@ -39,18 +40,16 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import org.kohsuke.github.GHTeam;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class GitHubGroupsCache {
-  private static final Logger log = LoggerFactory.getLogger(GitHubGroupsCache.class);
+  private static final FluentLogger log = FluentLogger.forEnclosingClass();
   private static final String ORGS_CACHE_NAME = "groups";
   protected static final long GROUPS_CACHE_TTL_MINS = 60;
   public static final String EVERYONE_TEAM_NAME = "Everyone";
 
   public static class OrganisationLoader extends CacheLoader<String, OrganizationStructure> {
-    private static final Logger logger = LoggerFactory.getLogger(OrganisationLoader.class);
+    private static final FluentLogger logger = FluentLogger.forEnclosingClass();
     private final UserScopedProvider<GitHubLogin> ghLoginProvider;
 
     @Inject
@@ -63,26 +62,26 @@ public class GitHubGroupsCache {
       OrganizationStructure orgsTeams = new OrganizationStructure();
       GitHubLogin ghLogin = ghLoginProvider.get(username);
       if (ghLogin == null) {
-        logger.warn("Cannot login to GitHub on behalf of '{}'", username);
+        logger.atWarning().log("Cannot login to GitHub on behalf of '{}'", username);
         return orgsTeams;
       }
 
       try {
         loadOrganisationsAndTeams(username, orgsTeams, ghLogin);
       } catch (FileNotFoundException teamsNotFound) {
-        logger.info(
+        logger.atInfo().log(
             "Cannot access teams for user '{}': falling back to list of public organisations",
             username);
         loadOrganisations(username, orgsTeams, ghLogin);
       }
 
-      logger.debug("GitHub user '{}' belongs to: {}", username, orgsTeams);
+      logger.atFine().log("GitHub user '{}' belongs to: {}", username, orgsTeams);
       return orgsTeams;
     }
 
     private void loadOrganisationsAndTeams(
         String username, OrganizationStructure orgsTeams, GitHubLogin ghLogin) throws IOException {
-      logger.debug("Getting list of organisations/teams for user '{}'", username);
+      logger.atFine().log("Getting list of organisations/teams for user '{}'", username);
       Map<String, Set<GHTeam>> myOrganisationsLogins = ghLogin.getHub().getMyTeams();
       for (Entry<String, Set<GHTeam>> teamsOrg : myOrganisationsLogins.entrySet()) {
         orgsTeams.put(teamsOrg.getKey(), EVERYONE_TEAM_NAME);
@@ -94,7 +93,7 @@ public class GitHubGroupsCache {
 
     private void loadOrganisations(
         String username, OrganizationStructure orgsTeams, GitHubLogin ghLogin) throws IOException {
-      logger.debug("Getting list of public organisations for user '{}'", username);
+      logger.atFine().log("Getting list of public organisations for user '{}'", username);
       Set<String> organisations = ghLogin.getMyOrganisationsLogins();
       for (String org : organisations) {
         orgsTeams.put(org, EVERYONE_TEAM_NAME);
@@ -129,7 +128,8 @@ public class GitHubGroupsCache {
     try {
       return orgTeamsByUsername.get(username).keySet();
     } catch (ExecutionException e) {
-      log.warn("Cannot get GitHub organisations for user '" + username + "'", e);
+      log.atWarning().withCause(e).log(
+          "Cannot get GitHub organisations for user '" + username + "'");
       return Collections.emptySet();
     }
   }
@@ -144,13 +144,12 @@ public class GitHubGroupsCache {
           .addAll(orgTeamsByUsername.get(username).get(organizationName))
           .build();
     } catch (ExecutionException e) {
-      log.warn(
+      log.atWarning().withCause(e).log(
           "Cannot get Teams membership for organisation '"
               + organizationName
               + "' and user '"
               + username
-              + "'",
-          e);
+              + "'");
       return Collections.emptySet();
     }
   }

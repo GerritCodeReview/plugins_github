@@ -16,6 +16,7 @@ package com.googlesource.gerrit.plugins.github.git;
 import static com.google.gerrit.entities.RefNames.REFS_HEADS;
 
 import com.google.common.collect.Lists;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change.Id;
 import com.google.gerrit.entities.Project;
@@ -56,8 +57,6 @@ import org.kohsuke.github.GHPullRequestCommitDetail;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GHUser;
 import org.kohsuke.github.GitUser;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class PullRequestImportJob implements GitJob, ProgressMonitor {
 
@@ -70,7 +69,7 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
         @Assisted PullRequestImportType importType);
   }
 
-  private static final Logger LOG = LoggerFactory.getLogger(PullRequestImportJob.class);
+  private static final FluentLogger LOG = FluentLogger.forEnclosingClass();
 
   private static final String TOPIC_FORMAT = "GitHub #%d";
 
@@ -145,15 +144,14 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
     } catch (JobCancelledException e) {
       status.update(GitJobStatus.Code.CANCELLED);
     } catch (Throwable e) {
-      LOG.error(
+      LOG.atSevere().withCause(e).log(
           "Pull request "
               + prId
               + " into repository "
               + organisation
               + "/"
               + repoName
-              + " was failed",
-          e);
+              + " was failed");
       status.update(GitJobStatus.Code.FAILED, "Failed", e.getLocalizedMessage());
     }
   }
@@ -224,7 +222,7 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
       return externalIds.get(
           ExternalId.Key.create(scheme, id, authConfig.isUserNameCaseInsensitive()));
     } catch (IOException e) {
-      LOG.error("Unable to get external id for " + scheme + ":" + id, e);
+      LOG.atSevere().withCause(e).log("Unable to get external id for " + scheme + ":" + id);
       return Optional.empty();
     }
   }

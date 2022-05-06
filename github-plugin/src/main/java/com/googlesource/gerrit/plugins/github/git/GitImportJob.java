@@ -13,10 +13,12 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
+import com.google.common.flogger.FluentLogger;
 import com.googlesource.gerrit.plugins.github.git.GitJobStatus.Code;
 import org.eclipse.jgit.lib.ProgressMonitor;
 
 public class GitImportJob extends AbstractCloneJob implements Runnable, ProgressMonitor, GitJob {
+  private static final FluentLogger log = FluentLogger.forEnclosingClass();
   private int currTask;
   private int totUnits;
   private int currUnit;
@@ -47,6 +49,8 @@ public class GitImportJob extends AbstractCloneJob implements Runnable, Progress
       }
       status.update(GitJobStatus.Code.COMPLETE, "Done", "Done: repository replicated to Gerrit.");
     } catch (Exception e) {
+      log.atWarning().withCause(e).log(
+          "Import of repository %s/%s failed", organisation, repository);
       if (status.getStatus() == GitJobStatus.Code.SYNC) {
         this.exception = e;
         status.update(GitJobStatus.Code.FAILED, "Failed", getStatusDescription());
