@@ -16,6 +16,7 @@ package com.googlesource.gerrit.plugins.github.replication;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.SitePaths;
@@ -35,13 +36,11 @@ import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.FS;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Manages automatic replication to remote repositories. */
 public class GitHubDestinations {
   private static final String GITHUB_DESTINATION = "github";
-  static final Logger log = LoggerFactory.getLogger(GitHubDestinations.class);
+  static final FluentLogger log = FluentLogger.forEnclosingClass();
 
   static String replaceName(String in, String name) {
     String key = "${name}";

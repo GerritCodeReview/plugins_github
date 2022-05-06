@@ -18,6 +18,7 @@ import static java.util.concurrent.TimeUnit.DAYS;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
+import com.google.common.flogger.FluentLogger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.AccessToken;
@@ -39,12 +40,10 @@ import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GitHub;
 import org.kohsuke.github.GitHubBuilder;
 import org.kohsuke.github.HttpConnector;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class GitHubLogin implements Serializable {
   private static final long serialVersionUID = 1L;
-  private static final Logger log = LoggerFactory.getLogger(GitHubLogin.class);
+  private static final FluentLogger log = FluentLogger.forEnclosingClass();
   private static final List<Scope> DEFAULT_SCOPES =
       Arrays.asList(Scope.PUBLIC_REPO, Scope.USER_EMAIL, Scope.READ_ORG);
   private static final long SCOPE_COOKIE_NEVER_EXPIRES = DAYS.toSeconds(50 * 365);
@@ -96,14 +95,14 @@ public class GitHubLogin implements Serializable {
       Scope... scopes)
       throws IOException {
 
-    log.debug("Login " + this);
+    log.atFine().log("Login " + this);
     if (OAuthProtocol.isOAuthFinal(request)) {
-      log.debug("Login-FINAL " + this);
+      log.atFine().log("Login-FINAL " + this);
       login(oauth.loginPhase2(request, response, state));
       this.state = ""; // Make sure state is used only once
 
       if (isLoggedIn()) {
-        log.debug("Login-SUCCESS " + this);
+        log.atFine().log("Login-SUCCESS " + this);
         response.sendRedirect(OAuthProtocol.getTargetUrl(request));
       }
     } else {
@@ -113,7 +112,7 @@ public class GitHubLogin implements Serializable {
         response.sendRedirect(config.getScopeSelectionUrl(request));
       } else {
         this.loginScopes = getScopes(MoreObjects.firstNonNull(scopeRequested, "scopes"), scopes);
-        log.debug("Login-PHASE1 " + this);
+        log.atFine().log("Login-PHASE1 " + this);
         state = oauth.loginPhase1(request, response, loginScopes);
       }
     }
@@ -124,7 +123,7 @@ public class GitHubLogin implements Serializable {
   }
 
   public GitHub login(AccessToken authToken) throws IOException {
-    log.debug("Logging in using access token {}", authToken.accessToken);
+    log.atFine().log("Logging in using access token %s", authToken.accessToken);
     this.token = authToken;
     return getHub();
   }

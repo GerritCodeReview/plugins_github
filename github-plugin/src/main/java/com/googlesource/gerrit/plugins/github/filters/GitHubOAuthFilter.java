@@ -15,6 +15,7 @@ package com.googlesource.gerrit.plugins.github.filters;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
@@ -37,12 +38,10 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class GitHubOAuthFilter implements Filter {
-  private Logger LOG = LoggerFactory.getLogger(GitHubOAuthFilter.class);
+  private FluentLogger LOG = FluentLogger.forEnclosingClass();
 
   private final ScopedProvider<GitHubLogin> loginProvider;
   private final Provider<CurrentUser> userProvider;
@@ -65,7 +64,7 @@ public class GitHubOAuthFilter implements Filter {
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
     GitHubLogin hubLogin = loginProvider.get((HttpServletRequest) request);
-    LOG.debug("GitHub login: " + hubLogin);
+    LOG.atInfo().log("GitHub login: " + hubLogin);
     CurrentUser user = userProvider.get();
     if (!hubLogin.isLoggedIn()
         && !OAuthFilter.skipOAuth((HttpServletRequest) request)
