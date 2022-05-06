@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc7bf845_2a4fe176",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestCreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-06T14:43:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77c51059_96314896",
+      "range": {
+        "startLine": 106,
+        "startChar": 12,
+        "endLine": 106,
+        "endChar": 49
+      },
+      "revId": "1274f1bfc04eecad3dfac172524dae777f95da94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c6e96e2f_f58b432b",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-05-06T08:14:45Z",
       "side": 1,
       "message": "Same as above, we could use toEpochMilli()",
+      "range": {
+        "startLine": 260,
+        "startChar": 12,
+        "endLine": 260,
+        "endChar": 49
+      },
+      "revId": "1274f1bfc04eecad3dfac172524dae777f95da94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad3764dd_d969d51f",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestCreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-06T14:43:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6e96e2f_f58b432b",
       "range": {
         "startLine": 260,
         "startChar": 12,
