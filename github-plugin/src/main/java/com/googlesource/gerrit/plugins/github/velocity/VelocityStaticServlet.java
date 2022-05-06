@@ -21,10 +21,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPOutputStream;
@@ -70,7 +68,8 @@ public class VelocityStaticServlet extends HttpServlet {
   }
 
   private static byte[] readResource(final Resource p) throws IOException {
-    try (InputStream in = p.getResourceLoader().getResourceStream(p.getName());
+    try (Reader in =
+            p.getResourceLoader().getResourceReader(p.getName(), StandardCharsets.UTF_8.name());
         ByteArrayOutputStream byteOut = new ByteArrayOutputStream()) {
       IOUtils.copy(in, byteOut);
       return byteOut.toByteArray();
