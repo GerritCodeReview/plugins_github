@@ -15,21 +15,23 @@
 package com.googlesource.gerrit.plugins.github.velocity;
 
 import com.google.common.collect.Maps;
+import com.google.gerrit.httpd.raw.SiteStaticDirectoryServlet;
 import com.google.gerrit.util.http.CacheHeaders;
 import com.google.gerrit.util.http.RequestUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPOutputStream;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
 import org.apache.velocity.runtime.RuntimeInstance;
@@ -43,6 +45,7 @@ import org.slf4j.LoggerFactory;
 public class VelocityStaticServlet extends HttpServlet {
   private static final Logger log = LoggerFactory.getLogger(VelocityStaticServlet.class);
   private static final Map<String, String> MIME_TYPES = Maps.newHashMap();
+  private static final String STATIC_PATH_PREFIX = "static/";
 
   static {
     MIME_TYPES.put("html", "text/html");
@@ -62,6 +65,9 @@ public class VelocityStaticServlet extends HttpServlet {
     MIME_TYPES.put("svg", "image/svg+xml");
   }
 
+  private static final Set<String> BINARY_TYPES =
+      Set.of("pdf", "jpeg", "jpg", "gif", "png", "tiff", "tif");
+
   private static String contentType(final String name) {
     final int dot = name.lastIndexOf('.');
     final String ext = 0 < dot ? name.substring(dot + 1) : "";
@@ -70,7 +76,8 @@ public class VelocityStaticServlet extends HttpServlet {
   }
 
   private static byte[] readResource(final Resource p) throws IOException {
-    try (InputStream in = p.getResourceLoader().getResourceStream(p.getName());
+    try (Reader in =
+            p.getResourceLoader().getResourceReader(p.getName(), StandardCharsets.UTF_8.name());
         ByteArrayOutputStream byteOut = new ByteArrayOutputStream()) {
       IOUtils.copy(in, byteOut);
       return byteOut.toByteArray();
@@ -87,11 +94,14 @@ public class VelocityStaticServlet extends HttpServlet {
   }
 
   private final RuntimeInstance velocity;
+  private final SiteStaticDirectoryServlet siteStaticServlet;
 
   @Inject
   VelocityStaticServlet(
-      @Named("PluginRuntimeInstance") final Provider<RuntimeInstance> velocityRuntimeProvider) {
+      @Named("PluginRuntimeInstance") final Provider<RuntimeInstance> velocityRuntimeProvider,
+      SiteStaticDirectoryServlet siteStaticServlet) {
     this.velocity = velocityRuntimeProvider.get();
+    this.siteStaticServlet = siteStaticServlet;
   }
 
   private Resource local(final HttpServletRequest req) {
@@ -110,6 +120,24 @@ public class VelocityStaticServlet extends HttpServlet {
       log.error("Cannot resolve resource " + resourceName, e);
       return null;
     }
+  }
+
+  private boolean binaryResource(String resourceName) {
+    final int dot = resourceName.lastIndexOf('.');
+    final String ext = 0 < dot ? resourceName.substring(dot + 1) : "";
+    return BINARY_TYPES.contains(ext.toLowerCase());
+  }
+
+  private String resourceName(HttpServletRequest req) {
+    final String name = req.getPathInfo();
+    if (name.length() < 2 || !name.startsWith("/") || isUnreasonableName(name)) {
+      // Too short to be a valid file name, or doesn't start with
+      // the path info separator like we expected.
+      //
+      return null;
+    }
+
+    return name.substring(1);
   }
 
   private static boolean isUnreasonableName(String name) {
@@ -131,7 +159,21 @@ public class VelocityStaticServlet extends HttpServlet {
 
   @Override
   protected void doGet(final HttpServletRequest req, final HttpServletResponse rsp)
-      throws IOException {
+      throws IOException, ServletException {
+    String resourceName = resourceName(req);
+    if (binaryResource(resourceName) && resourceName.startsWith(STATIC_PATH_PREFIX)) {
+      HttpServletRequestWrapper mappedReq =
+          new HttpServletRequestWrapper(req) {
+
+            @Override
+            public String getPathInfo() {
+              return super.getPathInfo().substring(STATIC_PATH_PREFIX.length());
+            }
+          };
+      siteStaticServlet.service(mappedReq, rsp);
+      return;
+    }
+
     final Resource p = local(req);
     if (p == null) {
       CacheHeaders.setNotCacheable(rsp);
