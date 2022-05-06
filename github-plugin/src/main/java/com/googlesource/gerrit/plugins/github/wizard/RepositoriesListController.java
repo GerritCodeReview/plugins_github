@@ -14,6 +14,7 @@
 package com.googlesource.gerrit.plugins.github.wizard;
 
 import com.google.common.base.Strings;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ProjectCache;
@@ -33,12 +34,10 @@ import org.kohsuke.github.GHOrganization;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.PagedIterable;
 import org.kohsuke.github.PagedIterator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class RepositoriesListController implements VelocityController {
-  private static final Logger log = LoggerFactory.getLogger(RepositoriesListController.class);
+  private static final FluentLogger log = FluentLogger.forEnclosingClass();
   private final ProjectCache projects;
   private final GitHubConfig config;
 
@@ -77,10 +76,9 @@ public class RepositoriesListController implements VelocityController {
           numRepos++;
         }
       } else {
-        log.warn(
-            "Skipping repository {} because user {} has no push/pull access to it",
-            ghRepository.getName(),
-            user.getUserName());
+        log.atWarning().log(
+            "Skipping repository %s because user %s has no push/pull access to it",
+            ghRepository.getName(), user.getUserName());
       }
     }
 

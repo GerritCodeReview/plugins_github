@@ -14,6 +14,7 @@
 package com.googlesource.gerrit.plugins.github.velocity;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.CurrentUser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -36,12 +37,10 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.RuntimeInstance;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class VelocityViewServlet extends HttpServlet {
-  private static final Logger log = LoggerFactory.getLogger(VelocityViewServlet.class);
+  private static final FluentLogger log = FluentLogger.forEnclosingClass();
   private static final String STATIC_PREFIX = "/static/";
   private static final long serialVersionUID = 529071287765413268L;
   private final RuntimeInstance velocityRuntime;
@@ -83,10 +82,10 @@ public class VelocityViewServlet extends HttpServlet {
       resp.setCharacterEncoding(StandardCharsets.UTF_8.name());
       template.merge(context, resp.getWriter());
     } catch (ResourceNotFoundException e) {
-      log.error("Cannot load velocity template " + pathInfo, e);
+      log.atSevere().withCause(e).log("Cannot load velocity template " + pathInfo);
       resp.sendError(HttpStatus.SC_NOT_FOUND);
     } catch (Exception e) {
-      log.error("Error executing velocity template " + pathInfo, e);
+      log.atSevere().withCause(e).log("Error executing velocity template " + pathInfo);
       resp.sendError(HttpStatus.SC_INTERNAL_SERVER_ERROR, e.getLocalizedMessage());
     }
   }

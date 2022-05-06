@@ -18,6 +18,7 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USE
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account.Id;
 import com.google.gerrit.extensions.api.accounts.SshKeyInput;
 import com.google.gerrit.extensions.common.NameInput;
@@ -56,12 +57,10 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.kohsuke.github.GHKey;
 import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GHVerifiedKey;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class AccountController implements VelocityController {
 
-  private static final Logger log = LoggerFactory.getLogger(AccountController.class);
+  private static final FluentLogger log = FluentLogger.forEnclosingClass();
   private final AddSshKey restAddSshKey;
   private final GetSshKeys restGetSshKeys;
   private final AccountManager accountManager;
@@ -112,14 +111,14 @@ public class AccountController implements VelocityController {
       setAccountIdentity(user, req);
       setAccoutPublicKeys(user, hubLogin, req);
 
-      log.info(
+      log.atInfo().log(
           "Updated account '"
               + user.getAccountId()
               + "' with username='"
               + req.getParameter("username")
               + "'");
     } catch (IOException | ConfigInvalidException e) {
-      log.error("Account '" + user.getUserName() + "' creation failed", e);
+      log.atSevere().withCause(e).log("Account '" + user.getUserName() + "' creation failed");
       throw new IOException(e);
     }
   }
@@ -132,7 +131,7 @@ public class AccountController implements VelocityController {
     try {
       Id accountId = user.getAccountId();
       AuthResult result = accountManager.link(accountId, authRequestFactory.createForEmail(email));
-      log.debug("Account {} linked to email {}: result = {}", accountId, email, result);
+      log.atFine().log("Account %s linked to email %s: result = %s", accountId, email, result);
 
       putPreferred.apply(new AccountResource.Email(user, email), null);
       NameInput nameInput = new NameInput();
@@ -166,7 +165,7 @@ public class AccountController implements VelocityController {
             "Internal error while trying to set username='" + username + "'");
       }
 
-      log.debug(
+      log.atFine().log(
           "Account {} updated with preferredEmail = {}, fullName = {}, username = {}",
           accountId,
           email,
@@ -199,18 +198,18 @@ public class AccountController implements VelocityController {
   private List<String> getCurrentGerritSshKeys(final IdentifiedUser user) throws IOException {
     AccountResource res = new AccountResource(user);
     try {
-      List<SshKeyInfo> keysInfo = restGetSshKeys.apply(res).value();
+      List<SshKeyInfo> keysinfo = restGetSshKeys.apply(res).value();
       return Lists.transform(
-          keysInfo,
+          keysinfo,
           new Function<SshKeyInfo, String>() {
 
             @Override
-            public String apply(SshKeyInfo keyInfo) {
-              return StringUtils.substringBeforeLast(keyInfo.sshPublicKey, " ");
+            public String apply(SshKeyInfo keyinfo) {
+              return StringUtils.substringBeforeLast(keyinfo.sshPublicKey, " ");
             }
           });
     } catch (Exception e) {
-      log.error("User list keys failed", e);
+      log.atSevere().withCause(e).log("User list keys failed");
       throw new IOException("Cannot get list of user keys", e);
     }
   }
@@ -241,7 +240,7 @@ public class AccountController implements VelocityController {
     try {
       restAddSshKey.apply(res, key);
     } catch (Exception e) {
-      log.error("Add key " + sshKeyWithLabel + " failed", e);
+      log.atSevere().withCause(e).log("Add key " + sshKeyWithLabel + " failed");
       throw new IOException("Cannot store SSH Key '" + sshKeyWithLabel + "'", e);
     }
   }

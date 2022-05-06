@@ -13,6 +13,7 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -36,11 +37,9 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryCache;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class GitCloneStep extends ImportStep {
-  private static final Logger LOG = LoggerFactory.getLogger(GitImporter.class);
+  private static final FluentLogger LOG = FluentLogger.forEnclosingClass();
 
   private final GitHubConfig config;
   private final File gitDir;
@@ -71,7 +70,7 @@ public class GitCloneStep extends ImportStep {
       @Assisted("name") String repository)
       throws GitException {
     super(config.gitHubUrl, organisation, repository, gitHubRepoFactory);
-    LOG.debug("GitHub Clone " + organisation + "/" + repository);
+    LOG.atFine().log("GitHub Clone " + organisation + "/" + repository);
     this.config = config;
     this.gitDir = config.gitDir.toFile();
 
@@ -116,10 +115,11 @@ public class GitCloneStep extends ImportStep {
       if (progress != null) {
         fetch.setProgressMonitor(progress);
       }
-      LOG.info(sourceUri + "| Clone into " + destinationDirectory);
+      LOG.atInfo().log(sourceUri + "| Clone into " + destinationDirectory);
       fetch.call();
     } catch (IOException | GitAPIException e) {
-      LOG.error("Unable to fetch from {} into {}", sourceUri, destinationDirectory, e);
+      LOG.atSevere().withCause(e).log(
+          "Unable to fetch from %s into %s", sourceUri, destinationDirectory);
       throw new GitCloneFailedException(sourceUri, e);
     }
   }
@@ -144,7 +144,7 @@ public class GitCloneStep extends ImportStep {
       sendProjectDeletedEvent(projectName);
       return true;
     } catch (IOException e) {
-      LOG.error("Cannot clean-up output Git directory " + gitDirectory);
+      LOG.atSevere().log("Cannot clean-up output Git directory " + gitDirectory);
       return false;
     }
   }
@@ -172,7 +172,7 @@ public class GitCloneStep extends ImportStep {
       try {
         l.onProjectDeleted(event);
       } catch (RuntimeException e) {
-        LOG.warn("Failure in ProjectDeletedListener", e);
+        LOG.atWarning().withCause(e).log("Failure in ProjectDeletedListener");
       }
     }
   }

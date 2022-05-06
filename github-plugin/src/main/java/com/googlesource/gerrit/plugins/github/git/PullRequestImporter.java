@@ -13,15 +13,14 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.servlet.SessionScoped;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @SessionScoped
 public class PullRequestImporter extends BatchImporter {
-  private static final Logger log = LoggerFactory.getLogger(PullRequestImporter.class);
+  private static final FluentLogger log = FluentLogger.forEnclosingClass();
 
   private final PullRequestImportJob.Factory prImportJobProvider;
 
@@ -41,7 +40,7 @@ public class PullRequestImporter extends BatchImporter {
     try {
       PullRequestImportJob pullRequestImportJob =
           prImportJobProvider.create(idx, organisation, repoName, pullRequestId, importType);
-      log.debug("New Pull request import job created: " + pullRequestImportJob);
+      log.atFine().log("New Pull request import job created: " + pullRequestImportJob);
       schedule(idx, pullRequestImportJob);
     } catch (Throwable e) {
       schedule(idx, new ErrorJob(idx, organisation, repoName, e));

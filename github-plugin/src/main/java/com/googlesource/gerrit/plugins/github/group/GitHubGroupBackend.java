@@ -21,6 +21,7 @@ import static com.googlesource.gerrit.plugins.github.group.GitHubGroup.UUID_PREF
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSet.Builder;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.AccountGroup.UUID;
 import com.google.gerrit.entities.GroupDescription.Basic;
@@ -34,11 +35,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class GitHubGroupBackend implements GroupBackend {
-  private static final Logger log = LoggerFactory.getLogger(GitHubGroupBackend.class);
+  private static final FluentLogger log = FluentLogger.forEnclosingClass();
   private final GitHubGroupMembership.Factory ghMembershipProvider;
   private final GitHubGroupsCache ghOrganisationCache;
 
@@ -76,14 +75,14 @@ public class GitHubGroupBackend implements GroupBackend {
 
   public Set<GroupReference> listByPrefix(String orgNamePrefix) {
     try {
-      log.debug("Listing user's organisations starting with '{}'", orgNamePrefix);
+      log.atFine().log("Listing user's organisations starting with '%s'", orgNamePrefix);
 
       String[] namePrefixParts = orgNamePrefix.toLowerCase().split("/");
       String orgNamePrefixLowercase = namePrefixParts.length > 0 ? namePrefixParts[0] : "";
       String teamNameLowercase = namePrefixParts.length > 1 ? namePrefixParts[1] : "";
 
       Set<String> ghOrgs = ghOrganisationCache.getOrganizationsForCurrentUser();
-      log.debug("Full list of user's organisations: {}", ghOrgs);
+      log.atFine().log("Full list of user's organisations: %s", ghOrgs);
 
       Builder<GroupReference> orgGroups = new ImmutableSet.Builder<>();
       for (String organizationName : ghOrgs) {
@@ -104,7 +103,8 @@ public class GitHubGroupBackend implements GroupBackend {
       }
       return orgGroups.build();
     } catch (ExecutionException e) {
-      log.warn("Cannot get GitHub organisations matching '" + orgNamePrefix + "'", e);
+      log.atWarning().withCause(e).log(
+          "Cannot get GitHub organisations matching '" + orgNamePrefix + "'");
     }
 
     return Collections.emptySet();

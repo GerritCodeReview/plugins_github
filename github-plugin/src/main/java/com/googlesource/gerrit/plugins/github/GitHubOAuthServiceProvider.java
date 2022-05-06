@@ -15,6 +15,7 @@
 package com.googlesource.gerrit.plugins.github;
 
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.auth.oauth.OAuthServiceProvider;
 import com.google.gerrit.extensions.auth.oauth.OAuthToken;
 import com.google.gerrit.extensions.auth.oauth.OAuthUserInfo;
@@ -26,12 +27,10 @@ import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol;
 import java.io.IOException;
 import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GitHub;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class GitHubOAuthServiceProvider implements OAuthServiceProvider {
   public static final String VERSION = "2.10.3";
-  private static final Logger log = LoggerFactory.getLogger(GitHubOAuthServiceProvider.class);
+  private static final FluentLogger log = FluentLogger.forEnclosingClass();
 
   private final GitHubOAuthConfig config;
   private final OAuthProtocol oauth;
@@ -53,7 +52,7 @@ public class GitHubOAuthServiceProvider implements OAuthServiceProvider {
     try {
       return oauth.getAccessToken(verifier).toOAuthToken();
     } catch (IOException e) {
-      log.error("Invalid OAuth access verifier" + verifier.getValue(), e);
+      log.atSevere().withCause(e).log("Invalid OAuth access verifier" + verifier.getValue());
       return null;
     }
   }
