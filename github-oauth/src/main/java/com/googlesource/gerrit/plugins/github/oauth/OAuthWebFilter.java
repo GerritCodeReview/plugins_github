@@ -13,6 +13,7 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.oauth;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -36,11 +37,10 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.kohsuke.github.GHMyself;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class OAuthWebFilter implements Filter {
-  private static final org.slf4j.Logger log = LoggerFactory.getLogger(OAuthWebFilter.class);
+  private static final FluentLogger log = FluentLogger.forEnclosingClass();
   public static final String GERRIT_COOKIE_NAME = "GerritAccount";
   public static final String GITHUB_EXT_ID = "github_oauth:";
 
@@ -73,7 +73,7 @@ public class OAuthWebFilter implements Filter {
 
     HttpServletRequest httpRequest = (HttpServletRequest) request;
     HttpServletResponse httpResponse = (HttpServletResponse) response;
-    log.debug(
+    log.atFine().log(
         "OAuthWebFilter(" + httpRequest.getRequestURL() + ") code=" + request.getParameter("code"));
 
     Cookie gerritCookie = getGerritCookie(httpRequest);
@@ -155,7 +155,7 @@ public class OAuthWebFilter implements Filter {
       } catch (IOException e) {
         retryCount++;
         int retryInterval = retryRandom.nextInt(config.fileUpdateMaxRetryIntervalMsec);
-        log.warn(
+        log.atWarning().withCause(e).log(
             "Error whilst trying to update "
                 + sites.secure_config
                 + (retryCount < config.fileUpdateMaxRetryCount
@@ -164,16 +164,17 @@ public class OAuthWebFilter implements Filter {
                         + " will be retried after "
                         + retryInterval
                         + " msecs"
-                    : ""),
-            e);
+                    : ""));
         try {
           Thread.sleep(retryInterval);
         } catch (InterruptedException e1) {
-          log.error("Thread has been cancelled before retrying to save " + sites.secure_config);
+          log.atSevere().log(
+              "Thread has been cancelled before retrying to save " + sites.secure_config);
           return;
         }
       } catch (ConfigInvalidException e) {
-        log.error("Cannot update " + sites.secure_config + " as the file is corrupted", e);
+        log.atSevere().withCause(e).log(
+            "Cannot update " + sites.secure_config + " as the file is corrupted");
         return;
       }
     }
@@ -196,7 +197,7 @@ public class OAuthWebFilter implements Filter {
       return;
     }
 
-    log.info("Updating " + sites.secure_config + " credentials for user " + user);
+    log.atInfo().log("Updating " + sites.secure_config + " credentials for user " + user);
 
     FileTime secureConfigCurrentModifiedTime = Files.getLastModifiedTime(sites.secure_config);
     if (!secureConfigCurrentModifiedTime.equals(currentSecureConfigUpdateTs)) {
@@ -240,6 +241,6 @@ public class OAuthWebFilter implements Filter {
 
   @Override
   public void destroy() {
-    log.info("Init");
+    log.atInfo().log("Init");
   }
 }

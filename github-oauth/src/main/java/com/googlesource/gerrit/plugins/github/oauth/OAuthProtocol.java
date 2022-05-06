@@ -2,6 +2,7 @@ package com.googlesource.gerrit.plugins.github.oauth;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Strings;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
 import com.google.common.io.CharStreams;
 import com.google.gerrit.extensions.auth.oauth.OAuthToken;
@@ -34,8 +35,6 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class OAuthProtocol {
@@ -150,7 +149,7 @@ public class OAuthProtocol {
   }
 
   private static final String ME_SEPARATOR = ",";
-  private static final Logger log = LoggerFactory.getLogger(OAuthProtocol.class);
+  private static final FluentLogger log = FluentLogger.forEnclosingClass();
   private static final String FINAL_URL_PARAM = "final";
   private static SecureRandom randomState = newRandomGenerator();
 
@@ -264,13 +263,13 @@ public class OAuthProtocol {
       HttpServletRequest request, HttpServletResponse response, Set<Scope> scopes)
       throws IOException {
     String scopesString = getScope(scopes);
-    log.debug(
+    log.atFine().log(
         "Initiating GitHub Login for ClientId="
             + config.gitHubClientId
             + " Scopes="
             + scopesString);
     String state = newRandomState(request.getRequestURI().toString());
-    log.debug(
+    log.atFine().log(
         "Initiating GitHub Login for ClientId="
             + config.gitHubClientId
             + " Scopes="
@@ -351,7 +350,7 @@ public class OAuthProtocol {
 
     HttpResponse postResponse = httpProvider.get().execute(post);
     if (postResponse.getStatusLine().getStatusCode() != HttpURLConnection.HTTP_OK) {
-      log.error(
+      log.atSevere().log(
           "POST "
               + config.gitHubOAuthAccessTokenUrl
               + " request for access token failed with status "
@@ -365,7 +364,8 @@ public class OAuthProtocol {
         CharStreams.toString(new InputStreamReader(content, StandardCharsets.UTF_8));
     AccessToken token = gson.fromJson(tokenJsonString, AccessToken.class);
     if (token.isError()) {
-      log.error("POST " + config.gitHubOAuthAccessTokenUrl + " returned an error token: " + token);
+      log.atSevere().log(
+          "POST " + config.gitHubOAuthAccessTokenUrl + " returned an error token: " + token);
       throw new IOException("Invalid GitHub OAuth token");
     }
 

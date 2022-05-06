@@ -14,6 +14,7 @@
 
 package com.googlesource.gerrit.plugins.github.oauth;
 
+import com.google.common.flogger.FluentLogger;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
@@ -31,11 +32,9 @@ import org.kohsuke.github.GHTeam;
 import org.kohsuke.github.GHUser;
 import org.kohsuke.github.GHVerifiedKey;
 import org.kohsuke.github.PagedIterable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class GitHubMyselfWrapper extends GHMyself {
-  private static final Logger log = LoggerFactory.getLogger(GitHubMyselfWrapper.class);
+  private static final FluentLogger log = FluentLogger.forEnclosingClass();
 
   private final GHMyself wrapped;
 
@@ -68,7 +67,7 @@ public class GitHubMyselfWrapper extends GHMyself {
     try {
       return wrapped.getAllOrganizations();
     } catch (IOException e) {
-      log.warn("Unable to list all organizations for user {}", getLogin(), e);
+      log.atWarning().withCause(e).log("Unable to list all organizations for user %s", getLogin());
       return new GHPersonSet<>();
     }
   }
@@ -143,7 +142,7 @@ public class GitHubMyselfWrapper extends GHMyself {
     try {
       return wrapped.getOrganizations();
     } catch (IOException e) {
-      log.warn("Unable to list organizations for user {}", getLogin(), e);
+      log.atWarning().withCause(e).log("Unable to list organizations for user %s", getLogin());
       return new GHPersonSet<>();
     }
   }

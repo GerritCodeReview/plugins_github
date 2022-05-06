@@ -23,6 +23,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.io.CharStreams;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -53,9 +54,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Handles webhook callbacks sent from Github. Delegates requests to implementations of {@link
@@ -64,7 +63,7 @@ import org.slf4j.LoggerFactory;
 @Singleton
 public class WebhookServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
-  private static final Logger logger = LoggerFactory.getLogger(WebhookServlet.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String PACKAGE_NAME = WebhookServlet.class.getPackage().getName();
   private static final String SIGNATURE_PREFIX = "sha1=";
@@ -98,7 +97,7 @@ public class WebhookServlet extends HttpServlet {
 
   private WebhookEventHandler<?> getWebhookHandler(String name) {
     if (name == null) {
-      logger.error("Null event name: cannot find any handler for it");
+      logger.atSevere().log("Null event name: cannot find any handler for it");
       return null;
     }
 
@@ -112,9 +111,9 @@ public class WebhookServlet extends HttpServlet {
       Class<?> clazz = Class.forName(className);
       handler = (WebhookEventHandler<?>) injector.getInstance(clazz);
       handlerByName.put(name, handler);
-      logger.info("Loaded {}", clazz.getName());
+      logger.atInfo().log("Loaded %s", clazz.getName());
     } catch (ClassNotFoundException e) {
-      logger.error("Handler '" + name + "' not found. Skipping", e);
+      logger.atSevere().withCause(e).log("Handler '" + name + "' not found. Skipping");
     }
 
     return handler;
@@ -138,7 +137,7 @@ public class WebhookServlet extends HttpServlet {
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
     if (Strings.emptyToNull(config.webhookUser) == null) {
-      logger.error("No webhookUser defined: cannot process GitHub events");
+      logger.atSevere().log("No webhookUser defined: cannot process GitHub events");
       resp.sendError(SC_INTERNAL_SERVER_ERROR);
       return;
     }
@@ -152,7 +151,7 @@ public class WebhookServlet extends HttpServlet {
     try (BufferedReader reader = req.getReader()) {
       String body = Joiner.on("\n").join(CharStreams.readLines(reader));
       if (!validateSignature(req.getHeader("X-Hub-Signature"), body, req.getCharacterEncoding())) {
-        logger.error("Signature mismatch to the payload");
+        logger.atSevere().log("Signature mismatch to the payload");
         resp.sendError(SC_FORBIDDEN);
         return;
       }
@@ -160,10 +159,9 @@ public class WebhookServlet extends HttpServlet {
       session.get().setUserAccountId(Account.Id.fromRef(config.webhookUser));
       GitHubLogin login = loginProvider.get(config.webhookUser);
       if (login == null || !login.isLoggedIn()) {
-        logger.error(
-            "Cannot login to github as {}. {}.webhookUser is not correctly configured?",
-            config.webhookUser,
-            GitHubConfig.CONF_SECTION);
+        logger.atSevere().log(
+            "Cannot login to github as %s. %s.webhookUser is not correctly configured?",
+            config.webhookUser, GitHubConfig.CONF_SECTION);
         resp.setStatus(SC_INTERNAL_SERVER_ERROR);
         return;
       }
@@ -183,7 +181,7 @@ public class WebhookServlet extends HttpServlet {
     if (payload != null) {
       return handler.doAction(payload);
     }
-    logger.error(
+    logger.atSevere().log(
         "Cannot decode JSON payload '" + jsonBody + "' into " + handler.getPayloadType().getName());
     return false;
   }
@@ -201,20 +199,20 @@ public class WebhookServlet extends HttpServlet {
       throws UnsupportedEncodingException {
     byte[] payload = body.getBytes(encoding == null ? "UTF-8" : encoding);
     if (config.webhookSecret == null || config.webhookSecret.equals("")) {
-      logger.debug(
-          "{}.webhookSecret not configured. Skip signature validation", GitHubConfig.CONF_SECTION);
+      logger.atFine().log(
+          "%s.webhookSecret not configured. Skip signature validation", GitHubConfig.CONF_SECTION);
       return true;
     }
 
     if (!StringUtils.startsWith(signatureHeader, SIGNATURE_PREFIX)) {
-      logger.error("Unsupported webhook signature type: {}", signatureHeader);
+      logger.atSevere().log("Unsupported webhook signature type: %s", signatureHeader);
       return false;
     }
     byte[] signature;
     try {
       signature = Hex.decodeHex(signatureHeader.substring(SIGNATURE_PREFIX.length()).toCharArray());
     } catch (DecoderException e) {
-      logger.error("Invalid signature: {}", signatureHeader);
+      logger.atSevere().log("Invalid signature: %s", signatureHeader);
       return false;
     }
     return MessageDigest.isEqual(signature, getExpectedSignature(payload));

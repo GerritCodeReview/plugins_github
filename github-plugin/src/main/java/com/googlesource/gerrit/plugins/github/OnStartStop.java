@@ -14,26 +14,25 @@
 
 package com.googlesource.gerrit.plugins.github;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class OnStartStop implements LifecycleListener {
-  private static final Logger LOG = LoggerFactory.getLogger(OnStartStop.class);
+  private static final FluentLogger LOG = FluentLogger.forEnclosingClass();
 
   @Inject
   public OnStartStop() {}
 
   @Override
   public void start() {
-    LOG.info("Starting up ...");
+    LOG.atInfo().log("Starting up ...");
   }
 
   @Override
   public void stop() {
-    LOG.info("Stopping ...");
+    LOG.atInfo().log("Stopping ...");
   }
 }
