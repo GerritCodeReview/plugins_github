@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c197c6e6_d5dde323",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/velocity/VelocityStaticServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-07T21:05:44Z",
+      "side": 1,
+      "message": "This would work but only for text resources. Images are broken.",
+      "range": {
+        "startLine": 71,
+        "startChar": 9,
+        "endLine": 72,
+        "endChar": 94
+      },
+      "revId": "f4414366c6b8057384aceb9ae8985494a239c6bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
