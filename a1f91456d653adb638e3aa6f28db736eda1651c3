@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb68922a_d61ec596",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/velocity/VelocityStaticServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-09T19:24:49Z",
+      "side": 1,
+      "message": "The other way around is better: let\u0027s include only the types we are willing to manage with Velocity. Everything else will be left to Gerrit to serve as static content.",
+      "revId": "a1f91456d653adb638e3aa6f28db736eda1651c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
