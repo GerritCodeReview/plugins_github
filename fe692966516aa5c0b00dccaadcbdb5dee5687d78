@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "627a518a_1864f067",
+        "filename": "github-plugin/pom.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-10T11:58:12Z",
+      "side": 1,
+      "message": "Unrelated here, but on stable-3.6 branch it was updated to 2.9.0.",
+      "range": {
+        "startLine": 135,
+        "startChar": 4,
+        "endLine": 139,
+        "endChar": 17
+      },
+      "revId": "fe692966516aa5c0b00dccaadcbdb5dee5687d78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
