@@ -39,6 +39,30 @@
       },
       "revId": "21169bbe291654d8bda3575df9abc6a86772c723",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "233aebc0_cbe17623",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubLogin.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-10T12:28:30Z",
+      "side": 1,
+      "message": "True, I need to adapt the entire change everywhere for that. Putting the change as WIP.",
+      "parentUuid": "c3d4d41a_a6d30563",
+      "range": {
+        "startLine": 98,
+        "startChar": 4,
+        "endLine": 98,
+        "endChar": 38
+      },
+      "revId": "21169bbe291654d8bda3575df9abc6a86772c723",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
