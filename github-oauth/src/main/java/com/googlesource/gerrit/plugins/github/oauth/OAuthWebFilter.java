@@ -19,6 +19,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.attribute.FileTime;
+import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import javax.servlet.Filter;
@@ -49,6 +50,7 @@ public class OAuthWebFilter implements Filter {
   private final SitePaths sites;
   private final ScopedProvider<GitHubLogin> loginProvider;
   private final OAuthProtocol oauth;
+  private final AES aes;
 
   @Inject
   public OAuthWebFilter(
@@ -57,11 +59,13 @@ public class OAuthWebFilter implements Filter {
       OAuthProtocol oauth,
       // We need to explicitly tell Guice the correct implementation
       // as this filter is instantiated with a standard Gerrit WebModule
-      GitHubLogin.Provider loginProvider) {
+      GitHubLogin.Provider loginProvider,
+      AES aes) {
     this.config = config;
     this.sites = sites;
     this.oauth = oauth;
     this.loginProvider = loginProvider;
+    this.aes = aes;
   }
 
   @Override
@@ -88,13 +92,15 @@ public class OAuthWebFilter implements Filter {
         }
 
         if (ghLogin != null && ghLogin.isLoggedIn()) {
+          String hashedToken =
+              Optional.ofNullable(ghLogin.getToken().accessToken).map(aes::encrypt).orElse(null);
           httpRequest =
               new AuthenticatedHttpRequest(
                   httpRequest,
                   config.httpHeader,
                   ghLogin.getMyself().getLogin(),
                   config.oauthHttpHeader,
-                  GITHUB_EXT_ID + ghLogin.getToken().accessToken);
+                  GITHUB_EXT_ID + hashedToken);
         }
 
         chain.doFilter(httpRequest, httpResponse);

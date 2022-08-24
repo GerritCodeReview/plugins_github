@@ -39,17 +39,20 @@ public class IdentifiedUserGitHubLoginProvider implements UserScopedProvider<Git
   private final GitHubOAuthConfig config;
   private final AccountCache accountCache;
   private final GitHubHttpConnector httpConnector;
+  private final AES aes;
 
   @Inject
   public IdentifiedUserGitHubLoginProvider(
       Provider<IdentifiedUser> identifiedUserProvider,
       GitHubOAuthConfig config,
       GitHubHttpConnector httpConnector,
-      AccountCache accountCache) {
+      AccountCache accountCache,
+      AES aes) {
     this.userProvider = identifiedUserProvider;
     this.config = config;
     this.accountCache = accountCache;
     this.httpConnector = httpConnector;
+    this.aes = aes;
   }
 
   @Override
@@ -81,7 +84,9 @@ public class IdentifiedUserGitHubLoginProvider implements UserScopedProvider<Git
     for (ExternalId accountExternalId : externalIds) {
       String key = accountExternalId.key().get();
       if (key.startsWith(EXTERNAL_ID_PREFIX)) {
-        return new AccessToken(key.substring(EXTERNAL_ID_PREFIX.length()));
+        String encryptedOauthToken = key.substring(EXTERNAL_ID_PREFIX.length());
+        String decryptedOauthToken = aes.decrypt(encryptedOauthToken);
+        return new AccessToken(decryptedOauthToken);
       }
     }
 
