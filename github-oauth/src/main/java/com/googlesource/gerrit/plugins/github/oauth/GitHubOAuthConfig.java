@@ -24,12 +24,18 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.servlet.http.HttpServletRequest;
 import lombok.Getter;
 import org.eclipse.jgit.lib.Config;
@@ -40,6 +46,7 @@ public class GitHubOAuthConfig {
   private final CanonicalWebUrl canonicalWebUrl;
 
   public static final String CONF_SECTION = "github";
+  public static final String CONF_KEY_SECTION = "github-keys";
   public static final String GITHUB_OAUTH_AUTHORIZE = "/login/oauth/authorize";
   public static final String GITHUB_OAUTH_ACCESS_TOKEN = "/login/oauth/access_token";
   public static final String GERRIT_OAUTH_FINAL = "/oauth";
@@ -68,6 +75,8 @@ public class GitHubOAuthConfig {
 
   public final long httpConnectionTimeout;
   public final long httpReadTimeout;
+  private final Map<String, KeyConfig> keyConfigMap;
+  private final KeyConfig currentKeyConfig;
 
   @Inject
   protected GitHubOAuthConfig(@GerritServerConfig Config config, CanonicalWebUrl canonicalWebUrl) {
@@ -121,6 +130,26 @@ public class GitHubOAuthConfig {
             ConfigUtil.getTimeUnit(
                 config, CONF_SECTION, null, "httpReadTimeout", 30, TimeUnit.SECONDS),
             TimeUnit.SECONDS);
+
+    Stream<KeyConfig> configKeyStream =
+        config.getSubsections(CONF_KEY_SECTION).stream().map(KeyConfig::new);
+    keyConfigMap =
+        configKeyStream.collect(Collectors.toMap(KeyConfig::getPrefix, Function.identity()));
+
+    if (keyConfigMap.isEmpty()) {
+      currentKeyConfig = new KeyConfig();
+    } else {
+      currentKeyConfig =
+          configKeyStream
+              .filter(KeyConfig::isCurrent)
+              .findFirst()
+              .orElseThrow(
+                  () ->
+                      new IllegalStateException(
+                          String.format(
+                              "Could not read configuration. No '%s' subsection is configured as 'current'",
+                              CONF_KEY_SECTION)));
+    }
   }
 
   public String getOAuthFinalRedirectUrl(HttpServletRequest req) {
@@ -172,5 +201,92 @@ public class GitHubOAuthConfig {
       return new Scope[0];
     }
     return scopes.get("scopes").toArray(new Scope[0]);
+  }
+
+  public KeyConfig getCurrentKeyConfig() {
+    return currentKeyConfig;
+  }
+
+  public KeyConfig getKeyConfig(String subsection) {
+    return keyConfigMap.get(subsection);
+  }
+
+  public class KeyConfig {
+
+    public static final String PASSWORD_DEVICE_DEFAULT = "/dev/zero";
+    public static final int PASSWORD_LENGTH_DEFAULT = 16;
+    public static final String CIPHER_ALGORITHM_DEFAULT = "AES/ECB/PKCS5Padding";
+    public static final String SECRET_KEY_ALGORITHM_DEFAULT = "AES";
+    public static final boolean IS_CURRENT_DEFAULT = false;
+    public static final String KEY_PREFIX_DEFAULT = "current";
+
+    private final String passwordDevice;
+    private final Integer passwordLength;
+    private final String cipherAlgorithm;
+    private final String secretKeyAlgorithm;
+    private final String prefix;
+    private final Boolean isCurrent;
+
+    KeyConfig(String prefix) {
+
+      passwordDevice =
+          trimTrailingSlash(
+              MoreObjects.firstNonNull(
+                  config.getString(CONF_KEY_SECTION, prefix, "passwordDevice"),
+                  PASSWORD_DEVICE_DEFAULT));
+      passwordLength =
+          config.getInt(CONF_KEY_SECTION, prefix, "passwordLength", PASSWORD_LENGTH_DEFAULT);
+      isCurrent = config.getBoolean(CONF_KEY_SECTION, prefix, "current", IS_CURRENT_DEFAULT);
+
+      cipherAlgorithm =
+          trimTrailingSlash(
+              MoreObjects.firstNonNull(
+                  config.getString(CONF_KEY_SECTION, prefix, "cipherAlgorithm"),
+                  CIPHER_ALGORITHM_DEFAULT));
+
+      secretKeyAlgorithm =
+          trimTrailingSlash(
+              MoreObjects.firstNonNull(
+                  config.getString(CONF_KEY_SECTION, prefix, "secretKeyAlgorithm"),
+                  SECRET_KEY_ALGORITHM_DEFAULT));
+      this.prefix = prefix;
+    }
+
+    private KeyConfig() {
+      passwordDevice = PASSWORD_DEVICE_DEFAULT;
+      passwordLength = PASSWORD_LENGTH_DEFAULT;
+      isCurrent = true;
+      cipherAlgorithm = CIPHER_ALGORITHM_DEFAULT;
+      prefix = KEY_PREFIX_DEFAULT;
+      secretKeyAlgorithm = SECRET_KEY_ALGORITHM_DEFAULT;
+    }
+
+    public byte[] readPassword() throws IOException {
+      Path devicePath = Paths.get(passwordDevice);
+      try (FileInputStream in = new FileInputStream(devicePath.toFile())) {
+        byte[] passphrase = new byte[passwordLength];
+        if (in.read(passphrase) < passwordLength) {
+          throw new IOException("End of password device has already been reached");
+        }
+
+        return passphrase;
+      }
+    }
+
+    public String getCipherAlgorithm() {
+      return cipherAlgorithm;
+    }
+
+    public String getSecretKeyAlgorithm() {
+      return secretKeyAlgorithm;
+    }
+
+    public Boolean isCurrent() {
+      return isCurrent;
+    }
+
+    public String getPrefix() {
+      return prefix;
+    }
   }
 }
