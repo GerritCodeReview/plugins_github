@@ -24,6 +24,10 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -48,6 +52,10 @@ public class GitHubOAuthConfig {
   public static final String GERRIT_LOGIN = "/login";
   public static final String GERRIT_LOGOUT = "/logout";
   public static final String GITHUB_PLUGIN_OAUTH_SCOPE = "/plugins/github-plugin/static/scope.html";
+  public static final String PASSWORD_DEVICE_DEFAULT = "/dev/zero";
+  public static final Integer PASSWORD_LENGTH_DEFAULT = 16;
+  public static final String CIPHER_ALGORITHM_DEFAULT = "AES/ECB/PKCS5Padding";
+  public static final String SECRET_KEY_ALGORITHM_DEFAULT = "AES";
 
   public final String gitHubUrl;
   public final String gitHubApiUrl;
@@ -68,6 +76,11 @@ public class GitHubOAuthConfig {
 
   public final long httpConnectionTimeout;
   public final long httpReadTimeout;
+
+  private final String passwordDevice;
+  private final Integer passwordLength;
+  private final String cipherAlgorithm;
+  private final String secretKeyAlgorithm;
 
   @Inject
   protected GitHubOAuthConfig(@GerritServerConfig Config config, CanonicalWebUrl canonicalWebUrl) {
@@ -121,6 +134,23 @@ public class GitHubOAuthConfig {
             ConfigUtil.getTimeUnit(
                 config, CONF_SECTION, null, "httpReadTimeout", 30, TimeUnit.SECONDS),
             TimeUnit.SECONDS);
+
+    passwordDevice =
+        trimTrailingSlash(
+            MoreObjects.firstNonNull(
+                config.getString(CONF_SECTION, null, "passwordDevice"), PASSWORD_DEVICE_DEFAULT));
+    passwordLength = config.getInt(CONF_SECTION, "passwordLength", PASSWORD_LENGTH_DEFAULT);
+
+    cipherAlgorithm =
+        trimTrailingSlash(
+            MoreObjects.firstNonNull(
+                config.getString(CONF_SECTION, null, "cipherAlgorithm"), CIPHER_ALGORITHM_DEFAULT));
+
+    secretKeyAlgorithm =
+        trimTrailingSlash(
+            MoreObjects.firstNonNull(
+                config.getString(CONF_SECTION, null, "secretKeyAlgorithm"),
+                SECRET_KEY_ALGORITHM_DEFAULT));
   }
 
   public String getOAuthFinalRedirectUrl(HttpServletRequest req) {
@@ -172,5 +202,25 @@ public class GitHubOAuthConfig {
       return new Scope[0];
     }
     return scopes.get("scopes").toArray(new Scope[0]);
+  }
+
+  public byte[] readPassword() throws IOException {
+    Path devicePath = Paths.get(passwordDevice);
+    try (FileInputStream in = new FileInputStream(devicePath.toFile())) {
+      byte[] passphrase = new byte[passwordLength];
+      if (in.read(passphrase) < passwordLength) {
+        throw new IOException("End of password device has already been reached");
+      }
+
+      return passphrase;
+    }
+  }
+
+  public String getCipherAlgorithm() {
+    return cipherAlgorithm;
+  }
+
+  public String getSecretKeyAlgorithm() {
+    return secretKeyAlgorithm;
   }
 }
