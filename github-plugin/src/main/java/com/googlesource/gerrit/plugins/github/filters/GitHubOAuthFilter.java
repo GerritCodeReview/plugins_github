@@ -22,6 +22,7 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import com.googlesource.gerrit.plugins.github.oauth.AES;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.IdentifiedUserGitHubLoginProvider;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthFilter;
@@ -47,15 +48,18 @@ public class GitHubOAuthFilter implements Filter {
   private final ScopedProvider<GitHubLogin> loginProvider;
   private final Provider<CurrentUser> userProvider;
   private final AccountCache accountCache;
+  private final AES aes;
 
   @Inject
   public GitHubOAuthFilter(
       ScopedProvider<GitHubLogin> loginProvider,
       Provider<CurrentUser> userProvider,
-      AccountCache accountCache) {
+      AccountCache accountCache,
+      AES aes) {
     this.loginProvider = loginProvider;
     this.userProvider = userProvider;
     this.accountCache = accountCache;
+    this.aes = aes;
   }
 
   @Override
@@ -78,7 +82,14 @@ public class GitHubOAuthFilter implements Filter {
               .get()
               .substring(
                   ExternalId.SCHEME_EXTERNAL.length() + OAuthWebFilter.GITHUB_EXT_ID.length() + 1);
-      hubLogin.login(new AccessToken(oauthToken));
+      String decryptedOauthToken = aes.decrypt(oauthToken);
+
+      LOG.info(
+          "TONY extracted key from externalId for {}: '{}' -> '{}}'",
+          user,
+          oauthToken,
+          decryptedOauthToken);
+      hubLogin.login(new AccessToken(decryptedOauthToken));
     }
 
     chain.doFilter(request, response);
