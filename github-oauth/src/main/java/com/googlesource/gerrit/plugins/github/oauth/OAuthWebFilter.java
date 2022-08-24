@@ -13,12 +13,14 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.oauth;
 
+import com.google.gerrit.server.account.HashedPassword;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.attribute.FileTime;
+import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import javax.servlet.Filter;
@@ -88,13 +90,17 @@ public class OAuthWebFilter implements Filter {
         }
 
         if (ghLogin != null && ghLogin.isLoggedIn()) {
+          String hashedToken =
+              Optional.ofNullable(ghLogin.getToken().accessToken)
+                  .map(t -> HashedPassword.fromPassword(t).encode())
+                  .orElse(null);
           httpRequest =
               new AuthenticatedHttpRequest(
                   httpRequest,
                   config.httpHeader,
                   ghLogin.getMyself().getLogin(),
                   config.oauthHttpHeader,
-                  GITHUB_EXT_ID + ghLogin.getToken().accessToken);
+                  GITHUB_EXT_ID + hashedToken);
         }
 
         chain.doFilter(httpRequest, httpResponse);
