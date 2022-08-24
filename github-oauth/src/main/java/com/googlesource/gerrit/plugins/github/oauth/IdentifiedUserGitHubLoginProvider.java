@@ -24,7 +24,10 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.AccessToken;
 import java.io.IOException;
+import java.security.InvalidKeyException;
 import java.util.Collection;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,17 +42,20 @@ public class IdentifiedUserGitHubLoginProvider implements UserScopedProvider<Git
   private final GitHubOAuthConfig config;
   private final AccountCache accountCache;
   private final GitHubHttpConnector httpConnector;
+  private final OAuthTokenCipher oAuthTokenCipher;
 
   @Inject
   public IdentifiedUserGitHubLoginProvider(
       Provider<IdentifiedUser> identifiedUserProvider,
       GitHubOAuthConfig config,
       GitHubHttpConnector httpConnector,
-      AccountCache accountCache) {
+      AccountCache accountCache,
+      OAuthTokenCipher oAuthTokenCipher) {
     this.userProvider = identifiedUserProvider;
     this.config = config;
     this.accountCache = accountCache;
     this.httpConnector = httpConnector;
+    this.oAuthTokenCipher = oAuthTokenCipher;
   }
 
   @Override
@@ -75,13 +81,19 @@ public class IdentifiedUserGitHubLoginProvider implements UserScopedProvider<Git
     }
   }
 
-  private AccessToken newAccessTokenFromUser(String username) {
+  private AccessToken newAccessTokenFromUser(String username) throws IOException {
     AccountState account = accountCache.getByUsername(username).get();
     Collection<ExternalId> externalIds = account.externalIds();
     for (ExternalId accountExternalId : externalIds) {
       String key = accountExternalId.key().get();
       if (key.startsWith(EXTERNAL_ID_PREFIX)) {
-        return new AccessToken(key.substring(EXTERNAL_ID_PREFIX.length()));
+        String encryptedOauthToken = key.substring(EXTERNAL_ID_PREFIX.length());
+        try {
+          String decryptedOauthToken = oAuthTokenCipher.decrypt(encryptedOauthToken);
+          return new AccessToken(decryptedOauthToken);
+        } catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException e) {
+          throw new IOException("Could not decrypt oauthToken", e);
+        }
       }
     }
 
