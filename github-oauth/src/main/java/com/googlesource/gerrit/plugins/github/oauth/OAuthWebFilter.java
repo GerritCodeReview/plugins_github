@@ -49,6 +49,7 @@ public class OAuthWebFilter implements Filter {
   private final SitePaths sites;
   private final ScopedProvider<GitHubLogin> loginProvider;
   private final OAuthProtocol oauth;
+  private final OAuthTokenCipher oAuthTokenCipher;
 
   @Inject
   public OAuthWebFilter(
@@ -57,11 +58,13 @@ public class OAuthWebFilter implements Filter {
       OAuthProtocol oauth,
       // We need to explicitly tell Guice the correct implementation
       // as this filter is instantiated with a standard Gerrit WebModule
-      GitHubLogin.Provider loginProvider) {
+      GitHubLogin.Provider loginProvider,
+      OAuthTokenCipher oAuthTokenCipher) {
     this.config = config;
     this.sites = sites;
     this.oauth = oauth;
     this.loginProvider = loginProvider;
+    this.oAuthTokenCipher = oAuthTokenCipher;
   }
 
   @Override
@@ -88,13 +91,14 @@ public class OAuthWebFilter implements Filter {
         }
 
         if (ghLogin != null && ghLogin.isLoggedIn()) {
+          String hashedToken = oAuthTokenCipher.encrypt(ghLogin.getToken().accessToken);
           httpRequest =
               new AuthenticatedHttpRequest(
                   httpRequest,
                   config.httpHeader,
                   ghLogin.getMyself().getLogin(),
                   config.oauthHttpHeader,
-                  GITHUB_EXT_ID + ghLogin.getToken().accessToken);
+                  GITHUB_EXT_ID + hashedToken);
         }
 
         chain.doFilter(httpRequest, httpResponse);

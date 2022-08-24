@@ -84,3 +84,50 @@ github.httpReadTimeout
     * m, min, minute, minutes
     * h, hr, hour, hours
     Default value: 30 seconds
+
+Key Configuration
+-------------
+
+Since this plugin obtains credentials from Github and persists them in Gerrit,
+it also takes care of encrypting them at rest. The Gerrit admin can configure
+how this is done by setting the relevant configuration parameters.
+
+github-keys.<key-name>.passwordDevice
+: The device or file where to retrieve the encryption passphrase.\
+Default: /dev/zero
+
+github-keys.<key-name>.passwordLength
+: The length in bytes of the password read from the passwordDevice.\
+Default: 16
+
+github-keys.<key-name>.cipherAlgorithm
+: The algorithm to be used for encryption/decryption. Available algorithms are
+described in
+the [Cipher section](https://docs.oracle.com/javase/7/docs/technotes/guides/security/StandardNames.html#Cipher)
+of the Java Cryptography Architecture Standard Algorithm Name Documentation.\
+Default: AES/ECB/PKCS5Padding
+
+github-keys.<key-name>.secretKeyAlgorithm
+: the algorithm to be used to encrypt the provided password. Available
+algorithms are described in
+the [Cipher section](https://docs.oracle.com/javase/7/docs/technotes/guides/security/StandardNames.html#Cipher)
+of the Java Cryptography Architecture Standard Algorithm Name Documentation.\
+Default: AES
+
+github-keys.<key-name>.current
+: Whether this configuration is the current one, and it should be used to
+encrypt new Github credentials. Note that _exactly_ one github-key configuration
+must be set to `current`, otherwise an error exception will be thrown.\
+Default: false
+
+As you can observe, in order to support key rotations, multiple `github-keys`
+can be specified in configuration. credentials encrypted with a `<key-name>` key
+can still be decrypted as long as the `github-keys.<key-name>` stanza is
+available in the configuration. New credentials will always be encrypted with
+the `current` `<key-name>`.
+
+If no `github-keys.<key-name>` exists in configuration, then a default current
+key configuration
+(named `current`) will be inferred, using the defaults documented above.
+However, such configuration is considered insecure and should *not be used in
+production*.
