@@ -19,8 +19,11 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.attribute.FileTime;
+import java.security.InvalidKeyException;
 import java.util.Random;
 import java.util.Set;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -49,6 +52,7 @@ public class OAuthWebFilter implements Filter {
   private final SitePaths sites;
   private final ScopedProvider<GitHubLogin> loginProvider;
   private final OAuthProtocol oauth;
+  private final OAuthTokenCipher oAuthTokenCipher;
 
   @Inject
   public OAuthWebFilter(
@@ -57,11 +61,13 @@ public class OAuthWebFilter implements Filter {
       OAuthProtocol oauth,
       // We need to explicitly tell Guice the correct implementation
       // as this filter is instantiated with a standard Gerrit WebModule
-      GitHubLogin.Provider loginProvider) {
+      GitHubLogin.Provider loginProvider,
+      OAuthTokenCipher oAuthTokenCipher) {
     this.config = config;
     this.sites = sites;
     this.oauth = oauth;
     this.loginProvider = loginProvider;
+    this.oAuthTokenCipher = oAuthTokenCipher;
   }
 
   @Override
@@ -88,17 +94,20 @@ public class OAuthWebFilter implements Filter {
         }
 
         if (ghLogin != null && ghLogin.isLoggedIn()) {
+          String hashedToken = oAuthTokenCipher.encrypt(ghLogin.getToken().accessToken);
           httpRequest =
               new AuthenticatedHttpRequest(
                   httpRequest,
                   config.httpHeader,
                   ghLogin.getMyself().getLogin(),
                   config.oauthHttpHeader,
-                  GITHUB_EXT_ID + ghLogin.getToken().accessToken);
+                  GITHUB_EXT_ID + hashedToken);
         }
 
         chain.doFilter(httpRequest, httpResponse);
       }
+    } catch (IllegalBlockSizeException | BadPaddingException | InvalidKeyException e) {
+      throw new ServletException("Could not encrypt oauthToken", e);
     } finally {
       HttpSession httpSession = httpRequest.getSession();
       if (gerritCookie != null && httpSession != null) {
