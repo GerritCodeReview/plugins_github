@@ -26,6 +26,7 @@ import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.IdentifiedUserGitHubLoginProvider;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthFilter;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.AccessToken;
+import com.googlesource.gerrit.plugins.github.oauth.OAuthTokenCipher;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthWebFilter;
 import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
 import java.io.IOException;
@@ -47,15 +48,18 @@ public class GitHubOAuthFilter implements Filter {
   private final ScopedProvider<GitHubLogin> loginProvider;
   private final Provider<CurrentUser> userProvider;
   private final AccountCache accountCache;
+  private final OAuthTokenCipher oAuthTokenCipher;
 
   @Inject
   public GitHubOAuthFilter(
       ScopedProvider<GitHubLogin> loginProvider,
       Provider<CurrentUser> userProvider,
-      AccountCache accountCache) {
+      AccountCache accountCache,
+      OAuthTokenCipher oAuthTokenCipher) {
     this.loginProvider = loginProvider;
     this.userProvider = userProvider;
     this.accountCache = accountCache;
+    this.oAuthTokenCipher = oAuthTokenCipher;
   }
 
   @Override
@@ -78,7 +82,8 @@ public class GitHubOAuthFilter implements Filter {
               .get()
               .substring(
                   ExternalId.SCHEME_EXTERNAL.length() + OAuthWebFilter.GITHUB_EXT_ID.length() + 1);
-      hubLogin.login(new AccessToken(oauthToken));
+      String decryptedToken = oAuthTokenCipher.decrypt(oauthToken);
+      hubLogin.login(new AccessToken(decryptedToken));
     }
 
     chain.doFilter(request, response);
