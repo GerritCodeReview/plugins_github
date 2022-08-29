@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df181a28_be752e40",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-08-29T18:27:10Z",
+      "side": 1,
+      "message": "nit: `Bug` footer should be part of footers section IOW at the end of commit message",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 16
+      },
+      "revId": "95642b292f61c2c958a470e97d4481733488d517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76c337c3_2d26e75a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-08-29T18:27:10Z",
+      "side": 1,
+      "message": "how about using the official gerrit docs link https://gerrit-documentation.storage.googleapis.com/Documentation/3.6.1/config-accounts.html#external-ids ?",
+      "range": {
+        "startLine": 28,
+        "startChar": 4,
+        "endLine": 28,
+        "endChar": 79
+      },
+      "revId": "95642b292f61c2c958a470e97d4481733488d517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f6471cf_a6b0ae20",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/AES.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-08-29T18:27:10Z",
+      "side": 1,
+      "message": "I can see that init is called in both (encrypt and decrypt) with the same data. How about calling it only once e.g. in constructor or in memoized Supplier if that doesn\u0027t have to happen every time?",
+      "range": {
+        "startLine": 44,
+        "startChar": 6,
+        "endLine": 44,
+        "endChar": 50
+      },
+      "revId": "95642b292f61c2c958a470e97d4481733488d517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
