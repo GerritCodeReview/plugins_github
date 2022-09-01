@@ -258,6 +258,98 @@
       },
       "revId": "95642b292f61c2c958a470e97d4481733488d517",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b524837_7e9a0cec",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-01T08:24:38Z",
+      "side": 1,
+      "message": "PASSWORD_DEVICE_DEFAULT",
+      "range": {
+        "startLine": 57,
+        "startChar": 29,
+        "endLine": 57,
+        "endChar": 44
+      },
+      "revId": "95642b292f61c2c958a470e97d4481733488d517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cca2a7a_5ac6a908",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-01T08:24:38Z",
+      "side": 1,
+      "message": "PASSWORD_LENGTH_DEFAULT",
+      "range": {
+        "startLine": 58,
+        "startChar": 30,
+        "endLine": 58,
+        "endChar": 45
+      },
+      "revId": "95642b292f61c2c958a470e97d4481733488d517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d15caeca_e9d0e976",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-01T08:24:38Z",
+      "side": 1,
+      "message": "byte[] passphrase \u003d Files.readAllBytes(Paths.get(passwordDevice));",
+      "range": {
+        "startLine": 196,
+        "startChar": 0,
+        "endLine": 198,
+        "endChar": 51
+      },
+      "revId": "95642b292f61c2c958a470e97d4481733488d517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42f53ed0_1949622f",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthWebFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-01T08:24:38Z",
+      "side": 1,
+      "message": "This would then generated an NPE at L103.",
+      "range": {
+        "startLine": 96,
+        "startChar": 84,
+        "endLine": 96,
+        "endChar": 96
+      },
+      "revId": "95642b292f61c2c958a470e97d4481733488d517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
