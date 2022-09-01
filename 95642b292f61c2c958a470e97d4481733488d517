@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bfec6b38_2babfb3d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-01T08:03:39Z",
+      "side": 1,
+      "message": "This is valid for all the other information stored in All-Users.git, that\u0027s why All-Users.git should be protected by ACLs. I\u0027d just say that all credentials should be stored encrypted and protected at-rest.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 14
+      },
+      "revId": "95642b292f61c2c958a470e97d4481733488d517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b92aecac_241b5ffa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-01T08:03:39Z",
+      "side": 1,
+      "message": "I\u0027d say \"vulnerability has been exploited in the past on other OAuth-based integrations\"",
+      "range": {
+        "startLine": 21,
+        "startChar": 5,
+        "endLine": 21,
+        "endChar": 18
+      },
+      "revId": "95642b292f61c2c958a470e97d4481733488d517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "df181a28_be752e40",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -49,6 +95,69 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dde2eba4_3616344d",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/AES.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-01T08:03:39Z",
+      "side": 1,
+      "message": "AES is the cipher algorithm, which is defined at L39. This class actually doesn\u0027t really know or implement AES apart from just having it hardcoded.\n\nWhy not simply calling this OAuthTokenCipher?",
+      "range": {
+        "startLine": 29,
+        "startChar": 13,
+        "endLine": 29,
+        "endChar": 16
+      },
+      "revId": "95642b292f61c2c958a470e97d4481733488d517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fd439b2_159e6413",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/AES.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-01T08:03:39Z",
+      "side": 1,
+      "message": "cipher cannot be shared across invocation: move it before L44 as local variable.",
+      "revId": "95642b292f61c2c958a470e97d4481733488d517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "434d2ab9_48eb6f90",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/AES.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-01T08:03:39Z",
+      "side": 1,
+      "message": "AES and AES/ECB/PKCS5Padding are key and cipher algos, which should be configurable. I am fine in having a default to AES and AES/ECB/PKCS5Padding.",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 56
+      },
+      "revId": "95642b292f61c2c958a470e97d4481733488d517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9f6471cf_a6b0ae20",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/AES.java",
         "patchSetId": 4
@@ -65,6 +174,87 @@
         "startChar": 6,
         "endLine": 44,
         "endChar": 50
+      },
+      "revId": "95642b292f61c2c958a470e97d4481733488d517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80e30832_ecc07472",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/AES.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-01T08:03:39Z",
+      "side": 1,
+      "message": "I believe the init *has to happen* every time because needs to initialise the Cipher.",
+      "parentUuid": "9f6471cf_a6b0ae20",
+      "range": {
+        "startLine": 44,
+        "startChar": 6,
+        "endLine": 44,
+        "endChar": 50
+      },
+      "revId": "95642b292f61c2c958a470e97d4481733488d517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f2e0f62_003bff71",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/AES.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-01T08:03:39Z",
+      "side": 1,
+      "message": "This should throw an exception rather than just logging",
+      "revId": "95642b292f61c2c958a470e97d4481733488d517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7eee793_ecddb15a",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/AES.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-01T08:03:39Z",
+      "side": 1,
+      "message": "better to throw an exception rather than returning null",
+      "revId": "95642b292f61c2c958a470e97d4481733488d517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cc8ecc6_18ac2600",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/AES.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-01T08:03:39Z",
+      "side": 1,
+      "message": "Same comments as above",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 16
       },
       "revId": "95642b292f61c2c958a470e97d4481733488d517",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
