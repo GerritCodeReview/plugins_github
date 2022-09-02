@@ -205,6 +205,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fada0082_6369d4a0",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/AES.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-02T06:30:48Z",
+      "side": 1,
+      "message": "Hmm you made me thinking ;) so here we go:\n\n```\npublic class Ciphers {\n  private static SecretKeySpec getSecretKey() throws IOException {\n    try (FileInputStream in \u003d new FileInputStream(Paths.get(\"/dev/zero\").toFile())) {\n      byte[] bytes \u003d new byte[16];\n      in.read(bytes);\n      return new SecretKeySpec(bytes, \"AES\");\n    }\n  }\n\n  static class TestCipher {\n    private final Cipher cipher;\n\n    TestCipher(SecretKeySpec secretKey) throws Exception {\n      this.cipher \u003d Cipher.getInstance(\"AES/ECB/PKCS5Padding\");\n      cipher.init(Cipher.ENCRYPT_MODE, secretKey);\n    }\n\n    public String encrypt(final String strToEncrypt) throws Exception {\n      return Base64.getEncoder()\n          .encodeToString(cipher.doFinal(strToEncrypt.getBytes(StandardCharsets.UTF_8)));\n    }\n  }\n\n  public static void main(String[] args) throws Exception {\n    SecretKeySpec secretKey \u003d getSecretKey();\n\n    System.out.println(\"Initialize once for all encryptions:\");\n    TestCipher testCipher \u003d new TestCipher(secretKey);\n    for (int i \u003d 0; i \u003c 5; i++) {\n      System.out.println(testCipher.encrypt(\"foo\" + i));\n    }\n\n    System.out.println(\"Initialize every time when encrypt is called:\");\n    for (int i \u003d 0; i \u003c 5; i++) {\n      System.out.println(new TestCipher(secretKey).encrypt(\"foo\" + i));\n    }\n  }\n}\n```\n\nand it produces the following (stable) output:\n\n```\nInitialize once for all encryptions:\nWwu0yF71aWSCLtQ7QpoZAQ\u003d\u003d\n5RxyOT7c1DzdvG3VKdghgg\u003d\u003d\nMOMTSjrIp9/8jEUWyt6OHg\u003d\u003d\nGasnCq+t4iO1MUewRqVB7A\u003d\u003d\nDL6y399u3W893tmMBkPSOA\u003d\u003d\nInitialize every time when encrypt is called:\nWwu0yF71aWSCLtQ7QpoZAQ\u003d\u003d\n5RxyOT7c1DzdvG3VKdghgg\u003d\u003d\nMOMTSjrIp9/8jEUWyt6OHg\u003d\u003d\nGasnCq+t4iO1MUewRqVB7A\u003d\u003d\nDL6y399u3W893tmMBkPSOA\u003d\u003d\n```\n\nIOW if I\u0027m not mistaken one doesn\u0027t have to init it over and over again. However having said that we should keep in mind that we have TWO modes `encrypt` and `decrypt` (which I haven\u0027t noticed before 😄). IF we want this optimisation then I would propose to have dedicated classes (singletons) per mode.",
+      "parentUuid": "80e30832_ecc07472",
+      "range": {
+        "startLine": 44,
+        "startChar": 6,
+        "endLine": 44,
+        "endChar": 50
+      },
+      "revId": "95642b292f61c2c958a470e97d4481733488d517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8f2e0f62_003bff71",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/AES.java",
         "patchSetId": 4
@@ -319,6 +343,30 @@
       "writtenOn": "2022-09-01T08:24:38Z",
       "side": 1,
       "message": "byte[] passphrase \u003d Files.readAllBytes(Paths.get(passwordDevice));",
+      "range": {
+        "startLine": 196,
+        "startChar": 0,
+        "endLine": 198,
+        "endChar": 51
+      },
+      "revId": "95642b292f61c2c958a470e97d4481733488d517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8526c53_44ed7dc9",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-02T06:30:48Z",
+      "side": 1,
+      "message": "AFAIU that it will not work for `/dev/zero` as one can read unlimited number of bytes from it...",
+      "parentUuid": "d15caeca_e9d0e976",
       "range": {
         "startLine": 196,
         "startChar": 0,
