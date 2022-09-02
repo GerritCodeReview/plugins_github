@@ -236,6 +236,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1290e1a8_3ca1fc65",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/AES.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-02T07:55:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91eb8138_9f83e63f",
+      "range": {
+        "startLine": 29,
+        "startChar": 13,
+        "endLine": 29,
+        "endChar": 16
+      },
+      "revId": "95642b292f61c2c958a470e97d4481733488d517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3fd439b2_159e6413",
@@ -290,6 +314,30 @@
       "side": 1,
       "message": "You make a good point, but I thought that making it configurable was out of scope for this card, as it provides some flexibility that is not strictly required to achieve the goal of this issue.\n\nI thought about doing this as a follow up change, but since it is not much invasive, I can do it as part of this one.",
       "parentUuid": "434d2ab9_48eb6f90",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 56
+      },
+      "revId": "95642b292f61c2c958a470e97d4481733488d517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9211f206_670b01ba",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/AES.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-02T07:55:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5f17c67_cd9e1788",
       "range": {
         "startLine": 38,
         "startChar": 0,
@@ -666,6 +714,30 @@
       "side": 1,
       "message": "I don\u0027t think it would, tbh (in fact, I tested this and it doesn\u0027t).\n\nStringification of null in Java, gives the string \"null\".\n\nbefore this change the value used in the interpolation at L103 would be:\n\n```\nGITHUB_EXT_ID + ghLogin.getToken().accessToken\n```\n\nSo this behaviour is unchanged.\n\nHaving said that, we should probably throw a ServletException rather than storing the \"null\" key in external_ids.\n\nLet me fix this.",
       "parentUuid": "42f53ed0_1949622f",
+      "range": {
+        "startLine": 96,
+        "startChar": 84,
+        "endLine": 96,
+        "endChar": 96
+      },
+      "revId": "95642b292f61c2c958a470e97d4481733488d517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af7aef19_5cd2c33c",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthWebFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-02T07:55:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3490284_cfc55c52",
       "range": {
         "startLine": 96,
         "startChar": 84,
