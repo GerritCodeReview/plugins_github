@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9bcfa527_8a3ed2d0",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthWebFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-05T07:41:23Z",
+      "side": 1,
+      "message": "I thought about it but never actually got to implement it, as I considered a nice-to-have.\n\nNow that you also mention it, I think it\u0027d make sense to just do it, since it is a quite trivial change.\n\nLet me look into it.",
+      "parentUuid": "69ad2ab7_b4d131f8",
+      "range": {
+        "startLine": 109,
+        "startChar": 13,
+        "endLine": 109,
+        "endChar": 82
+      },
+      "revId": "f0e7ec1b53757d521c40f47d689a2105818c79e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ea6d85f6_7c82f9ab",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/filters/GitHubOAuthFilter.java",
         "patchSetId": 6
@@ -54,6 +78,30 @@
       "writtenOn": "2022-09-05T06:37:03Z",
       "side": 1,
       "message": "the comment applies as for `encrypt` operation",
+      "range": {
+        "startLine": 91,
+        "startChar": 15,
+        "endLine": 91,
+        "endChar": 86
+      },
+      "revId": "f0e7ec1b53757d521c40f47d689a2105818c79e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3a960c1_9e4fc690",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/filters/GitHubOAuthFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-05T07:41:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ea6d85f6_7c82f9ab",
       "range": {
         "startLine": 91,
         "startChar": 15,
