@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41a360b2_9ce21d53",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-05T06:37:03Z",
+      "side": 1,
+      "message": "Apart from the missing docs it LGTM. @Luca WDYT?",
+      "revId": "f0e7ec1b53757d521c40f47d689a2105818c79e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69ad2ab7_b4d131f8",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthWebFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-05T06:37:03Z",
+      "side": 1,
+      "message": "nit: I would consider introduction of CipherEncryptException (or one with better name) so that implementation details are not leaking out and code is easier to maintain.\nImagine the case when new/different exception is thrown, then it has to be sprinkled across all the code that calls encrypt instead of being performed in the encrypt implementation. It is a nice-to-have/follow up proposal. WDYT @Tony?",
+      "range": {
+        "startLine": 109,
+        "startChar": 13,
+        "endLine": 109,
+        "endChar": 82
+      },
+      "revId": "f0e7ec1b53757d521c40f47d689a2105818c79e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea6d85f6_7c82f9ab",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/filters/GitHubOAuthFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-05T06:37:03Z",
+      "side": 1,
+      "message": "the comment applies as for `encrypt` operation",
+      "range": {
+        "startLine": 91,
+        "startChar": 15,
+        "endLine": 91,
+        "endChar": 86
+      },
+      "revId": "f0e7ec1b53757d521c40f47d689a2105818c79e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
