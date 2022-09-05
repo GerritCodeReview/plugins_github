@@ -368,6 +368,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e7984ec9_01196c8c",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/AES.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-05T23:12:49Z",
+      "side": 1,
+      "message": "Cipher is also stateful: even without concurrency, two invocations would mix their content to cipher.\n\nSee the discussion at:\nhttps://stackoverflow.com/questions/6957406/is-cipher-thread-safe",
+      "parentUuid": "6040c777_5332da0e",
+      "revId": "95642b292f61c2c958a470e97d4481733488d517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9f6471cf_a6b0ae20",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/AES.java",
         "patchSetId": 4
@@ -451,6 +469,30 @@
       "side": 1,
       "message": "I have rewritten this using memoized suppliers of ciphers.\nAll my tests are successful",
       "parentUuid": "fada0082_6369d4a0",
+      "range": {
+        "startLine": 44,
+        "startChar": 6,
+        "endLine": 44,
+        "endChar": 50
+      },
+      "revId": "95642b292f61c2c958a470e97d4481733488d517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7246ff9d_87eb7c9f",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/AES.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-05T23:12:49Z",
+      "side": 1,
+      "message": "Well, based on the stack-overflow discussions, my 10-years experience with security and JCA and also the JavaDocs, the Cipher instance is stateful and therefore shouldn\u0027t be shared across invocations.",
+      "parentUuid": "d76daaee_2ad7cbff",
       "range": {
         "startLine": 44,
         "startChar": 6,
@@ -733,6 +775,30 @@
       "side": 1,
       "message": "Yes exactly, I have also tested this and it would read until:\n\n```\nCaused by: OutOfMemoryError: Java heap space\n```\n\nAlso reading eagerly the `passwordDevice` does not allow to honour the expected `passwordLength`.\n\n@luca were you suggesting this just for stylistic reasons or you had other reasons?\nLeaving as-is for now.",
       "parentUuid": "b8526c53_44ed7dc9",
+      "range": {
+        "startLine": 196,
+        "startChar": 0,
+        "endLine": 198,
+        "endChar": 51
+      },
+      "revId": "95642b292f61c2c958a470e97d4481733488d517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcf406f0_ab4a99b2",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-05T23:12:49Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b0353ba5_6a108f5f",
       "range": {
         "startLine": 196,
         "startChar": 0,

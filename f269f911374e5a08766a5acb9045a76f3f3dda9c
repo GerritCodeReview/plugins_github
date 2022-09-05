@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88a803d5_98e3708d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-05T23:12:49Z",
+      "side": 1,
+      "message": "plaintext",
+      "range": {
+        "startLine": 23,
+        "startChar": 12,
+        "endLine": 23,
+        "endChar": 17
+      },
+      "revId": "f269f911374e5a08766a5acb9045a76f3f3dda9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65958305_27b2e8f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-05T23:12:49Z",
+      "side": 1,
+      "message": "Remove empty line",
+      "revId": "f269f911374e5a08766a5acb9045a76f3f3dda9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f54c9589_bb6ab363",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-05T23:12:49Z",
+      "side": 1,
+      "message": "-1 is because of the reuse of Ciphers. Also, you should look at key rotation: keys are not eternal and you should also store a reference to the old key in the encrypted value so that it would be possible to introduce a new key but still being able to decrypt values with the old key.",
+      "revId": "f269f911374e5a08766a5acb9045a76f3f3dda9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbc413af_6dfe4fff",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/CipherException.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-05T23:12:49Z",
+      "side": 1,
+      "message": "Public classes should have JavaDoc.",
+      "revId": "f269f911374e5a08766a5acb9045a76f3f3dda9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f8b1ac6_cfa49b95",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/CipherException.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-05T23:12:49Z",
+      "side": 1,
+      "message": "cause",
+      "revId": "f269f911374e5a08766a5acb9045a76f3f3dda9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9db0a7c2_e1effa32",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthTokenCipher.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-05T23:12:49Z",
+      "side": 1,
+      "message": "Javadoc?",
+      "revId": "f269f911374e5a08766a5acb9045a76f3f3dda9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97064692_3a6028f5",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthTokenCipher.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-05T23:12:49Z",
+      "side": 1,
+      "message": "See my previous comments about reusing Ciphers in Java.",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 88
+      },
+      "revId": "f269f911374e5a08766a5acb9045a76f3f3dda9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
