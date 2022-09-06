@@ -22,6 +22,30 @@
       },
       "revId": "52dabb04c1ee6505ed7ef68329b5376f40691097",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acc34eab_742acdc2",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-06T20:17:00Z",
+      "side": 1,
+      "message": "\u003e since we are specifying the password length how about checking it here e.g.\n\u003e ```\n\u003e   if (in.read(passphrase) \u003c passwordLength) {\n\u003e     ...\n\u003e ```\n\nLooking at the implementation, looks this is not necessary really:\n\n```\n    public int read(byte b[]) throws IOException {\n        return readBytes(b, 0, b.length);\n```\nThe last argument, `b.length`, represents the `number of bytes that are written` (from the docs).\n\nif the EOF is reached before b.length are read, -1 will be returned.\n\n\u003e as I believe it should be either read fully or fail... I was also thinking if one specifies sth else then `/dev/zero` IOW the regular file. In that case reading it fully would make sense and we could indicate the intent by setting `passwordLength` to either `0` or `-1`, WDYT?\n\nYes, this would be convenient.\n\nI think it is out of scope for this issue though, so perhaps we can create a feature request or a follow up change?",
+      "parentUuid": "a0cd0e45_5999967a",
+      "range": {
+        "startLine": 214,
+        "startChar": 32,
+        "endLine": 214,
+        "endChar": 34
+      },
+      "revId": "52dabb04c1ee6505ed7ef68329b5376f40691097",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
