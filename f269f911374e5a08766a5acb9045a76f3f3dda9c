@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c926b36_f208d867",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-06T07:53:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88a803d5_98e3708d",
+      "range": {
+        "startLine": 23,
+        "startChar": 12,
+        "endLine": 23,
+        "endChar": 17
+      },
+      "revId": "f269f911374e5a08766a5acb9045a76f3f3dda9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "65958305_27b2e8f0",
@@ -37,6 +61,24 @@
       "writtenOn": "2022-09-05T23:12:49Z",
       "side": 1,
       "message": "Remove empty line",
+      "revId": "f269f911374e5a08766a5acb9045a76f3f3dda9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01b4d627_9b9bf9db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-06T07:53:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65958305_27b2e8f0",
       "revId": "f269f911374e5a08766a5acb9045a76f3f3dda9c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -75,6 +117,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8486bc3d_709f7d82",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/CipherException.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-06T07:53:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bbc413af_6dfe4fff",
+      "revId": "f269f911374e5a08766a5acb9045a76f3f3dda9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7f8b1ac6_cfa49b95",
@@ -88,6 +148,24 @@
       "writtenOn": "2022-09-05T23:12:49Z",
       "side": 1,
       "message": "cause",
+      "revId": "f269f911374e5a08766a5acb9045a76f3f3dda9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08ebb335_dccff439",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/CipherException.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-06T07:53:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f8b1ac6_cfa49b95",
       "revId": "f269f911374e5a08766a5acb9045a76f3f3dda9c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -109,6 +187,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e26220c_ca57dec2",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthTokenCipher.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-06T07:53:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9db0a7c2_e1effa32",
+      "revId": "f269f911374e5a08766a5acb9045a76f3f3dda9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "97064692_3a6028f5",
@@ -122,6 +218,30 @@
       "writtenOn": "2022-09-05T23:12:49Z",
       "side": 1,
       "message": "See my previous comments about reusing Ciphers in Java.",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 88
+      },
+      "revId": "f269f911374e5a08766a5acb9045a76f3f3dda9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9063f32_6a6affde",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthTokenCipher.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-06T07:53:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "97064692_3a6028f5",
       "range": {
         "startLine": 42,
         "startChar": 0,

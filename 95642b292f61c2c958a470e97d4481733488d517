@@ -386,6 +386,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d2b574a1_d0f88cab",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/AES.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-06T07:53:59Z",
+      "side": 1,
+      "message": "Thanks luca, I have addressed this now.",
+      "parentUuid": "e7984ec9_01196c8c",
+      "revId": "95642b292f61c2c958a470e97d4481733488d517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9f6471cf_a6b0ae20",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/AES.java",
         "patchSetId": 4
@@ -493,6 +511,30 @@
       "side": 1,
       "message": "Well, based on the stack-overflow discussions, my 10-years experience with security and JCA and also the JavaDocs, the Cipher instance is stateful and therefore shouldn\u0027t be shared across invocations.",
       "parentUuid": "d76daaee_2ad7cbff",
+      "range": {
+        "startLine": 44,
+        "startChar": 6,
+        "endLine": 44,
+        "endChar": 50
+      },
+      "revId": "95642b292f61c2c958a470e97d4481733488d517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b22670e8_83bfd7f3",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/AES.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-06T07:53:59Z",
+      "side": 1,
+      "message": "Thanks for explaining luca.\nI have addressed this now.",
+      "parentUuid": "7246ff9d_87eb7c9f",
       "range": {
         "startLine": 44,
         "startChar": 6,
