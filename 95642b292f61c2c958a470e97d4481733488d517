@@ -402,6 +402,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1cd6b13_c4114a7a",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/AES.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-06T07:54:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2b574a1_d0f88cab",
+      "revId": "95642b292f61c2c958a470e97d4481733488d517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9f6471cf_a6b0ae20",
@@ -535,6 +553,30 @@
       "side": 1,
       "message": "Thanks for explaining luca.\nI have addressed this now.",
       "parentUuid": "7246ff9d_87eb7c9f",
+      "range": {
+        "startLine": 44,
+        "startChar": 6,
+        "endLine": 44,
+        "endChar": 50
+      },
+      "revId": "95642b292f61c2c958a470e97d4481733488d517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6e743d0_9841cbc5",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/AES.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-06T07:54:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b22670e8_83bfd7f3",
       "range": {
         "startLine": 44,
         "startChar": 6,
