@@ -46,6 +46,30 @@
       },
       "revId": "52dabb04c1ee6505ed7ef68329b5376f40691097",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f29b10e_b2eb5dcb",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-07T06:29:07Z",
+      "side": 1,
+      "message": "\u003e The last argument,  b.length , represents the  number of bytes that are written  (from the docs).\n\nAFAIU there is wrong copy-pasted javadoc from `FileOutputStream` for `private native int readBytes(byte b[], int off, int len)` of `FileInputStream` hence the confusion :/ however per javadocs for `read(byte b[])` (again in `FileInputStream`):\n```\n* @return     the total number of bytes read into the buffer, or\n*             \u003ccode\u003e-1\u003c/code\u003e if there is no more data because the end of\n*             the file has been reached.\n```\n\nIOW one can get:\n1. `-1` when reading from empty (or ended) stream\n2. `b.length` if enough bytes were available in stream\n3. `n \u003c b.length` if some bytes were available in the stream but less than `b.length`\n\nAnd here we go with the confirmation:\n```\npublic class ReadingFromFile {\n  private static byte[] IN_FILE \u003d \"12345\".getBytes(StandardCharsets.UTF_8);\n\n  private static File getTempFileWithContent() throws IOException {\n    Path tempFile \u003d Files.createTempFile(null, null);\n    Files.write(tempFile, IN_FILE);\n    return tempFile.toFile();\n  }\n\n  public static void main(String[] args) throws IOException {\n    byte[] toRead \u003d new byte[IN_FILE.length + 1];\n    File emptyFile \u003d Files.createTempFile(null, null).toFile();\n    try (FileInputStream in \u003d new FileInputStream(emptyFile)) {\n      int read \u003d in.read(toRead);\n      System.out.println(String.format(\"empty file read %d\", read));\n    } finally {\n      emptyFile.delete();\n    }\n\n    File tempFile \u003d getTempFileWithContent();\n    try (FileInputStream in \u003d new FileInputStream(tempFile)) {\n      int read \u003d in.read(toRead);\n      System.out.println(String.format(\"toRead %d vs read %d\", toRead.length, read));\n      read \u003d in.read(toRead);\n      System.out.println(String.format(\"empty stream read %d\", read));\n    } finally {\n      tempFile.delete();\n    }\n  }\n}\n```\n\nthat produces the following output\n```\nempty file read -1\ntoRead 6 vs read 5\nempty stream read -1\n```\n\nIn terms of:\n\u003e I think it is out of scope for this issue though, so perhaps we can create a feature request or a follow up change?\n\n+1 for the follow up",
+      "parentUuid": "acc34eab_742acdc2",
+      "range": {
+        "startLine": 214,
+        "startChar": 32,
+        "endLine": 214,
+        "endChar": 34
+      },
+      "revId": "52dabb04c1ee6505ed7ef68329b5376f40691097",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
