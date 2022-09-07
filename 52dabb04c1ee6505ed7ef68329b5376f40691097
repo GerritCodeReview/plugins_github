@@ -70,6 +70,30 @@
       },
       "revId": "52dabb04c1ee6505ed7ef68329b5376f40691097",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4382dcd_ed39bd71",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-07T07:10:13Z",
+      "side": 1,
+      "message": "wow, thanks for trying this out!\nYou\u0027re right I was misled by the wrong javadocs, thanks for looking into this!\n\nIt is resolved now.",
+      "parentUuid": "4f29b10e_b2eb5dcb",
+      "range": {
+        "startLine": 214,
+        "startChar": 32,
+        "endLine": 214,
+        "endChar": 34
+      },
+      "revId": "52dabb04c1ee6505ed7ef68329b5376f40691097",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
