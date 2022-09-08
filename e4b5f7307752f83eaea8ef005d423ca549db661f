@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "be37c8d6_42125508",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-08T12:24:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c69b321_aed0e3f5",
+      "range": {
+        "startLine": 18,
+        "startChar": 55,
+        "endLine": 18,
+        "endChar": 57
+      },
+      "revId": "e4b5f7307752f83eaea8ef005d423ca549db661f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "59167cb9_0aa6e516",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 9
@@ -55,6 +79,24 @@
       "side": 1,
       "message": "Not sure about @Tony but I can imagine that we could have:\n* concept of `old` / `current` keys\n* decrypt keys set to that both `old` / `new` decrypted values could be read but encryption to `new` kay would be only done\n* command that would perform re-encryption when one would specify only the `new` key and once re-encryption would be finished `old` configuration would be replaced with `new`\n\nIt would depend on constraints we have...",
       "parentUuid": "59167cb9_0aa6e516",
+      "revId": "e4b5f7307752f83eaea8ef005d423ca549db661f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cad6308_50dd864a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-08T12:24:14Z",
+      "side": 1,
+      "message": "Nope I haven\u0027t looked into this yet.\nI need to document myself on what are the best practices to achieve this.\nIf you do have any pointer to some standards, please do let me know 😊",
+      "parentUuid": "fd080606_9e22f0ef",
       "revId": "e4b5f7307752f83eaea8ef005d423ca549db661f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -106,6 +148,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2b4f9ed_6c8d7b7d",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthTokenCipher.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-08T12:24:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5581e00_ee9adb49",
+      "range": {
+        "startLine": 78,
+        "startChar": 17,
+        "endLine": 78,
+        "endChar": 23
+      },
+      "revId": "e4b5f7307752f83eaea8ef005d423ca549db661f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9ac05c30_773c723a",
@@ -119,6 +185,30 @@
       "writtenOn": "2022-09-08T00:33:06Z",
       "side": 1,
       "message": "Why not throwing here a CipherException?",
+      "range": {
+        "startLine": 89,
+        "startChar": 13,
+        "endLine": 89,
+        "endChar": 82
+      },
+      "revId": "e4b5f7307752f83eaea8ef005d423ca549db661f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bf0b141_ea79f818",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthTokenCipher.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-08T12:24:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ac05c30_773c723a",
       "range": {
         "startLine": 89,
         "startChar": 13,
