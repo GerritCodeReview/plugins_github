@@ -41,6 +41,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd080606_9e22f0ef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-08T11:56:06Z",
+      "side": 1,
+      "message": "Not sure about @Tony but I can imagine that we could have:\n* concept of `old` / `current` keys\n* decrypt keys set to that both `old` / `new` decrypted values could be read but encryption to `new` kay would be only done\n* command that would perform re-encryption when one would specify only the `new` key and once re-encryption would be finished `old` configuration would be replaced with `new`\n\nIt would depend on constraints we have...",
+      "parentUuid": "59167cb9_0aa6e516",
+      "revId": "e4b5f7307752f83eaea8ef005d423ca549db661f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "20e214b5_a23d548d",
@@ -54,6 +72,30 @@
       "writtenOn": "2022-09-08T00:33:06Z",
       "side": 1,
       "message": "You should always include the `StandardCharsets.UTF_8` charset then creating a string from a byte[]",
+      "range": {
+        "startLine": 78,
+        "startChar": 17,
+        "endLine": 78,
+        "endChar": 23
+      },
+      "revId": "e4b5f7307752f83eaea8ef005d423ca549db661f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5581e00_ee9adb49",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthTokenCipher.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-08T11:56:06Z",
+      "side": 1,
+      "message": "+1, otherwise platform\u0027s default is used...",
+      "parentUuid": "20e214b5_a23d548d",
       "range": {
         "startLine": 78,
         "startChar": 17,
