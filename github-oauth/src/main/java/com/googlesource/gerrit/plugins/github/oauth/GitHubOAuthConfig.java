@@ -42,7 +42,6 @@ public class GitHubOAuthConfig {
   public static final String CONF_SECTION = "github";
   public static final String GITHUB_OAUTH_AUTHORIZE = "/login/oauth/authorize";
   public static final String GITHUB_OAUTH_ACCESS_TOKEN = "/login/oauth/access_token";
-  public static final String GITHUB_GET_USER = "/user";
   public static final String GERRIT_OAUTH_FINAL = "/oauth";
   public static final String GITHUB_URL_DEFAULT = "https://github.com";
   public static final String GITHUB_API_URL_DEFAULT = "https://api.github.com";
