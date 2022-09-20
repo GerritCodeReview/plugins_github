@@ -19,7 +19,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.httpd.CanonicalWebUrl;
-import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
@@ -72,8 +71,7 @@ public class GitHubOAuthConfig {
   public final long httpReadTimeout;
 
   @Inject
-  protected GitHubOAuthConfig(
-      @GerritServerConfig Config config, CanonicalWebUrl canonicalWebUrl, AuthConfig authConfig) {
+  protected GitHubOAuthConfig(@GerritServerConfig Config config, CanonicalWebUrl canonicalWebUrl) {
     this.config = config;
     this.canonicalWebUrl = canonicalWebUrl;
 
