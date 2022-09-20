@@ -101,12 +101,6 @@ limitations under the License.
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.8.1</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>github-oauth</artifactId>
       <version>${project.version}</version>
@@ -162,12 +156,6 @@ limitations under the License.
       <groupId>org.apache.velocity</groupId>
       <artifactId>velocity-engine-core</artifactId>
       <version>2.3</version>
-    </dependency>
-    <dependency>
-      <groupId>org.jukito</groupId>
-      <artifactId>jukito</artifactId>
-      <version>1.2</version>
-      <scope>test</scope>
     </dependency>
   </dependencies>
 </project>
