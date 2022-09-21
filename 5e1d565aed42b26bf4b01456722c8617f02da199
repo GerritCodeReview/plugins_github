@@ -231,6 +231,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "08a0001c_ac08e3aa",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthTokenCipher.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-21T21:44:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b4b962b_77793ac9",
+      "range": {
+        "startLine": 94,
+        "startChar": 6,
+        "endLine": 97,
+        "endChar": 34
+      },
+      "revId": "5e1d565aed42b26bf4b01456722c8617f02da199",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe3a88aa_511c030c",
