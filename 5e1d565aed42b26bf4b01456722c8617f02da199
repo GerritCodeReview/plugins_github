@@ -65,6 +65,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1683ae40_514a6445",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-21T07:54:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "126b54e8_5d87e2b1",
+      "range": {
+        "startLine": 136,
+        "startChar": 3,
+        "endLine": 151,
+        "endChar": 50
+      },
+      "revId": "5e1d565aed42b26bf4b01456722c8617f02da199",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb630e90_7ef5b5d3",
@@ -206,6 +230,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f9c03ee_52235c8f",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthTokenCipher.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-21T07:54:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cda8a2ad_3afb3eb0",
+      "range": {
+        "startLine": 131,
+        "startChar": 25,
+        "endLine": 131,
+        "endChar": 71
+      },
+      "revId": "5e1d565aed42b26bf4b01456722c8617f02da199",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b3a2f75d_1903dcab",
@@ -243,6 +291,30 @@
       "side": 1,
       "message": "I explicitly left it as-is, to be honest 😊\nIt is called multiple times _only_ in the case of an error, in which case the call is terminal, as an exception will be thrown.\n\nI thought the code would be leaner this way (one less line/assigment).\n\nI can see both arguments though, let me factor it out.",
       "parentUuid": "b3a2f75d_1903dcab",
+      "range": {
+        "startLine": 147,
+        "startChar": 4,
+        "endLine": 152,
+        "endChar": 5
+      },
+      "revId": "5e1d565aed42b26bf4b01456722c8617f02da199",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6a3fa12_957c01dd",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthTokenCipher.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-21T07:54:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf220a8b_a2d5a2b2",
       "range": {
         "startLine": 147,
         "startChar": 4,
