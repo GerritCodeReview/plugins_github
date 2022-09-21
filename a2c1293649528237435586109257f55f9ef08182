@@ -740,6 +740,30 @@
       },
       "revId": "a2c1293649528237435586109257f55f9ef08182",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2aec77d5_e7ddd47a",
+        "filename": "pom.xml",
+        "patchSetId": 18
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-21T23:13:42Z",
+      "side": 1,
+      "message": "I gave an example on how to instantiate it without using Mockito.",
+      "parentUuid": "a88401c8_ca6c74ab",
+      "range": {
+        "startLine": 307,
+        "startChar": 0,
+        "endLine": 312,
+        "endChar": 17
+      },
+      "revId": "a2c1293649528237435586109257f55f9ef08182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

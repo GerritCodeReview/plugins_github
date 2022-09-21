@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8c5fc23_db0161ea",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthTokenCipher.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-21T23:13:42Z",
+      "side": 1,
+      "message": "Unneeded `else`",
+      "range": {
+        "startLine": 109,
+        "startChar": 8,
+        "endLine": 109,
+        "endChar": 14
+      },
+      "revId": "b5800407d761a6b9f394137e8d20e37ecd9c863b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "130b995c_a8d97f78",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/OAuthTokenCipherTest.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-21T23:13:42Z",
+      "side": 1,
+      "message": "This can be instantiated in the `setUp()` with:\n```\n    canonicalWebUrl \u003d Guice.createInjector(\n            new AbstractModule() {\n              @Override\n              protected void configure() {\n                bind(String.class).annotatedWith(com.google.gerrit.server.config.CanonicalWebUrl.class).toProvider(Providers.of(null));\n              }\n            }\n    ).getInstance(CanonicalWebUrl.class);\n```",
+      "range": {
+        "startLine": 43,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 40
+      },
+      "revId": "b5800407d761a6b9f394137e8d20e37ecd9c863b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
