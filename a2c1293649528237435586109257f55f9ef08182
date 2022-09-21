@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa5c104c_2e5df689",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-21T17:12:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3570fe77_343c886a",
+      "range": {
+        "startLine": 231,
+        "startChar": 25,
+        "endLine": 231,
+        "endChar": 31
+      },
+      "revId": "a2c1293649528237435586109257f55f9ef08182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0737e2f9_c94928f1",
@@ -87,6 +111,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "091bc6cf_97312be2",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-21T17:12:27Z",
+      "side": 1,
+      "message": "Good point, removed.",
+      "parentUuid": "e9eb3ee9_b626354c",
+      "range": {
+        "startLine": 248,
+        "startChar": 10,
+        "endLine": 248,
+        "endChar": 27
+      },
+      "revId": "a2c1293649528237435586109257f55f9ef08182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2cce41a7_df2c15cf",
@@ -100,6 +148,30 @@
       "writtenOn": "2022-09-21T13:40:20Z",
       "side": 1,
       "message": "Why do we need to trip the trailing slash?",
+      "range": {
+        "startLine": 253,
+        "startChar": 11,
+        "endLine": 253,
+        "endChar": 29
+      },
+      "revId": "a2c1293649528237435586109257f55f9ef08182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea93a8ed_dbf044ec",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-21T17:12:27Z",
+      "side": 1,
+      "message": "Good point, removed.",
+      "parentUuid": "2cce41a7_df2c15cf",
       "range": {
         "startLine": 253,
         "startChar": 11,
@@ -133,6 +205,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ca3c822_d8b4d86c",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthTokenCipher.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-21T17:12:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81df4c9e_1ae80565",
+      "range": {
+        "startLine": 69,
+        "startChar": 13,
+        "endLine": 69,
+        "endChar": 33
+      },
+      "revId": "a2c1293649528237435586109257f55f9ef08182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d4514994_467a0215",
@@ -146,6 +242,30 @@
       "writtenOn": "2022-09-21T13:40:20Z",
       "side": 1,
       "message": "We use Guava\u0027s splitter in Gerrit all throughout the code.",
+      "range": {
+        "startLine": 127,
+        "startChar": 43,
+        "endLine": 127,
+        "endChar": 54
+      },
+      "revId": "a2c1293649528237435586109257f55f9ef08182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09a73961_3c370e17",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthTokenCipher.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-21T17:12:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4514994_467a0215",
       "range": {
         "startLine": 127,
         "startChar": 43,
@@ -179,6 +299,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c327c257_9932c844",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfigTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-21T17:12:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87320856_7e4f152b",
+      "range": {
+        "startLine": 54,
+        "startChar": 11,
+        "endLine": 54,
+        "endChar": 26
+      },
+      "revId": "a2c1293649528237435586109257f55f9ef08182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "725c8414_d11f67ca",
@@ -192,6 +336,30 @@
       "writtenOn": "2022-09-21T13:40:20Z",
       "side": 1,
       "message": "Do we really need mocks here? These are just configuration settings isn\u0027t it?\nI reckon by just setting the configs in the setup of the test, like we did in GitHubOAuthConfigTest.java, it would require less code and will be more self-documenting.",
+      "range": {
+        "startLine": 37,
+        "startChar": 3,
+        "endLine": 37,
+        "endChar": 7
+      },
+      "revId": "a2c1293649528237435586109257f55f9ef08182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70b4a13e_f98f242d",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/OAuthTokenCipherTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-21T17:12:27Z",
+      "side": 1,
+      "message": "Yeah good point.\nWe will still need mockito to mock `CanonicalWebUrl` as far as I can see, but we can provide a real `Config` to model the gerrit configuration.\n\nI will do that.",
+      "parentUuid": "725c8414_d11f67ca",
       "range": {
         "startLine": 37,
         "startChar": 3,
@@ -248,6 +416,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a83f0828_7980034f",
+        "filename": "github-plugin/src/main/resources/Documentation/config.md",
+        "patchSetId": 18
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-21T17:12:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f18abff4_fca7d36b",
+      "range": {
+        "startLine": 95,
+        "startChar": 7,
+        "endLine": 95,
+        "endChar": 11
+      },
+      "revId": "a2c1293649528237435586109257f55f9ef08182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8df61d33_39b41af6",
+        "filename": "github-plugin/src/main/resources/Documentation/config.md",
+        "patchSetId": 18
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-21T17:12:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d57f379_73e8d616",
+      "range": {
+        "startLine": 95,
+        "startChar": 13,
+        "endLine": 95,
+        "endChar": 21
+      },
+      "revId": "a2c1293649528237435586109257f55f9ef08182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "286b1941_46a2f015",
@@ -261,6 +477,30 @@
       "writtenOn": "2022-09-21T13:40:20Z",
       "side": 1,
       "message": "I\u0027d put a **NOTE** saying that it is not suitable for production use: always set a non-zero password device for deriving the key.",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 18
+      },
+      "revId": "a2c1293649528237435586109257f55f9ef08182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b549a0f9_c17f76ee",
+        "filename": "github-plugin/src/main/resources/Documentation/config.md",
+        "patchSetId": 18
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-21T17:12:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "286b1941_46a2f015",
       "range": {
         "startLine": 97,
         "startChar": 0,
@@ -294,6 +534,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd1bd0e3_37885d70",
+        "filename": "github-plugin/src/main/resources/Documentation/config.md",
+        "patchSetId": 18
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-21T17:12:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4674e1ad_e435928c",
+      "range": {
+        "startLine": 106,
+        "startChar": 52,
+        "endLine": 106,
+        "endChar": 53
+      },
+      "revId": "a2c1293649528237435586109257f55f9ef08182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0a312efb_1cc3de83",
@@ -317,6 +581,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5dd1152f_6b0280f8",
+        "filename": "github-plugin/src/main/resources/Documentation/config.md",
+        "patchSetId": 18
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-21T17:12:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a312efb_1cc3de83",
+      "range": {
+        "startLine": 113,
+        "startChar": 52,
+        "endLine": 113,
+        "endChar": 53
+      },
+      "revId": "a2c1293649528237435586109257f55f9ef08182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de2e04c1_e687c8ea",
@@ -330,6 +618,30 @@
       "writtenOn": "2022-09-21T13:40:20Z",
       "side": 1,
       "message": "Not sure we need mockito, see my comments on how to avoid mocking.",
+      "range": {
+        "startLine": 307,
+        "startChar": 0,
+        "endLine": 312,
+        "endChar": 17
+      },
+      "revId": "a2c1293649528237435586109257f55f9ef08182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d64a2052_1594df87",
+        "filename": "pom.xml",
+        "patchSetId": 18
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-21T17:12:27Z",
+      "side": 1,
+      "message": "In order to create `GitHubOAuthConfig`, we\u0027d need an instance of `CanonicalWebUrl`, but that cannot be instantiated as it does not provide a public constructor.\n\nAn alternative would be to write IT tests instead so that we can have an instance of `CanonicalWebUrl`, but it seems wrong to have IT tests just for that.",
+      "parentUuid": "de2e04c1_e687c8ea",
       "range": {
         "startLine": 307,
         "startChar": 0,
