@@ -716,6 +716,30 @@
       },
       "revId": "a2c1293649528237435586109257f55f9ef08182",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a88401c8_ca6c74ab",
+        "filename": "pom.xml",
+        "patchSetId": 18
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-21T21:46:14Z",
+      "side": 1,
+      "message": "@luca, please have a look at the new tests, I think they are cleaner and more to the point.\n\n\nMockito is still needed to construct CanonicalWebUrl though.\n\nThoughts?",
+      "parentUuid": "d64a2052_1594df87",
+      "range": {
+        "startLine": 307,
+        "startChar": 0,
+        "endLine": 312,
+        "endChar": 17
+      },
+      "revId": "a2c1293649528237435586109257f55f9ef08182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
