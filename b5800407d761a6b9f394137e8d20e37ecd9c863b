@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc8606b5_ff246bfc",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthTokenCipher.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-22T07:59:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8c5fc23_db0161ea",
+      "range": {
+        "startLine": 109,
+        "startChar": 8,
+        "endLine": 109,
+        "endChar": 14
+      },
+      "revId": "b5800407d761a6b9f394137e8d20e37ecd9c863b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f8120392_04d4366b",
@@ -58,6 +82,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "847730d4_00121b84",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfigTest.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-22T07:59:34Z",
+      "side": 1,
+      "message": "Good catch!",
+      "parentUuid": "f8120392_04d4366b",
+      "revId": "b5800407d761a6b9f394137e8d20e37ecd9c863b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "130b995c_a8d97f78",
@@ -71,6 +113,30 @@
       "writtenOn": "2022-09-21T23:13:42Z",
       "side": 1,
       "message": "This can be instantiated in the `setUp()` with:\n```\n    canonicalWebUrl \u003d Guice.createInjector(\n            new AbstractModule() {\n              @Override\n              protected void configure() {\n                bind(String.class).annotatedWith(com.google.gerrit.server.config.CanonicalWebUrl.class).toProvider(Providers.of(null));\n              }\n            }\n    ).getInstance(CanonicalWebUrl.class);\n```",
+      "range": {
+        "startLine": 43,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 40
+      },
+      "revId": "b5800407d761a6b9f394137e8d20e37ecd9c863b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "078b1b77_4f176a15",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/OAuthTokenCipherTest.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-22T07:59:34Z",
+      "side": 1,
+      "message": "Nice one, thanks luca this does the trick and we can remove mockito now.",
+      "parentUuid": "130b995c_a8d97f78",
       "range": {
         "startLine": 43,
         "startChar": 2,
@@ -106,6 +172,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "16ac11a3_e5ea06e3",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/OAuthTokenCipherTest.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-22T07:59:34Z",
+      "side": 1,
+      "message": "Yes, this test just ensures that whatever is encrypted using `encrypt()`, can be decrypted using `decrypt()`.\n\nDetails on _how_ the encryption works is covered by other tests.\n\nDo you think this is not worth it?",
+      "parentUuid": "8506d440_73d4e492",
+      "range": {
+        "startLine": 69,
+        "startChar": 17,
+        "endLine": 69,
+        "endChar": 81
+      },
+      "revId": "b5800407d761a6b9f394137e8d20e37ecd9c863b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7411869f_62c7b3ab",
         "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/OAuthTokenCipherTest.java",
         "patchSetId": 22
@@ -117,6 +207,30 @@
       "writtenOn": "2022-09-22T06:50:47Z",
       "side": 1,
       "message": "nit: it would be easier to follow if `prefix` was explicitly tested for existence as it is intended in the test description, at present it is verified by `dropKeyId` not failing during execution...",
+      "range": {
+        "startLine": 81,
+        "startChar": 4,
+        "endLine": 83,
+        "endChar": 57
+      },
+      "revId": "b5800407d761a6b9f394137e8d20e37ecd9c863b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1951cbd9_56990c66",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/OAuthTokenCipherTest.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-22T07:59:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7411869f_62c7b3ab",
       "range": {
         "startLine": 81,
         "startChar": 4,
@@ -173,6 +287,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f017ccfd_181ab52b",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/OAuthTokenCipherTest.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-22T07:59:34Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "71dd2375_7aeeb9c4",
+      "range": {
+        "startLine": 144,
+        "startChar": 2,
+        "endLine": 144,
+        "endChar": 20
+      },
+      "revId": "b5800407d761a6b9f394137e8d20e37ecd9c863b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6fb4f563_0b626f2e",
@@ -186,6 +324,24 @@
       "writtenOn": "2022-09-22T06:50:47Z",
       "side": 1,
       "message": "can be private",
+      "revId": "b5800407d761a6b9f394137e8d20e37ecd9c863b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e724108_130ec85a",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/OAuthTokenCipherTest.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-22T07:59:34Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6fb4f563_0b626f2e",
       "revId": "b5800407d761a6b9f394137e8d20e37ecd9c863b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -213,6 +369,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "079261e4_bcedde13",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/OAuthTokenCipherTest.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-22T07:59:34Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e34e7861_67e44c4c",
+      "range": {
+        "startLine": 149,
+        "startChar": 2,
+        "endLine": 149,
+        "endChar": 20
+      },
+      "revId": "b5800407d761a6b9f394137e8d20e37ecd9c863b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71520114_d800bcf8",
@@ -226,6 +406,24 @@
       "writtenOn": "2022-09-22T06:50:47Z",
       "side": 1,
       "message": "can be private",
+      "revId": "b5800407d761a6b9f394137e8d20e37ecd9c863b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7be42759_799d3ad1",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/OAuthTokenCipherTest.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-22T07:59:34Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "71520114_d800bcf8",
       "revId": "b5800407d761a6b9f394137e8d20e37ecd9c863b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

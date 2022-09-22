@@ -764,6 +764,30 @@
       },
       "revId": "a2c1293649528237435586109257f55f9ef08182",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb175271_9c6adbfa",
+        "filename": "pom.xml",
+        "patchSetId": 18
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-22T07:59:34Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2aec77d5_e7ddd47a",
+      "range": {
+        "startLine": 307,
+        "startChar": 0,
+        "endLine": 312,
+        "endChar": 17
+      },
+      "revId": "a2c1293649528237435586109257f55f9ef08182",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
