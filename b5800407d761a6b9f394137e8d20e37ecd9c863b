@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "461bb003_9ee2cb76",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-22T16:55:29Z",
+      "side": 1,
+      "message": "Changing the default would cause problems if some tokens were already encrypted with /dev/zero (as the default password would change in a breaking change without any rotation).\n\nI think if we do it, we should do it before we release this.\n\nMy two cents: the /dev/zero approach is the one used by the secure-config plugin in Gerrit, so I think as long we adhere to that standard and we document the risk, the current implementation is good enough for non-production environments.",
+      "parentUuid": "c52b8d67_23c60723",
+      "revId": "b5800407d761a6b9f394137e8d20e37ecd9c863b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e8c5fc23_db0161ea",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthTokenCipher.java",
         "patchSetId": 22
