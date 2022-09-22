@@ -242,6 +242,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97e5fd51_9c671d83",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/OAuthTokenCipherTest.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-22T16:50:23Z",
+      "side": 1,
+      "message": "\u003e I miss the confirmation that whatever was produced at `encrypt` is not the same as input e.g.:\n\u003e \n\u003e ```\n\u003e String encrypted \u003d objectUnderTest.encrypt(someOauthToken);\n\u003e assertNotEqules(encrypted, someOauthToken);\n\u003e assertEquals(objectUnderTest.decrupt(encrypted), someOauthToken);\n\u003e ```\n\u003e \n\u003e It is for you to decide if that is covered in other tests and this could be removed or it should be added to this one ;)\n\nFor me this was already covered at L95, but I guess not explicitly enough.\nAdded here as you suggested.",
+      "parentUuid": "0f831815_6b2434fb",
+      "range": {
+        "startLine": 69,
+        "startChar": 17,
+        "endLine": 69,
+        "endChar": 81
+      },
+      "revId": "b5800407d761a6b9f394137e8d20e37ecd9c863b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7411869f_62c7b3ab",
