@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3283fbfb_0f6c6cdd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-23T08:53:47Z",
+      "side": 1,
+      "message": "yeap plugin data would work too... I can walk the walk and prepare the follow-up change over the weekend so that we could merge them (if we are happy of course) together (under a topic) on Monday",
+      "parentUuid": "a972bea0_31da6a22",
+      "revId": "b5800407d761a6b9f394137e8d20e37ecd9c863b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e8c5fc23_db0161ea",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthTokenCipher.java",
         "patchSetId": 22
