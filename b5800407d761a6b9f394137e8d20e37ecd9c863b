@@ -110,6 +110,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cc208208_af053653",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-23T13:04:11Z",
+      "side": 1,
+      "message": "I would stick to the same issue number.",
+      "parentUuid": "8588b7b2_341a35b0",
+      "revId": "b5800407d761a6b9f394137e8d20e37ecd9c863b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e8c5fc23_db0161ea",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthTokenCipher.java",
         "patchSetId": 22
