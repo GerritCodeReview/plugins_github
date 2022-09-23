@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "acd15158_9e4ab747",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-23T16:50:31Z",
+      "side": 1,
+      "message": "This line has not been touched by this CR, I\u0027d rather not rename it, especially if it is just a nit.",
+      "parentUuid": "1a80f564_dedc83bb",
+      "range": {
+        "startLine": 51,
+        "startChar": 29,
+        "endLine": 51,
+        "endChar": 41
+      },
+      "revId": "93a9b50f8fc22bc22ee92c35a93be9e4c16f0c9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8ac2d8d7_27b0027b",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "858c71ab_f1899939",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-23T16:50:31Z",
+      "side": 1,
+      "message": "I\u0027d like this to start with `CONF` to be aligned with the `CONF_SECTION`, do I\u0027d leave it as-is, given this is just a nit.",
+      "parentUuid": "8ac2d8d7_27b0027b",
+      "range": {
+        "startLine": 52,
+        "startChar": 29,
+        "endLine": 52,
+        "endChar": 45
+      },
+      "revId": "93a9b50f8fc22bc22ee92c35a93be9e4c16f0c9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e33324f_8aeeb8ed",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-09-23T06:24:29Z",
       "side": 1,
       "message": "nit: would be consistent with the rest of the class if `CipherException` was thrown from here instead of `IOException`",
+      "range": {
+        "startLine": 157,
+        "startChar": 2,
+        "endLine": 157,
+        "endChar": 62
+      },
+      "revId": "93a9b50f8fc22bc22ee92c35a93be9e4c16f0c9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca0fb812_29b1faea",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthTokenCipher.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-23T16:50:31Z",
+      "side": 1,
+      "message": "`CipherException` is the public exception used by the class to signal errors, this is just a private method whose exception is caught at L106 and wrapped in a `CipherException`, so I don\u0027t see inconsistencies here to be honest 😊\n\nRaising `CipherException` here would require catcing the `IOExceptio` and rethrow it as `CipherException`, which seems unnecessary in my opinion.\n\nGiven this is a nit, leaving as-is.",
+      "parentUuid": "2e33324f_8aeeb8ed",
       "range": {
         "startLine": 157,
         "startChar": 2,
