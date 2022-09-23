@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a80f564_dedc83bb",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-23T06:24:29Z",
+      "side": 1,
+      "message": "nit: `CONFIG_SECTION`?",
+      "range": {
+        "startLine": 51,
+        "startChar": 29,
+        "endLine": 51,
+        "endChar": 41
+      },
+      "revId": "93a9b50f8fc22bc22ee92c35a93be9e4c16f0c9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ac2d8d7_27b0027b",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-23T06:24:29Z",
+      "side": 1,
+      "message": "nit: `KEY_CONFIG_SECTION`?",
+      "range": {
+        "startLine": 52,
+        "startChar": 29,
+        "endLine": 52,
+        "endChar": 45
+      },
+      "revId": "93a9b50f8fc22bc22ee92c35a93be9e4c16f0c9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e33324f_8aeeb8ed",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthTokenCipher.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-23T06:24:29Z",
+      "side": 1,
+      "message": "nit: would be consistent with the rest of the class if `CipherException` was thrown from here instead of `IOException`",
+      "range": {
+        "startLine": 157,
+        "startChar": 2,
+        "endLine": 157,
+        "endChar": 62
+      },
+      "revId": "93a9b50f8fc22bc22ee92c35a93be9e4c16f0c9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
