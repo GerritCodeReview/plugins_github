@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a972bea0_31da6a22",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-23T07:59:33Z",
+      "side": 1,
+      "message": "\u003e \u003e Changing the default would cause problems if some...\n\u003e \n\u003e Right that is why I believe it is now or never ;)\n\nok cool, we are on the same page then, I thought you wanted to do this as a follow-up change.\n\n\u003e \n\u003e \u003e ... /dev/zero approach is the one used by the secure-config plugin in Gerrit ...\n\u003e \n\u003e IMHO default configuration should be good enough if possible. Otherwise, it requires extra steps to be performed prior plugin can be used in production instead of being just seamlessly dropped ;)\n\nIt depends on the definition of \"good enough\" right?\nThe current solution is good-enough for non-production environments and not good enough for production ones, for sure, as is documented.\n\nHaving said that, I don\u0027t think it is unusual that production environments are tuned and require security settings that are stronger than non-production environments (often they adhere to company-wide standards).\n\n\u003e \n\u003e Having said that I realise that it is an extra effort so it is up to you to decide 😄 resolve it at will then.\n\nWorth discussing.\nI think generating the password-device could be a good ides (in the plugin data perhaps, not in the `/etc` directory).\n\n@luca, any thoughts?",
+      "parentUuid": "06a597e4_5bd9484d",
+      "revId": "b5800407d761a6b9f394137e8d20e37ecd9c863b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e8c5fc23_db0161ea",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthTokenCipher.java",
         "patchSetId": 22
