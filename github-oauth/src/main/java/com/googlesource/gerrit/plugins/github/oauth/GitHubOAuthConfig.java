@@ -13,6 +13,8 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.oauth;
 
+import static com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig.KeyConfig.PASSWORD_DEVICE_CONFIG_LABEL;
+
 import com.google.common.base.CharMatcher;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
@@ -38,13 +40,9 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import lombok.Getter;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class GitHubOAuthConfig {
-  private static Logger logger = LoggerFactory.getLogger(GitHubOAuthConfig.class);
-
   private final Config config;
   private final CanonicalWebUrl canonicalWebUrl;
 
@@ -138,25 +136,16 @@ public class GitHubOAuthConfig {
         config.getSubsections(CONF_KEY_SECTION).stream()
             .map(KeyConfig::new)
             .collect(Collectors.toMap(KeyConfig::getKeyId, Function.identity()));
-
-    if (configuredKeyConfig.isEmpty()) {
-      logger.warn(
-          "No configured '{}' sections found. Default configuration should NOT be used in production code.",
-          CONF_KEY_SECTION);
-      currentKeyConfig = new KeyConfig();
-      keyConfigMap = Map.of(currentKeyConfig.getKeyId(), currentKeyConfig);
-    } else {
-      keyConfigMap = configuredKeyConfig;
-      List<KeyConfig> currentKeyConfigs =
-          keyConfigMap.values().stream().filter(KeyConfig::isCurrent).collect(Collectors.toList());
-      if (currentKeyConfigs.size() != 1) {
-        throw new IllegalStateException(
-            String.format(
-                "Expected exactly 1 subsection of '%s' to be configured as 'current', %d found",
-                CONF_KEY_SECTION, currentKeyConfigs.size()));
-      }
-      currentKeyConfig = currentKeyConfigs.get(0);
+    keyConfigMap = configuredKeyConfig;
+    List<KeyConfig> currentKeyConfigs =
+        keyConfigMap.values().stream().filter(KeyConfig::isCurrent).collect(Collectors.toList());
+    if (currentKeyConfigs.size() != 1) {
+      throw new IllegalStateException(
+          String.format(
+              "Expected exactly 1 subsection of '%s' has to be configured as 'current', %d found",
+              CONF_KEY_SECTION, currentKeyConfigs.size()));
     }
+    currentKeyConfig = currentKeyConfigs.get(0);
   }
 
   public String getOAuthFinalRedirectUrl(HttpServletRequest req) {
@@ -220,7 +209,6 @@ public class GitHubOAuthConfig {
 
   public class KeyConfig {
 
-    public static final String PASSWORD_DEVICE_DEFAULT = "/dev/zero";
     public static final int PASSWORD_LENGTH_DEFAULT = 16;
     public static final String CIPHER_ALGORITHM_DEFAULT = "AES/ECB/PKCS5Padding";
     public static final String SECRET_KEY_ALGORITHM_DEFAULT = "AES";
@@ -251,11 +239,7 @@ public class GitHubOAuthConfig {
                 CONF_KEY_SECTION, keyId, KEY_DELIMITER));
       }
 
-      this.passwordDevice =
-          trimTrailingSlash(
-              MoreObjects.firstNonNull(
-                  config.getString(CONF_KEY_SECTION, keyId, PASSWORD_DEVICE_CONFIG_LABEL),
-                  PASSWORD_DEVICE_DEFAULT));
+      this.passwordDevice = trimTrailingSlash(getPasswordDeviceOrThrow(config, keyId));
       this.passwordLength =
           config.getInt(
               CONF_KEY_SECTION, keyId, PASSWORD_LENGTH_CONFIG_LABEL, PASSWORD_LENGTH_DEFAULT);
@@ -272,15 +256,6 @@ public class GitHubOAuthConfig {
               config.getString(CONF_KEY_SECTION, keyId, SECRET_KEY_CONFIG_LABEL),
               SECRET_KEY_ALGORITHM_DEFAULT);
       this.keyId = keyId;
-    }
-
-    private KeyConfig() {
-      passwordDevice = PASSWORD_DEVICE_DEFAULT;
-      passwordLength = PASSWORD_LENGTH_DEFAULT;
-      isCurrent = true;
-      cipherAlgorithm = CIPHER_ALGORITHM_DEFAULT;
-      keyId = KEY_ID_DEFAULT;
-      secretKeyAlgorithm = SECRET_KEY_ALGORITHM_DEFAULT;
     }
 
     public byte[] readPassword() throws IOException {
@@ -310,5 +285,23 @@ public class GitHubOAuthConfig {
     public String getKeyId() {
       return keyId;
     }
+  }
+
+  /**
+   * Method returns the password device value for a given {@code keyId}.
+   *
+   * @throws {@link IllegalStateException} when password device is not configured for {@code keyId}
+   */
+  private static String getPasswordDeviceOrThrow(Config config, String keyId) {
+    String passwordDevice =
+        config.getString(CONF_KEY_SECTION, keyId, KeyConfig.PASSWORD_DEVICE_CONFIG_LABEL);
+    if (Strings.isNullOrEmpty(passwordDevice)) {
+      throw new IllegalStateException(
+          String.format(
+              "Configuration error. Missing %s.%s for key-id '%s'",
+              CONF_KEY_SECTION, PASSWORD_DEVICE_CONFIG_LABEL, keyId));
+    }
+
+    return passwordDevice;
   }
 }
