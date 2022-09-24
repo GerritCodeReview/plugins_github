@@ -17,6 +17,7 @@ import static com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig.CON
 import static com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig.CONF_SECTION;
 import static com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig.KeyConfig.CIPHER_ALGO_CONFIG_LABEL;
 import static com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig.KeyConfig.CURRENT_CONFIG_LABEL;
+import static com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig.KeyConfig.KEY_ID_DEFAULT;
 import static com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig.KeyConfig.PASSWORD_DEVICE_CONFIG_LABEL;
 import static com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig.KeyConfig.SECRET_KEY_CONFIG_LABEL;
 import static com.googlesource.gerrit.plugins.github.oauth.OAuthTokenCipher.splitKeyIdFromMaterial;
@@ -31,31 +32,37 @@ import com.google.inject.Guice;
 import com.google.inject.util.Providers;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.util.Base64;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
+import org.junit.ClassRule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 public class OAuthTokenCipherTest {
 
   CanonicalWebUrl canonicalWebUrl;
   Config config;
 
+  @ClassRule public static TemporaryFolder temporaryFolder = new TemporaryFolder();
+
   private static final String VERSION1_KEY_ID = "version1";
   private static final String VERSION2_KEY_ID = "version2";
 
   @Before
   public void setUp() {
-    config = new Config();
-
-    config.setString(CONF_SECTION, null, "clientSecret", "theSecret");
-    config.setString(CONF_SECTION, null, "clientId", "theClientId");
-    config.setString("auth", null, "httpHeader", "GITHUB_USER");
-    config.setString("auth", null, "type", AuthType.HTTP.toString());
+    config = createCommonConfig();
 
     config.setBoolean(CONF_KEY_SECTION, VERSION1_KEY_ID, CURRENT_CONFIG_LABEL, true);
     config.setBoolean(CONF_KEY_SECTION, VERSION2_KEY_ID, CURRENT_CONFIG_LABEL, false);
+
+    String testPasswordDevice = "/dev/zero";
+    config.setString(
+        CONF_KEY_SECTION, VERSION1_KEY_ID, PASSWORD_DEVICE_CONFIG_LABEL, testPasswordDevice);
+    config.setString(
+        CONF_KEY_SECTION, VERSION2_KEY_ID, PASSWORD_DEVICE_CONFIG_LABEL, testPasswordDevice);
 
     canonicalWebUrl =
         Guice.createInjector(
@@ -71,10 +78,32 @@ public class OAuthTokenCipherTest {
   }
 
   @Test
-  public void shouldEncryptAndDecryptAToken() throws IOException {
-    String someOauthToken = "someToken";
-    OAuthTokenCipher objectUnderTest = objectUnderTest();
+  public void shouldEncryptAndDecryptATokenWithPasswordGeneratedAtInit() throws IOException {
+    // simulate plugin init step by generating a password to a file and configuring it in
+    // gerrit.config
+    Path passwordFilePath =
+        temporaryFolder.newFolder().toPath().resolve(PasswordGenerator.DEFAULT_PASSWORD_FILE);
+    new PasswordGenerator().generate(passwordFilePath);
 
+    config = createCommonConfig();
+    config.setBoolean(CONF_KEY_SECTION, KEY_ID_DEFAULT, CURRENT_CONFIG_LABEL, true);
+    config.setString(
+        CONF_KEY_SECTION,
+        KEY_ID_DEFAULT,
+        PASSWORD_DEVICE_CONFIG_LABEL,
+        passwordFilePath.toString());
+
+    verifyTokenEncryptionAndDecryption(objectUnderTest());
+  }
+
+  @Test
+  public void shouldEncryptAndDecryptAToken() throws IOException {
+    verifyTokenEncryptionAndDecryption(objectUnderTest());
+  }
+
+  private void verifyTokenEncryptionAndDecryption(OAuthTokenCipher objectUnderTest)
+      throws CipherException {
+    String someOauthToken = "someToken";
     String encrypt = objectUnderTest.encrypt(someOauthToken);
     assertNotEquals(encrypt, someOauthToken);
     assertEquals(objectUnderTest.decrypt(encrypt), someOauthToken);
@@ -160,6 +189,19 @@ public class OAuthTokenCipherTest {
   }
 
   private OAuthTokenCipher objectUnderTest() throws IOException {
-    return new OAuthTokenCipher(new GitHubOAuthConfig(config, canonicalWebUrl));
+    return objectUnderTest(config);
+  }
+
+  private OAuthTokenCipher objectUnderTest(Config testConfig) throws IOException {
+    return new OAuthTokenCipher(new GitHubOAuthConfig(testConfig, canonicalWebUrl));
+  }
+
+  private static Config createCommonConfig() {
+    Config config = new Config();
+    config.setString(CONF_SECTION, null, "clientSecret", "theSecret");
+    config.setString(CONF_SECTION, null, "clientId", "theClientId");
+    config.setString("auth", null, "httpHeader", "GITHUB_USER");
+    config.setString("auth", null, "type", AuthType.HTTP.toString());
+    return config;
   }
 }
