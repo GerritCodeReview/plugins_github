@@ -35,18 +35,29 @@ import java.util.Base64;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 public class OAuthTokenCipherTest {
 
   CanonicalWebUrl canonicalWebUrl;
   Config config;
+  private static DefaultKeyProvider defaultKeyProvider;
+
+  @ClassRule public static TemporaryFolder temporaryFolder = new TemporaryFolder();
 
   private static final String VERSION1_KEY_ID = "version1";
   private static final String VERSION2_KEY_ID = "version2";
 
+  @BeforeClass
+  public static void setupDefaultKeyProvider() throws IOException {
+    defaultKeyProvider = new DefaultKeyProvider(temporaryFolder.newFolder());
+  }
+
   @Before
-  public void setUp() {
+  public void setUp() throws IOException {
     config = new Config();
 
     config.setString(CONF_SECTION, null, "clientSecret", "theSecret");
@@ -160,6 +171,6 @@ public class OAuthTokenCipherTest {
   }
 
   private OAuthTokenCipher objectUnderTest() throws IOException {
-    return new OAuthTokenCipher(new GitHubOAuthConfig(config, canonicalWebUrl));
+    return new OAuthTokenCipher(new GitHubOAuthConfig(config, defaultKeyProvider, canonicalWebUrl));
   }
 }

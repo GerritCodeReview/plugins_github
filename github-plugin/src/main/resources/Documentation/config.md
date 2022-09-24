@@ -94,10 +94,10 @@ how this is done by setting the relevant configuration parameters.
 
 github-key.<key-id>.passwordDevice
 : The device or file where to retrieve the encryption passphrase.\
-Default: /dev/zero
-
-*NOTE*: such configuration is considered insecure and should *not be used in
-production*, always set a non-zero password device for deriving the key.
+Default: random key is generated and stored in
+`$site/data/@PLUGIN@/default.key` file with `passwordLength` default value
+length (16 bytes). The key is generated only in case when fallback to
+default is performed and non-empty key file doesn't exist.
 
 github-key.<key-id>.passwordLength
 : The length in bytes of the password read from the passwordDevice.\
@@ -137,6 +137,3 @@ be considered valid until their natural expiration time.
 If no `github-key.<key-id>` exists in configuration, then a default current key
 configuration
 (named `current`) will be inferred, using the defaults documented above.
-
-*NOTE* such configuration is considered insecure and should *not be used in
-production*.

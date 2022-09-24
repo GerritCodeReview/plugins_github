@@ -82,7 +82,10 @@ public class GitHubOAuthConfig {
   private final KeyConfig currentKeyConfig;
 
   @Inject
-  protected GitHubOAuthConfig(@GerritServerConfig Config config, CanonicalWebUrl canonicalWebUrl) {
+  protected GitHubOAuthConfig(
+      @GerritServerConfig Config config,
+      DefaultKeyProvider defaultKeyProvider,
+      CanonicalWebUrl canonicalWebUrl) {
     this.config = config;
     this.canonicalWebUrl = canonicalWebUrl;
 
@@ -136,14 +139,14 @@ public class GitHubOAuthConfig {
 
     Map<String, KeyConfig> configuredKeyConfig =
         config.getSubsections(CONF_KEY_SECTION).stream()
-            .map(KeyConfig::new)
+            .map(keyId -> new KeyConfig(keyId, defaultKeyProvider))
             .collect(Collectors.toMap(KeyConfig::getKeyId, Function.identity()));
 
     if (configuredKeyConfig.isEmpty()) {
       logger.warn(
           "No configured '{}' sections found. Default configuration should NOT be used in production code.",
           CONF_KEY_SECTION);
-      currentKeyConfig = new KeyConfig();
+      currentKeyConfig = new KeyConfig(defaultKeyProvider);
       keyConfigMap = Map.of(currentKeyConfig.getKeyId(), currentKeyConfig);
     } else {
       keyConfigMap = configuredKeyConfig;
@@ -220,7 +223,6 @@ public class GitHubOAuthConfig {
 
   public class KeyConfig {
 
-    public static final String PASSWORD_DEVICE_DEFAULT = "/dev/zero";
     public static final int PASSWORD_LENGTH_DEFAULT = 16;
     public static final String CIPHER_ALGORITHM_DEFAULT = "AES/ECB/PKCS5Padding";
     public static final String SECRET_KEY_ALGORITHM_DEFAULT = "AES";
@@ -242,7 +244,7 @@ public class GitHubOAuthConfig {
     private final String keyId;
     private final Boolean isCurrent;
 
-    KeyConfig(String keyId) {
+    KeyConfig(String keyId, DefaultKeyProvider defaultKeyProvider) {
 
       if (keyId.contains(KEY_DELIMITER)) {
         throw new IllegalStateException(
@@ -255,7 +257,7 @@ public class GitHubOAuthConfig {
           trimTrailingSlash(
               MoreObjects.firstNonNull(
                   config.getString(CONF_KEY_SECTION, keyId, PASSWORD_DEVICE_CONFIG_LABEL),
-                  PASSWORD_DEVICE_DEFAULT));
+                  defaultKeyProvider.get()));
       this.passwordLength =
           config.getInt(
               CONF_KEY_SECTION, keyId, PASSWORD_LENGTH_CONFIG_LABEL, PASSWORD_LENGTH_DEFAULT);
@@ -274,8 +276,8 @@ public class GitHubOAuthConfig {
       this.keyId = keyId;
     }
 
-    private KeyConfig() {
-      passwordDevice = PASSWORD_DEVICE_DEFAULT;
+    private KeyConfig(DefaultKeyProvider defaultKeyProvider) {
+      passwordDevice = defaultKeyProvider.get();
       passwordLength = PASSWORD_LENGTH_DEFAULT;
       isCurrent = true;
       cipherAlgorithm = CIPHER_ALGORITHM_DEFAULT;
