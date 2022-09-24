@@ -20,6 +20,7 @@ import static com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig.Key
 import static com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig.KeyConfig.CURRENT_CONFIG_LABEL;
 import static com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig.KeyConfig.KEY_DELIMITER;
 import static com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig.KeyConfig.KEY_ID_DEFAULT;
+import static com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig.KeyConfig.PASSWORD_DEVICE_CONFIG_LABEL;
 import static com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig.KeyConfig.SECRET_KEY_ALGORITHM_DEFAULT;
 import static com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig.KeyConfig.SECRET_KEY_CONFIG_LABEL;
 import static org.junit.Assert.assertEquals;
@@ -30,14 +31,27 @@ import com.google.gerrit.httpd.CanonicalWebUrl;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.util.Providers;
+import java.io.IOException;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 public class GitHubOAuthConfigTest {
 
   CanonicalWebUrl canonicalWebUrl;
   Config config;
+  private static DefaultKeyProvider defaultKeyProvider;
+  private static String testPasswordDevice = "/dev/zero";
+
+  @ClassRule public static TemporaryFolder temporaryFolder = new TemporaryFolder();
+
+  @BeforeClass
+  public static void setupDefaultKeyProvider() throws IOException {
+    defaultKeyProvider = new DefaultKeyProvider(temporaryFolder.newFolder().toPath());
+  }
 
   @Before
   public void setUp() {
@@ -83,6 +97,8 @@ public class GitHubOAuthConfigTest {
     String cipherAlgorithm = "AES/CFB8/NoPadding";
     String secretKeyAlgorithm = "DES";
     config.setBoolean(CONF_KEY_SECTION, keySubsection, CURRENT_CONFIG_LABEL, true);
+    config.setString(
+        CONF_KEY_SECTION, keySubsection, PASSWORD_DEVICE_CONFIG_LABEL, testPasswordDevice);
     config.setString(CONF_KEY_SECTION, keySubsection, CIPHER_ALGO_CONFIG_LABEL, cipherAlgorithm);
     config.setString(CONF_KEY_SECTION, keySubsection, SECRET_KEY_CONFIG_LABEL, secretKeyAlgorithm);
 
@@ -96,10 +112,16 @@ public class GitHubOAuthConfigTest {
 
   @Test
   public void shouldReturnTheExpectedKeyConfigAsCurrent() {
-    config.setBoolean(CONF_KEY_SECTION, "currentKeyConfig", CURRENT_CONFIG_LABEL, true);
-    config.setBoolean(CONF_KEY_SECTION, "someOtherKeyConfig", CURRENT_CONFIG_LABEL, false);
+    String currentKeyConfig = "currentKeyConfig";
+    String someOtherKeyConfig = "someOtherKeyConfig";
+    config.setBoolean(CONF_KEY_SECTION, currentKeyConfig, CURRENT_CONFIG_LABEL, true);
+    config.setString(
+        CONF_KEY_SECTION, currentKeyConfig, PASSWORD_DEVICE_CONFIG_LABEL, testPasswordDevice);
+    config.setBoolean(CONF_KEY_SECTION, someOtherKeyConfig, CURRENT_CONFIG_LABEL, false);
+    config.setString(
+        CONF_KEY_SECTION, someOtherKeyConfig, PASSWORD_DEVICE_CONFIG_LABEL, testPasswordDevice);
 
-    assertEquals(objectUnderTest().getCurrentKeyConfig().getKeyId(), "currentKeyConfig");
+    assertEquals(objectUnderTest().getCurrentKeyConfig().getKeyId(), currentKeyConfig);
   }
 
   @Test
@@ -107,7 +129,11 @@ public class GitHubOAuthConfigTest {
     String currentKeyConfig = "currentKeyConfig";
     String someOtherKeyConfig = "someOtherKeyConfig";
     config.setBoolean(CONF_KEY_SECTION, currentKeyConfig, CURRENT_CONFIG_LABEL, true);
+    config.setString(
+        CONF_KEY_SECTION, currentKeyConfig, PASSWORD_DEVICE_CONFIG_LABEL, testPasswordDevice);
     config.setBoolean(CONF_KEY_SECTION, someOtherKeyConfig, CURRENT_CONFIG_LABEL, false);
+    config.setString(
+        CONF_KEY_SECTION, someOtherKeyConfig, PASSWORD_DEVICE_CONFIG_LABEL, testPasswordDevice);
 
     GitHubOAuthConfig objectUnderTest = objectUnderTest();
 
@@ -145,7 +171,22 @@ public class GitHubOAuthConfigTest {
     assertThrows(IllegalStateException.class, this::objectUnderTest);
   }
 
+  @Test
+  public void shouldThrowWhenKeyIdMissesPasswordDevice() {
+    String someKeyConfig = "someKeyConfig";
+    config.setBoolean(CONF_KEY_SECTION, someKeyConfig, CURRENT_CONFIG_LABEL, true);
+
+    IllegalStateException illegalStateException =
+        assertThrows(IllegalStateException.class, this::objectUnderTest);
+
+    assertEquals(
+        String.format(
+            "Configuration error. Missing %s.%s for key-id '%s'",
+            CONF_KEY_SECTION, PASSWORD_DEVICE_CONFIG_LABEL, someKeyConfig),
+        illegalStateException.getMessage());
+  }
+
   private GitHubOAuthConfig objectUnderTest() {
-    return new GitHubOAuthConfig(config, canonicalWebUrl);
+    return new GitHubOAuthConfig(config, defaultKeyProvider, canonicalWebUrl);
   }
 }

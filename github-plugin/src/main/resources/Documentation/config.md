@@ -94,10 +94,7 @@ how this is done by setting the relevant configuration parameters.
 
 github-key.<key-id>.passwordDevice
 : The device or file where to retrieve the encryption passphrase.\
-Default: /dev/zero
-
-*NOTE*: such configuration is considered insecure and should *not be used in
-production*, always set a non-zero password device for deriving the key.
+This is a required parameter for `key-id` configuration.
 
 github-key.<key-id>.passwordLength
 : The length in bytes of the password read from the passwordDevice.\
@@ -135,8 +132,7 @@ that were persisted _before_ the encryption feature was implemented will still
 be considered valid until their natural expiration time.
 
 If no `github-key.<key-id>` exists in configuration, then a default current key
-configuration
-(named `current`) will be inferred, using the defaults documented above.
-
-*NOTE* such configuration is considered insecure and should *not be used in
-production*.
+configuration (named `current`) will be created. In this case, new 16 bytes
+long password will be generated and stored to `$site/data/@PLUGIN@/default.key`
+file which will be returned as `passwordDevice`. The remaining parameters will
+be inferred from the above defaults.

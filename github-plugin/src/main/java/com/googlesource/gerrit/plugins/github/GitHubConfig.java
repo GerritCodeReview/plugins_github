@@ -22,6 +22,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.googlesource.gerrit.plugins.github.oauth.DefaultKeyProvider;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
@@ -72,11 +73,12 @@ public class GitHubConfig extends GitHubOAuthConfig {
   @Inject
   public GitHubConfig(
       @GerritServerConfig Config config,
+      DefaultKeyProvider defaultKeyProvider,
       final SitePaths site,
       AllProjectsNameProvider allProjectsNameProvider,
       CanonicalWebUrl canonicalWebUrl)
       throws MalformedURLException {
-    super(config, canonicalWebUrl);
+    super(config, defaultKeyProvider, canonicalWebUrl);
     String[] wizardFlows = config.getStringList(CONF_SECTION, null, CONF_WIZARD_FLOW);
     for (String fromTo : wizardFlows) {
       boolean redirect = fromTo.indexOf(FROM_TO_REDIRECT_SEPARATOR) > 0;

@@ -13,6 +13,9 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.oauth;
 
+import static com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig.CONF_KEY_SECTION;
+import static com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig.KeyConfig.PASSWORD_DEVICE_CONFIG_LABEL;
+
 import com.google.common.base.CharMatcher;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
@@ -82,7 +85,10 @@ public class GitHubOAuthConfig {
   private final KeyConfig currentKeyConfig;
 
   @Inject
-  protected GitHubOAuthConfig(@GerritServerConfig Config config, CanonicalWebUrl canonicalWebUrl) {
+  protected GitHubOAuthConfig(
+      @GerritServerConfig Config config,
+      DefaultKeyProvider defaultKeyProvider,
+      CanonicalWebUrl canonicalWebUrl) {
     this.config = config;
     this.canonicalWebUrl = canonicalWebUrl;
 
@@ -143,7 +149,7 @@ public class GitHubOAuthConfig {
       logger.warn(
           "No configured '{}' sections found. Default configuration should NOT be used in production code.",
           CONF_KEY_SECTION);
-      currentKeyConfig = new KeyConfig();
+      currentKeyConfig = new KeyConfig(defaultKeyProvider);
       keyConfigMap = Map.of(currentKeyConfig.getKeyId(), currentKeyConfig);
     } else {
       keyConfigMap = configuredKeyConfig;
@@ -220,7 +226,6 @@ public class GitHubOAuthConfig {
 
   public class KeyConfig {
 
-    public static final String PASSWORD_DEVICE_DEFAULT = "/dev/zero";
     public static final int PASSWORD_LENGTH_DEFAULT = 16;
     public static final String CIPHER_ALGORITHM_DEFAULT = "AES/ECB/PKCS5Padding";
     public static final String SECRET_KEY_ALGORITHM_DEFAULT = "AES";
@@ -251,11 +256,7 @@ public class GitHubOAuthConfig {
                 CONF_KEY_SECTION, keyId, KEY_DELIMITER));
       }
 
-      this.passwordDevice =
-          trimTrailingSlash(
-              MoreObjects.firstNonNull(
-                  config.getString(CONF_KEY_SECTION, keyId, PASSWORD_DEVICE_CONFIG_LABEL),
-                  PASSWORD_DEVICE_DEFAULT));
+      this.passwordDevice = trimTrailingSlash(getPasswordDeviceOrThrow(config, keyId));
       this.passwordLength =
           config.getInt(
               CONF_KEY_SECTION, keyId, PASSWORD_LENGTH_CONFIG_LABEL, PASSWORD_LENGTH_DEFAULT);
@@ -274,8 +275,8 @@ public class GitHubOAuthConfig {
       this.keyId = keyId;
     }
 
-    private KeyConfig() {
-      passwordDevice = PASSWORD_DEVICE_DEFAULT;
+    private KeyConfig(DefaultKeyProvider defaultKeyProvider) {
+      passwordDevice = defaultKeyProvider.get();
       passwordLength = PASSWORD_LENGTH_DEFAULT;
       isCurrent = true;
       cipherAlgorithm = CIPHER_ALGORITHM_DEFAULT;
@@ -310,5 +311,23 @@ public class GitHubOAuthConfig {
     public String getKeyId() {
       return keyId;
     }
+  }
+
+  /**
+   * Method returns the password device value for a given {@code keyId}.
+   *
+   * @throws {@link IllegalStateException} when password device is not configured for {@code keyId}
+   */
+  private static String getPasswordDeviceOrThrow(Config config, String keyId) {
+    String passwordDevice =
+        config.getString(CONF_KEY_SECTION, keyId, KeyConfig.PASSWORD_DEVICE_CONFIG_LABEL);
+    if (Strings.isNullOrEmpty(passwordDevice)) {
+      throw new IllegalStateException(
+          String.format(
+              "Configuration error. Missing %s.%s for key-id '%s'",
+              CONF_KEY_SECTION, PASSWORD_DEVICE_CONFIG_LABEL, keyId));
+    }
+
+    return passwordDevice;
   }
 }
