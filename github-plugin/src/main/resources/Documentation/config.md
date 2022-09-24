@@ -7,7 +7,8 @@ the main GitHub and Gerrit authentication settings for allowing the github-oauth
 library to work properly.
 
 GitHub OAuth library rely on Gerrit HTTP authentication defined during the standard
-Gerrit init steps.
+Gerrit init steps. It also requires GitHub OAuth token cipher configuration
+(details `Key configuration` section) but provides convenient defaults for it.
 See below a sample session of relevant init steps for a default
 configuration pointing to the Web GitHub instance:
 
@@ -36,6 +37,15 @@ configuration pointing to the Web GitHub instance:
    ClientSecret                   []: f82c3f9b3802666f2adcc4c8cacfb164295b0a99
    confirm password : 
    HTTP Authentication Header     [GITHUB_USER]: 
+
+   *** GitHub OAuth token cipher configuration
+   ***
+
+   Configuring GitHub OAuth token cipher under 'current' key id
+   Password file or device        [gerrit/data/github-plugin/default.key]:
+   New password (16 bytes long) was generated under 'gerrit/data/github-plugin/default.key' file.
+   The algorithm to be used to encrypt the provided password [AES]:
+   The algorithm to be used for encryption/decryption [AES/ECB/PKCS5Padding]:
 ```
 
 Configuration
@@ -89,15 +99,14 @@ Key Configuration
 -------------
 
 Since this plugin obtains credentials from Github and persists them in Gerrit,
-it also takes care of encrypting them at rest. The Gerrit admin can configure
-how this is done by setting the relevant configuration parameters.
+it also takes care of encrypting them at rest. Encryption configuration is a
+mandatory step performed during the plugin init (that also provides convenient
+defaults). The Gerrit admin can introduce its own cipher configuration
+(already in init step) by setting the following parameters.
 
 github-key.<key-id>.passwordDevice
 : The device or file where to retrieve the encryption passphrase.\
-Default: /dev/zero
-
-*NOTE*: such configuration is considered insecure and should *not be used in
-production*, always set a non-zero password device for deriving the key.
+This is a required parameter for `key-id` configuration.
 
 github-key.<key-id>.passwordLength
 : The length in bytes of the password read from the passwordDevice.\
@@ -111,7 +120,7 @@ of the Java Cryptography Architecture Standard Algorithm Name Documentation.\
 Default: AES/ECB/PKCS5Padding
 
 github-key.<key-id>.secretKeyAlgorithm
-: the algorithm to be used to encrypt the provided password. Available
+: The algorithm to be used to encrypt the provided password. Available
 algorithms are described in
 the [Cipher section](https://docs.oracle.com/en/java/javase/11/docs/specs/security/standard-names.html#cipher-algorithm-names)
 of the Java Cryptography Architecture Standard Algorithm Name Documentation.\
@@ -129,14 +138,12 @@ can still be decrypted as long as the `github-key.<key-id>` stanza is available
 in the configuration. New credentials will always be encrypted with
 the `current` `<key-id>`.
 
-Note that unencrypted oauth tokens will be handled gracefully and just passed
-through to github by the decryption algorithm. This is done so that oauth tokens
-that were persisted _before_ the encryption feature was implemented will still
-be considered valid until their natural expiration time.
+*Notes:*
+Unencrypted oauth tokens will be handled gracefully and just passed through to
+github by the decryption algorithm. This is done so that oauth tokens that were
+persisted _before_ the encryption feature was implemented will still be
+considered valid until their natural expiration time.
 
-If no `github-key.<key-id>` exists in configuration, then a default current key
-configuration
-(named `current`) will be inferred, using the defaults documented above.
-
-*NOTE* such configuration is considered insecure and should *not be used in
-production*.
+Plugin will not start if no `github-key.<key-id>` section, marked as current,
+exists in configuration. One needs to either configure it manually or call init
+for a default configuration to be created.
