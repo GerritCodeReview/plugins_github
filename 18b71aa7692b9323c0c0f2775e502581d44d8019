@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63c7b79a_7d815e25",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-24T11:17:42Z",
+      "side": 1,
+      "message": "@tony I don\u0027t have the environment at hand hence I will refrain for giving `V+1` and it would be great if you could run it against yours. Thanks in advance.\nHaving said that I have already successfully verified it with GJF v1.7 and `mvn test` is green too.",
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
