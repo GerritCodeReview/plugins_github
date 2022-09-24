@@ -16,6 +16,304 @@
       "message": "@tony I don\u0027t have the environment at hand hence I will refrain for giving `V+1` and it would be great if you could run it against yours. Thanks in advance.\nHaving said that I have already successfully verified it with GJF v1.7 and `mvn test` is green too.",
       "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "889a8c4e_24d27932",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-24T20:16:05Z",
+      "side": 1,
+      "message": "See my feedback in the CR @geminica.programs@gmail.com\nI couldn\u0027t run it because of \n\n```\n1) [Guice/MissingImplementation]: No implementation for File annotated with @PluginData() was bound.\n```\n\nI haven\u0027t looked into why @PluginData is not bound, sorry 😞",
+      "parentUuid": "63c7b79a_7d815e25",
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f6fb1ef_9b72b11c",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/DefaultKeyProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-24T20:16:05Z",
+      "side": 1,
+      "message": "Why providing a String?\nI think it would be better, from a type prospective, to provide a Path (or a File) and let the consumer (if needed) do the toString() itself.\n\nI think it\u0027ll make this API stronger and more descriptive.",
+      "range": {
+        "startLine": 34,
+        "startChar": 43,
+        "endLine": 34,
+        "endChar": 59
+      },
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e580b3c5_7366793a",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/DefaultKeyProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-24T20:16:05Z",
+      "side": 1,
+      "message": "nit: Logger can be final",
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a6b5f6c_be6c8b26",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/DefaultKeyProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-24T20:16:05Z",
+      "side": 1,
+      "message": "Consider annotating this with @VisibleForTesting, since it is only used in `DefaultKeyProviderTest`",
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "076f6909_fd631057",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/DefaultKeyProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-24T20:16:05Z",
+      "side": 1,
+      "message": "It seems that `@PluginData` is not bound. WHen I run gerrit (3.6) with your code I get:\n\n```\n1) [Guice/MissingImplementation]: No implementation for File annotated with @PluginData() was bound.\n```",
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ec7a6ba_aff5c089",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/DefaultKeyProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-24T20:16:05Z",
+      "side": 1,
+      "message": "If the file doesn\u0027t exist, it will try to create it right?\nAlso, there are other reasons that could cause. this to throw:\n- File cannot be created\n- File is empty\n- File cannot be read\n\nConsider aligning this javadoc to the actual behavior and also describe what the method _does_ and not just _when_ it throws",
+      "range": {
+        "startLine": 46,
+        "startChar": 42,
+        "endLine": 46,
+        "endChar": 78
+      },
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22366565_786c0693",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/DefaultKeyProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-24T20:16:05Z",
+      "side": 1,
+      "message": "If the file exists, but we can\u0027t read it, I don\u0027t think we should even try to generate a new one with the same name, which will be destined to fail or potentially risk to override pre-existing data.\n\nI think in this case we should bail out instead.",
+      "range": {
+        "startLine": 59,
+        "startChar": 31,
+        "endLine": 59,
+        "endChar": 51
+      },
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddb3ed2b_68dc9e66",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/DefaultKeyProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-24T20:16:05Z",
+      "side": 1,
+      "message": "We know the _exact_ length this file should be, why not checking for that instead?",
+      "range": {
+        "startLine": 59,
+        "startChar": 55,
+        "endLine": 59,
+        "endChar": 79
+      },
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c924b7b_3a524339",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/DefaultKeyProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-24T20:16:05Z",
+      "side": 1,
+      "message": "This is only ever called with `PASSWORD_LENGTH_DEFAULT` as argument.\nconsider removing `length` argument",
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97ed876e_d006f902",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-24T20:16:05Z",
+      "side": 1,
+      "message": "I cannot run the code (because of the binding problem, but looking at this it seems to be that `defaultKeyProvider.get()` is evaluated eagerly and calling it would cause the default `.key` file to be created ragardless of any configuration is actually been supplied.\n\nI think instead the `default.key` file should be created only when needed.\n\nWDYT?",
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4d911bd_39b08abe",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/DefaultKeyProviderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-24T20:16:05Z",
+      "side": 1,
+      "message": "different",
+      "range": {
+        "startLine": 65,
+        "startChar": 28,
+        "endLine": 65,
+        "endChar": 36
+      },
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e80587ad_36adebeb",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/DefaultKeyProviderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-24T20:16:05Z",
+      "side": 1,
+      "message": "Boolean assertions are quite cryptic on failure.\nYou get things like \"true\" was not \"false\", or \"assertion failed\".\n\nConsider using the `assertFalse(\"message\", ...)` to be more descriptive in case of failure.",
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be4d4955_eaaf6be0",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/DefaultKeyProviderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-24T20:16:05Z",
+      "side": 1,
+      "message": "This warns:\n\n```\nResult of \u0027File.mkdir()\u0027 is ignored \n\n```\n\nConsider suppressing the warning with:\n\n```\n@SuppressWarnings(\"ResultOfMethodCallIgnored\")\n```",
+      "range": {
+        "startLine": 76,
+        "startChar": 57,
+        "endLine": 76,
+        "endChar": 67
+      },
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec36d34a_4e9af794",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/DefaultKeyProviderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-24T20:16:05Z",
+      "side": 1,
+      "message": "`IOException` is never thrown by this method",
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78d4b852_11aaf788",
+        "filename": "github-plugin/src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-24T20:16:05Z",
+      "side": 1,
+      "message": "I am not sure this is right.\n\nIf a configuration has _no_ key defined, then I think it is fine to generate one for them, with the default parameters (which is what this change is about).\n\nHowever, if a configuration didn\u0027t specify `passwordDevice`, but _did_ specified `passwordLength` for example, I think it will be wrong to ignore it and generate a 16 bytes long password anyway.\n\nIf we are doing this to provide an OOTB secure configuration, then perhaps we should default to the `defaultKeyProvider` *only* when no configuration exists.\n\nIn any other case, we should consider `passwordDevice` to be mandatory instead and force a value to be provided.\n\nWDYT?",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 58
+      },
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
