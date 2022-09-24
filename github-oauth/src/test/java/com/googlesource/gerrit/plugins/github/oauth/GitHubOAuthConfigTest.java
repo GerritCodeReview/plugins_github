@@ -30,14 +30,26 @@ import com.google.gerrit.httpd.CanonicalWebUrl;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.util.Providers;
+import java.io.IOException;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 public class GitHubOAuthConfigTest {
 
   CanonicalWebUrl canonicalWebUrl;
   Config config;
+  private static DefaultKeyProvider defaultKeyProvider;
+
+  @ClassRule public static TemporaryFolder temporaryFolder = new TemporaryFolder();
+
+  @BeforeClass
+  public static void setupDefaultKeyProvider() throws IOException {
+    defaultKeyProvider = new DefaultKeyProvider(temporaryFolder.newFolder());
+  }
 
   @Before
   public void setUp() {
@@ -146,6 +158,6 @@ public class GitHubOAuthConfigTest {
   }
 
   private GitHubOAuthConfig objectUnderTest() {
-    return new GitHubOAuthConfig(config, canonicalWebUrl);
+    return new GitHubOAuthConfig(config, defaultKeyProvider, canonicalWebUrl);
   }
 }
