@@ -103,6 +103,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5841a94a_eac5c2bd",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/DefaultKeyProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-25T08:39:33Z",
+      "side": 1,
+      "message": "\u003e It has the only one purpose at the moment which is to return the path to the default key file ...\n\nThat\u0027s exactly my point, if its purpose is to return the path of the default key file, why not modelling this as a `Path` type?",
+      "parentUuid": "434f40bc_4582efdc",
+      "range": {
+        "startLine": 34,
+        "startChar": 43,
+        "endLine": 34,
+        "endChar": 59
+      },
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e580b3c5_7366793a",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/DefaultKeyProvider.java",
         "patchSetId": 2
@@ -202,6 +226,24 @@
       "side": 1,
       "message": "I will debug either today evening or tomorrow",
       "parentUuid": "076f6909_fd631057",
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6cba113f_ad527f76",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/DefaultKeyProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-09-25T08:39:33Z",
+      "side": 1,
+      "message": "cool, let me know if you need any help",
+      "parentUuid": "79ee06c5_90c82f1d",
       "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
