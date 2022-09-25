@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dd1b37c2_b3c75ed3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-25T08:08:47Z",
+      "side": 1,
+      "message": "That I don\u0027t understand. I assume that this is the regular plugin that can be dropped to Gerrit... will set it up locally then",
+      "parentUuid": "889a8c4e_24d27932",
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0f6fb1ef_9b72b11c",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/DefaultKeyProvider.java",
         "patchSetId": 2
@@ -49,6 +67,30 @@
       "writtenOn": "2022-09-24T20:16:05Z",
       "side": 1,
       "message": "Why providing a String?\nI think it would be better, from a type prospective, to provide a Path (or a File) and let the consumer (if needed) do the toString() itself.\n\nI think it\u0027ll make this API stronger and more descriptive.",
+      "range": {
+        "startLine": 34,
+        "startChar": 43,
+        "endLine": 34,
+        "endChar": 59
+      },
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "434f40bc_4582efdc",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/DefaultKeyProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-25T08:08:47Z",
+      "side": 1,
+      "message": "I disagree it is not general purpose library, actually if it wasn\u0027t inherited and used in the other module I would made it package protected ;)\nIt has the only one purpose at the moment which is to return the path to the default key file if/when we need sth else we should revisit provided type.",
+      "parentUuid": "0f6fb1ef_9b72b11c",
       "range": {
         "startLine": 34,
         "startChar": 43,
@@ -76,6 +118,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "76b6ec9e_67846815",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/DefaultKeyProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-25T08:08:47Z",
+      "side": 1,
+      "message": "Ack: copy-paseted it from somewhere in the code without paying attention",
+      "parentUuid": "e580b3c5_7366793a",
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3a6b5f6c_be6c8b26",
@@ -89,6 +149,24 @@
       "writtenOn": "2022-09-24T20:16:05Z",
       "side": 1,
       "message": "Consider annotating this with @VisibleForTesting, since it is only used in `DefaultKeyProviderTest`",
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfd3fb23_a5b70e4f",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/DefaultKeyProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-25T08:08:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3a6b5f6c_be6c8b26",
       "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -112,6 +190,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "79ee06c5_90c82f1d",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/DefaultKeyProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-25T08:08:47Z",
+      "side": 1,
+      "message": "I will debug either today evening or tomorrow",
+      "parentUuid": "076f6909_fd631057",
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1ec7a6ba_aff5c089",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/DefaultKeyProvider.java",
         "patchSetId": 2
@@ -123,6 +219,30 @@
       "writtenOn": "2022-09-24T20:16:05Z",
       "side": 1,
       "message": "If the file doesn\u0027t exist, it will try to create it right?\nAlso, there are other reasons that could cause. this to throw:\n- File cannot be created\n- File is empty\n- File cannot be read\n\nConsider aligning this javadoc to the actual behavior and also describe what the method _does_ and not just _when_ it throws",
+      "range": {
+        "startLine": 46,
+        "startChar": 42,
+        "endLine": 46,
+        "endChar": 78
+      },
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccc412e0_ce3d4fdb",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/DefaultKeyProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-25T08:08:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1ec7a6ba_aff5c089",
       "range": {
         "startLine": 46,
         "startChar": 42,
@@ -179,6 +299,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2bfda92_3834a026",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/DefaultKeyProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-25T08:08:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddb3ed2b_68dc9e66",
+      "range": {
+        "startLine": 59,
+        "startChar": 55,
+        "endLine": 59,
+        "endChar": 79
+      },
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0974ef7f_8ba71185",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/DefaultKeyProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-25T08:08:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22366565_786c0693",
+      "range": {
+        "startLine": 59,
+        "startChar": 31,
+        "endLine": 59,
+        "endChar": 51
+      },
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c924b7b_3a524339",
@@ -196,6 +364,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "115f3464_b5fdc226",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/DefaultKeyProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-25T08:08:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c924b7b_3a524339",
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "97ed876e_d006f902",
@@ -209,6 +395,24 @@
       "writtenOn": "2022-09-24T20:16:05Z",
       "side": 1,
       "message": "I cannot run the code (because of the binding problem, but looking at this it seems to be that `defaultKeyProvider.get()` is evaluated eagerly and calling it would cause the default `.key` file to be created ragardless of any configuration is actually been supplied.\n\nI think instead the `default.key` file should be created only when needed.\n\nWDYT?",
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d9247a2_800e6cd6",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-25T08:08:47Z",
+      "side": 1,
+      "message": "Right. It was removed as I believe that we should throw in this case.",
+      "parentUuid": "97ed876e_d006f902",
       "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -236,6 +440,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b42d289d_e89d4634",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/DefaultKeyProviderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-25T08:08:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4d911bd_39b08abe",
+      "range": {
+        "startLine": 65,
+        "startChar": 28,
+        "endLine": 65,
+        "endChar": 36
+      },
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e80587ad_36adebeb",
@@ -249,6 +477,24 @@
       "writtenOn": "2022-09-24T20:16:05Z",
       "side": 1,
       "message": "Boolean assertions are quite cryptic on failure.\nYou get things like \"true\" was not \"false\", or \"assertion failed\".\n\nConsider using the `assertFalse(\"message\", ...)` to be more descriptive in case of failure.",
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f388ac2a_74c15e0f",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/DefaultKeyProviderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-25T08:08:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e80587ad_36adebeb",
       "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -276,6 +522,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcbc4daf_2c9e61f2",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/DefaultKeyProviderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-25T08:08:47Z",
+      "side": 1,
+      "message": "One cannot suppress call like that so it would have to be done on a method level (which IMHO is too much) :/ added assertion on the directory creation",
+      "parentUuid": "be4d4955_eaaf6be0",
+      "range": {
+        "startLine": 76,
+        "startChar": 57,
+        "endLine": 76,
+        "endChar": 67
+      },
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ec36d34a_4e9af794",
@@ -293,6 +563,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a467bdf1_cde80a94",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/DefaultKeyProviderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-25T08:08:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec36d34a_4e9af794",
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "78d4b852_11aaf788",
@@ -306,6 +594,30 @@
       "writtenOn": "2022-09-24T20:16:05Z",
       "side": 1,
       "message": "I am not sure this is right.\n\nIf a configuration has _no_ key defined, then I think it is fine to generate one for them, with the default parameters (which is what this change is about).\n\nHowever, if a configuration didn\u0027t specify `passwordDevice`, but _did_ specified `passwordLength` for example, I think it will be wrong to ignore it and generate a 16 bytes long password anyway.\n\nIf we are doing this to provide an OOTB secure configuration, then perhaps we should default to the `defaultKeyProvider` *only* when no configuration exists.\n\nIn any other case, we should consider `passwordDevice` to be mandatory instead and force a value to be provided.\n\nWDYT?",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 58
+      },
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9d84654_ac0d1d7e",
+        "filename": "github-plugin/src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-25T08:08:47Z",
+      "side": 1,
+      "message": "\u003e If we are doing this to provide an OOTB secure configuration, then perhaps we should default to the defaultKeyProvider only when no configuration exists.\n\nAgree was thinking about it y-day and was torn apart between writing multi-length default password provider and what I did ;)\n\nReworked it to throw `ISE` as IMHO it doesn\u0027t make sense to provide all key parameters but missing the password device and as we agree `/dev/zero` is not secure one to fallback to. I will push new PS most likely today evening.",
+      "parentUuid": "78d4b852_11aaf788",
       "range": {
         "startLine": 97,
         "startChar": 0,
