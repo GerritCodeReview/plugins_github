@@ -127,6 +127,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0b680260_c335f6ed",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/DefaultKeyProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-25T18:09:24Z",
+      "side": 1,
+      "message": "There is only one consumer that takes `String` hence I don\u0027t see any benefits of returning `Path` at the moment and as long as we don\u0027t need it we shouldn\u0027t IMHO introduce it ;)",
+      "parentUuid": "5841a94a_eac5c2bd",
+      "range": {
+        "startLine": 34,
+        "startChar": 43,
+        "endLine": 34,
+        "endChar": 59
+      },
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e580b3c5_7366793a",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/DefaultKeyProvider.java",
         "patchSetId": 2
