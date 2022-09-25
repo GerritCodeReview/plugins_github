@@ -274,6 +274,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c7d73203_3b67d4d6",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/DefaultKeyProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-25T18:12:14Z",
+      "side": 1,
+      "message": "I have changed it to be of `Path` type but I don\u0027t believe it will help. Having said that I will not be able to look at it before Monday evening :/",
+      "parentUuid": "6cba113f_ad527f76",
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1ec7a6ba_aff5c089",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/DefaultKeyProvider.java",
         "patchSetId": 2
