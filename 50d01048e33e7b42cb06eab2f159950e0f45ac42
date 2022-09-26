@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58d164f7_333b7f6a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-26T07:58:18Z",
+      "side": 1,
+      "message": "generate a random password (16 bytes long) and store ...",
+      "range": {
+        "startLine": 9,
+        "startChar": 33,
+        "endLine": 9,
+        "endChar": 70
+      },
+      "revId": "50d01048e33e7b42cb06eab2f159950e0f45ac42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf96e934_dc475475",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-26T07:58:18Z",
+      "side": 1,
+      "message": "This looks way to complicated change for just generating a random password upon init, as Gerrit also does for other secrets like the email validation token.\n\nWe should just:\n- generate a default password upon init (*IF* the password device isn\u0027t specified)\n- use the default password location as default instead of `/dev/zero`",
+      "revId": "50d01048e33e7b42cb06eab2f159950e0f45ac42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9053565_e5763915",
+        "filename": "github-plugin/src/main/resources/Documentation/config.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-26T07:58:18Z",
+      "side": 1,
+      "message": "Why not defaulting it to \u0027$site/data/@PLUGIN@/default.key\u0027 instead?",
+      "revId": "50d01048e33e7b42cb06eab2f159950e0f45ac42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab689cb4_c6cf939b",
+        "filename": "github-plugin/src/main/resources/Documentation/config.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-26T07:58:18Z",
+      "side": 1,
+      "message": "I\u0027d do this during init.",
+      "range": {
+        "startLine": 134,
+        "startChar": 53,
+        "endLine": 135,
+        "endChar": 48
+      },
+      "revId": "50d01048e33e7b42cb06eab2f159950e0f45ac42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13972cd6_c3baf0a3",
+        "filename": "github-plugin/src/main/resources/Documentation/config.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-09-26T07:58:18Z",
+      "side": 1,
+      "message": "This could just be the default.",
+      "range": {
+        "startLine": 136,
+        "startChar": 46,
+        "endLine": 137,
+        "endChar": 48
+      },
+      "revId": "50d01048e33e7b42cb06eab2f159950e0f45ac42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
