@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b03dffc6_3b949e60",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-30T08:56:57Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "dd1b37c2_b3c75ed3",
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0f6fb1ef_9b72b11c",
@@ -139,6 +157,30 @@
       "side": 1,
       "message": "There is only one consumer that takes `String` hence I don\u0027t see any benefits of returning `Path` at the moment and as long as we don\u0027t need it we shouldn\u0027t IMHO introduce it ;)",
       "parentUuid": "5841a94a_eac5c2bd",
+      "range": {
+        "startLine": 34,
+        "startChar": 43,
+        "endLine": 34,
+        "endChar": 59
+      },
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a630374_787c55e8",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/DefaultKeyProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-30T08:56:57Z",
+      "side": 1,
+      "message": "It is not relevant anymore as password is generated and written to a given path.",
+      "parentUuid": "0b680260_c335f6ed",
       "range": {
         "startLine": 34,
         "startChar": 43,
@@ -286,6 +328,24 @@
       "side": 1,
       "message": "I have changed it to be of `Path` type but I don\u0027t believe it will help. Having said that I will not be able to look at it before Monday evening :/",
       "parentUuid": "6cba113f_ad527f76",
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3de5a41_37fa0d42",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/DefaultKeyProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-30T08:56:57Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "c7d73203_3b67d4d6",
       "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -702,6 +762,30 @@
       "side": 1,
       "message": "\u003e If we are doing this to provide an OOTB secure configuration, then perhaps we should default to the defaultKeyProvider only when no configuration exists.\n\nAgree was thinking about it y-day and was torn apart between writing multi-length default password provider and what I did ;)\n\nReworked it to throw `ISE` as IMHO it doesn\u0027t make sense to provide all key parameters but missing the password device and as we agree `/dev/zero` is not secure one to fallback to. I will push new PS most likely today evening.",
       "parentUuid": "78d4b852_11aaf788",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 58
+      },
+      "revId": "18b71aa7692b9323c0c0f2775e502581d44d8019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48a882f5_33b7d0b4",
+        "filename": "github-plugin/src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-09-30T08:56:57Z",
+      "side": 1,
+      "message": "Default password is generated during the plugin\u0027s init step.",
+      "parentUuid": "e9d84654_ac0d1d7e",
       "range": {
         "startLine": 97,
         "startChar": 0,
