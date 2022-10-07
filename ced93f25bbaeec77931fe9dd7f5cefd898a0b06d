@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bb31276_3c530920",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-10-07T06:47:32Z",
+      "side": 1,
+      "message": "Both GJF and `mvn test` were successful and nothing changed from the functionality perspective.",
+      "revId": "ced93f25bbaeec77931fe9dd7f5cefd898a0b06d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
