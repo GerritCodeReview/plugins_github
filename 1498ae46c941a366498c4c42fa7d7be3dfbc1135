@@ -59,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05aa5286_70fcb8c4",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-10-07T06:46:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1916d02_b166fc2e",
+      "range": {
+        "startLine": 145,
+        "startChar": 53,
+        "endLine": 145,
+        "endChar": 57
+      },
+      "revId": "1498ae46c941a366498c4c42fa7d7be3dfbc1135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be455c60_b26459f3",
@@ -72,6 +96,30 @@
       "writtenOn": "2022-10-06T19:35:25Z",
       "side": 1,
       "message": "nit: consider rephrasing this as:\n```\n\"\u0027%s\u0027 is a directory whilst a regular file was expected.\"\n```",
+      "range": {
+        "startLine": 47,
+        "startChar": 25,
+        "endLine": 47,
+        "endChar": 73
+      },
+      "revId": "1498ae46c941a366498c4c42fa7d7be3dfbc1135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04b1d6dc_e22d76b6",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/PasswordGenerator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-10-07T06:46:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be455c60_b26459f3",
       "range": {
         "startLine": 47,
         "startChar": 25,
@@ -105,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0737059_bb388037",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/PasswordGenerator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-10-07T06:46:44Z",
+      "side": 1,
+      "message": "I have renamed the `defaultKey` variable to `passwordFile` so that it better reflects the general purpose of the `PasswordGenerator`.\nIt is made default by init step calling it with a specific path.\n\nApart from that rephrased the sentence to your suggestion as it sounds nicer 😄",
+      "parentUuid": "d791ee7e_f863c747",
+      "range": {
+        "startLine": 52,
+        "startChar": 27,
+        "endLine": 52,
+        "endChar": 59
+      },
+      "revId": "1498ae46c941a366498c4c42fa7d7be3dfbc1135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ba6e8cf_b0fd722d",
@@ -118,6 +190,30 @@
       "writtenOn": "2022-10-06T19:35:25Z",
       "side": 1,
       "message": "nit: consider rephrasing as:\n```\n\"\u0027%s\u0027 default key file exists but has an invalid length of %d bytes. The expected length was %d bytes\"\n```",
+      "range": {
+        "startLine": 58,
+        "startChar": 13,
+        "endLine": 58,
+        "endChar": 79
+      },
+      "revId": "1498ae46c941a366498c4c42fa7d7be3dfbc1135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e8ca2dd_37e32cbc",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/PasswordGenerator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-10-07T06:46:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ba6e8cf_b0fd722d",
       "range": {
         "startLine": 58,
         "startChar": 13,
@@ -151,6 +247,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d90024ea_49a4e0ca",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/PasswordGenerator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-10-07T06:46:44Z",
+      "side": 1,
+      "message": "Done. But the method was reworked to accept `e` and return `IllegalStateException` so that the `return` statement is not missing.",
+      "parentUuid": "48e70e2d_6d7f8381",
+      "range": {
+        "startLine": 70,
+        "startChar": 6,
+        "endLine": 71,
+        "endChar": 90
+      },
+      "revId": "1498ae46c941a366498c4c42fa7d7be3dfbc1135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "66eaf2e5_606b3deb",
@@ -164,6 +284,24 @@
       "writtenOn": "2022-10-06T19:35:25Z",
       "side": 1,
       "message": "nit: this can be final",
+      "revId": "1498ae46c941a366498c4c42fa7d7be3dfbc1135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "525dec39_6030f09c",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfigTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-10-07T06:46:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66eaf2e5_606b3deb",
       "revId": "1498ae46c941a366498c4c42fa7d7be3dfbc1135",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -209,6 +347,54 @@
         "startChar": 59,
         "endLine": 131,
         "endChar": 74
+      },
+      "revId": "1498ae46c941a366498c4c42fa7d7be3dfbc1135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "598fb9eb_34a55370",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/InitGitHub.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-10-07T06:46:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05c1892b_dad3af18",
+      "range": {
+        "startLine": 131,
+        "startChar": 59,
+        "endLine": 131,
+        "endChar": 74
+      },
+      "revId": "1498ae46c941a366498c4c42fa7d7be3dfbc1135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f316cef4_cb25c1b1",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/InitGitHub.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-10-07T06:46:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "706db74d_6f8f3c82",
+      "range": {
+        "startLine": 131,
+        "startChar": 89,
+        "endLine": 131,
+        "endChar": 108
       },
       "revId": "1498ae46c941a366498c4c42fa7d7be3dfbc1135",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
