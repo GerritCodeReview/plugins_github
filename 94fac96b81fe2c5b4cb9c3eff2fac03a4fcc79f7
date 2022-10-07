@@ -65,6 +65,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bcf64fd_ccfd55bf",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/PasswordGenerator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-10-07T06:49:15Z",
+      "side": 1,
+      "message": "@luca marking it as resolved as you didn\u0027t object to the explanation given ;)",
+      "parentUuid": "0539d237_24aba997",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 5
+      },
+      "revId": "94fac96b81fe2c5b4cb9c3eff2fac03a4fcc79f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5cd46041_79a08606",
