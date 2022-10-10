@@ -18,7 +18,6 @@ import com.google.common.collect.Maps;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.httpd.CanonicalWebUrl;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
-import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
@@ -75,10 +74,9 @@ public class GitHubConfig extends GitHubOAuthConfig {
       @GerritServerConfig Config config,
       final SitePaths site,
       AllProjectsNameProvider allProjectsNameProvider,
-      CanonicalWebUrl canonicalWebUrl,
-      AuthConfig authConfig)
+      CanonicalWebUrl canonicalWebUrl)
       throws MalformedURLException {
-    super(config, canonicalWebUrl, authConfig);
+    super(config, canonicalWebUrl);
     String[] wizardFlows = config.getStringList(CONF_SECTION, null, CONF_WIZARD_FLOW);
     for (String fromTo : wizardFlows) {
       boolean redirect = fromTo.indexOf(FROM_TO_REDIRECT_SEPARATOR) > 0;

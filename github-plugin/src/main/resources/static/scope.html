@@ -55,7 +55,7 @@
                             #set ( $scopeItems = $config.scopes.get($scope) )
                             #foreach ( $scopeItem in $scopeItems )
                                 $scopeItem.description
-                                #if ( $velocityCount < $scopeItems.size())
+                                #if ( $foreach.count < $scopeItems.size())
                                     ,&nbsp;
                                 #end
                             #end
