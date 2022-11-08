@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cedf56a0_c6388624",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-11-08T11:04:35Z",
+      "side": 1,
+      "message": "Called `mvn package` locally and the problem from CI\n```\n12:13:51 [ERROR] The build could not read 2 projects -\u003e [Help 1]\n12:13:51 [ERROR]   \n12:13:51 [ERROR]   The project com.googlesource.gerrit.plugins.github:github-oauth:3.4.0-rc0 (/home/jenkins/workspace/plugin-github-mvn-stable-3.4/github-oauth/pom.xml) has 1 error\n12:13:51 [ERROR]     Non-resolvable parent POM for com.googlesource.gerrit.plugins.github:github-oauth:3.4.0-rc0: Could not find artifact com.googlesource.gerrit.plugins.github:github-parent:pom:3.4.0-rc0 in central (https://repo.maven.apache.org/maven2) and \u0027parent.relativePath\u0027 points at wrong local POM @ line 21, column 11 -\u003e [Help 2]\n12:13:51 [ERROR]   \n12:13:51 [ERROR]   The project com.googlesource.gerrit.plugins.github:github-plugin:3.4.0-rc0 (/home/jenkins/workspace/plugin-github-mvn-stable-3.4/github-plugin/pom.xml) has 1 error\n12:13:51 [ERROR]     Non-resolvable parent POM for com.googlesource.gerrit.plugins.github:github-plugin:3.4.0-rc0: Failure to find com.googlesource.gerrit.plugins.github:github-parent:pom:3.4.0-rc0 in https://repo.maven.apache.org/maven2 was cached in the local repository, resolution will not be reattempted until the update interval of central has elapsed or updates are forced and \u0027parent.relativePath\u0027 points at wrong local POM @ line 20, column 11 -\u003e [Help 2]\n12:13:51 [ERROR] \n12:13:51 [ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.\n12:13:51 [ERROR] Re-run Maven using the -X switch to enable full debug logging.\n```\nno longer exists - there was a mismatch between parent and modules versions",
+      "revId": "4568fb8d2cc7743d50ceb7124c1f3ae16a8e5836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
