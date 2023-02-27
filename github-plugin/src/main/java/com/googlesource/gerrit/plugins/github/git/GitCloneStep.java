@@ -16,6 +16,7 @@ package com.googlesource.gerrit.plugins.github.git;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -98,7 +99,10 @@ public class GitCloneStep extends ImportStep {
   private void createNewProject() throws GitException {
     String projectName = organisation + "/" + repository;
     try (ManualRequestContext requestContext = context.openAs(config.importAccountId)) {
-      gerritApi.projects().create(projectName).get();
+      ProjectInput pi = new ProjectInput();
+      pi.name = projectName;
+      pi.parent = config.getBaseProject(getRepository().isPrivate());
+      gerritApi.projects().create(pi).get();
     } catch (ResourceConflictException e) {
       throw new GitDestinationAlreadyExistsException(projectName);
     } catch (RestApiException e) {
