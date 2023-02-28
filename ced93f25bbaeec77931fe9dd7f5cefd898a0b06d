@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "894bf12e_c8c62e48",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/CreateProjectStep.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-02-28T10:42:09Z",
+      "side": 0,
+      "message": "Why not leave this as well? It is an `ImportStep` as well. Maybe I am missing something.",
+      "revId": "ced93f25bbaeec77931fe9dd7f5cefd898a0b06d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
