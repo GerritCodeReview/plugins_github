@@ -34,6 +34,24 @@
       "parentUuid": "894bf12e_c8c62e48",
       "revId": "ced93f25bbaeec77931fe9dd7f5cefd898a0b06d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee507fec_30ba80da",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/CreateProjectStep.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-02T14:51:26Z",
+      "side": 0,
+      "message": "Ok, my confusion comes from the name of this step. It is called `CreateProjectStep` but it is not creating the project.",
+      "parentUuid": "32464ad3_9b26a8ef",
+      "revId": "ced93f25bbaeec77931fe9dd7f5cefd898a0b06d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
