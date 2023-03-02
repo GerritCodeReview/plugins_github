@@ -16,6 +16,24 @@
       "message": "Why not leave this as well? It is an `ImportStep` as well. Maybe I am missing something.",
       "revId": "ced93f25bbaeec77931fe9dd7f5cefd898a0b06d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32464ad3_9b26a8ef",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/CreateProjectStep.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-02T08:56:26Z",
+      "side": 0,
+      "message": "Because this is done already when the project is getting created.",
+      "parentUuid": "894bf12e_c8c62e48",
+      "revId": "ced93f25bbaeec77931fe9dd7f5cefd898a0b06d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
