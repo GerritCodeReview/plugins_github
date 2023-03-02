@@ -18,6 +18,29 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "a616c9ec_7a532d11",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-03-02T10:08:58Z",
+      "side": 1,
+      "message": "Nit: `project` mentioned twice.",
+      "range": {
+        "startLine": 15,
+        "startChar": 20,
+        "endLine": 15,
+        "endChar": 27
+      },
+      "revId": "21a28814f4c0683f50e19f75b631cda2b21100d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "cf76f77e_776bbe06",
