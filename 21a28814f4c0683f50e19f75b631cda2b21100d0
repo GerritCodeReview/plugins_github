@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ca6e3f1_b320b988",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-03-02T09:58:33Z",
+      "side": 1,
+      "message": "Please, remove double `project` on this line.",
+      "revId": "21a28814f4c0683f50e19f75b631cda2b21100d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf76f77e_776bbe06",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-03-02T09:58:33Z",
+      "side": 1,
+      "message": "Minor comments. LGTM even I have no knowledge.",
+      "revId": "21a28814f4c0683f50e19f75b631cda2b21100d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e8db986_1329f9c0",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/GitCloneStep.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-03-02T09:58:33Z",
+      "side": 1,
+      "message": "Maybe this is not for this PR but `projectName` should be an instance variable because is made up with instance variables coming from the constructor.",
+      "revId": "21a28814f4c0683f50e19f75b631cda2b21100d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
