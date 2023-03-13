@@ -43,6 +43,48 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "278a25d3_6d19942b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-13T21:07:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a616c9ec_7a532d11",
+      "range": {
+        "startLine": 15,
+        "startChar": 20,
+        "endLine": 15,
+        "endChar": 27
+      },
+      "revId": "21a28814f4c0683f50e19f75b631cda2b21100d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11b7d31f_8a4cf378",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-13T21:07:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ca6e3f1_b320b988",
+      "revId": "21a28814f4c0683f50e19f75b631cda2b21100d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "cf76f77e_776bbe06",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -71,6 +113,24 @@
       "writtenOn": "2023-03-02T09:58:33Z",
       "side": 1,
       "message": "Maybe this is not for this PR but `projectName` should be an instance variable because is made up with instance variables coming from the constructor.",
+      "revId": "21a28814f4c0683f50e19f75b631cda2b21100d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a352a55_2f705eba",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/GitCloneStep.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-13T21:07:16Z",
+      "side": 1,
+      "message": "You are right, the same is built multiple times. Let me create a follow-up change with that.",
+      "parentUuid": "0e8db986_1329f9c0",
       "revId": "21a28814f4c0683f50e19f75b631cda2b21100d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

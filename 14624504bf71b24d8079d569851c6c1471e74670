@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d034c1b7_796a9a6b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-13T21:07:16Z",
+      "side": 1,
+      "message": "Re-apply the +2 given by Ponch on stable-3.6",
+      "revId": "14624504bf71b24d8079d569851c6c1471e74670",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
