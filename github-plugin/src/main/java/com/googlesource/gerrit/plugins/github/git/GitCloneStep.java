@@ -53,6 +53,7 @@ public class GitCloneStep extends ImportStep {
   private final DynamicSet<ProjectDeletedListener> deletedListeners;
   private final ProjectCache projectCache;
   private final GitRepositoryManager repoManager;
+  private final String projectName;
 
   public interface Factory {
     GitCloneStep create(
@@ -80,15 +81,15 @@ public class GitCloneStep extends ImportStep {
     this.context = context;
     this.organisation = organisation;
     this.repository = repository;
-    this.destinationDirectory = prepareTargetGitDirectory(gitDir, organisation, repository);
+    this.projectName = organisation + "/" + repository;
+    this.destinationDirectory = prepareTargetGitDirectory(gitDir, this.projectName);
     this.deletedListeners = deletedListeners;
     this.projectCache = projectCache;
     this.repoManager = repoManager;
   }
 
-  private static File prepareTargetGitDirectory(File gitDir, String organisation, String repository)
+  private static File prepareTargetGitDirectory(File gitDir, String projectName)
       throws GitException {
-    String projectName = organisation + "/" + repository;
     File repositoryDir = new File(gitDir, projectName + ".git");
     if (repositoryDir.exists()) {
       throw new GitDestinationAlreadyExistsException(projectName);
@@ -97,7 +98,6 @@ public class GitCloneStep extends ImportStep {
   }
 
   private void createNewProject() throws GitException {
-    String projectName = organisation + "/" + repository;
     try (ManualRequestContext requestContext = context.openAs(config.importAccountId)) {
       ProjectInput pi = new ProjectInput();
       pi.name = projectName;
@@ -140,7 +140,6 @@ public class GitCloneStep extends ImportStep {
     }
 
     try {
-      String projectName = organisation + "/" + repository;
       Project.NameKey key = Project.nameKey(projectName);
       cleanJGitCache(key);
       FileUtils.deleteDirectory(gitDirectory);
