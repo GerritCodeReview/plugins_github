@@ -190,7 +190,6 @@ public class CreateProjectStep extends ImportStep {
   private void setProjectSettings() {
     projectConfig.updateProject(
         b -> {
-          b.setParent(config.getBaseProject(getRepository().isPrivate()));
           b.setDescription(description);
           b.setSubmitType(SubmitType.MERGE_IF_NECESSARY);
           b.setBooleanConfig(

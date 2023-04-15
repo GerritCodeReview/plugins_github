@@ -30,6 +30,7 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
@@ -41,12 +42,16 @@ public class GitHubGroupBackend implements GroupBackend {
   private static final Logger log = LoggerFactory.getLogger(GitHubGroupBackend.class);
   private final GitHubGroupMembership.Factory ghMembershipProvider;
   private final GitHubGroupsCache ghOrganisationCache;
+  private final Provider<CurrentUser> currentUserProvider;
 
   @Inject
   GitHubGroupBackend(
-      GitHubGroupMembership.Factory ghMembershipProvider, GitHubGroupsCache ghOrganisationCache) {
+      GitHubGroupMembership.Factory ghMembershipProvider,
+      GitHubGroupsCache ghOrganisationCache,
+      Provider<CurrentUser> currentUserProvider) {
     this.ghMembershipProvider = ghMembershipProvider;
     this.ghOrganisationCache = ghOrganisationCache;
+    this.currentUserProvider = currentUserProvider;
   }
 
   @Override
@@ -112,6 +117,13 @@ public class GitHubGroupBackend implements GroupBackend {
 
   @Override
   public GroupMembership membershipsOf(CurrentUser user) {
+    CurrentUser currentUser = currentUserProvider.get();
+    if (!currentUser.isIdentifiedUser()
+        || !currentUser.asIdentifiedUser().getAccountId().equals(user.getAccountId())) {
+      // Do not allow to perform group discovery of other users
+      return GroupMembership.EMPTY;
+    }
+
     String username = user.getUserName().orElse(null);
     if (Strings.isNullOrEmpty(username)) {
       return GroupMembership.EMPTY;
