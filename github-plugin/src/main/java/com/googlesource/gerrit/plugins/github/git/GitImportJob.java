@@ -158,4 +158,7 @@ public class GitImportJob extends AbstractCloneJob implements Runnable, Progress
   public String getRepository() {
     return repository;
   }
+
+  @Override
+  public void showDuration(boolean enabled) {}
 }
