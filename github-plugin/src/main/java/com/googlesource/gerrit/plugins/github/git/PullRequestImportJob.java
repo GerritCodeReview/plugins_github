@@ -316,4 +316,7 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
 
   @Override
   public void update(int progress) {}
+
+  @Override
+  public void showDuration(boolean enabled) {}
 }

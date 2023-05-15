@@ -20,7 +20,11 @@ limitations under the License.
   <parent>
     <artifactId>github-parent</artifactId>
     <groupId>com.googlesource.gerrit.plugins.github</groupId>
+<<<<<<< HEAD   (fc3003 Build plugin against the Gerrit 3.7.3 version)
     <version>3.7.3</version>
+=======
+    <version>3.8.0-rc5</version>
+>>>>>>> CHANGE (7f59f9 Build github plugin against the v3.8.0-rc5 Gerrit API)
   </parent>
 
   <artifactId>github-plugin</artifactId>
