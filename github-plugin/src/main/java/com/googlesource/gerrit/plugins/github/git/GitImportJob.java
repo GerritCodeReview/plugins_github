@@ -126,6 +126,9 @@ public class GitImportJob extends AbstractCloneJob implements Runnable, Progress
   }
 
   @Override
+  public void showDuration(boolean enabled) {}
+
+  @Override
   public void endTask() {}
 
   @Override
