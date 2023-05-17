@@ -126,10 +126,10 @@ Note: Client ID & Client Secret are generated that used in the next step.
 
 ### Running Gerrit init to configure GitHub OAuth
 
-* java -jar buck-out/gen/gerrit.war `$gerrit_site`
+* java -jar bazel-bin/gerrit.war init -d `$GERRIT_SITE`
 * User Authentication
-* Authentication methodi []: HTTP
-* Ger username from custom HTTP header [Y/n]? Y
+* Authentication method []: HTTP
+* Get username from custom HTTP header [Y/n]? Y
 * Username HTTP header []: GITHUB_USER
 * SSO logout URL : /oauth/reset
 
