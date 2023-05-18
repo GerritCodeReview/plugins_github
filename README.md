@@ -86,19 +86,6 @@ Example:
   cd github
   mvn -DjavaVersion=1.8 install
 
-### GitHub API
-
-In order to access GitHub API, we have used the lucamilanesio fork of Kohsuke API 
-layer hosted on GitHub at https://github.com/lucamilanesio/github-api.
-
-You need to clone and build the GitHub API as pre-requisite for building the
-GitHub plugin for Gerrit.
-
-Example:
-  git clone https://github.com/lucamilanesio/github-api.git
-  cd github-api
-  mvn install -DskipTests=true
-
 ### singleusergroup plugin
 
 You need to install the singleusergroup plugin for Gerrit
