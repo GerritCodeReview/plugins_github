@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "edaaaa53_22c4cc54",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-19T20:38:38Z",
+      "side": 1,
+      "message": "Fails with:\n[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.1:compile (default-compile) on project github-plugin: Compilation failure: Compilation failure:\n[ERROR] /Users/lucamilanesio/gerrithub/github/github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/PullRequestImportJob.java:[62,8] com.googlesource.gerrit.plugins.github.git.PullRequestImportJob is not abstract and does not override abstract method showDuration(boolean) in org.eclipse.jgit.lib.ProgressMonitor\n[ERROR] /Users/lucamilanesio/gerrithub/github/github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/GitImportJob.java:[19,8] com.googlesource.gerrit.plugins.github.git.GitImportJob is not abstract and does not override abstract method showDuration(boolean) in org.eclipse.jgit.lib.ProgressMonitor",
+      "revId": "9a6017622264d1aa99e674dc289ce3d923e9de68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
