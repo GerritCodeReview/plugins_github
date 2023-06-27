@@ -136,9 +136,10 @@ Note: Client ID & Client Secret are generated that used in the next step.
 * GitHub Integration
 
 * GitHub URL: [https://github.com]: <confirm>
-* Use GitHub for Gerrit login? [Y/n] Y
+* GitHub API URL: [https://api.github.com]: <confirm>
 * ClientId []: <provided client id from previous step>
 * ClientSecret []: <provided client secret from previous step>
+* Gerrit OAuth implementation [http/?]: <http or oauth>
 
 ### Receiving Pull Request events to automatically import
 
