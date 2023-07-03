@@ -46,7 +46,7 @@ class PullRequestHandler implements WebhookEventHandler<PullRequest> {
     String action = payload.getAction();
     if (action.equals("opened") || action.equals("synchronize")) {
       GHRepository repository = payload.getRepository();
-      Integer prNumber = new Integer(payload.getNumber());
+      Integer prNumber = Integer.valueOf(payload.getNumber());
       PullRequestImporter prImporter = prImportProvider.get();
       String organization = repository.getOwnerName();
       String name = repository.getName();

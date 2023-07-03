@@ -101,7 +101,7 @@ public class PullRequestListController implements VelocityController {
           JsonArray prArray = new JsonArray();
           for (GHPullRequest pr : repoEntry.getValue()) {
             JsonObject prObj = new JsonObject();
-            prObj.add("id", new JsonPrimitive(new Integer(pr.getNumber())));
+            prObj.add("id", new JsonPrimitive(Integer.valueOf(pr.getNumber())));
             prObj.add("title", new JsonPrimitive(Strings.nullToEmpty(pr.getTitle())));
             prObj.add("body", new JsonPrimitive(Strings.nullToEmpty(pr.getBody())));
             prObj.add(
@@ -155,7 +155,8 @@ public class PullRequestListController implements VelocityController {
 
     int count = numPullRequests;
     if (count < config.pullRequestListLimit) {
-      for (GHPullRequest ghPullRequest : githubRepo.get().listPullRequests(GHIssueState.OPEN)) {
+      for (GHPullRequest ghPullRequest :
+          githubRepo.get().queryPullRequests().state(GHIssueState.OPEN).list()) {
 
         if (isAnyCommitOfPullRequestToBeImported(gitRepo, ghPullRequest)) {
           repoPullRequests.add(ghPullRequest);
