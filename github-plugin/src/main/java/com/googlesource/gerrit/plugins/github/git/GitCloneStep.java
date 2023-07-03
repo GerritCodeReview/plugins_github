@@ -47,8 +47,6 @@ public class GitCloneStep extends ImportStep {
   private final File gitDir;
   private final GerritApi gerritApi;
   private final OneOffRequestContext context;
-  private final String organisation;
-  private final String repository;
   private final File destinationDirectory;
   private final DynamicSet<ProjectDeletedListener> deletedListeners;
   private final ProjectCache projectCache;
@@ -79,8 +77,6 @@ public class GitCloneStep extends ImportStep {
 
     this.gerritApi = gerritApi;
     this.context = context;
-    this.organisation = organisation;
-    this.repository = repository;
     this.projectName = organisation + "/" + repository;
     this.destinationDirectory = prepareTargetGitDirectory(gitDir, this.projectName);
     this.deletedListeners = deletedListeners;
@@ -126,10 +122,6 @@ public class GitCloneStep extends ImportStep {
       LOG.error("Unable to fetch from {} into {}", sourceUri, destinationDirectory, e);
       throw new GitCloneFailedException(sourceUri, e);
     }
-  }
-
-  private boolean isNotEmpty(File destDirectory) {
-    return destDirectory.listFiles().length > 0;
   }
 
   @Override

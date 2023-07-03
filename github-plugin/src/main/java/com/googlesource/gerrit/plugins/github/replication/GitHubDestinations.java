@@ -20,7 +20,6 @@ import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -52,7 +51,6 @@ public class GitHubDestinations {
     return null;
   }
 
-  private final Injector injector;
   private final List<Destination> configs;
 
   private final RemoteSiteUser.Factory replicationUserFactory;
@@ -63,13 +61,11 @@ public class GitHubDestinations {
 
   @Inject
   GitHubDestinations(
-      final Injector i,
       final SitePaths site,
       final RemoteSiteUser.Factory ruf,
       final GroupBackend gb,
       final PluginUser pu)
       throws ConfigInvalidException, IOException {
-    injector = i;
     pluginUser = pu;
     replicationUserFactory = ruf;
     groupBackend = gb;

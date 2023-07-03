@@ -44,7 +44,7 @@ public class BatchImporter {
   }
 
   public synchronized void schedule(int idx, GitJob pullRequestImportJob) {
-    jobs.put(new Integer(idx), pullRequestImportJob);
+    jobs.put(Integer.valueOf(idx), pullRequestImportJob);
     executor.exec(pullRequestImportJob);
   }
 }

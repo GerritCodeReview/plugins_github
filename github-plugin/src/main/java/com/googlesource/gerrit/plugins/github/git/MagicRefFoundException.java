@@ -15,6 +15,8 @@ package com.googlesource.gerrit.plugins.github.git;
 
 public class MagicRefFoundException extends GitException {
 
+  private static final long serialVersionUID = 1L;
+
   public MagicRefFoundException(String message) {
     super(message);
   }
