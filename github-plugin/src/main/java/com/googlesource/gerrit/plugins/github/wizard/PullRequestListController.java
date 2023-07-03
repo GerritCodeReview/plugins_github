@@ -101,7 +101,7 @@ public class PullRequestListController implements VelocityController {
           JsonArray prArray = new JsonArray();
           for (GHPullRequest pr : repoEntry.getValue()) {
             JsonObject prObj = new JsonObject();
-            prObj.add("id", new JsonPrimitive(new Integer(pr.getNumber())));
+            prObj.add("id", new JsonPrimitive(Integer.valueOf(pr.getNumber())));
             prObj.add("title", new JsonPrimitive(Strings.nullToEmpty(pr.getTitle())));
             prObj.add("body", new JsonPrimitive(Strings.nullToEmpty(pr.getBody())));
             prObj.add(
@@ -137,7 +137,7 @@ public class PullRequestListController implements VelocityController {
         if (githubRepo.isPresent()) {
           numPullRequests =
               collectPullRequestsFromGitHubRepository(
-                  numPullRequests, allPullRequests, gitRepo, ghRepoName, githubRepo);
+                  numPullRequests, allPullRequests, gitRepo, ghRepoName, githubRepo.get());
         }
       }
     }
@@ -149,13 +149,14 @@ public class PullRequestListController implements VelocityController {
       Map<String, List<GHPullRequest>> allPullRequests,
       Repository gitRepo,
       String ghRepoName,
-      Optional<GHRepository> githubRepo)
+      GHRepository githubRepo)
       throws IncorrectObjectTypeException, IOException {
     List<GHPullRequest> repoPullRequests = Lists.newArrayList();
 
     int count = numPullRequests;
     if (count < config.pullRequestListLimit) {
-      for (GHPullRequest ghPullRequest : githubRepo.get().listPullRequests(GHIssueState.OPEN)) {
+      for (GHPullRequest ghPullRequest :
+          githubRepo.queryPullRequests().state(GHIssueState.OPEN).list()) {
 
         if (isAnyCommitOfPullRequestToBeImported(gitRepo, ghPullRequest)) {
           repoPullRequests.add(ghPullRequest);

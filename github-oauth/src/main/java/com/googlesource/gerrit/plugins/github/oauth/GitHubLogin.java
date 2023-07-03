@@ -38,7 +38,8 @@ import lombok.Getter;
 import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GitHub;
 import org.kohsuke.github.GitHubBuilder;
-import org.kohsuke.github.HttpConnector;
+import org.kohsuke.github.connector.GitHubConnector;
+import org.kohsuke.github.internal.GitHubConnectorHttpConnectorAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,7 +64,7 @@ public class GitHubLogin implements Serializable {
 
   private SortedSet<Scope> loginScopes;
   private final GitHubOAuthConfig config;
-  private final HttpConnector httpConnector;
+  private final GitHubConnector gitHubConnector;
 
   public GHMyself getMyself() throws IOException {
     if (isLoggedIn()) {
@@ -82,7 +83,7 @@ public class GitHubLogin implements Serializable {
   @Inject
   public GitHubLogin(GitHubOAuthConfig config, GitHubHttpConnector httpConnector) {
     this.config = config;
-    this.httpConnector = httpConnector;
+    this.gitHubConnector = GitHubConnectorHttpConnectorAdapter.adapt(httpConnector);
   }
 
   public boolean isLoggedIn() {
@@ -141,7 +142,7 @@ public class GitHubLogin implements Serializable {
     return new GitHubBuilder()
         .withEndpoint(config.gitHubApiUrl)
         .withOAuthToken(token.accessToken)
-        .withConnector(httpConnector)
+        .withConnector(gitHubConnector)
         .build();
   }
 

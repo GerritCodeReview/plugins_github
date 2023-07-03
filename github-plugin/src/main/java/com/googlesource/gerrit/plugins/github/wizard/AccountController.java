@@ -25,7 +25,6 @@ import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ServerInitiated;
-import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountsUpdate;
@@ -65,7 +64,6 @@ public class AccountController implements VelocityController {
   private final AddSshKey restAddSshKey;
   private final GetSshKeys restGetSshKeys;
   private final AccountManager accountManager;
-  private final AccountCache accountCache;
   private final PutPreferred putPreferred;
   private final PutName putName;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
@@ -79,7 +77,6 @@ public class AccountController implements VelocityController {
       final AddSshKey restAddSshKey,
       final GetSshKeys restGetSshKeys,
       final AccountManager accountManager,
-      final AccountCache accountCache,
       final PutPreferred putPreferred,
       final PutName putName,
       @ServerInitiated final Provider<AccountsUpdate> accountsUpdateProvider,
@@ -90,7 +87,6 @@ public class AccountController implements VelocityController {
     this.restAddSshKey = restAddSshKey;
     this.restGetSshKeys = restGetSshKeys;
     this.accountManager = accountManager;
-    this.accountCache = accountCache;
     this.putPreferred = putPreferred;
     this.putName = putName;
     this.accountsUpdateProvider = accountsUpdateProvider;
