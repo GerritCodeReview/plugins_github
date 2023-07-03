@@ -16,6 +16,8 @@ package com.googlesource.gerrit.plugins.github.git;
 
 public class ProtectedBranchFoundException extends Exception {
 
+  private static final long serialVersionUID = 1L;
+
   public ProtectedBranchFoundException(String msg) {
     super(msg);
   }

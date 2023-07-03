@@ -15,7 +15,6 @@ package com.googlesource.gerrit.plugins.github.wizard;
 
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.entities.Account.Id;
@@ -25,7 +24,6 @@ import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ServerInitiated;
-import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountsUpdate;
@@ -65,7 +63,6 @@ public class AccountController implements VelocityController {
   private final AddSshKey restAddSshKey;
   private final GetSshKeys restGetSshKeys;
   private final AccountManager accountManager;
-  private final AccountCache accountCache;
   private final PutPreferred putPreferred;
   private final PutName putName;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
@@ -79,7 +76,6 @@ public class AccountController implements VelocityController {
       final AddSshKey restAddSshKey,
       final GetSshKeys restGetSshKeys,
       final AccountManager accountManager,
-      final AccountCache accountCache,
       final PutPreferred putPreferred,
       final PutName putName,
       @ServerInitiated final Provider<AccountsUpdate> accountsUpdateProvider,
@@ -90,7 +86,6 @@ public class AccountController implements VelocityController {
     this.restAddSshKey = restAddSshKey;
     this.restGetSshKeys = restGetSshKeys;
     this.accountManager = accountManager;
-    this.accountCache = accountCache;
     this.putPreferred = putPreferred;
     this.putName = putName;
     this.accountsUpdateProvider = accountsUpdateProvider;
@@ -201,14 +196,7 @@ public class AccountController implements VelocityController {
     try {
       List<SshKeyInfo> keysInfo = restGetSshKeys.apply(res).value();
       return Lists.transform(
-          keysInfo,
-          new Function<SshKeyInfo, String>() {
-
-            @Override
-            public String apply(SshKeyInfo keyInfo) {
-              return StringUtils.substringBeforeLast(keyInfo.sshPublicKey, " ");
-            }
-          });
+          keysInfo, keyInfo -> StringUtils.substringBeforeLast(keyInfo.sshPublicKey, " "));
     } catch (Exception e) {
       log.error("User list keys failed", e);
       throw new IOException("Cannot get list of user keys", e);
