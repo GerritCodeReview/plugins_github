@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfe925b0_e59ef8cf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T22:29:50Z",
+      "side": 1,
+      "message": "Thanks, David, for this useful cleanup.",
+      "revId": "934cb0bc111759f7ede918f5727f8c26a96c9e2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2527103e_c43992a3",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubLogin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T22:29:50Z",
+      "side": 1,
+      "message": "The `adapt` method is used for narrowing down an HttpConnector into a GitHubHttpConnector. In this case, though, we already have an GitHubHttpConnector, what would be the use-case of using the adapt method here?",
+      "range": {
+        "startLine": 86,
+        "startChar": 63,
+        "endLine": 86,
+        "endChar": 68
+      },
+      "revId": "934cb0bc111759f7ede918f5727f8c26a96c9e2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
