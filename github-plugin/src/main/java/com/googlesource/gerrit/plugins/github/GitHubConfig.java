@@ -14,7 +14,8 @@
 package com.googlesource.gerrit.plugins.github;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.collect.Maps;
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Table;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.httpd.CanonicalWebUrl;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
@@ -25,14 +26,12 @@ import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
-import java.util.HashMap;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class GitHubConfig extends GitHubOAuthConfig {
 
   private static final String CONF_WIZARD_FLOW = "wizardFlow";
-  private HashMap<String, NextPage> wizardFromTo = Maps.newHashMap();
   private static final String FROM_TO_SEPARATOR = "=>";
   private static final String FROM_TO_REDIRECT_SEPARATOR = "R>";
   private static final String CONF_JOB_POOL_LIMIT = "jobPoolLimit";
@@ -45,6 +44,7 @@ public class GitHubConfig extends GitHubOAuthConfig {
   private static final String CONF_WEBHOOK_SECRET = "webhookSecret";
   private static final String CONF_WEBHOOK_USER = "webhookUser";
   private static final String CONF_IMPORT_ACCOUNT_ID = "importAccountId";
+  private static final String DEFAULT_SERVER = "default";
 
   public final Path gitDir;
   public final int jobPoolLimit;
@@ -58,6 +58,7 @@ public class GitHubConfig extends GitHubOAuthConfig {
   public final String webhookSecret;
   public final String webhookUser;
   public final Account.Id importAccountId;
+  private final Table<String, String, NextPage> wizardFromTo = HashBasedTable.create();
 
   public static class NextPage {
     public final String uri;
@@ -77,15 +78,11 @@ public class GitHubConfig extends GitHubOAuthConfig {
       CanonicalWebUrl canonicalWebUrl)
       throws MalformedURLException {
     super(config, canonicalWebUrl);
-    String[] wizardFlows = config.getStringList(CONF_SECTION, null, CONF_WIZARD_FLOW);
-    for (String fromTo : wizardFlows) {
-      boolean redirect = fromTo.indexOf(FROM_TO_REDIRECT_SEPARATOR) > 0;
-      int sepPos = getSepPos(fromTo, redirect);
-      String fromPage = fromTo.substring(0, sepPos).trim();
-      NextPage toPage =
-          new NextPage(
-              fromTo.substring(sepPos + getSeparator(redirect).length() + 1).trim(), redirect);
-      wizardFromTo.put(fromPage, toPage);
+    parseWizardFlow(config.getStringList(CONF_SECTION, null, CONF_WIZARD_FLOW), DEFAULT_SERVER);
+
+    // Virtual host specific sections
+    for (String server : config.getSubsections(CONF_SECTION)) {
+      parseWizardFlow(config.getStringList(CONF_SECTION, server, CONF_WIZARD_FLOW), server);
     }
 
     jobPoolLimit = config.getInt(CONF_SECTION, CONF_JOB_POOL_LIMIT, 5);
@@ -107,12 +104,24 @@ public class GitHubConfig extends GitHubOAuthConfig {
     importAccountId = Account.id(config.getInt(CONF_SECTION, CONF_IMPORT_ACCOUNT_ID, 1000000));
   }
 
-  private String getSeparator(boolean redirect) {
+  private void parseWizardFlow(String[] wizardFlows, String server) {
+    for (String fromTo : wizardFlows) {
+      boolean redirect = fromTo.indexOf(FROM_TO_REDIRECT_SEPARATOR) > 0;
+      int sepPos = getSepPos(fromTo, redirect);
+      String fromPage = fromTo.substring(0, sepPos).trim();
+      NextPage toPage =
+          new NextPage(
+              fromTo.substring(sepPos + getSeparator(redirect).length() + 1).trim(), redirect);
+      wizardFromTo.put(server, fromPage, toPage);
+    }
+  }
+
+  private static String getSeparator(boolean redirect) {
     String separator = redirect ? FROM_TO_REDIRECT_SEPARATOR : FROM_TO_SEPARATOR;
     return separator;
   }
 
-  private int getSepPos(String fromTo, boolean redirect) {
+  private static int getSepPos(String fromTo, boolean redirect) {
     int sepPos = fromTo.indexOf(getSeparator(redirect));
     if (sepPos < 0) {
       throw new InvalidGitHubConfigException(fromTo);
@@ -120,8 +129,11 @@ public class GitHubConfig extends GitHubOAuthConfig {
     return sepPos;
   }
 
-  public NextPage getNextPage(String sourcePage) {
-    return wizardFromTo.get(sourcePage);
+  public NextPage getNextPage(String serverName, String sourcePage) {
+    if (!wizardFromTo.containsRow(serverName)) {
+      return wizardFromTo.get(DEFAULT_SERVER, sourcePage);
+    }
+    return wizardFromTo.get(serverName, sourcePage);
   }
 
   public String getBaseProject(boolean isPrivateProject) {
