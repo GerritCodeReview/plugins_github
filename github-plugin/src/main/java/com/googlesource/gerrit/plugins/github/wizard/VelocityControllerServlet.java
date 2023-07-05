@@ -125,7 +125,7 @@ public class VelocityControllerServlet extends HttpServlet {
     if (queryStringStart > 0) {
       sourcePage = sourcePage.substring(0, queryStringStart);
     }
-    NextPage nextPage = githubConfig.getNextPage(sourcePage);
+    NextPage nextPage = githubConfig.getNextPage(req.getServerName(), sourcePage);
     if (nextPage != null) {
       if (nextPage.redirect) {
         resp.sendRedirect(nextPageURL(sourcePath, nextPage));
