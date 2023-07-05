@@ -95,6 +95,40 @@ github.httpReadTimeout
     * h, hr, hour, hours
     Default value: 30 seconds
 
+github.wizardFlow
+:   Define the transition from one page to another during the initial
+    user setup wizard flow. The format of the value is the following:
+    `page => next page` or `page R> next page` for redirections.
+
+    The example below shows an initial wizard that guides through
+    the import of repositories, pull-requests and then redirects
+    to the Gerrit projects admin page.
+
+    **Example:**
+    ```
+    wizardFlow = account.gh => repositories.html
+    wizardFlow = repositories-next.gh => pullrequests.html
+    wizardFlow = pullrequests-next.gh R> / #/admin/projects/
+    ```
+
+github.<domain>.wizardFlow
+:   Allow to customise the GitHub wizard flow for the domain `<domain>`.
+    This setting is useful for multi-site setups where the GitHub
+    import Wizard can be different between sites.
+
+    The example below shows an initial wizard that guides through
+    the import of repositories for all sites, but redirects to
+    the Eclipse ECA sign page for the `eclipse.gerrithub.io` site.
+
+    **Example:**
+    ```
+    [github]
+      wizardFlow = account.gh => repositories.html
+
+    [github "eclipse.gerrithub.io"]
+      wizardFlow = account.gh R> eclipse-eca.html
+    ```
+
 Key Configuration
 -------------
 
