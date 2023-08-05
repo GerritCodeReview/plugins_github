@@ -178,7 +178,7 @@ public class CreateProjectStep extends ImportStep {
       progress.update(1);
       md.setMessage("Imported from " + getSourceUri());
       projectConfig.commit(md);
-      projectCache.onCreateProject(getProjectNameKey());
+      projectCache.evict(getProjectNameKey());
     } finally {
       if (md != null) {
         md.close();
