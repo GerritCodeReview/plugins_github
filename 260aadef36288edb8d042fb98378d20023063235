@@ -81,6 +81,24 @@
       "parentUuid": "e9ac5e38_ba49c620",
       "revId": "260aadef36288edb8d042fb98378d20023063235",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26e4a7e9_d0c429c4",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/CreateProjectStep.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-08-07T09:29:19Z",
+      "side": 1,
+      "message": "You can unit test it using a mock for the project cache. However I just saw there are no tests for this project, at all! \n\nAssuming this is a widely used plugin it should be a priority to get a decent test coverage, but its not part of this change. \n\nCan you at least do some manual testing to prove your fix works, then feel free to resolve this comment.",
+      "parentUuid": "6b2eddb5_cf55a233",
+      "revId": "260aadef36288edb8d042fb98378d20023063235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
