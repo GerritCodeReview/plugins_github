@@ -99,6 +99,24 @@
       "parentUuid": "6b2eddb5_cf55a233",
       "revId": "260aadef36288edb8d042fb98378d20023063235",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbcce5bd_0079004a",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/CreateProjectStep.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-07T09:36:12Z",
+      "side": 1,
+      "message": "\u003e You can unit test it using a mock for the project cache.\n\nOK, yes the unit-testing with mocks would do. However, that tends to give confidence to the developer about the code you are writing. With this simple one-liner I do not feed a unit-test would be needed.\n\n\u003e However I just saw there are no tests for this project, at all! \n\nYes, I tried to write integration tests using some test GitHub account, but I came very quickly to two fundamental issues:\n\n1. GitHub is throttling any repeated API calls, which are most likely to be called during the tests.\n\n2. GitHub APIs are very flaky and unstable: that would most likely to generate lots of failures in the CI process.\n\nThe last option would be mocking the GitHub APIs altogether, using wiremock. That would work but it is a significant effort IMHO.\n\n\u003e Assuming this is a widely used plugin it should be a priority to get a decent test coverage, but its not part of this change. \n\nAgreed.\n\n\u003e Can you at least do some manual testing to prove your fix works, then feel free to resolve this comment.\n\nYes, I did manual testing and it works as expected. I\u0027ll add that to the commit message.",
+      "parentUuid": "26e4a7e9_d0c429c4",
+      "revId": "260aadef36288edb8d042fb98378d20023063235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
