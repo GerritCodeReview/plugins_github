@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c34021d0_3d60d9ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-08-07T08:38:59Z",
+      "side": 1,
+      "message": "this sentence does not make sense",
+      "range": {
+        "startLine": 15,
+        "startChar": 34,
+        "endLine": 16,
+        "endChar": 27
+      },
+      "revId": "260aadef36288edb8d042fb98378d20023063235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9ac5e38_ba49c620",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/CreateProjectStep.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-08-07T08:38:59Z",
+      "side": 1,
+      "message": "test?",
+      "revId": "260aadef36288edb8d042fb98378d20023063235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
