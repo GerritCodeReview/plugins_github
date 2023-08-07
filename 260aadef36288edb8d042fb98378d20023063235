@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9857c431_dfebc462",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-07T09:18:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c34021d0_3d60d9ca",
+      "range": {
+        "startLine": 15,
+        "startChar": 34,
+        "endLine": 16,
+        "endChar": 27
+      },
+      "revId": "260aadef36288edb8d042fb98378d20023063235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e9ac5e38_ba49c620",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-08-07T08:38:59Z",
       "side": 1,
       "message": "test?",
+      "revId": "260aadef36288edb8d042fb98378d20023063235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b2eddb5_cf55a233",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/CreateProjectStep.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-07T09:18:45Z",
+      "side": 1,
+      "message": "Could you suggest an easy way to test it? Bearing in mind that test code is not tested. In order for the tests to be accurate, they need to be simpler or similar in complexity to the code changed.",
+      "parentUuid": "e9ac5e38_ba49c620",
       "revId": "260aadef36288edb8d042fb98378d20023063235",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
