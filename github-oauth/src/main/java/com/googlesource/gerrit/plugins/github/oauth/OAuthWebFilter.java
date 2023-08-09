@@ -41,6 +41,7 @@ import org.slf4j.LoggerFactory;
 @Singleton
 public class OAuthWebFilter implements Filter {
   private static final org.slf4j.Logger log = LoggerFactory.getLogger(OAuthWebFilter.class);
+  public static final String FINAL_REDIRECT_PARAMETER = "final_redirect";
   public static final String GERRIT_COOKIE_NAME = "GerritAccount";
   public static final String GITHUB_EXT_ID = "github_oauth:";
 
@@ -91,6 +92,8 @@ public class OAuthWebFilter implements Filter {
         }
 
         if (ghLogin != null && ghLogin.isLoggedIn()) {
+          finalRedirect(httpRequest, httpResponse);
+          // TODO here goes when request to /login?final=true&redirect=eclipse
           String hashedToken = oAuthTokenCipher.encrypt(ghLogin.getToken().accessToken);
           httpRequest =
               new AuthenticatedHttpRequest(
@@ -101,6 +104,7 @@ public class OAuthWebFilter implements Filter {
                   GITHUB_EXT_ID + hashedToken);
         }
 
+        // TODO this will end up in HttpLoginServlet to do the final redirect to home page
         chain.doFilter(httpRequest, httpResponse);
       }
     } finally {
@@ -240,6 +244,23 @@ public class OAuthWebFilter implements Filter {
   private Cookie[] getCookies(HttpServletRequest httpRequest) {
     Cookie[] cookies = httpRequest.getCookies();
     return cookies == null ? new Cookie[0] : cookies;
+  }
+
+  private void finalRedirect(HttpServletRequest httpRequest, HttpServletResponse httpResponse)
+      throws IOException {
+    String finalRedirectUrlQueryParameter = httpRequest.getParameter(FINAL_REDIRECT_PARAMETER);
+    if (finalRedirectUrlQueryParameter != null) {
+      httpRequest
+          .getSession()
+          .setAttribute(FINAL_REDIRECT_PARAMETER, finalRedirectUrlQueryParameter);
+    } else {
+      String finalRedirectUrlSessionAttr =
+          (String) httpRequest.getSession().getAttribute(FINAL_REDIRECT_PARAMETER);
+      if (finalRedirectUrlSessionAttr != null) {
+        httpRequest.getSession().removeAttribute(FINAL_REDIRECT_PARAMETER);
+        httpResponse.sendRedirect(finalRedirectUrlSessionAttr);
+      }
+    }
   }
 
   @Override
