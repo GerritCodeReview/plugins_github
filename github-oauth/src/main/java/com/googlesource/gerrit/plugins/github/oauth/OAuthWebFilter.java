@@ -91,6 +91,7 @@ public class OAuthWebFilter implements Filter {
         }
 
         if (ghLogin != null && ghLogin.isLoggedIn()) {
+          // TODO here goes when request to /login?final=true&redirect=eclipse
           String hashedToken = oAuthTokenCipher.encrypt(ghLogin.getToken().accessToken);
           httpRequest =
               new AuthenticatedHttpRequest(
@@ -101,6 +102,7 @@ public class OAuthWebFilter implements Filter {
                   GITHUB_EXT_ID + hashedToken);
         }
 
+        // TODO this will end up in HttpLoginServlet to do the final redirect to home page
         chain.doFilter(httpRequest, httpResponse);
       }
     } finally {
