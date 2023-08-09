@@ -269,6 +269,7 @@ public class OAuthProtocol {
             + config.gitHubClientId
             + " Scopes="
             + scopesString);
+    // TODO we can add the logic to create a state like state=XXXX,/login,redirect=eclipse
     String state = newRandomState(request.getRequestURI().toString());
     log.debug(
         "Initiating GitHub Login for ClientId="
@@ -295,8 +296,10 @@ public class OAuthProtocol {
   }
 
   public static boolean isOAuthFinal(HttpServletRequest request) {
-    return Strings.emptyToNull(request.getParameter("code")) != null
-        && request.getParameter(FINAL_URL_PARAM) == null;
+    boolean isOAuthFinal = Strings.emptyToNull(request.getParameter("code")) != null
+            && request.getParameter(FINAL_URL_PARAM) == null;
+    log.info("isOAuthFinal=" + isOAuthFinal);
+    return isOAuthFinal;
   }
 
   public static boolean isOAuthFinalForOthers(HttpServletRequest request) {
@@ -317,8 +320,10 @@ public class OAuthProtocol {
 
   public static boolean isOAuthLogin(HttpServletRequest request) {
     String requestUri = request.getRequestURI();
-    return requestUri.indexOf(GitHubOAuthConfig.GERRIT_LOGIN) >= 0
-        && request.getParameter(FINAL_URL_PARAM) == null;
+    boolean isOAuthLogin = requestUri.indexOf(GitHubOAuthConfig.GERRIT_LOGIN) >= 0
+            && request.getParameter(FINAL_URL_PARAM) == null;
+    log.info("isOAuthLogin=" + isOAuthLogin);
+    return isOAuthLogin;
   }
 
   public static boolean isOAuthLogout(HttpServletRequest request) {

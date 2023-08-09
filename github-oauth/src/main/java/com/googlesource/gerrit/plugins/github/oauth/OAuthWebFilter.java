@@ -79,18 +79,35 @@ public class OAuthWebFilter implements Filter {
     log.debug(
         "OAuthWebFilter(" + httpRequest.getRequestURL() + ") code=" + request.getParameter("code"));
 
+    log.info("==================================================");
+    log.info(">>>>>>> the url is "+ httpRequest.getRequestURL().toString() + "?" + httpRequest.getQueryString());
     Cookie gerritCookie = getGerritCookie(httpRequest);
     try {
       GitHubLogin ghLogin = loginProvider.get(httpRequest);
 
       if (OAuthProtocol.isOAuthRequest(httpRequest)) {
+        log.info(">>>>>>> login");
         login(request, httpRequest, httpResponse, ghLogin);
       } else {
         if (OAuthProtocol.isOAuthLogout(httpRequest)) {
+          log.info(">>>>>>> logout");
           httpResponse = (HttpServletResponse) logout(request, httpResponse, chain, httpRequest);
         }
 
         if (ghLogin != null && ghLogin.isLoggedIn()) {
+          log.info(">>>>>>>>> Session id = " + httpRequest.getSession().getId());
+          String redirect = (String)httpRequest.getSession().getAttribute("redirect");
+          boolean doRedirect = (Boolean)httpRequest.getSession().getAttribute("doRedirect");
+          if (redirect != null) {
+            log.info(">>>>>>>>> The redirect is " +  redirect);
+            log.info(">>>>>>>>> is ready to do the redirection = " +  doRedirect);
+            if (doRedirect) {
+              ((HttpServletResponse) response).sendRedirect("http://eclipse.review.io:8081/");
+            } else {
+              httpRequest.getSession().setAttribute("doRedirect", true);
+            }
+          }
+          // TODO here goes when request to /login?final=true&redirect=eclipse
           String hashedToken = oAuthTokenCipher.encrypt(ghLogin.getToken().accessToken);
           httpRequest =
               new AuthenticatedHttpRequest(
@@ -99,8 +116,15 @@ public class OAuthWebFilter implements Filter {
                   ghLogin.getMyself().getLogin(),
                   config.oauthHttpHeader,
                   GITHUB_EXT_ID + hashedToken);
+        } else {
+          log.info(">>>>>>>>> Session id = " + httpRequest.getSession().getId());
+          log.info(">>>>>>>>> ghLogin " + ghLogin);
+          if (ghLogin != null) {
+            log.info(">>>>>>>>> ghLogin " + ghLogin.isLoggedIn());
+          }
         }
 
+        // TODO this will end up in HttpLoginServlet to do the final redirect to home page
         chain.doFilter(httpRequest, httpResponse);
       }
     } finally {
