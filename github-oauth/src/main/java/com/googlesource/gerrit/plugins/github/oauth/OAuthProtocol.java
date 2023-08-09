@@ -1,5 +1,7 @@
 package com.googlesource.gerrit.plugins.github.oauth;
 
+import static com.googlesource.gerrit.plugins.github.oauth.LoginOAuthRedirectionFilter.FINAL_REDIRECT_URL;
+
 import com.google.common.base.Charsets;
 import com.google.common.base.Strings;
 import com.google.common.io.BaseEncoding;
@@ -19,10 +21,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -269,7 +268,7 @@ public class OAuthProtocol {
             + config.gitHubClientId
             + " Scopes="
             + scopesString);
-    String state = newRandomState(request.getRequestURI().toString());
+    String state = newRandomState(request);
     log.debug(
         "Initiating GitHub Login for ClientId="
             + config.gitHubClientId
@@ -309,16 +308,33 @@ public class OAuthProtocol {
         && request.getParameter(FINAL_URL_PARAM) == null;
   }
 
-  public String newRandomState(String redirectUrl) {
+  public String newRandomState(HttpServletRequest request) throws UnsupportedEncodingException {
+    String redirectUrl = request.getRequestURI().toString();
     byte[] stateBin = new byte[20]; // SHA-1 size
     randomState.nextBytes(stateBin);
-    return BaseEncoding.base64Url().encode(stateBin) + ME_SEPARATOR + redirectUrl;
+    String state = BaseEncoding.base64Url().encode(stateBin) + ME_SEPARATOR + redirectUrl;
+    Optional<String> maybeFinalRedirectUrl =
+        Optional.ofNullable(request.getParameter(FINAL_REDIRECT_URL));
+    if (maybeFinalRedirectUrl.isPresent()) {
+      return state
+          + ME_SEPARATOR
+          + FINAL_REDIRECT_URL
+          + "="
+          + URLEncoder.encode(maybeFinalRedirectUrl.get(), "UTF-8");
+    }
+    return state;
   }
 
   public static boolean isOAuthLogin(HttpServletRequest request) {
     String requestUri = request.getRequestURI();
     return requestUri.indexOf(GitHubOAuthConfig.GERRIT_LOGIN) >= 0
         && request.getParameter(FINAL_URL_PARAM) == null;
+  }
+
+  public static boolean isFinalLogin(HttpServletRequest request) {
+    String requestUri = request.getRequestURI();
+    return requestUri.indexOf(GitHubOAuthConfig.GERRIT_LOGIN) >= 0
+        && request.getParameter(FINAL_URL_PARAM) != null;
   }
 
   public static boolean isOAuthLogout(HttpServletRequest request) {
@@ -381,12 +397,18 @@ public class OAuthProtocol {
   }
 
   public static String getTargetUrl(ServletRequest request) {
-    int meEnd = state(request).indexOf(ME_SEPARATOR);
-    String finalUrlSuffix = "?" + FINAL_URL_PARAM + "=true";
-    if (meEnd > 0) {
-      return state(request).substring(meEnd + 1) + finalUrlSuffix;
+    String[] stateSections = state(request).split(ME_SEPARATOR);
+    String firstQueryParameter = "?" + FINAL_URL_PARAM + "=true";
+    if (stateSections.length == 2) {
+      String path = stateSections[1];
+      return path + firstQueryParameter;
     }
-    return finalUrlSuffix;
+    if (stateSections.length == 3) {
+      String path = stateSections[1];
+      String secondQueryParameter = stateSections[2];
+      return path + firstQueryParameter + "&" + secondQueryParameter;
+    }
+    return firstQueryParameter;
   }
 
   private static String state(ServletRequest request) {
