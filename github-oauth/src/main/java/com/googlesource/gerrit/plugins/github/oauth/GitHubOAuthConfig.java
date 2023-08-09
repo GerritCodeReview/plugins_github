@@ -54,6 +54,7 @@ public class GitHubOAuthConfig {
   public static final String GITHUB_URL_DEFAULT = "https://github.com";
   public static final String GITHUB_API_URL_DEFAULT = "https://api.github.com";
   public static final String GERRIT_LOGIN = "/login";
+  public static final String GERRIT_LOGIN_OAUTH = "/login-oauth";
   public static final String GERRIT_LOGOUT = "/logout";
   public static final String GITHUB_PLUGIN_OAUTH_SCOPE = "/plugins/github-plugin/static/scope.html";
 
