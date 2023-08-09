@@ -100,10 +100,15 @@ public class GitHubLogin implements Serializable {
     if (OAuthProtocol.isOAuthFinal(request)) {
       log.debug("Login-FINAL " + this);
       login(oauth.loginPhase2(request, response, state));
+      if (true) {
+        setRedirectionAttrsInSession(request);
+      }
       this.state = ""; // Make sure state is used only once
 
       if (isLoggedIn()) {
         log.debug("Login-SUCCESS " + this);
+        // TODO here the current logic adds final=true
+        // TODO here we could logic to create a PATH like /login?final=true&redirect=eclipse
         response.sendRedirect(OAuthProtocol.getTargetUrl(request));
       }
     } else {
@@ -124,7 +129,7 @@ public class GitHubLogin implements Serializable {
   }
 
   public GitHub login(AccessToken authToken) throws IOException {
-    log.debug("Logging in using access token {}", authToken.accessToken);
+    log.info("Logging in using access token {}", authToken.accessToken);
     this.token = authToken;
     return getHub();
   }
@@ -190,5 +195,10 @@ public class GitHubLogin implements Serializable {
         .map(entry -> entry.getValue())
         .findFirst()
         .orElse(DEFAULT_SCOPES);
+  }
+
+  private void setRedirectionAttrsInSession(HttpServletRequest request) {
+    request.getSession().setAttribute("redirect", "eclipse");
+    request.getSession().setAttribute("doRedirect", false);
   }
 }
