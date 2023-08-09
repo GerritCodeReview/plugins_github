@@ -13,12 +13,15 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.oauth;
 
+import static com.googlesource.gerrit.plugins.github.oauth.LoginOAuthRedirectionFilter.FINAL_REDIRECT_URL;
+
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.attribute.FileTime;
+import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import javax.servlet.Filter;
@@ -91,6 +94,8 @@ public class OAuthWebFilter implements Filter {
         }
 
         if (ghLogin != null && ghLogin.isLoggedIn()) {
+          // TODO can we add finalRedirect functionality in a filter that extends AllRequestFilter ?
+          finalRedirect(httpRequest, httpResponse);
           String hashedToken = oAuthTokenCipher.encrypt(ghLogin.getToken().accessToken);
           httpRequest =
               new AuthenticatedHttpRequest(
@@ -240,6 +245,24 @@ public class OAuthWebFilter implements Filter {
   private Cookie[] getCookies(HttpServletRequest httpRequest) {
     Cookie[] cookies = httpRequest.getCookies();
     return cookies == null ? new Cookie[0] : cookies;
+  }
+
+  private void finalRedirect(HttpServletRequest httpRequest, HttpServletResponse httpResponse)
+      throws IOException {
+    Optional<String> maybeFinalRedirectURLQueryParameter =
+        Optional.ofNullable(httpRequest.getParameter(FINAL_REDIRECT_URL));
+    if (maybeFinalRedirectURLQueryParameter.isPresent()) {
+      httpRequest
+          .getSession()
+          .setAttribute(FINAL_REDIRECT_URL, maybeFinalRedirectURLQueryParameter.get());
+    } else {
+      Optional<String> maybeFinalRedirectURLSessionAttr =
+          Optional.ofNullable((String) httpRequest.getSession().getAttribute(FINAL_REDIRECT_URL));
+      if (maybeFinalRedirectURLSessionAttr.isPresent()) {
+        httpRequest.getSession().removeAttribute(FINAL_REDIRECT_URL);
+        httpResponse.sendRedirect(maybeFinalRedirectURLSessionAttr.get());
+      }
+    }
   }
 
   @Override
