@@ -107,6 +107,8 @@ public class InitGitHub implements InitStep {
             EnumSet.of(AuthType.HTTP, AuthType.OAUTH));
     if (authType.equals(AuthType.HTTP)) {
       auth.string("HTTP Authentication Header", "httpHeader", "GITHUB_USER");
+      // TODO set Class is loaded and configured in the Gerrit Jetty container and run in front of
+      // all Gerrit URL handlers,
       httpd.set("filterClass", "com.googlesource.gerrit.plugins.github.oauth.OAuthFilter");
       authSetDefault("httpExternalIdHeader", "GITHUB_OAUTH_TOKEN");
       authSetDefault("loginUrl", "/login");

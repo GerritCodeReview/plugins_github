@@ -104,6 +104,9 @@ public class GitHubLogin implements Serializable {
 
       if (isLoggedIn()) {
         log.debug("Login-SUCCESS " + this);
+        // TODO here the current logic adds final=true
+        // TODO here we could logic to create a PATH like
+        // /login?final=true&redirect=http://eclipse.review.io:8081
         response.sendRedirect(OAuthProtocol.getTargetUrl(request));
       }
     } else {
