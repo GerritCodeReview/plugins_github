@@ -19,10 +19,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -269,7 +266,7 @@ public class OAuthProtocol {
             + config.gitHubClientId
             + " Scopes="
             + scopesString);
-    String state = newRandomState(request.getRequestURI().toString());
+    String state = newRandomState(request);
     log.debug(
         "Initiating GitHub Login for ClientId="
             + config.gitHubClientId
@@ -309,10 +306,19 @@ public class OAuthProtocol {
         && request.getParameter(FINAL_URL_PARAM) == null;
   }
 
-  public String newRandomState(String redirectUrl) {
+  public String newRandomState(HttpServletRequest request) throws UnsupportedEncodingException {
+    String redirectUrl = request.getRequestURI().toString();
     byte[] stateBin = new byte[20]; // SHA-1 size
     randomState.nextBytes(stateBin);
-    return BaseEncoding.base64Url().encode(stateBin) + ME_SEPARATOR + redirectUrl;
+    String state = BaseEncoding.base64Url().encode(stateBin) + ME_SEPARATOR + redirectUrl;
+    Optional<String> finalRedirectUrl = Optional.ofNullable(request.getParameter("final_redirect"));
+    if (finalRedirectUrl.isPresent()) {
+      return state
+          + ME_SEPARATOR
+          + "final_redirect="
+          + URLEncoder.encode(finalRedirectUrl.get(), "UTF-8");
+    }
+    return state;
   }
 
   public static boolean isOAuthLogin(HttpServletRequest request) {
@@ -381,12 +387,18 @@ public class OAuthProtocol {
   }
 
   public static String getTargetUrl(ServletRequest request) {
-    int meEnd = state(request).indexOf(ME_SEPARATOR);
-    String finalUrlSuffix = "?" + FINAL_URL_PARAM + "=true";
-    if (meEnd > 0) {
-      return state(request).substring(meEnd + 1) + finalUrlSuffix;
+    String[] subStrings = state(request).split(",");
+    String firstQueryParameter = "?" + FINAL_URL_PARAM + "=true";
+    if (subStrings.length == 2) {
+      String requestURI = subStrings[1];
+      return requestURI + firstQueryParameter;
     }
-    return finalUrlSuffix;
+    if (subStrings.length == 3) {
+      String requestURI = subStrings[1];
+      String secondQueryParameter = subStrings[2];
+      return requestURI + firstQueryParameter + "&" + secondQueryParameter;
+    }
+    return firstQueryParameter;
   }
 
   private static String state(ServletRequest request) {
