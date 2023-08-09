@@ -91,6 +91,8 @@ public class OAuthWebFilter implements Filter {
         }
 
         if (ghLogin != null && ghLogin.isLoggedIn()) {
+          finalRedirect(httpRequest, httpResponse);
+          // TODO here goes when request to /login?final=true&redirect=eclipse
           String hashedToken = oAuthTokenCipher.encrypt(ghLogin.getToken().accessToken);
           httpRequest =
               new AuthenticatedHttpRequest(
@@ -101,6 +103,7 @@ public class OAuthWebFilter implements Filter {
                   GITHUB_EXT_ID + hashedToken);
         }
 
+        // TODO this will end up in HttpLoginServlet to do the final redirect to home page
         chain.doFilter(httpRequest, httpResponse);
       }
     } finally {
@@ -240,6 +243,20 @@ public class OAuthWebFilter implements Filter {
   private Cookie[] getCookies(HttpServletRequest httpRequest) {
     Cookie[] cookies = httpRequest.getCookies();
     return cookies == null ? new Cookie[0] : cookies;
+  }
+
+  private void finalRedirect(HttpServletRequest httpRequest, HttpServletResponse httpResponse)
+      throws IOException {
+    String redirectQueryParameter = httpRequest.getParameter("redirect");
+    if (redirectQueryParameter != null) {
+      httpRequest.getSession().setAttribute("redirect", redirectQueryParameter);
+    } else {
+      String redirectUrl = (String) httpRequest.getSession().getAttribute("redirect");
+      if (redirectUrl != null) {
+        httpRequest.getSession().removeAttribute("redirect");
+        httpResponse.sendRedirect("http://eclipse.review.io:8081/");
+      }
+    }
   }
 
   @Override

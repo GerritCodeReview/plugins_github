@@ -104,6 +104,9 @@ public class GitHubLogin implements Serializable {
 
       if (isLoggedIn()) {
         log.debug("Login-SUCCESS " + this);
+        // TODO here the current logic adds final=true
+        // TODO here we could logic to create a PATH like
+        // /login?final=true&redirect=http://eclipse.review.io:8081
         response.sendRedirect(OAuthProtocol.getTargetUrl(request));
       }
     } else {
@@ -124,7 +127,7 @@ public class GitHubLogin implements Serializable {
   }
 
   public GitHub login(AccessToken authToken) throws IOException {
-    log.debug("Logging in using access token {}", authToken.accessToken);
+    log.info("Logging in using access token {}", authToken.accessToken);
     this.token = authToken;
     return getHub();
   }
