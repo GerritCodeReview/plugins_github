@@ -269,6 +269,7 @@ public class OAuthProtocol {
             + config.gitHubClientId
             + " Scopes="
             + scopesString);
+    // TODO we can add the logic to create a state like state=XXXX,/login,redirect=eclipse
     String state = newRandomState(request.getRequestURI().toString());
     log.debug(
         "Initiating GitHub Login for ClientId="
