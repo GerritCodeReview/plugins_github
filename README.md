@@ -156,6 +156,48 @@ Note: Client ID & Client Secret are generated that used in the next step.
   * Add the webhook secret as `webhookSecret` entry in `github` section of
     `etc/secure.config`.
 
+### Setting up the GitHub plugin in a Gerrit multi-site configuration
+In scenarios where Gerrit is deployed in a multi-site configuration with multiple Gerrit sites,
+such as `site-1.review.company.com` to `site-n.review.company.com`, all operating behind a common
+geo-location load balancer, `review.company.com`, enabling sign-ins across these sites requires a
+specific approach. This workaround involves the following steps:
+
+1. Redirecting user logins from the site-specific domain (e.g., `site-1.review.company.com`) to the
+central load-balancing domain (`review.company.com`).
+2. Initiating OAuth authentication on `review.company.com` and redirecting users back to the same
+domain (`review.company.com`).
+3. After a successful login, redirecting users back to their original site-specific domain
+(e.g., `site-1.review.company.com`).
+
+To achieve this, certain prerequisites must be met:
+
+- Modify the `etc/gerrit.config` file and update the `gerrit.canonicalWebUrl` property to point to
+the load-balancing domain. For instance:
+
+```plaintext
+[gerrit]
+...
+canonicalWebUrl = https://review.company.com/
+...
+```
+
+- Modify the `etc/gerrit.config` file and update the `auth.loginUrl` property with the path
+`/login-oauth`. For instance:
+
+```plaintext
+[auth]
+...
+loginUrl = /login-oauth
+...
+```
+
+- Ensure that the `X-Forward headers` [1], specifically `X-Forwarded-Host`, `X-Forwarded-Port`,
+and `X-Forwarded-Proto`, are propagated accordingly from the proxy upstream.
+
+References:
+
+[1] https://www.rfc-editor.org/rfc/rfc7239.html
+
 ### Contributing to the GitHub plugin
 
 The GitHub plugin uses the lombok library, which provides a set of
