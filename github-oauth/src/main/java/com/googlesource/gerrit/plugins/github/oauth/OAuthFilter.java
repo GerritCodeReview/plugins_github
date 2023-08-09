@@ -43,11 +43,17 @@ public class OAuthFilter implements Filter {
 
   private final GitHubOAuthConfig config;
   private final OAuthWebFilter webFilter;
+  private final LoginOAuthRedirectionFilter loginOAuthRedirection;
 
   @Inject
-  public OAuthFilter(GitHubOAuthConfig config, OAuthWebFilter webFilter, Injector injector) {
+  public OAuthFilter(
+      GitHubOAuthConfig config,
+      OAuthWebFilter webFilter,
+      LoginOAuthRedirectionFilter loginOAuthRedirection,
+      Injector injector) {
     this.config = config;
     this.webFilter = webFilter;
+    this.loginOAuthRedirection = loginOAuthRedirection;
   }
 
   @Override
@@ -68,6 +74,8 @@ public class OAuthFilter implements Filter {
 
       if (GIT_HTTP_REQUEST_PATTERN.matcher(requestUrl).matches()) {
         chain.doFilter(request, response);
+      } else if (httpRequest.getRequestURI().equals(GitHubOAuthConfig.GERRIT_LOGIN_OAUTH)) {
+        loginOAuthRedirection.doFilter(request, response, chain);
       } else {
         webFilter.doFilter(request, response, chain);
       }
