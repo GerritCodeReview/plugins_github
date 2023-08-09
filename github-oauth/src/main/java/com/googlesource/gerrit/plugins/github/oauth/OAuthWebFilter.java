@@ -13,6 +13,9 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.oauth;
 
+import static com.googlesource.gerrit.plugins.github.oauth.LoginOAuthRedirectionFilter.FINAL_REDIRECT_URL;
+
+import com.google.common.base.Strings;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -91,6 +94,24 @@ public class OAuthWebFilter implements Filter {
         }
 
         if (ghLogin != null && ghLogin.isLoggedIn()) {
+          // step 1: activate final redirection when there is
+          // query parameter /login&final=true&final_redirect_url=https://domain1.com/
+          if (OAuthProtocol.isFinalLogin(httpRequest)) {
+            String finalRedirectionFromURL = httpRequest.getParameter(FINAL_REDIRECT_URL);
+            if (!Strings.isNullOrEmpty(finalRedirectionFromURL)) {
+              httpRequest.getSession().setAttribute(FINAL_REDIRECT_URL, finalRedirectionFromURL);
+            }
+          } else {
+            // step 2: execute final redirection when there is
+            // session attribute "final_redirect_url=https://domain1.com/"
+            String finalRedirectionFromSession =
+                (String) httpRequest.getSession().getAttribute(FINAL_REDIRECT_URL);
+            if (!Strings.isNullOrEmpty(finalRedirectionFromSession)) {
+              httpRequest.getSession().removeAttribute(FINAL_REDIRECT_URL);
+              httpResponse.sendRedirect(finalRedirectionFromSession);
+            }
+          }
+
           String hashedToken = oAuthTokenCipher.encrypt(ghLogin.getToken().accessToken);
           httpRequest =
               new AuthenticatedHttpRequest(
