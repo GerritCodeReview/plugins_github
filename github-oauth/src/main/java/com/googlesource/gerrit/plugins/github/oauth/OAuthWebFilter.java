@@ -13,12 +13,15 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.oauth;
 
+import static com.googlesource.gerrit.plugins.github.oauth.LoginOAuthRedirectionFilter.FINAL_REDIRECT_URL;
+
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.attribute.FileTime;
+import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import javax.servlet.Filter;
@@ -91,6 +94,27 @@ public class OAuthWebFilter implements Filter {
         }
 
         if (ghLogin != null && ghLogin.isLoggedIn()) {
+          // step 1: activate final redirection when there is
+          // query parameter /login&final=true&final_redirect_url=https://domain1.com/
+          if (OAuthProtocol.isFinalLogin(httpRequest)) {
+            Optional<String> maybeFinalRedirectionFromURL =
+                extractFinalRedirectionFromURL(httpRequest);
+            if (maybeFinalRedirectionFromURL.isPresent()) {
+              httpRequest
+                  .getSession()
+                  .setAttribute(FINAL_REDIRECT_URL, maybeFinalRedirectionFromURL.get());
+            }
+          } else {
+            // step 2: execute final redirection when there is
+            // session attribute "final_redirect_url=https://domain1.com/"
+            Optional<String> maybeFinalRedirectionFromSession =
+                extractFinalRedirectionFromSession(httpRequest);
+            if (maybeFinalRedirectionFromSession.isPresent()) {
+              httpRequest.getSession().removeAttribute(FINAL_REDIRECT_URL);
+              httpResponse.sendRedirect(maybeFinalRedirectionFromSession.get());
+            }
+          }
+
           String hashedToken = oAuthTokenCipher.encrypt(ghLogin.getToken().accessToken);
           httpRequest =
               new AuthenticatedHttpRequest(
@@ -240,6 +264,14 @@ public class OAuthWebFilter implements Filter {
   private Cookie[] getCookies(HttpServletRequest httpRequest) {
     Cookie[] cookies = httpRequest.getCookies();
     return cookies == null ? new Cookie[0] : cookies;
+  }
+
+  private Optional<String> extractFinalRedirectionFromURL(HttpServletRequest httpRequest) {
+    return Optional.ofNullable(httpRequest.getParameter(FINAL_REDIRECT_URL));
+  }
+
+  private Optional<String> extractFinalRedirectionFromSession(HttpServletRequest httpRequest) {
+    return Optional.ofNullable((String) httpRequest.getSession().getAttribute(FINAL_REDIRECT_URL));
   }
 
   @Override
