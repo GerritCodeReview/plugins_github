@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6058f43e_b7eadb42",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubLogin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-16T21:06:06Z",
+      "side": 1,
+      "message": "Forget about my statement: one is `GitHubHttpConnector` (an implementation of `HttpConnector`) whilst the other is `GitHubConnector`",
+      "parentUuid": "2527103e_c43992a3",
+      "range": {
+        "startLine": 86,
+        "startChar": 63,
+        "endLine": 86,
+        "endChar": 68
+      },
+      "revId": "934cb0bc111759f7ede918f5727f8c26a96c9e2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8df7ad3a_512b9b22",
@@ -54,6 +78,30 @@
       "writtenOn": "2023-07-11T08:39:02Z",
       "side": 1,
       "message": "maybe safer to use an `orElse` or a `map` as the `get` will fail on an empty optional.",
+      "range": {
+        "startLine": 159,
+        "startChar": 21,
+        "endLine": 159,
+        "endChar": 26
+      },
+      "revId": "934cb0bc111759f7ede918f5727f8c26a96c9e2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8899fb48_fb348a21",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/wizard/PullRequestListController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-16T21:06:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8df7ad3a_512b9b22",
       "range": {
         "startLine": 159,
         "startChar": 21,
