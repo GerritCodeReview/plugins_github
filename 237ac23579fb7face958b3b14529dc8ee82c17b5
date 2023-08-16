@@ -118,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbbd4d3c_1a19aea9",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/replication/GitHubDestinations.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-16T21:08:28Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "9a343724_48b8ff92",
+      "range": {
+        "startLine": 155,
+        "startChar": 0,
+        "endLine": 161,
+        "endChar": 3
+      },
+      "revId": "237ac23579fb7face958b3b14529dc8ee82c17b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ade888c_469ed8aa",
@@ -131,6 +155,30 @@
       "writtenOn": "2023-07-05T22:29:50Z",
       "side": 0,
       "message": "Can be replaced with lambda:\n\n```\nkeyInfo -\u003e StringUtils.substringBeforeLast(keyInfo.sshPublicKey, \" \")\n```",
+      "range": {
+        "startLine": 205,
+        "startChar": 10,
+        "endLine": 211,
+        "endChar": 13
+      },
+      "revId": "237ac23579fb7face958b3b14529dc8ee82c17b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbeb92c3_f36f9c1d",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/wizard/AccountController.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-16T21:08:28Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "1ade888c_469ed8aa",
       "range": {
         "startLine": 205,
         "startChar": 10,
