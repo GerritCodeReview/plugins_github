@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "143d06c0_10491524",
+        "filename": "github-plugin/src/test/java/com/googlesource/gerrit/plugins/github/GitHubConfigTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-08-16T22:34:02Z",
+      "side": 1,
+      "message": "nit: `NEXT_PAGE`",
+      "range": {
+        "startLine": 58,
+        "startChar": 40,
+        "endLine": 58,
+        "endChar": 48
+      },
+      "revId": "44587052d3585df6c8d2042bf0ce89b5924d0042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
