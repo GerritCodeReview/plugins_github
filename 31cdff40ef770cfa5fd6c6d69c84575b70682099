@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2ffce8b5_b1360d5e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-16T21:26:31Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "24d80ea9_c3a859a3",
+      "revId": "31cdff40ef770cfa5fd6c6d69c84575b70682099",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9948e593_cf469378",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/GitHubConfig.java",
         "patchSetId": 1
