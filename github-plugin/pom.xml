@@ -157,5 +157,13 @@ limitations under the License.
       <artifactId>velocity-engine-core</artifactId>
       <version>2.3</version>
     </dependency>
+      <dependency>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+      </dependency>
+    <dependency>
+      <groupId>com.google.truth</groupId>
+      <artifactId>truth</artifactId>
+    </dependency>
   </dependencies>
 </project>
