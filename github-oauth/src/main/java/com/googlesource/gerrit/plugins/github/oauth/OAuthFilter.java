@@ -37,7 +37,9 @@ public class OAuthFilter implements Filter {
   private static final org.slf4j.Logger log = LoggerFactory.getLogger(OAuthFilter.class);
   private static Pattern GIT_HTTP_REQUEST_PATTERN = Pattern.compile(GitOverHttpServlet.URL_REGEX);
   private static final Set<String> GERRIT_STATIC_RESOURCES_EXTS =
-      Sets.newHashSet("css", "png", "jpg", "gif", "woff", "otf", "ttf", "map", "js", "swf", "txt");
+      Sets.newHashSet(
+          "css", "gif", "htm", "html", "ico", "jpeg", "jpg", "js", "map", "otf", "pdf", "png",
+          "rtf", "svg", "swf", "text", "tif", "tiff", "ttf", "txt", "woff", "woff2");
   private static final Set<String> GERRIT_ALLOWED_PATHS = Sets.newHashSet("Documentation");
   private static final Set<String> GERRIT_ALLOWED_PAGES = Sets.newHashSet("scope.html");
 
