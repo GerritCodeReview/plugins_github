@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "759ff5be_59f3b3db",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-19T06:22:02Z",
+      "side": 1,
+      "message": "We process the HTML files with the plugin and expand them, see:\nhttps://gerrit.googlesource.com/plugins/github/+/refs/heads/master/github-plugin/src/main/resources/static/",
+      "range": {
+        "startLine": 41,
+        "startChar": 24,
+        "endLine": 41,
+        "endChar": 37
+      },
+      "revId": "6492e72cac9619aac80c25e7e36372f7c8f2f56d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
