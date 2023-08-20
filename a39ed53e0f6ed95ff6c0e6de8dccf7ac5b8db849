@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6517ffa4_537a1316",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-20T06:05:29Z",
+      "side": 1,
+      "message": "Have also checked that `GitHub` menu entries (like `Profile`, `Repositories`, etc..) still work 😄",
+      "revId": "a39ed53e0f6ed95ff6c0e6de8dccf7ac5b8db849",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
