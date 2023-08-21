@@ -1,6 +1,52 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "0230f280_acd385f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-08-21T11:12:40Z",
+      "side": 1,
+      "message": "Gerrit\u0027s",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 24
+      },
+      "revId": "a39ed53e0f6ed95ff6c0e6de8dccf7ac5b8db849",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6840d9b5_1b6033a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-08-21T11:12:40Z",
+      "side": 1,
+      "message": "It might be obvious, but consider adding a \"because\" section here.\n\nAlso, would you mind expanding on how the filtering of static resources from the OAuthFilter relates to the sessions leak error?\n\nFrom what I understood, utltimately, this relates to Jetty session expiration?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 47
+      },
+      "revId": "a39ed53e0f6ed95ff6c0e6de8dccf7ac5b8db849",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "6517ffa4_537a1316",
