@@ -375,6 +375,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ec132172_cef88eef",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/LoginOAuthRedirectionFilter.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-08-22T13:36:12Z",
+      "side": 1,
+      "message": "@geminica.programs@gmail.com I have playing with:\n```\n   maybeXFHostHeader.ifPresentOrElse(\n        host -\u003e {\n          // build source URL and send redirect\n        },\n        () -\u003e {\n          // perform filtering\n        });\n```\nBut the problem is that there are checked exceptions inside the lambdas forcing to try/catch and making the code very difficult to follow.\n\nMaybe we could pair on that.",
+      "parentUuid": "1afe2e8f_36f51b48",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 44
+      },
+      "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "13a4bd2e_8083f2a5",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthProtocol.java",
         "patchSetId": 30
