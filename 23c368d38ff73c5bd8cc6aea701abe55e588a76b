@@ -290,6 +290,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8698364a_d98bfbe9",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthProtocol.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-08-22T09:13:00Z",
+      "side": 1,
+      "message": "I have seen this approach:\n```\n@FunctionalInterface\npublic interface CheckedFunction\u003cT, R\u003e {\n    R apply(T t) throws Exception;\n}\n\npublic static \u003cT, R\u003e Function\u003cT, R\u003e unchecked(CheckedFunction\u003cT, R\u003e checkedFunction) {\n    return t -\u003e {\n        try {\n            return checkedFunction.apply(t);\n        } catch (Exception e) {\n            throw new RuntimeException(e); // or custom subclass of RuntimeException\n        }\n    };\n}\n```\n\nAnd use it i.e:\n```\nList\u003cCustomer\u003e customer \u003d Stream.of(1L, 2L)\n    .map(unchecked(this::queryDatabaseForCustomer))\n    .collect(toList());\n```\n\nDo we want to go in that way?",
+      "parentUuid": "d0ebbe46_75479a74",
+      "range": {
+        "startLine": 318,
+        "startChar": 4,
+        "endLine": 325,
+        "endChar": 17
+      },
+      "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9c69b931_b0de423f",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthWebFilter.java",
         "patchSetId": 30
