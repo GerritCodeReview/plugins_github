@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ecf5b30b_6c106c8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 30
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-22T09:51:25Z",
+      "side": 1,
+      "message": "Agreed, we need more context on why this is needed.\n\nThe code itself says what we have changed, but the commit message needs to explain the context and the rationale behind it, other than the intended behaviour.",
+      "parentUuid": "c37d12ff_c6a817b1",
+      "range": {
+        "startLine": 11,
+        "startChar": 60,
+        "endLine": 11,
+        "endChar": 67
+      },
+      "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c443543f_e7f0cc6f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 30
@@ -79,6 +103,24 @@
       "side": 1,
       "message": "I dont think that we have one, I need to create it.",
       "parentUuid": "c443543f_e7f0cc6f",
+      "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f014d5fc_7b85ef2d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 30
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-22T09:51:25Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "f393d29c_f87bd488",
       "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -231,6 +273,30 @@
       "side": 1,
       "message": "\u003e the other two are optional and complementary to the host.\n\nThat is not true because they are needed to build the `final_redirect_url` query parameter.",
       "parentUuid": "76068c12_d2e47805",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 44
+      },
+      "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "caa12137_2fafba2f",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/LoginOAuthRedirectionFilter.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-22T09:51:25Z",
+      "side": 1,
+      "message": "I would change the if condition:\n- *IF* the HOST (or X-Forwarded-Host) is different than the one in the canonical web URL, take this path, which would also use the other forwarding bits (if present)\n- otherwise do the regular filtering",
+      "parentUuid": "ed6a2bea_21a08847",
       "range": {
         "startLine": 65,
         "startChar": 4,
