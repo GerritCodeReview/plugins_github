@@ -421,6 +421,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4121228d_071a13bf",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/LoginOAuthRedirectionFilter.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-08-22T16:28:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2523d618_56261467",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 44
+      },
+      "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "13a4bd2e_8083f2a5",
@@ -553,6 +577,30 @@
       "side": 1,
       "message": "Maybe it would be worth to refactor the original code OAuthWebFilter.doFilter but that should be in another follow-up change.",
       "parentUuid": "bea4c3e1_b1ae3e32",
+      "range": {
+        "startLine": 100,
+        "startChar": 12,
+        "endLine": 106,
+        "endChar": 13
+      },
+      "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c6d3173_c65d1547",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthWebFilter.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-08-22T16:28:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9a354cd_28f693a5",
       "range": {
         "startLine": 100,
         "startChar": 12,
