@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c37d12ff_c6a817b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 30
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-08-22T07:40:36Z",
+      "side": 1,
+      "message": "I need to review the whole description, I am not very happy wit that.",
+      "parentUuid": "a8473434_93c68038",
+      "range": {
+        "startLine": 11,
+        "startChar": 60,
+        "endLine": 11,
+        "endChar": 67
+      },
+      "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c443543f_e7f0cc6f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 30
@@ -37,6 +61,24 @@
       "writtenOn": "2023-08-22T06:39:27Z",
       "side": 1,
       "message": "nit: missing Issue number from the tracker",
+      "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f393d29c_f87bd488",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 30
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-08-22T07:40:36Z",
+      "side": 1,
+      "message": "I dont think that we have one, I need to create it.",
+      "parentUuid": "c443543f_e7f0cc6f",
       "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -81,6 +123,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7032df7a_91a524e6",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/LoginOAuthRedirectionFilter.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-08-22T07:40:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "122734d2_5874b1ac",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 23
+      },
+      "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f2e05a9b_40bef246",
@@ -94,6 +160,30 @@
       "writtenOn": "2023-08-22T06:39:27Z",
       "side": 1,
       "message": "nit: these constants are available in `com.google.common.net.HttpHeaders`\ne.g. `com.google.common.net.HttpHeaders.X_FORWARDED_HOST` so there is no need to introduce them again 😊",
+      "range": {
+        "startLine": 36,
+        "startChar": 2,
+        "endLine": 38,
+        "endChar": 74
+      },
+      "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "275e4f52_b1af2720",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/LoginOAuthRedirectionFilter.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-08-22T07:40:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2e05a9b_40bef246",
       "range": {
         "startLine": 36,
         "startChar": 2,
@@ -129,6 +219,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ed6a2bea_21a08847",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/LoginOAuthRedirectionFilter.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-08-22T07:40:36Z",
+      "side": 1,
+      "message": "\u003e the other two are optional and complementary to the host.\n\nThat is not true because they are needed to build the `final_redirect_url` query parameter.",
+      "parentUuid": "76068c12_d2e47805",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 44
+      },
+      "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "13a4bd2e_8083f2a5",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthProtocol.java",
         "patchSetId": 30
@@ -140,6 +254,30 @@
       "writtenOn": "2023-08-22T06:39:27Z",
       "side": 1,
       "message": "How about leveraging `Optional` fluent API?\n```suggestion\n    maybeFinalRedirectUrl\n      .map(finalRedirectUrl -\u003e\n        state\n          + ME_SEPARATOR\n          + FINAL_REDIRECT_URL\n          + \"\u003d\"\n          + URLEncoder.encode(finalRedirectUrl, \"UTF-8\"))\n      .orElse(state);\n```\n\nGeneral remark: `Optional.ifPresent` typically indicates that fluent API could be used",
+      "range": {
+        "startLine": 318,
+        "startChar": 4,
+        "endLine": 325,
+        "endChar": 17
+      },
+      "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0ebbe46_75479a74",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthProtocol.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-08-22T07:40:36Z",
+      "side": 1,
+      "message": "I tried that but `URLEncoder.encode` throws an check exception `UnsupportedEncodingException` so I have to try and catch inside of the map making the code less descriptive. \n\nI am open to suggestions.",
+      "parentUuid": "13a4bd2e_8083f2a5",
       "range": {
         "startLine": 318,
         "startChar": 4,
@@ -175,6 +313,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bea4c3e1_b1ae3e32",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthWebFilter.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-08-22T07:40:36Z",
+      "side": 1,
+      "message": "I tried that but I had a problem in the L80:\n```\nHttpServletRequest httpRequest \u003d (HttpServletRequest) request;\n\n```\n\nbecause it needs to be final to be inside of the lambda function. So if I make final then the code breaks because that variable unfortunately is mutable as you can see in L119:\n```\n          httpRequest \u003d\n              new AuthenticatedHttpRequest(\n                  httpRequest,\n                  config.httpHeader,\n                  ghLogin.getMyself().getLogin(),\n                  config.oauthHttpHeader,\n                  GITHUB_EXT_ID + hashedToken);\n```\nHappy to speak about alternatives",
+      "parentUuid": "9c69b931_b0de423f",
+      "range": {
+        "startLine": 100,
+        "startChar": 12,
+        "endLine": 106,
+        "endChar": 13
+      },
+      "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "50157dd3_8a777d5a",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthWebFilter.java",
         "patchSetId": 30
@@ -186,6 +348,30 @@
       "writtenOn": "2023-08-22T06:39:27Z",
       "side": 1,
       "message": "same as above",
+      "range": {
+        "startLine": 110,
+        "startChar": 12,
+        "endLine": 115,
+        "endChar": 13
+      },
+      "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3c0bf2b_6c7ad434",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthWebFilter.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-08-22T07:40:36Z",
+      "side": 1,
+      "message": "The same as above. Happy to speak about alternatives.",
+      "parentUuid": "50157dd3_8a777d5a",
       "range": {
         "startLine": 110,
         "startChar": 12,
