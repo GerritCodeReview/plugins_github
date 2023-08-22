@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ea540e62_07b9e8e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 30
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-08-22T10:07:10Z",
+      "side": 1,
+      "message": "once we define the issue then I can elaborate more this description.",
+      "parentUuid": "ecf5b30b_6c106c8a",
+      "range": {
+        "startLine": 11,
+        "startChar": 60,
+        "endLine": 11,
+        "endChar": 67
+      },
+      "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c443543f_e7f0cc6f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 30
@@ -121,6 +145,24 @@
       "side": 1,
       "message": "+1",
       "parentUuid": "f393d29c_f87bd488",
+      "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0abfd802_7af72573",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 30
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-08-22T10:07:10Z",
+      "side": 1,
+      "message": "I need help for this.",
+      "parentUuid": "f014d5fc_7b85ef2d",
       "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -297,6 +339,30 @@
       "side": 1,
       "message": "I would change the if condition:\n- *IF* the HOST (or X-Forwarded-Host) is different than the one in the canonical web URL, take this path, which would also use the other forwarding bits (if present)\n- otherwise do the regular filtering",
       "parentUuid": "ed6a2bea_21a08847",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 44
+      },
+      "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1afe2e8f_36f51b48",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/LoginOAuthRedirectionFilter.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-08-22T10:07:10Z",
+      "side": 1,
+      "message": "based on your comments and taking into account that ALL the headers are compulsory because we need to build the final redirect url, the code would be like this:\n```\n  public void doFilter(\n      ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)\n      throws IOException, ServletException {\n    HttpServletRequest httpRequest \u003d (HttpServletRequest) servletRequest;\n    HttpServletResponse httpResponse \u003d (HttpServletResponse) servletResponse;\n\n    Optional\u003cString\u003e maybeXFHostHeader \u003d\n        Optional.ofNullable(httpRequest.getHeader(HttpHeaders.X_FORWARDED_HOST));\n\n    if (maybeXFHostHeader.isPresent()\n        \u0026\u0026 !canonicalWebUrl.getHost().equalsIgnoreCase(maybeXFHostHeader.get())) {\n      Optional\u003cInteger\u003e maybeXFPortHeader \u003d\n          Optional.ofNullable(httpRequest.getHeader(HttpHeaders.X_FORWARDED_PORT))\n              .map(Integer::parseInt);\n      Optional\u003cString\u003e maybeXFProtoHeader \u003d\n          Optional.ofNullable(httpRequest.getHeader(HttpHeaders.X_FORWARDED_PROTO));\n\n      if (maybeXFPortHeader.isPresent() \u0026\u0026 maybeXFProtoHeader.isPresent()) {\n        URL sourceURL \u003d\n            new URL(\n                maybeXFProtoHeader.get(), maybeXFHostHeader.get(), maybeXFPortHeader.get(), \"/\");\n        httpResponse.sendRedirect(buildLoginURL(sourceURL));\n      } else {\n        filterChain.doFilter(servletRequest, servletResponse);\n      }\n    } else {\n      filterChain.doFilter(servletRequest, servletResponse);\n    }\n  }\n```\n\nPersonally for me is more difficult to read.",
+      "parentUuid": "caa12137_2fafba2f",
       "range": {
         "startLine": 65,
         "startChar": 4,
