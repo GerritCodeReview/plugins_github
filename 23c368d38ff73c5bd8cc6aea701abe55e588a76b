@@ -399,6 +399,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2523d618_56261467",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/LoginOAuthRedirectionFilter.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-08-22T16:15:16Z",
+      "side": 1,
+      "message": "I have done another iteration more in line with what you are saying. Please, let me know and we take it from there.",
+      "parentUuid": "ec132172_cef88eef",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 44
+      },
+      "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "13a4bd2e_8083f2a5",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthProtocol.java",
         "patchSetId": 30
