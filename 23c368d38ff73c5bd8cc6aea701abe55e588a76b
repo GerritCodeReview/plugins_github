@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8473434_93c68038",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 30
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-22T06:39:27Z",
+      "side": 1,
+      "message": "nit: `s/the the/the`",
+      "range": {
+        "startLine": 11,
+        "startChar": 60,
+        "endLine": 11,
+        "endChar": 67
+      },
+      "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c443543f_e7f0cc6f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 30
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-22T06:39:27Z",
+      "side": 1,
+      "message": "nit: missing Issue number from the tracker",
+      "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c2f54d19_d985698a",
@@ -14,6 +54,167 @@
       "writtenOn": "2023-08-21T16:55:23Z",
       "side": 1,
       "message": "The commit description needs to be improved and documentation needs to be added in the RADME.md",
+      "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "122734d2_5874b1ac",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/LoginOAuthRedirectionFilter.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-22T06:39:27Z",
+      "side": 1,
+      "message": "in Gerrit project star imports are not used - perhaps needs GJF formatting?",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 23
+      },
+      "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2e05a9b_40bef246",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/LoginOAuthRedirectionFilter.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-22T06:39:27Z",
+      "side": 1,
+      "message": "nit: these constants are available in `com.google.common.net.HttpHeaders`\ne.g. `com.google.common.net.HttpHeaders.X_FORWARDED_HOST` so there is no need to introduce them again 😊",
+      "range": {
+        "startLine": 36,
+        "startChar": 2,
+        "endLine": 38,
+        "endChar": 74
+      },
+      "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76068c12_d2e47805",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/LoginOAuthRedirectionFilter.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-22T06:39:27Z",
+      "side": 1,
+      "message": "I would say that from these 3 only `X-Forwarded-Host` determines if forwarding needs to be performed - the other two are optional and complementary to the host. IOW this condition could be simplified to `maybeXFHostHeader.isPresent()` or better leverage the functional interface e.g.\n\n```\n    maybeXFHostHeader.ifPresentOrElse(\n        host -\u003e {\n          // build source URL and send redirect\n        },\n        () -\u003e {\n          // perform filtering\n        });\n```\nWDYT?",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 44
+      },
+      "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13a4bd2e_8083f2a5",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthProtocol.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-22T06:39:27Z",
+      "side": 1,
+      "message": "How about leveraging `Optional` fluent API?\n```suggestion\n    maybeFinalRedirectUrl\n      .map(finalRedirectUrl -\u003e\n        state\n          + ME_SEPARATOR\n          + FINAL_REDIRECT_URL\n          + \"\u003d\"\n          + URLEncoder.encode(finalRedirectUrl, \"UTF-8\"))\n      .orElse(state);\n```\n\nGeneral remark: `Optional.ifPresent` typically indicates that fluent API could be used",
+      "range": {
+        "startLine": 318,
+        "startChar": 4,
+        "endLine": 325,
+        "endChar": 17
+      },
+      "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c69b931_b0de423f",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthWebFilter.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-22T06:39:27Z",
+      "side": 1,
+      "message": "```suggestion\n            extractFinalRedirectionFromURL(httpRequest).ifPresent(finalRedirectUrl -\u003e httpRequest\n                  .getSession()\n                  .setAttribute(FINAL_REDIRECT_URL, finalRedirectionFromURL))\n```",
+      "range": {
+        "startLine": 100,
+        "startChar": 12,
+        "endLine": 106,
+        "endChar": 13
+      },
+      "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50157dd3_8a777d5a",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthWebFilter.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-22T06:39:27Z",
+      "side": 1,
+      "message": "same as above",
+      "range": {
+        "startLine": 110,
+        "startChar": 12,
+        "endLine": 115,
+        "endChar": 13
+      },
+      "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb5a69e9_ae4e4bfb",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/LoginOAuthRedirectionFilterTest.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-22T06:39:27Z",
+      "side": 1,
+      "message": "nit: `s/2021/2023`",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
       "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
