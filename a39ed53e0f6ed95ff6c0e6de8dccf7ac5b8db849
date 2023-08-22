@@ -95,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c13632e_275841c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-22T10:03:21Z",
+      "side": 1,
+      "message": "\u003e Here is why filtering out all _static_ helps:\n\u003e At the moment sessions obtained from Jetty never expire so that problem is not solved. Note that if static resources are filtered with `OAuthFilter` calls to get them are enriched with Jetty session (to be clear for no reason).\n\nCorrect, because only dynamic resources (including HTML because they are dynamically expanded) need the context and their associated injections.\n\n\u003e Resources (fonts in this case) are static but every now and then (upgrade etc) they are re-read from clients leading to 19 extra session objects per client\n\nThat is still obscure to me though: the client has the JSESSIONID cookie which is sent to the server *also* for static resources.\nEven if the session isn\u0027t needed, it should have not created a new one for every static resource, isn\u0027t it?\n\nI believe we have a bug in Gerrit core _somewhere_ anyway.",
+      "parentUuid": "a87a4d48_e2fc38f5",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 47
+      },
+      "revId": "a39ed53e0f6ed95ff6c0e6de8dccf7ac5b8db849",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "6517ffa4_537a1316",
