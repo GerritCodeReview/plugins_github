@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ce9f0df_607c7821",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-22T05:55:01Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "0230f280_acd385f3",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 24
+      },
+      "revId": "a39ed53e0f6ed95ff6c0e6de8dccf7ac5b8db849",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6840d9b5_1b6033a6",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-08-21T11:12:40Z",
       "side": 1,
       "message": "It might be obvious, but consider adding a \"because\" section here.\n\nAlso, would you mind expanding on how the filtering of static resources from the OAuthFilter relates to the sessions leak error?\n\nFrom what I understood, utltimately, this relates to Jetty session expiration?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 47
+      },
+      "revId": "a39ed53e0f6ed95ff6c0e6de8dccf7ac5b8db849",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a87a4d48_e2fc38f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-22T05:55:01Z",
+      "side": 1,
+      "message": "Here is why filtering out all _static_ helps:\nAt the moment sessions obtained from Jetty never expire so that problem is not solved. Note that if static resources are filtered with `OAuthFilter` calls to get them are enriched with Jetty session (to be clear for no reason). Resources (fonts in this case) are static but every now and then (upgrade etc) they are re-read from clients leading to 19 extra session objects per client, per browser. IOW this change doesn\u0027t fix the problem of not expiring sessions but reduces the number of them by making sure that all _static_ resources (especially those 19 fonts) are not filtered with `OAuthFilter`.",
+      "parentUuid": "6840d9b5_1b6033a6",
       "range": {
         "startLine": 10,
         "startChar": 0,
