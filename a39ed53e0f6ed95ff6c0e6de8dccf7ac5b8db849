@@ -119,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea12ab0a_ff49c505",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-23T06:37:04Z",
+      "side": 1,
+      "message": "\u003e That is still obscure to me though: the client has the JSESSIONID cookie which is sent to the server also for static resources.\n\nNot sure if that is the case but [OAuthFilter.isAuthenticatedRestCall](https://gerrit.googlesource.com/plugins/github/+/refs/heads/master/github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthFilter.java#84) expects the `X-Gerrit-Auth` header to be present and AFAICT that is not the case...",
+      "parentUuid": "1c13632e_275841c9",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 47
+      },
+      "revId": "a39ed53e0f6ed95ff6c0e6de8dccf7ac5b8db849",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "6517ffa4_537a1316",
