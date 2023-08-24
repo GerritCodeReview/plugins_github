@@ -34,6 +34,24 @@
       "parentUuid": "043ba354_51b529ea",
       "revId": "3543204f2d796b32f1f7757921fd2340318858f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9f160cf_179b637c",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/LoginOAuthRedirectionFilter.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-08-24T08:57:32Z",
+      "side": 1,
+      "message": "I like a lot your solution but I dont understand from where you understood the statement that `forwarded port is optional`. All the forwarded (port, proto and host) should be provided by the proxy upstream so I believe that we should work in that assumption unless that I am missing something. Probably the problem is that we dont have an issue created and that fact is creating some confusion and I apologise for that.",
+      "parentUuid": "2bf4ffde_00323d0c",
+      "revId": "3543204f2d796b32f1f7757921fd2340318858f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

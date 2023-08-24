@@ -540,6 +540,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0775dff7_cb6140e6",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthProtocol.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-08-24T08:57:32Z",
+      "side": 1,
+      "message": "I like your statement: \n```\nn that case wrapping potential null into Optional and not using its interface seems artificial\n```",
+      "parentUuid": "e6d11ba7_6e93570b",
+      "range": {
+        "startLine": 318,
+        "startChar": 4,
+        "endLine": 325,
+        "endChar": 17
+      },
+      "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c69b931_b0de423f",
@@ -696,6 +720,30 @@
       "side": 1,
       "message": "as above - just check if it is not `null` then ;)",
       "parentUuid": "e3c0bf2b_6c7ad434",
+      "range": {
+        "startLine": 110,
+        "startChar": 12,
+        "endLine": 115,
+        "endChar": 13
+      },
+      "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f321d5f_403bb944",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthWebFilter.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-08-24T08:57:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e839e04d_327b0214",
       "range": {
         "startLine": 110,
         "startChar": 12,
