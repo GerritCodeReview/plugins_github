@@ -518,6 +518,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e6d11ba7_6e93570b",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthProtocol.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-24T06:52:39Z",
+      "side": 1,
+      "message": "In that case `wrapping` potential `null` into `Optional` and not using its interface seems artificial 😞. How about plain old if check?\n\n```java\n    String finalRedirectUrl \u003d request.getParameter(FINAL_REDIRECT_URL);\n    if (!Strings.isNullOrEmpty(finalRedirectUrl)) {\n      return state\n          + ME_SEPARATOR\n          + FINAL_REDIRECT_URL\n          + \"\u003d\"\n          + URLEncoder.encode(finalRedirectUrl, \"UTF-8\");\n    }\n    return state;\n```",
+      "parentUuid": "8698364a_d98bfbe9",
+      "range": {
+        "startLine": 318,
+        "startChar": 4,
+        "endLine": 325,
+        "endChar": 17
+      },
+      "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9c69b931_b0de423f",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthWebFilter.java",
         "patchSetId": 30
@@ -648,6 +672,30 @@
       "side": 1,
       "message": "The same as above. Happy to speak about alternatives.",
       "parentUuid": "50157dd3_8a777d5a",
+      "range": {
+        "startLine": 110,
+        "startChar": 12,
+        "endLine": 115,
+        "endChar": 13
+      },
+      "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e839e04d_327b0214",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthWebFilter.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-24T06:52:39Z",
+      "side": 1,
+      "message": "as above - just check if it is not `null` then ;)",
+      "parentUuid": "e3c0bf2b_6c7ad434",
       "range": {
         "startLine": 110,
         "startChar": 12,

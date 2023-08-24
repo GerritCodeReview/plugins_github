@@ -16,6 +16,24 @@
       "message": "@geminica.programs@gmail.com is this better?",
       "revId": "3543204f2d796b32f1f7757921fd2340318858f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bf4ffde_00323d0c",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/LoginOAuthRedirectionFilter.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-24T06:52:39Z",
+      "side": 1,
+      "message": "Almost :) it was indicated earlier that `PORT` is _optional_ but the code below treats it as _mandatory_ (see the condition in line #69). Here is the alternative that:\n* addresses the problem of _optional_ `PORT`\n* delays checking if `PORT/PROTO` headers were provided to the time when `HOST` exists\n* I have also taken into consideration the checked exceptions being thrown when URL gets created - IMHO using `Optional` is makes code less readable\n\nHere is the slightly modified version of `buildLoginURLWithFinalRedirectURL`\n```java\n  private String buildLoginURLWithFinalRedirectURL(\n      String host, Optional\u003cString\u003e proto, Optional\u003cString\u003e port)\n      throws UnsupportedEncodingException, MalformedURLException {\n    return canonicalWebUrl\n        + \"login?\"\n        + FINAL_REDIRECT_URL\n        + \"\u003d\"\n        + URLEncoder.encode(\n            new URL(proto.orElse(\"http\"), host, port.map(Integer::parseInt).orElse(-1), \"/\")\n                .toString(),\n            \"UTF-8\");\n  }\n```\n\nand with that lines the whole `doFilter` body:\n```java\n  @Override\n  public void doFilter(\n      ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)\n      throws IOException, ServletException {\n    HttpServletRequest httpRequest \u003d (HttpServletRequest) servletRequest;\n    HttpServletResponse httpResponse \u003d (HttpServletResponse) servletResponse;\n    String forwardedHost \u003d httpRequest.getHeader(HttpHeaders.X_FORWARDED_HOST);\n\n    if (!Strings.isNullOrEmpty(forwardedHost)) {\n      if (canonicalWebUrl.getHost().equalsIgnoreCase(forwardedHost)) {\n        httpResponse.sendRedirect(GitHubOAuthConfig.GERRIT_LOGIN);\n        return;\n      } else {\n        String loginURL \u003d\n            buildLoginURLWithFinalRedirectURL(\n                forwardedHost,\n                Optional.ofNullable(httpRequest.getHeader(HttpHeaders.X_FORWARDED_PROTO)),\n                Optional.ofNullable(httpRequest.getHeader(HttpHeaders.X_FORWARDED_PORT)));\n        httpResponse.sendRedirect(loginURL);\n        return;\n      }\n    }\n    filterChain.doFilter(servletRequest, servletResponse);\n  }\n```\n\nWDYT? @luca?",
+      "parentUuid": "043ba354_51b529ea",
+      "revId": "3543204f2d796b32f1f7757921fd2340318858f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
