@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f60acb6b_f0b2aeec",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/LoginOAuthRedirectionFilter.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-08-25T10:08:07Z",
+      "side": 1,
+      "message": "@geminica.programs@gmail.com please, give me your opinion on that.",
+      "revId": "611a9a0ea0d48f1edc048dd06f7fc270afaf0f29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
