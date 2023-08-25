@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f544c0de_e0696de8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 43
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-25T18:36:11Z",
+      "side": 1,
+      "message": "nit: wrap long line",
+      "range": {
+        "startLine": 9,
+        "startChar": 52,
+        "endLine": 9,
+        "endChar": 79
+      },
+      "revId": "897f03f00d814f9519b9daf9fffb15c30ad11462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26177ec0_56848b85",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 43
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-25T18:36:11Z",
+      "side": 1,
+      "message": "nit: wrap long line",
+      "range": {
+        "startLine": 10,
+        "startChar": 70,
+        "endLine": 10,
+        "endChar": 75
+      },
+      "revId": "897f03f00d814f9519b9daf9fffb15c30ad11462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4bb40962_21db72a5",
+        "filename": "README.md",
+        "patchSetId": 43
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-25T18:36:11Z",
+      "side": 1,
+      "message": "Wrap long lines in all new section added.",
+      "revId": "897f03f00d814f9519b9daf9fffb15c30ad11462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30481b7b_4a1e3432",
+        "filename": "README.md",
+        "patchSetId": 43
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-25T18:36:11Z",
+      "side": 1,
+      "message": "Can you explain the rationale or give pointers?\nThe culprit here is that GitHub OAuth allows only 1 domain the redirection URLs allowed.",
+      "range": {
+        "startLine": 163,
+        "startChar": 0,
+        "endLine": 163,
+        "endChar": 17
+      },
+      "revId": "897f03f00d814f9519b9daf9fffb15c30ad11462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db2fcf6e_80920fc1",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/LoginOAuthRedirectionFilter.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-25T18:36:11Z",
+      "side": 1,
+      "message": "What if the optional is empty? I believe we need to manage like the header was empty?",
+      "range": {
+        "startLine": 65,
+        "startChar": 58,
+        "endLine": 65,
+        "endChar": 64
+      },
+      "revId": "897f03f00d814f9519b9daf9fffb15c30ad11462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "428cbf57_37a80285",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/LoginOAuthRedirectionFilter.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-25T18:36:11Z",
+      "side": 1,
+      "message": "Do we really need to redirect in this case? Why not simply going to end at L88?",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 15
+      },
+      "revId": "897f03f00d814f9519b9daf9fffb15c30ad11462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

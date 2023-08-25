@@ -16,6 +16,24 @@
       "message": "@geminica.programs@gmail.com please, give me your opinion on that.",
       "revId": "611a9a0ea0d48f1edc048dd06f7fc270afaf0f29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f90413c_01126751",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/LoginOAuthRedirectionFilter.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-25T18:36:11Z",
+      "side": 1,
+      "message": "👍",
+      "parentUuid": "f60acb6b_f0b2aeec",
+      "revId": "611a9a0ea0d48f1edc048dd06f7fc270afaf0f29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

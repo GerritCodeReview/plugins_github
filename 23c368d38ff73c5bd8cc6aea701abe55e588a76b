@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "799e3ef7_6ef7078c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 30
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-25T18:36:11Z",
+      "side": 1,
+      "message": "I believe the issue has now been defined properly: can you expand on the problem that we are trying to resolve and how?",
+      "parentUuid": "ea540e62_07b9e8e2",
+      "range": {
+        "startLine": 11,
+        "startChar": 60,
+        "endLine": 11,
+        "endChar": 67
+      },
+      "revId": "23c368d38ff73c5bd8cc6aea701abe55e588a76b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c443543f_e7f0cc6f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 30
