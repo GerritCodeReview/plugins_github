@@ -112,7 +112,8 @@ public class OAuthWebFilter implements Filter {
         if (gerritSessionValue == null) {
           httpSession.setAttribute("GerritAccount", gerritCookieValue);
         } else if (!gerritSessionValue.equals(gerritCookieValue)) {
-          httpSession.invalidate();
+          httpSession.setAttribute("GerritAccount", null);
+          loginProvider.clear(httpRequest);
         }
       }
     }

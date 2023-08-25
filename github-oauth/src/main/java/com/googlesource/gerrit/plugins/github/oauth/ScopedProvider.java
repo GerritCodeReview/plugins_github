@@ -19,5 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 public interface ScopedProvider<T> extends Provider<T> {
   T get(HttpServletRequest request);
 
+  void clear(HttpServletRequest request);
+
   HttpServletRequest getScopedRequest();
 }
