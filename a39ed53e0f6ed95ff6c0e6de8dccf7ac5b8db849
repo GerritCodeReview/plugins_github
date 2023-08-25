@@ -167,6 +167,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c1bec12_24285d95",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-25T21:45:36Z",
+      "side": 1,
+      "message": "When the client is not authenticated (e.g. during the OAUTH exchange) there are definitely multiple `JSESSIONID` created and exchanged between the browser and the server.\n\nHowever, I do see also multiple `GitHubLogin` objects created for the same session.\n\nSee below (first value \u003d `JSESSIONID` and the second the object-id of `GitHubLogin`):\n```\nnode01g4adml5he5w8bjqj08ux8jz40.node0, GitHubLogin: 1276560755\nnode01g4adml5he5w8bjqj08ux8jz40.node0, GitHubLogin: 1426788102\nnode01g4adml5he5w8bjqj08ux8jz40.node0, GitHubLogin: 1339861730\nnode01g4adml5he5w8bjqj08ux8jz40.node0, GitHubLogin: 1016619697\nnode01g4adml5he5w8bjqj08ux8jz40.node0, GitHubLogin: 1259641374\nnode01g4adml5he5w8bjqj08ux8jz40.node0, GitHubLogin: 1420057100\nnode01g4adml5he5w8bjqj08ux8jz40.node0, GitHubLogin: 1598875482\nnode01g4adml5he5w8bjqj08ux8jz40.node0, GitHubLogin: 749844088\nnode01g4adml5he5w8bjqj08ux8jz40.node0, GitHubLogin: 336496854\nnode01g4adml5he5w8bjqj08ux8jz40.node0, GitHubLogin: 346111105\nnode01g4adml5he5w8bjqj08ux8jz40.node0, GitHubLogin: 197668063\nnode01g4adml5he5w8bjqj08ux8jz40.node0, GitHubLogin: 1974687008\nnode01g4adml5he5w8bjqj08ux8jz40.node0, GitHubLogin: 131039998\nnode01g4adml5he5w8bjqj08ux8jz40.node0, GitHubLogin: 921642152\nnode01g4adml5he5w8bjqj08ux8jz40.node0, GitHubLogin: 1381639382\nnode01g4adml5he5w8bjqj08ux8jz40.node0, GitHubLogin: 792945794\n```\n\nWhat I have discovered is when a user is signed out and then is trying to sign-in again, the browser sends the same `JSESSIONID` cookie but the Servlet Engine creates one HTTP Session per every request 😮.\n\n*That* is the culprit of soo many HTTP Sessions created (and never released) which the associated GitHubLogin.\n\nThe issue seems this part of the code:\n```\n      if (gerritCookie !\u003d null \u0026\u0026 httpSession !\u003d null) {\n        String gerritCookieValue \u003d gerritCookie.getValue();\n        String gerritSessionValue \u003d (String) httpSession.getAttribute(\"GerritAccount\");\n\n        if (gerritSessionValue \u003d\u003d null) {\n          httpSession.setAttribute(\"GerritAccount\", gerritCookieValue);\n        } else if (!gerritSessionValue.equals(gerritCookieValue)) {\n          httpSession.invalidate();\n        }\n      }\n```\n\nThe issue here is the invalidation of the HTTP session for every call because the cookie we have stored in the HTTP session does not correspond to the one that the browser sends, which is expected when we are in the middle of a new authentication phase.\n\nIf I comment out the `httpSession.invalidate()` the problem goes away, even by processing all static resources.\n\nLet me upload a separate change to address this.",
+      "parentUuid": "b3e268a4_db00f71d",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 47
+      },
+      "revId": "a39ed53e0f6ed95ff6c0e6de8dccf7ac5b8db849",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "6517ffa4_537a1316",
@@ -180,6 +204,23 @@
       "writtenOn": "2023-08-20T06:05:29Z",
       "side": 1,
       "message": "Have also checked that `GitHub` menu entries (like `Profile`, `Repositories`, etc..) still work 😄",
+      "revId": "a39ed53e0f6ed95ff6c0e6de8dccf7ac5b8db849",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bda6ac60_687c8b32",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-25T21:45:36Z",
+      "side": 1,
+      "message": "I believe this change is useful but *does not* address the root cause of the problem.",
       "revId": "a39ed53e0f6ed95ff6c0e6de8dccf7ac5b8db849",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
