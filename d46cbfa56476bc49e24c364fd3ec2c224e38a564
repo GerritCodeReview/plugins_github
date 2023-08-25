@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "695bb6b6_6b045332",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-25T22:48:51Z",
+      "side": 1,
+      "message": "Tested E2E that:\n- before this change:\n  login/logout/login to GitHub generated 15 instances of GitHubLogin\n- after this change:\n  login/logout/login to GitHub generated 1 instance of GitHubLogin\n\nI believe we can call this problem closed 😊",
+      "revId": "d46cbfa56476bc49e24c364fd3ec2c224e38a564",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
