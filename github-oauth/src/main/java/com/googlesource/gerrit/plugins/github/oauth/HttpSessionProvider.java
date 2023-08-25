@@ -13,8 +13,10 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.oauth;
 
+import com.google.common.base.Suppliers;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -32,17 +34,24 @@ public abstract class HttpSessionProvider<T> implements ScopedProvider<T> {
   @Override
   public T get(final HttpServletRequest req) {
     HttpSession session = req.getSession();
-    String singletonKey = getClass().getName();
 
     synchronized (this) {
       @SuppressWarnings("unchecked")
-      T instance = (T) session.getAttribute(singletonKey);
+      T instance = (T) session.getAttribute(singletonKey());
       if (instance == null) {
         instance = provider.get();
-        session.setAttribute(singletonKey, instance);
+        session.setAttribute(singletonKey(), instance);
       }
       return instance;
     }
+  }
+
+  public void clear(final HttpServletRequest req) {
+    Optional.ofNullable(req.getSession(false)).ifPresent((s) -> s.removeAttribute(singletonKey()));
+  }
+
+  private String singletonKey() {
+    return Suppliers.memoize(() -> getClass().getName()).get();
   }
 
   @Override
