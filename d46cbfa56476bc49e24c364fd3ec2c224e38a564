@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "884b2133_4ce90cd2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-27T06:52:51Z",
+      "side": 1,
+      "message": "great finding 👍",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 29
+      },
+      "revId": "d46cbfa56476bc49e24c364fd3ec2c224e38a564",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "695bb6b6_6b045332",
@@ -14,6 +37,52 @@
       "writtenOn": "2023-08-25T22:48:51Z",
       "side": 1,
       "message": "Tested E2E that:\n- before this change:\n  login/logout/login to GitHub generated 15 instances of GitHubLogin\n- after this change:\n  login/logout/login to GitHub generated 1 instance of GitHubLogin\n\nI believe we can call this problem closed 😊",
+      "revId": "d46cbfa56476bc49e24c364fd3ec2c224e38a564",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88f8293c_51ab5302",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/HttpSessionProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-27T06:52:51Z",
+      "side": 1,
+      "message": "AFAIU each time the method is called new memoizing supplier is created IOW noting is effectively memoized ;) in order to make it work I would propose the following:\n\n1. create the memoized supplier instance:\n```\n  private final Supplier\u003cString\u003e singletonKey \u003d Suppliers.memoize(() -\u003e getClass().getName());\n```\n\n2. change `singletonKey` get to call it:\n```\n  private String singletonKey() {\n    return singletonKey.get();\n  }\n```",
+      "range": {
+        "startLine": 53,
+        "startChar": 2,
+        "endLine": 55,
+        "endChar": 3
+      },
+      "revId": "d46cbfa56476bc49e24c364fd3ec2c224e38a564",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81edc512_7ff263c1",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthWebFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-27T06:52:51Z",
+      "side": 1,
+      "message": "How about the `http.getSession()` per its _javadoc_\n\n\u003e Returns the current session associated with this request,\n  or if the request does not have a session, creates one.\n\nIOW we are creating the session objects here even in case when `gerritCookie \u003d\u003d null`\n\nI have modified it to\n```\nHttpSession httpSession \u003d httpRequest.getSession(false);\n```\n\nand AFAICT it still works... WDYT?",
+      "range": {
+        "startLine": 107,
+        "startChar": 5,
+        "endLine": 108,
+        "endChar": 56
+      },
       "revId": "d46cbfa56476bc49e24c364fd3ec2c224e38a564",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
