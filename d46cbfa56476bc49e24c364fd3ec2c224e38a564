@@ -101,6 +101,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "43d0df11_35fdacbf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-27T21:15:54Z",
+      "side": 1,
+      "message": "The [1] should do the job. What do you think @geminica.programs@gmail.com ?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/384214",
+      "parentUuid": "6ac1b94d_c5c6f787",
+      "revId": "d46cbfa56476bc49e24c364fd3ec2c224e38a564",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "88f8293c_51ab5302",
