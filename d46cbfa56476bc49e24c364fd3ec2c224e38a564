@@ -83,6 +83,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ac1b94d_c5c6f787",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-27T20:54:45Z",
+      "side": 1,
+      "message": "\u003e Not yet 😞 we still have a problem of never expiring Jetty sessions that will eventually accumulate to eat all the memory - yet we are creating significantly lower number of them 😊\n\nTrue, if I remove (or expire) the JSESSIONID on the browser, the server-side session continues to exist forever.",
+      "parentUuid": "145dfdc8_50b97eec",
+      "revId": "d46cbfa56476bc49e24c364fd3ec2c224e38a564",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "88f8293c_51ab5302",
