@@ -151,6 +151,30 @@
       },
       "revId": "d46cbfa56476bc49e24c364fd3ec2c224e38a564",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79b4ba99_fc6a7385",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/OAuthWebFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-27T09:32:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81edc512_7ff263c1",
+      "range": {
+        "startLine": 107,
+        "startChar": 5,
+        "endLine": 108,
+        "endChar": 56
+      },
+      "revId": "d46cbfa56476bc49e24c364fd3ec2c224e38a564",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
