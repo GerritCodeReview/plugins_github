@@ -41,6 +41,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "145dfdc8_50b97eec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-27T06:54:28Z",
+      "side": 1,
+      "message": "Not yet 😞 we still have a problem of never expiring Jetty sessions that will eventually accumulate to eat all the memory - yet we are creating significantly lower number of them 😊",
+      "parentUuid": "695bb6b6_6b045332",
+      "revId": "d46cbfa56476bc49e24c364fd3ec2c224e38a564",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "88f8293c_51ab5302",
