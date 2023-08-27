@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "8396875a_3cee9c5f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-27T09:31:52Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "884b2133_4ce90cd2",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 29
+      },
+      "revId": "d46cbfa56476bc49e24c364fd3ec2c224e38a564",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "695bb6b6_6b045332",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -72,6 +96,30 @@
       "writtenOn": "2023-08-27T06:52:51Z",
       "side": 1,
       "message": "AFAIU each time the method is called new memoizing supplier is created IOW noting is effectively memoized ;) in order to make it work I would propose the following:\n\n1. create the memoized supplier instance:\n```\n  private final Supplier\u003cString\u003e singletonKey \u003d Suppliers.memoize(() -\u003e getClass().getName());\n```\n\n2. change `singletonKey` get to call it:\n```\n  private String singletonKey() {\n    return singletonKey.get();\n  }\n```",
+      "range": {
+        "startLine": 53,
+        "startChar": 2,
+        "endLine": 55,
+        "endChar": 3
+      },
+      "revId": "d46cbfa56476bc49e24c364fd3ec2c224e38a564",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5f18778_a0717c99",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/HttpSessionProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-27T09:31:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88f8293c_51ab5302",
       "range": {
         "startLine": 53,
         "startChar": 2,
