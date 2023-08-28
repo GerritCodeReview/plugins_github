@@ -119,6 +119,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "48b4a321_c4499a4e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-28T08:56:50Z",
+      "side": 1,
+      "message": "That goes along what I have proposed the other day for the Gerrit\u0027s core fix 😄 thanks for fixing it 👍",
+      "parentUuid": "43d0df11_35fdacbf",
+      "revId": "d46cbfa56476bc49e24c364fd3ec2c224e38a564",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "88f8293c_51ab5302",
