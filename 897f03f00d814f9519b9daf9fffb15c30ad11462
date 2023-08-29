@@ -89,6 +89,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "13fd5303_b33d11de",
+        "filename": "README.md",
+        "patchSetId": 43
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-08-29T10:25:48Z",
+      "side": 1,
+      "message": "Definitively it needs improvement. Do you think it would add some value if we provide some sequence diagrams, before the fix and after the fix?",
+      "parentUuid": "30481b7b_4a1e3432",
+      "range": {
+        "startLine": 163,
+        "startChar": 0,
+        "endLine": 163,
+        "endChar": 17
+      },
+      "revId": "897f03f00d814f9519b9daf9fffb15c30ad11462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "db2fcf6e_80920fc1",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/LoginOAuthRedirectionFilter.java",
         "patchSetId": 43
@@ -112,6 +136,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eda68261_3033a7c2",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/LoginOAuthRedirectionFilter.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-08-29T10:25:48Z",
+      "side": 1,
+      "message": "In the L64:\n```\n    if (!Strings.isNullOrEmpty(forwardedHost)) {\n```\nThat guard ensures that `forwardedHost` header is neither `null` nor `empty string` therefore:\n```\n      String clientHost \u003d extractClientHost(forwardedHost).get();\n```\nwill return a `Some value`",
+      "parentUuid": "db2fcf6e_80920fc1",
+      "range": {
+        "startLine": 65,
+        "startChar": 58,
+        "endLine": 65,
+        "endChar": 64
+      },
+      "revId": "897f03f00d814f9519b9daf9fffb15c30ad11462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "428cbf57_37a80285",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/LoginOAuthRedirectionFilter.java",
         "patchSetId": 43
@@ -123,6 +171,30 @@
       "writtenOn": "2023-08-25T18:36:11Z",
       "side": 1,
       "message": "Do we really need to redirect in this case? Why not simply going to end at L88?",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 15
+      },
+      "revId": "897f03f00d814f9519b9daf9fffb15c30ad11462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bca4f94e_e83f4a5d",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/LoginOAuthRedirectionFilter.java",
+        "patchSetId": 43
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-08-29T10:25:48Z",
+      "side": 1,
+      "message": "I think that you raised a good point. Your suggestion ends in a `404` provided by some `filter/servlet downstream`. Would you agree that at least we would have to log an error message raising that the flow of `/login-oauth` needs to have:\n```\ncanonicalWebUrl.getHost() !\u003d forwardedHost\n```\n\nI am happy to have a conversation about that.",
+      "parentUuid": "428cbf57_37a80285",
       "range": {
         "startLine": 67,
         "startChar": 0,
