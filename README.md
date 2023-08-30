@@ -156,6 +156,49 @@ Note: Client ID & Client Secret are generated that used in the next step.
   * Add the webhook secret as `webhookSecret` entry in `github` section of
     `etc/secure.config`.
 
+### Enhancing GitHub Sign-In Redirection in a Multi-Gerrit Setup
+
+For some context, it's important to note that as part of the GitHub sign-in
+process, a redirection is initiated to GitHub, which is commonly referred to as
+the "user's GitHub identity request" [1]. Within this process, a key query
+parameter known as `redirect_uri` [2] plays a pivotal role, and it's defined as
+follows:
+
+```
+The redirect_uri parameter is optional. If omitted, GitHub will redirect users
+to the callback URL configured in the OAuth app settings. If provided, the
+redirect URL's host (excluding sub-domains) and port must exactly match the
+callback URL. The redirect URL's path must reference a subdirectory of the
+callback URL.
+```
+
+GitHub utilizes this query parameter to manage the redirection of traffic once
+authorization has been granted.
+
+Now, in the context of a "Gerrit multi-setup topology," where a primary domain,
+namely `example.com`, functions as a geo-location load balancer, alongside
+multiple Gerrit sites like `review-1.example.com` and `review-2.example.com`, a
+noteworthy scenario arises. Previously, when the sign-in process was initiated
+from any of these multiple Gerrit sites, the construction of the `redirect_uri`
+query parameter relied on information sourced from the `gerrit.canonicalWebUrl`
+property, as specified in the `etc/gerrit.config` file [3]. It's important to
+emphasize that this property occasionally contained a URL with a host that
+matched the primary domain, i.e., `example.com`. Consequently, when users
+attempted to sign in via GitHub, they were redirected to this primary domain,
+leading to an unsatisfactory user experience.
+
+To address this issue and ensure that the redirection correctly points to the
+Gerrit site that initiated the sign-in flow (e.g., `review-1.example.com`) rather
+than the `example.com` domain defined in the `gerrit.canonicalWebUrl` property,
+it becomes necessary to pass along the `X-Forwarded-Host` [4] from the upstream
+proxy.
+
+References:
+[1] GitHub OAuth App Authorization Flow: [Link](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps#web-application-flow)
+[2] GitHub OAuth Redirect URLs: [Link](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps#redirect-urls)
+[3] Gerrit Configuration Documentation: [Link](https://gerrit-review.googlesource.com/Documentation/config-gerrit.html)
+[4] RFC 7239 - Forwarded HTTP Extension: [Link](https://www.rfc-editor.org/rfc/rfc7239.html)
+
 ### Contributing to the GitHub plugin
 
 The GitHub plugin uses the lombok library, which provides a set of
