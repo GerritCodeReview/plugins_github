@@ -156,6 +156,30 @@ Note: Client ID & Client Secret are generated that used in the next step.
   * Add the webhook secret as `webhookSecret` entry in `github` section of
     `etc/secure.config`.
 
+### Enhancing GitHub Sign-In Redirection in a Multi-Gerrit Setup
+
+To ensure the success of the "Sign in flow," two critical aspects must be
+addressed:
+
+1. **GitHub OAuth Application Registration**:
+When registering Gerrit as a [GitHub OAuth application](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app),
+it is imperative that the property "Authorization callback URL" includes the
+`primary domain` as the host, i.e `https://my-domain.org/oauth`. This is
+essential to ensure that Gerrit sites like `review-1.my-domain.org` or
+`review-2.my-domain.org` are correctly redirected once authorization has been
+granted by GitHub. This requirement aligns with the documentation on [redirect_uri](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps):
+ ```
+ The redirect_uri parameter is optional. If omitted, GitHub will redirect
+ users to the callback URL configured in the OAuth app settings. If
+ provided, the redirect URL's host (excluding sub-domains) and port must
+ exactly match the callback URL. The redirect URL's path must reference
+ a subdirectory of the callback URL.
+```
+
+2. **Propagation of the X-Forwarded-Host Header**:
+It is essential to ensure the propagation from the upstream proxy of the
+header [X-Forwarded-Host](https://www.rfc-editor.org/rfc/rfc7239.html).
+
 ### Contributing to the GitHub plugin
 
 The GitHub plugin uses the lombok library, which provides a set of
