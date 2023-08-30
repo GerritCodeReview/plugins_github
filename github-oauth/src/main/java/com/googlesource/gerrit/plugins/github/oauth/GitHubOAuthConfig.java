@@ -19,6 +19,7 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.common.net.HttpHeaders;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.httpd.CanonicalWebUrl;
 import com.google.gerrit.server.config.ConfigUtil;
@@ -28,15 +29,15 @@ import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.servlet.http.HttpServletRequest;
 import lombok.Getter;
 import org.eclipse.jgit.lib.Config;
@@ -149,9 +150,32 @@ public class GitHubOAuthConfig {
   }
 
   public String getOAuthFinalRedirectUrl(HttpServletRequest req) {
-    return req == null
-        ? GERRIT_OAUTH_FINAL
-        : trimTrailingSlash(canonicalWebUrl.get(req)) + GERRIT_OAUTH_FINAL;
+    if (req == null) {
+      return GERRIT_OAUTH_FINAL;
+    }
+
+    String canonicalWebUrlAsString = canonicalWebUrl.get(req);
+    String forwardedHost = req.getHeader(HttpHeaders.X_FORWARDED_HOST);
+    Optional<String> clientHost = extractClientHost(forwardedHost);
+    try {
+      if (clientHost.isPresent()) {
+        URL canonicalWebUrlAsURL = new URL(canonicalWebUrlAsString);
+        return new URL(
+                canonicalWebUrlAsURL.getProtocol(),
+                clientHost.get(),
+                canonicalWebUrlAsURL.getPort(),
+                GERRIT_OAUTH_FINAL)
+            .toString();
+      }
+
+      return trimTrailingSlash(canonicalWebUrlAsString) + GERRIT_OAUTH_FINAL;
+    } catch (MalformedURLException ex) {
+      throw new IllegalStateException(
+          String.format(
+              "Error building the OAuth final redirect url from canonical url: %s and X-Forwarded-Host header: %s",
+              canonicalWebUrlAsString, forwardedHost),
+          ex);
+    }
   }
 
   public String getScopeSelectionUrl(HttpServletRequest req) {
@@ -303,5 +327,20 @@ public class GitHubOAuthConfig {
     }
 
     return passwordDevice;
+  }
+
+  /**
+   * This method extracts the client host.
+   *
+   * @param hosts String that represents a list of hosts, i.e "test.example.io,
+   *     subdomain1.example.io" where the first host from the leftmost is the client host while the
+   *     rest are the private/internal hosts.
+   * @return return Optional with the value client host if exists otherwise Optional empty.
+   */
+  private Optional<String> extractClientHost(String hosts) {
+    if (Strings.isNullOrEmpty(hosts)) {
+      return Optional.empty();
+    }
+    return Stream.of(hosts.split(",")).map(String::trim).filter(h -> !h.isEmpty()).findFirst();
   }
 }
