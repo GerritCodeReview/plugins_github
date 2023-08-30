@@ -19,6 +19,7 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.common.net.HttpHeaders;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.httpd.CanonicalWebUrl;
 import com.google.gerrit.server.config.ConfigUtil;
@@ -28,6 +29,8 @@ import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -148,11 +151,35 @@ public class GitHubOAuthConfig {
     currentKeyConfig = currentKeyConfigs.get(0);
   }
 
-  public String getOAuthFinalRedirectUrl(HttpServletRequest req) {
-    return req == null
-        ? GERRIT_OAUTH_FINAL
-        : trimTrailingSlash(canonicalWebUrl.get(req)) + GERRIT_OAUTH_FINAL;
-  }
+    public String getOAuthFinalRedirectUrl(HttpServletRequest req) {
+        if (req == null) {
+            return GERRIT_OAUTH_FINAL;
+        }
+
+        String canonicalWebUrlAsString = canonicalWebUrl.get(req);
+        String forwardedHost = req.getHeader(HttpHeaders.X_FORWARDED_HOST);
+        try {
+            if (Strings.isNullOrEmpty(forwardedHost)) {
+                return trimTrailingSlash(canonicalWebUrlAsString) + GERRIT_OAUTH_FINAL;
+            }
+
+            URL canonicalWebUrlAsURL = new URL(canonicalWebUrlAsString);
+            return new URL(
+                    canonicalWebUrlAsURL.getProtocol(),
+                    forwardedHost,
+                    canonicalWebUrlAsURL.getPort(),
+                    GERRIT_OAUTH_FINAL
+            ).toString();
+
+        } catch (MalformedURLException ex) {
+            throw new IllegalStateException(
+                    String.format(
+                            "Error building the OAuth final redirect url from canonical url: %s and X-Forwarded-Host header: %s",
+                            canonicalWebUrlAsString,
+                            forwardedHost
+                    ), ex);
+        }
+    }
 
   public String getScopeSelectionUrl(HttpServletRequest req) {
     String canonicalUrl = req == null ? "" : trimTrailingSlash(canonicalWebUrl.get(req));
