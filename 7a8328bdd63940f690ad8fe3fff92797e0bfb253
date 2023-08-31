@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "7330a063_e2c86eeb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-31T13:33:48Z",
+      "side": 1,
+      "message": "I believe the statement is incorrect: the issue wasn\u0027t just the user experience but the fact that it was redirecting to the canonical web url for the OAuth handshake and not the host that started the process.\n\nIf you start on host-1 the OAuth handshake and end the process in host-2, it won\u0027t work because the OAuth needs to access a `state` value across the OAuth handshake calls.\n\nWith this change, we redirect back to the host that started the handshake, rather than the canonical web URL.",
+      "parentUuid": "f5ae1c03_83b53915",
+      "range": {
+        "startLine": 17,
+        "startChar": 28,
+        "endLine": 21,
+        "endChar": 16
+      },
+      "revId": "7a8328bdd63940f690ad8fe3fff92797e0bfb253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "6af77df2_fcf4af5a",

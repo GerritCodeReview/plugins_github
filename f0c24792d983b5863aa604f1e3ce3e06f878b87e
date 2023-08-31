@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cbfa96d_acde6b3c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-31T13:33:48Z",
+      "side": 1,
+      "message": "multi-site",
+      "range": {
+        "startLine": 9,
+        "startChar": 27,
+        "endLine": 9,
+        "endChar": 38
+      },
+      "revId": "f0c24792d983b5863aa604f1e3ce3e06f878b87e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4df6f80_d306ed79",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-31T13:33:48Z",
+      "side": 1,
+      "message": "The issue isn\u0027t user-experience but functionality: without this change, the login flow would have been broken and the redirection back to the initiator would have not contained the status, giving a HTTP status 500.",
+      "range": {
+        "startLine": 29,
+        "startChar": 19,
+        "endLine": 29,
+        "endChar": 59
+      },
+      "revId": "f0c24792d983b5863aa604f1e3ce3e06f878b87e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43775520_314f6b9e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-31T13:33:48Z",
+      "side": 1,
+      "message": "LGTM to me overall, but the configuration needs updating and mention the type of OAuth callback URL to configure on GitHub for a multi-site setup.\n\nAlso, it should mention to check that the X-Forwarded-Host header is propagated.",
+      "revId": "f0c24792d983b5863aa604f1e3ce3e06f878b87e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
