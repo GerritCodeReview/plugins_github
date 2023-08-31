@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5ae1c03_83b53915",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-08-31T10:06:58Z",
+      "side": 1,
+      "message": "Please, read my comment above and lets revisit this one after that.",
+      "parentUuid": "c2909b4d_f3677f48",
+      "range": {
+        "startLine": 17,
+        "startChar": 28,
+        "endLine": 21,
+        "endChar": 16
+      },
+      "revId": "7a8328bdd63940f690ad8fe3fff92797e0bfb253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "6af77df2_fcf4af5a",
