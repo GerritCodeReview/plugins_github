@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2909b4d_f3677f48",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-31T07:58:02Z",
+      "side": 1,
+      "message": "nit: AFAIU it was always containing `example.com` and it was fine as it didn\u0027t matter to which underlying server user was redirected (if any).\n\nHowever with this change we want to achieve the following scenario:\nif user goes to a specific sub-domain (`eclipse.gerrithub.io`) and logs in it lands back into the server(s) that serve that domain\n\nI would propose to stick to the case that we have IOW `review.gerrithub.io` vs `eclipse.gerrithub.io` so that example is easier to grasp.",
+      "range": {
+        "startLine": 17,
+        "startChar": 28,
+        "endLine": 21,
+        "endChar": 16
+      },
+      "revId": "7a8328bdd63940f690ad8fe3fff92797e0bfb253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "6af77df2_fcf4af5a",
@@ -14,6 +37,46 @@
       "writtenOn": "2023-08-30T14:34:59Z",
       "side": 1,
       "message": "Please, review this change.",
+      "revId": "7a8328bdd63940f690ad8fe3fff92797e0bfb253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a22f400_5633e335",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-31T07:58:02Z",
+      "side": 1,
+      "message": "I would keep that as specific as possible - IOW use the description of the case that we want to solve with this change which AFAIR is `review.gerrithub.io` vs `eclipse.gerrithub.io` in both commit message and documentation as in current form it is a bit blurry to me why do we even care 😄. But I will leave it up to you Alvaro if you want to follow that suggestion.\n\nIOW it LGTM (apart from links in docs) @luka WDYT?",
+      "revId": "7a8328bdd63940f690ad8fe3fff92797e0bfb253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32e88fb4_91d4f391",
+        "filename": "README.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-31T07:58:02Z",
+      "side": 1,
+      "message": "nit: it is not a commit message hence links can be placed in the source text",
+      "range": {
+        "startLine": 196,
+        "startChar": 0,
+        "endLine": 200,
+        "endChar": 88
+      },
       "revId": "7a8328bdd63940f690ad8fe3fff92797e0bfb253",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
