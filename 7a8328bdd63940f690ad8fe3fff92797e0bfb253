@@ -102,6 +102,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2bba5e2f_87a3312c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-31T12:43:12Z",
+      "side": 1,
+      "message": "\u003e Well, I think you have missed some conversations. The issue\n\nI did for sure 😊 yet IMHO it would make sense to capture what you have just described in this comment (from the part about properly defined _callback_ and _redirect_url_ parameters of GitHub auth) in relation to `gerrithub.io`, `review.gerrithub.io` and `eclipse.gerrithub.io` instead of some `example.com` being used currently as that is less comprehensive. Again as I have said before it `LGTM` 👍 so ball is in @luca hands now 😊",
+      "parentUuid": "1e3daa5a_732c1532",
+      "revId": "7a8328bdd63940f690ad8fe3fff92797e0bfb253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "32e88fb4_91d4f391",
         "filename": "README.md",
         "patchSetId": 10
