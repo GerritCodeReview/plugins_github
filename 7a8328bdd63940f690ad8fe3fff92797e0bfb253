@@ -60,6 +60,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1e3daa5a_732c1532",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-08-31T10:04:28Z",
+      "side": 1,
+      "message": "Well, I think you have missed some conversations. The issue `Invalid redirection in multi-site setups in the login flow` [1] is not accurate or valid anymore. we found out that the reason of that issue was because there was a bad configuration in the Github OAuth App [2] regarding the `Authorization callback URL` and its relationship with the query parameter `redirect_uri`. What happened is that the callback was defined as `https://review.gerrithub.io/whatever` and the `redirect_uri` could be defined as `https://eclipse.gerrithub.io/whatever`?. If you go to the documentation [3] it says:\n```\nThe redirect_uri parameter is optional...If provided, the redirect URL\u0027s host\n(excluding sub-domains) and port must exactly match the callback URL. \nThe redirect URL\u0027s path must reference a subdirectory of the callback URL.\n```\nThere is no way that is going to work. Then, if we change the callback to `https://gerrithub.io/whatever`, and you provide as a `redirect_uri` either `https://review.gerrithub.io/whatever` or `https://eclipse.gerrithub.io/whatever` it will work and the issue mentioned above is not valid anymore.\n\nLets now restart the conversation. Given the Github OAuth App is well defined and the relationship between domain and subdomains is correct. IMHO the problem now is a UX problem, why? because before the logic to build the `redirect_uri` query parameter was based on the `canonical web url`, therefore if its value is `review.gerrithub.io` when you are initialing the sign-in flow from `eclipse.gerrithub.io`. the flow ends up in `review.gerrithub.io` which from the UX perspective is not very desirable (there are other problems i.e if review.gerrithub.io is down...). With this change we provide the option to start and end the flow in the same subdomain.domain.\n\nI hope that makes sense.\n\nReferences:\n[1] https://issues.gerritcodereview.com/issues/297231231\n[2] https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app\n[3] https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps#redirect-urls",
+      "parentUuid": "8a22f400_5633e335",
+      "revId": "7a8328bdd63940f690ad8fe3fff92797e0bfb253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "32e88fb4_91d4f391",
         "filename": "README.md",
         "patchSetId": 10
