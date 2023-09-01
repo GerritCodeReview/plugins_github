@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "623c4f16_903a0864",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-09-01T13:50:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cbfa96d_acde6b3c",
+      "range": {
+        "startLine": 9,
+        "startChar": 27,
+        "endLine": 9,
+        "endChar": 38
+      },
+      "revId": "f0c24792d983b5863aa604f1e3ce3e06f878b87e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b4df6f80_d306ed79",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-08-31T13:33:48Z",
       "side": 1,
       "message": "The issue isn\u0027t user-experience but functionality: without this change, the login flow would have been broken and the redirection back to the initiator would have not contained the status, giving a HTTP status 500.",
+      "range": {
+        "startLine": 29,
+        "startChar": 19,
+        "endLine": 29,
+        "endChar": 59
+      },
+      "revId": "f0c24792d983b5863aa604f1e3ce3e06f878b87e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f733b02a_99bdb02e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-09-01T13:50:02Z",
+      "side": 1,
+      "message": "I agree in some points and I disagree in others.",
+      "parentUuid": "b4df6f80_d306ed79",
       "range": {
         "startLine": 29,
         "startChar": 19,

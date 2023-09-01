@@ -74,6 +74,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "6898ec41_b79d5a86",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-09-01T13:50:02Z",
+      "side": 1,
+      "message": "I dont agree on that, happy to have a chat.",
+      "parentUuid": "7330a063_e2c86eeb",
+      "range": {
+        "startLine": 17,
+        "startChar": 28,
+        "endLine": 21,
+        "endChar": 16
+      },
+      "revId": "7a8328bdd63940f690ad8fe3fff92797e0bfb253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "6af77df2_fcf4af5a",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 10
