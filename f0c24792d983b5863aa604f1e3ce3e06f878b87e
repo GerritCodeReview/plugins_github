@@ -110,6 +110,24 @@
       "message": "LGTM to me overall, but the configuration needs updating and mention the type of OAuth callback URL to configure on GitHub for a multi-site setup.\n\nAlso, it should mention to check that the X-Forwarded-Host header is propagated.",
       "revId": "f0c24792d983b5863aa604f1e3ce3e06f878b87e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6faa91ca_eb2fb857",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-09-01T14:03:40Z",
+      "side": 1,
+      "message": "\u003e  mention the type of OAuth callback URL to configure on GitHub for a multi-site setup.\n\nI am sorry but I am confused, do you suggest that we should advise to configure the callback to have as a host the domain i.e https://main-domain.io to allow redirect to sites behind node1.main-domain.io, node2.main-domain.io to success when OAuth authentication is done?",
+      "parentUuid": "43775520_314f6b9e",
+      "revId": "f0c24792d983b5863aa604f1e3ce3e06f878b87e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
