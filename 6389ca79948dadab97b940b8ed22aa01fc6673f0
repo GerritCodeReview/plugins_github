@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ea6f51b_97b888bb",
+        "filename": "README.md",
+        "patchSetId": 20
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-09-02T07:43:57Z",
+      "side": 1,
+      "message": "nit: care to give an example that is consistent with the one given for callback URL?",
+      "range": {
+        "startLine": 173,
+        "startChar": 0,
+        "endLine": 177,
+        "endChar": 36
+      },
+      "revId": "6389ca79948dadab97b940b8ed22aa01fc6673f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
