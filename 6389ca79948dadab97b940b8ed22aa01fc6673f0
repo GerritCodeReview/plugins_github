@@ -22,6 +22,30 @@
       },
       "revId": "6389ca79948dadab97b940b8ed22aa01fc6673f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab957397_00a774b2",
+        "filename": "README.md",
+        "patchSetId": 20
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-09-02T09:40:12Z",
+      "side": 1,
+      "message": "Makes sense. Have a look at it.",
+      "parentUuid": "4ea6f51b_97b888bb",
+      "range": {
+        "startLine": 173,
+        "startChar": 0,
+        "endLine": 177,
+        "endChar": 36
+      },
+      "revId": "6389ca79948dadab97b940b8ed22aa01fc6673f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
