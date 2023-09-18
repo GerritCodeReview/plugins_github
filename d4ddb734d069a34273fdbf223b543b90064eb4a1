@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2d25177_89f122f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-09-18T20:51:04Z",
+      "side": 1,
+      "message": "Nice one. Small comment.",
+      "revId": "d4ddb734d069a34273fdbf223b543b90064eb4a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "60bc66e8_209f2657",
@@ -14,6 +31,40 @@
       "writtenOn": "2023-09-18T20:48:40Z",
       "side": 1,
       "message": "nit: I\u0027m used to always having `private` methods at the end of file ;)",
+      "revId": "d4ddb734d069a34273fdbf223b543b90064eb4a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79be1e68_a2f39303",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-09-18T20:51:04Z",
+      "side": 1,
+      "message": "nit: should split this test in 2 tests?:\n- shouldReturnEmptyCookieDomainFromAuth\n- shouldReturnTheCookieDomainFromAuth",
+      "revId": "d4ddb734d069a34273fdbf223b543b90064eb4a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1d539f7_f3060cf6",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-09-18T20:51:04Z",
+      "side": 1,
+      "message": "I know that is not part of this test but the name `objectUnderTest` is not very descriptive and forced me to look at the rest of the code to understand what it was. I think we should change it in a follow up change.",
       "revId": "d4ddb734d069a34273fdbf223b543b90064eb4a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
