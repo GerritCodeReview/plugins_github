@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7de0f1b_811a6cef",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-18T21:09:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4431ce7_2e2f3a23",
+      "revId": "d4ddb734d069a34273fdbf223b543b90064eb4a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "79be1e68_a2f39303",
@@ -70,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd8e3a81_b42f3f9c",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-18T21:09:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79be1e68_a2f39303",
+      "revId": "d4ddb734d069a34273fdbf223b543b90064eb4a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1d539f7_f3060cf6",
@@ -83,6 +119,24 @@
       "writtenOn": "2023-09-18T20:51:04Z",
       "side": 1,
       "message": "I know that is not part of this test but the name `objectUnderTest` is not very descriptive and forced me to look at the rest of the code to understand what it was. I think we should change it in a follow up change.",
+      "revId": "d4ddb734d069a34273fdbf223b543b90064eb4a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad432aeb_7b9e3bc4",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-18T21:09:16Z",
+      "side": 1,
+      "message": "Fully agreed: I kept the same structure, however, I truly dislike the `objectUnderTest` name because isn\u0027t really readable.\n\nI like reading the test as it was a _descriptive text of the requirement_. Tests are the only piece of code that are never tested, therefore the only way to see if they make sense is to read them.\n\nAs humans, we tend to give meaning to words, and `objectUnderTest` does not really identify or mean anything to me :-(\n\nWill address as a follow-up, thanks for raising this and sharing my pain :-)",
+      "parentUuid": "c1d539f7_f3060cf6",
       "revId": "d4ddb734d069a34273fdbf223b543b90064eb4a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
