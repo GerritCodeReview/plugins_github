@@ -28,6 +28,7 @@ import com.google.gerrit.httpd.CanonicalWebUrl;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.util.Providers;
+import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Test;
@@ -166,7 +167,33 @@ public class GitHubOAuthConfigTest {
         illegalStateException.getMessage());
   }
 
+  @Test
+  public void shouldReturnEmptyCookieDomainByDefault() {
+    setupEncryptionConfig();
+    assertEquals(Optional.empty(), objectUnderTest().getCookieDomain());
+  }
+
+  @Test
+  public void shouldReturnTheCookieDomainFromAuth() {
+    setupEncryptionConfig();
+    String myDomain = ".mydomain.com";
+    config.setString("auth", null, "cookieDomain", myDomain);
+
+    assertEquals(Optional.of(myDomain), objectUnderTest().getCookieDomain());
+  }
+
   private GitHubOAuthConfig objectUnderTest() {
     return new GitHubOAuthConfig(config, canonicalWebUrl);
+  }
+
+  private void setupEncryptionConfig() {
+    String keySubsection = "someKeyConfig";
+    String cipherAlgorithm = "AES/CFB8/NoPadding";
+    String secretKeyAlgorithm = "DES";
+    config.setBoolean(CONF_KEY_SECTION, keySubsection, CURRENT_CONFIG_LABEL, true);
+    config.setString(
+        CONF_KEY_SECTION, keySubsection, PASSWORD_DEVICE_CONFIG_LABEL, testPasswordDevice);
+    config.setString(CONF_KEY_SECTION, keySubsection, CIPHER_ALGO_CONFIG_LABEL, cipherAlgorithm);
+    config.setString(CONF_KEY_SECTION, keySubsection, SECRET_KEY_CONFIG_LABEL, secretKeyAlgorithm);
   }
 }
