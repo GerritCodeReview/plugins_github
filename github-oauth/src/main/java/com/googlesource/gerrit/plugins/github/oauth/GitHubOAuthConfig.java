@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -78,6 +79,7 @@ public class GitHubOAuthConfig {
   public final long httpReadTimeout;
   private final Map<String, KeyConfig> keyConfigMap;
   private final KeyConfig currentKeyConfig;
+  private final Optional<String> cookieDomain;
 
   @Inject
   protected GitHubOAuthConfig(@GerritServerConfig Config config, CanonicalWebUrl canonicalWebUrl) {
@@ -110,6 +112,7 @@ public class GitHubOAuthConfig {
     logoutRedirectUrl = config.getString(CONF_SECTION, null, "logoutRedirectUrl");
 
     enabled = config.getString("auth", null, "type").equalsIgnoreCase(AuthType.HTTP.toString());
+    cookieDomain = Optional.ofNullable(config.getString("auth", null, "cookieDomain"));
     scopes = getScopes(config);
     sortedScopesKeys =
         scopes.keySet().stream()
@@ -205,6 +208,10 @@ public class GitHubOAuthConfig {
 
   public KeyConfig getKeyConfig(String subsection) {
     return keyConfigMap.get(subsection);
+  }
+
+  public Optional<String> getCookieDomain() {
+    return cookieDomain;
   }
 
   public class KeyConfig {
