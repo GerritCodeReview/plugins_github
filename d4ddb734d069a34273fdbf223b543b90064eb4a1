@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e4431ce7_2e2f3a23",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-09-18T20:51:41Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "60bc66e8_209f2657",
+      "revId": "d4ddb734d069a34273fdbf223b543b90064eb4a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "79be1e68_a2f39303",
         "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfigTest.java",
         "patchSetId": 1
