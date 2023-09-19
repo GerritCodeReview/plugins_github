@@ -46,6 +46,30 @@
       },
       "revId": "9398c7877ab279303a29cb01120d681433d30a6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "064132e3_08c187c8",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-09-19T10:05:32Z",
+      "side": 0,
+      "message": "My intention is to preserve the _HOWTO configure GitHub_ so that it could be used in a scenario when a single application could be used to authenticate to multiple Gerrit\u0027s sub-domains. As I\u0027m pretty sure it will sooner or later become handy (for instance for troubleshooting). I don\u0027t mind the destination plugin though 😄\n\nIMHO `X-FORWARDED-FOR` is of lesser importance.",
+      "parentUuid": "2237deb1_8135bfcb",
+      "range": {
+        "startLine": 159,
+        "startChar": 0,
+        "endLine": 200,
+        "endChar": 71
+      },
+      "revId": "9398c7877ab279303a29cb01120d681433d30a6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
