@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66b7c7eb_3b46f19c",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-09-19T09:05:01Z",
+      "side": 0,
+      "message": "How about adding this description back as a follow-up? I believe that it properly describes the GitHub\u0027s setup. @luca.milanesio@gmail.com @alvaro.vilaplana@gmail.com @dariusz.luksza@gmail.com WDYT?",
+      "range": {
+        "startLine": 159,
+        "startChar": 0,
+        "endLine": 200,
+        "endChar": 71
+      },
+      "revId": "9398c7877ab279303a29cb01120d681433d30a6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
