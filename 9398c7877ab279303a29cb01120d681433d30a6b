@@ -22,6 +22,30 @@
       },
       "revId": "9398c7877ab279303a29cb01120d681433d30a6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2237deb1_8135bfcb",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-09-19T09:39:34Z",
+      "side": 0,
+      "message": "The `X-FORWARDED-HOST` is a niche thing as two conditions must occur:\n1. there must be a hop between reverse proxy and Gerrit (eg. a load balancer)\n2. the Gerrit server is publicly seen under multiple host names (aka. serves for multiple tenants).\n\nAlthough some organizations will put their Gerrits behind a load balancer. None of them will have multiple tenants, meaning each node will have the same `canonicalWebUrl` and we can safely ignore `X-FORWARDED-HOST`.\n\nIMO, this description belongs to `virtualhost` plugin `README.md`.",
+      "parentUuid": "66b7c7eb_3b46f19c",
+      "range": {
+        "startLine": 159,
+        "startChar": 0,
+        "endLine": 200,
+        "endChar": 71
+      },
+      "revId": "9398c7877ab279303a29cb01120d681433d30a6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
