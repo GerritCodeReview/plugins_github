@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b59ec717_e626eba2",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-19T12:47:32Z",
+      "side": 0,
+      "message": "@geminica.programs@gmail.com why don\u0027t you create a change where you reintroduce this section?",
+      "range": {
+        "startLine": 158,
+        "startChar": 0,
+        "endLine": 196,
+        "endChar": 3
+      },
+      "revId": "9398c7877ab279303a29cb01120d681433d30a6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "66b7c7eb_3b46f19c",
         "filename": "README.md",
         "patchSetId": 1
