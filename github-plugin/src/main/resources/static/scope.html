@@ -6,6 +6,14 @@
     #include ("static/styles.html")
     #include ("static/scripts.html")
   </head>
+  <script type="text/javascript">
+    function submitOAuth() {
+      const submitButton =$("button[type='submit']");
+      submitButton.attr("disabled", true);
+      submitButton.find("span").text("Waiting for GitHub...");
+      document.forms[0].submit();
+    }
+  </script>
   <body>
     <!-- div.header start -->
     <div class="header">
@@ -19,7 +27,7 @@
                 <button type="button" onclick="window.location='/'" id="cancel">
                   <span class="button"><span>Cancel</span></span>
                 </button>
-                <button type="submit" onclick="document.forms[0].submit()">
+                <button type="submit" onclick="submitOAuth()">
                   <span class="button green"><span>Login &gt;</span></span>
                 </button>
               </div>

@@ -1,0 +1,20 @@
+{
+  "name": "github-oauth-ui",
+  "description": "UI for the Gerrit GitHub OAuth plugin",
+  "browser": true,
+  "dependencies": {
+    "@gerritcodereview/typescript-api": "^3.8.0",
+    "@lit/ts-transformers": "^1.1.3",
+    "@polymer/polymer": "^3.5.1",
+    "@rollup/plugin-node-resolve": "^15.2.1",
+    "@rollup/plugin-terser": "^0.4.3",
+    "lit": "^2.8.0",
+    "rollup": "^3.29.4",
+    "typescript": "^4.9.5"
+  },
+  "license": "Apache-2.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc && rollup -c"
+  }
+}
