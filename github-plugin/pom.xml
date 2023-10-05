@@ -14,8 +14,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>github-parent</artifactId>
@@ -60,17 +61,19 @@ limitations under the License.
           </artifactSet>
           <transformers>
             <transformer
-              implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
               <manifestEntries>
                 <Gerrit-Module>com.googlesource.gerrit.plugins.github.GuiceModule</Gerrit-Module>
-                <Gerrit-HttpModule>com.googlesource.gerrit.plugins.github.GuiceHttpModule</Gerrit-HttpModule>
+                <Gerrit-HttpModule>com.googlesource.gerrit.plugins.github.GuiceHttpModule
+                </Gerrit-HttpModule>
                 <Gerrit-InitStep>com.googlesource.gerrit.plugins.github.InitGitHub</Gerrit-InitStep>
 
                 <Implementation-Vendor>GerritForge</Implementation-Vendor>
                 <Implementation-URL>http://www.gerritforge.com</Implementation-URL>
 
                 <Implementation-Title>${Gerrit-ApiType}
-                  ${project.artifactId}</Implementation-Title>
+                  ${project.artifactId}
+                </Implementation-Title>
                 <Implementation-Version>${project.version}</Implementation-Version>
 
                 <Gerrit-ApiType>${Gerrit-ApiType}</Gerrit-ApiType>
@@ -87,6 +90,44 @@ limitations under the License.
             <goals>
               <goal>shade</goal>
             </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.github.eirslett</groupId>
+        <artifactId>frontend-maven-plugin</artifactId>
+        <version>1.14.0</version>
+        <configuration>
+          <installDirectory>target</installDirectory>
+        </configuration>
+        <executions>
+          <execution>
+            <id>install node and yarn</id>
+            <goals>
+              <goal>install-node-and-yarn</goal>
+            </goals>
+            <configuration>
+              <nodeVersion>v17.9.1</nodeVersion>
+              <yarnVersion>v1.22.19</yarnVersion>
+            </configuration>
+          </execution>
+          <execution>
+            <id>yarn install</id>
+            <goals>
+              <goal>yarn</goal>
+            </goals>
+            <configuration>
+              <arguments>install</arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>yarn build</id>
+            <goals>
+              <goal>yarn</goal>
+            </goals>
+            <configuration>
+              <arguments>build</arguments>
+            </configuration>
           </execution>
         </executions>
       </plugin>
@@ -157,10 +198,10 @@ limitations under the License.
       <artifactId>velocity-engine-core</artifactId>
       <version>2.3</version>
     </dependency>
-      <dependency>
-          <groupId>junit</groupId>
-          <artifactId>junit</artifactId>
-      </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
     <dependency>
       <groupId>com.google.truth</groupId>
       <artifactId>truth</artifactId>
