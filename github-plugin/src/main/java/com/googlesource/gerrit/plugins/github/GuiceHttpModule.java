@@ -15,6 +15,9 @@ package com.googlesource.gerrit.plugins.github;
 
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.auth.oauth.OAuthServiceProvider;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.webui.JavaScriptPlugin;
+import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.name.Names;
@@ -89,6 +92,9 @@ public class GuiceHttpModule extends ServletModule {
     bind(OAuthServiceProvider.class)
         .annotatedWith(Exports.named("github"))
         .to(GitHubOAuthServiceProvider.class);
+
+    DynamicSet.bind(binder(), WebUiPlugin.class)
+        .toInstance(new JavaScriptPlugin("github-plugin.js"));
 
     serve("*.css", "*.js", "*.png", "*.jpg", "*.woff", "*.gif", "*.ttf")
         .with(VelocityStaticServlet.class);
