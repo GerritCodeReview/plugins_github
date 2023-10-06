@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5e83944_0dfb606d",
+        "filename": "github-plugin/tsconfig-plugins-base.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-06T09:25:51Z",
+      "side": 1,
+      "message": "@kamilm@google.com, any progress on including this this file in `@gerritcodrereview/typescript-api`",
+      "revId": "10af2ee5dd9dd988dcccf701f1cdc65b0c6920a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
