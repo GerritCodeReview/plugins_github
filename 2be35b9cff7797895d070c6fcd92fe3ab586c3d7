@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c327234_50a65bf8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-10T11:40:31Z",
+      "side": 1,
+      "message": "I tested locally and when I sign in successfully there is a link `Sign-in with Github` beside my user name.",
+      "revId": "2be35b9cff7797895d070c6fcd92fe3ab586c3d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
