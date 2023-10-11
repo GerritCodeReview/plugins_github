@@ -104,7 +104,7 @@ public class OAuthWebFilter implements Filter {
         chain.doFilter(httpRequest, httpResponse);
       }
     } finally {
-      HttpSession httpSession = httpRequest.getSession();
+      HttpSession httpSession = httpRequest.getSession(false);
       if (gerritCookie != null && httpSession != null) {
         String gerritCookieValue = gerritCookie.getValue();
         String gerritSessionValue = (String) httpSession.getAttribute("GerritAccount");
@@ -112,7 +112,8 @@ public class OAuthWebFilter implements Filter {
         if (gerritSessionValue == null) {
           httpSession.setAttribute("GerritAccount", gerritCookieValue);
         } else if (!gerritSessionValue.equals(gerritCookieValue)) {
-          httpSession.invalidate();
+          httpSession.setAttribute("GerritAccount", null);
+          loginProvider.clear(httpRequest);
         }
       }
     }

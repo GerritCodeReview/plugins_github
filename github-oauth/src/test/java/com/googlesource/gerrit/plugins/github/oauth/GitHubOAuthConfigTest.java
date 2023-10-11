@@ -28,6 +28,7 @@ import com.google.gerrit.httpd.CanonicalWebUrl;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.util.Providers;
+import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Test;
@@ -70,12 +71,10 @@ public class GitHubOAuthConfigTest {
     config.setString(CONF_KEY_SECTION, keySubsection, CIPHER_ALGO_CONFIG_LABEL, cipherAlgorithm);
     config.setString(CONF_KEY_SECTION, keySubsection, SECRET_KEY_CONFIG_LABEL, secretKeyAlgorithm);
 
-    GitHubOAuthConfig objectUnderTest = objectUnderTest();
-
-    assertEquals(objectUnderTest.getCurrentKeyConfig().isCurrent(), true);
-    assertEquals(objectUnderTest.getCurrentKeyConfig().getCipherAlgorithm(), cipherAlgorithm);
-    assertEquals(objectUnderTest.getCurrentKeyConfig().getSecretKeyAlgorithm(), secretKeyAlgorithm);
-    assertEquals(objectUnderTest.getCurrentKeyConfig().getKeyId(), keySubsection);
+    assertEquals(githubOAuthConfig().getCurrentKeyConfig().isCurrent(), true);
+    assertEquals(githubOAuthConfig().getCurrentKeyConfig().getCipherAlgorithm(), cipherAlgorithm);
+    assertEquals(githubOAuthConfig().getCurrentKeyConfig().getSecretKeyAlgorithm(), secretKeyAlgorithm);
+    assertEquals(githubOAuthConfig().getCurrentKeyConfig().getKeyId(), keySubsection);
   }
 
   @Test
@@ -89,7 +88,7 @@ public class GitHubOAuthConfigTest {
     config.setString(
         CONF_KEY_SECTION, someOtherKeyConfig, PASSWORD_DEVICE_CONFIG_LABEL, testPasswordDevice);
 
-    assertEquals(objectUnderTest().getCurrentKeyConfig().getKeyId(), currentKeyConfig);
+    assertEquals(githubOAuthConfig().getCurrentKeyConfig().getKeyId(), currentKeyConfig);
   }
 
   @Test
@@ -103,16 +102,14 @@ public class GitHubOAuthConfigTest {
     config.setString(
         CONF_KEY_SECTION, someOtherKeyConfig, PASSWORD_DEVICE_CONFIG_LABEL, testPasswordDevice);
 
-    GitHubOAuthConfig objectUnderTest = objectUnderTest();
-
-    assertEquals(objectUnderTest.getKeyConfig(currentKeyConfig).getKeyId(), currentKeyConfig);
-    assertEquals(objectUnderTest.getKeyConfig(someOtherKeyConfig).getKeyId(), someOtherKeyConfig);
+    assertEquals(githubOAuthConfig().getKeyConfig(currentKeyConfig).getKeyId(), currentKeyConfig);
+    assertEquals(githubOAuthConfig().getKeyConfig(someOtherKeyConfig).getKeyId(), someOtherKeyConfig);
   }
 
   @Test
   public void shouldThrowWhenNoKeyIdIsConfigured() {
     IllegalStateException illegalStateException =
-        assertThrows(IllegalStateException.class, this::objectUnderTest);
+        assertThrows(IllegalStateException.class, this::githubOAuthConfig);
 
     assertEquals(
         illegalStateException.getMessage(),
@@ -125,7 +122,7 @@ public class GitHubOAuthConfigTest {
   public void shouldThrowWhenNoKeyConfigIsSetAsCurrent() {
     config.setBoolean(CONF_KEY_SECTION, "someKeyConfig", CURRENT_CONFIG_LABEL, false);
 
-    assertThrows(IllegalStateException.class, this::objectUnderTest);
+    assertThrows(IllegalStateException.class, this::githubOAuthConfig);
   }
 
   @Test
@@ -134,7 +131,7 @@ public class GitHubOAuthConfigTest {
     config.setBoolean(CONF_KEY_SECTION, invalidSubsection, CURRENT_CONFIG_LABEL, false);
 
     IllegalStateException illegalStateException =
-        assertThrows(IllegalStateException.class, this::objectUnderTest);
+        assertThrows(IllegalStateException.class, this::githubOAuthConfig);
 
     assertEquals(
         illegalStateException.getMessage(),
@@ -148,7 +145,7 @@ public class GitHubOAuthConfigTest {
     config.setBoolean(CONF_KEY_SECTION, "someKeyConfig", CURRENT_CONFIG_LABEL, true);
     config.setBoolean(CONF_KEY_SECTION, "someOtherKeyConfig", CURRENT_CONFIG_LABEL, true);
 
-    assertThrows(IllegalStateException.class, this::objectUnderTest);
+    assertThrows(IllegalStateException.class, this::githubOAuthConfig);
   }
 
   @Test
@@ -157,7 +154,7 @@ public class GitHubOAuthConfigTest {
     config.setBoolean(CONF_KEY_SECTION, someKeyConfig, CURRENT_CONFIG_LABEL, true);
 
     IllegalStateException illegalStateException =
-        assertThrows(IllegalStateException.class, this::objectUnderTest);
+        assertThrows(IllegalStateException.class, this::githubOAuthConfig);
 
     assertEquals(
         String.format(
@@ -166,7 +163,33 @@ public class GitHubOAuthConfigTest {
         illegalStateException.getMessage());
   }
 
-  private GitHubOAuthConfig objectUnderTest() {
+  @Test
+  public void shouldReturnEmptyCookieDomainByDefault() {
+    setupEncryptionConfig();
+    assertEquals(Optional.empty(), githubOAuthConfig().getCookieDomain());
+  }
+
+  @Test
+  public void shouldReturnTheCookieDomainFromAuth() {
+    setupEncryptionConfig();
+    String myDomain = ".mydomain.com";
+    config.setString("auth", null, "cookieDomain", myDomain);
+
+    assertEquals(Optional.of(myDomain), githubOAuthConfig().getCookieDomain());
+  }
+
+  private GitHubOAuthConfig githubOAuthConfig() {
     return new GitHubOAuthConfig(config, canonicalWebUrl);
+  }
+
+  private void setupEncryptionConfig() {
+    String keySubsection = "someKeyConfig";
+    String cipherAlgorithm = "AES/CFB8/NoPadding";
+    String secretKeyAlgorithm = "DES";
+    config.setBoolean(CONF_KEY_SECTION, keySubsection, CURRENT_CONFIG_LABEL, true);
+    config.setString(
+        CONF_KEY_SECTION, keySubsection, PASSWORD_DEVICE_CONFIG_LABEL, testPasswordDevice);
+    config.setString(CONF_KEY_SECTION, keySubsection, CIPHER_ALGO_CONFIG_LABEL, cipherAlgorithm);
+    config.setString(CONF_KEY_SECTION, keySubsection, SECRET_KEY_CONFIG_LABEL, secretKeyAlgorithm);
   }
 }

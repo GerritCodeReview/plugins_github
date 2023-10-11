@@ -158,6 +158,7 @@ public class GitHubLogin implements Serializable {
       Cookie scopeCookie = new Cookie("scope", scopeRequested);
       scopeCookie.setPath("/");
       scopeCookie.setMaxAge((int) SCOPE_COOKIE_NEVER_EXPIRES);
+      config.getCookieDomain().ifPresent(scopeCookie::setDomain);
       response.addCookie(scopeCookie);
     }
 
