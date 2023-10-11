@@ -85,6 +85,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8f4081a6_63d58ddb",
+        "filename": "github-oauth/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-10-11T18:32:33Z",
+      "side": 1,
+      "message": "ping @luca.milanesio@gmail.com",
+      "parentUuid": "375b8864_2f7e537c",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 17
+      },
+      "revId": "98edc47d381f6a01648bd0a64e1bd49709bbe1e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f9473c30_1b9d7beb",
         "filename": "github-plugin/pom.xml",
         "patchSetId": 3
@@ -120,6 +144,30 @@
       "side": 1,
       "message": "Yeap: [javax.servlet-api:3.1.0](https://gerrit.googlesource.com/gerrit/+/refs/heads/master/tools/deps.bzl#67) ✔",
       "parentUuid": "f9473c30_1b9d7beb",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 17
+      },
+      "revId": "98edc47d381f6a01648bd0a64e1bd49709bbe1e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fbdc045_b5e939a7",
+        "filename": "github-plugin/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-10-11T18:32:33Z",
+      "side": 1,
+      "message": "ping @luca.milanesio@gmail.com",
+      "parentUuid": "6568e061_06fab2d3",
       "range": {
         "startLine": 108,
         "startChar": 0,
