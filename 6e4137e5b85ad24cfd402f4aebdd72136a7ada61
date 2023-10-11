@@ -16,6 +16,29 @@
       "message": "The following smoke tests were performed:\n* login\n* profile\n* import repo\n* browse",
       "revId": "6e4137e5b85ad24cfd402f4aebdd72136a7ada61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a67f745d_72c5b94e",
+        "filename": "github-oauth/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-10-11T07:09:46Z",
+      "side": 1,
+      "message": "Gerrit uses `3.1.0`",
+      "range": {
+        "startLine": 74,
+        "startChar": 15,
+        "endLine": 74,
+        "endChar": 20
+      },
+      "revId": "6e4137e5b85ad24cfd402f4aebdd72136a7ada61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
