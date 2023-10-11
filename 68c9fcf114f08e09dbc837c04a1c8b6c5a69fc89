@@ -86,6 +86,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa0a2c8b_3b94c404",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-11T08:31:44Z",
+      "side": 1,
+      "message": "I\u0027ve added `/node_modules` to the `github-plugin/.gitignore`, don\u0027t think we need it in the global `.gitignore`",
+      "parentUuid": "df35a6eb_7be5c35d",
+      "revId": "68c9fcf114f08e09dbc837c04a1c8b6c5a69fc89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "65707a0a_7255920f",
@@ -250,6 +268,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "786f9872_7cd7fa19",
+        "filename": "github-plugin/src/main/resources/static/scope.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-11T08:31:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04018881_e6918b5b",
+      "range": {
+        "startLine": 13,
+        "startChar": 50,
+        "endLine": 13,
+        "endChar": 56
+      },
+      "revId": "68c9fcf114f08e09dbc837c04a1c8b6c5a69fc89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "576c6462_026c2cd6",
@@ -263,6 +305,30 @@
       "writtenOn": "2023-10-11T07:58:37Z",
       "side": 1,
       "message": "```suggestion\n                    \u003cspan class\u003d\"loadingText\"\u003eWaiting for GitHub API response ...\u003c/span\u003e\n```",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 74
+      },
+      "revId": "68c9fcf114f08e09dbc837c04a1c8b6c5a69fc89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee7f4c7a_d3a484dd",
+        "filename": "github-plugin/src/main/ts/gr-github-oauth-progress.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-11T08:31:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "576c6462_026c2cd6",
       "range": {
         "startLine": 63,
         "startChar": 0,

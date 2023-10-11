@@ -304,6 +304,24 @@
       "parentUuid": "14f4f0ad_bf2d7c0c",
       "revId": "10af2ee5dd9dd988dcccf701f1cdc65b0c6920a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "712184e2_fc89514a",
+        "filename": "github-plugin/tsconfig-plugins-base.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-11T08:31:44Z",
+      "side": 1,
+      "message": "for now, I\u0027ve added TODOs, as only merging a change to Gerrit will not solve this problem, because we\u0027d also need a release to npm.",
+      "parentUuid": "1c52df77_615c9f1e",
+      "revId": "10af2ee5dd9dd988dcccf701f1cdc65b0c6920a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
