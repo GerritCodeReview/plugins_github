@@ -268,6 +268,24 @@
       "message": "@kamilm@google.com, any progress on including this this file in `@gerritcodrereview/typescript-api`",
       "revId": "10af2ee5dd9dd988dcccf701f1cdc65b0c6920a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14f4f0ad_bf2d7c0c",
+        "filename": "github-plugin/tsconfig-plugins-base.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-10-11T06:37:16Z",
+      "side": 1,
+      "message": "@darek if you include it I can review it and we could merge it ;)",
+      "parentUuid": "e5e83944_0dfb606d",
+      "revId": "10af2ee5dd9dd988dcccf701f1cdc65b0c6920a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
