@@ -1,0 +1,10 @@
+{
+  /* TODO: should be change to ./node_modules/@gerritcodereview/typescript-api/tsconfig-plugins-base.json' when NPM paclage is fixed */
+  "extends": "./tsconfig-plugins-base.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "outDir": "./target/web"
+  },
+}
