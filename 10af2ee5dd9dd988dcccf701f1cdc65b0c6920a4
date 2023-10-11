@@ -286,6 +286,24 @@
       "parentUuid": "e5e83944_0dfb606d",
       "revId": "10af2ee5dd9dd988dcccf701f1cdc65b0c6920a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c52df77_615c9f1e",
+        "filename": "github-plugin/tsconfig-plugins-base.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-11T07:58:37Z",
+      "side": 1,
+      "message": "Can we leave a TODO in the code mentioning that it should be copied from Gerrit? I wouldn\u0027t like us to forget about it.",
+      "parentUuid": "14f4f0ad_bf2d7c0c",
+      "revId": "10af2ee5dd9dd988dcccf701f1cdc65b0c6920a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
