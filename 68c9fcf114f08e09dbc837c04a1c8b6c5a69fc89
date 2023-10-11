@@ -69,6 +69,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "53bfb874_a922ec5b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-11T08:13:35Z",
+      "side": 1,
+      "message": "a",
+      "revId": "68c9fcf114f08e09dbc837c04a1c8b6c5a69fc89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "65707a0a_7255920f",
@@ -82,6 +99,30 @@
       "writtenOn": "2023-10-11T07:58:37Z",
       "side": 1,
       "message": "nit: is this related?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 100
+      },
+      "revId": "68c9fcf114f08e09dbc837c04a1c8b6c5a69fc89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a2bd544_b555475b",
+        "filename": "github-plugin/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-11T08:13:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65707a0a_7255920f",
       "range": {
         "startLine": 17,
         "startChar": 0,
@@ -115,6 +156,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebbfa9d2_2843191b",
+        "filename": "github-plugin/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-11T08:13:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "797a7676_54cb90d6",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 0
+      },
+      "revId": "68c9fcf114f08e09dbc837c04a1c8b6c5a69fc89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "85f77d25_4874555d",
@@ -128,6 +193,30 @@
       "writtenOn": "2023-10-11T07:58:37Z",
       "side": 1,
       "message": "nit: is this related?",
+      "range": {
+        "startLine": 201,
+        "startChar": 0,
+        "endLine": 204,
+        "endChar": 17
+      },
+      "revId": "68c9fcf114f08e09dbc837c04a1c8b6c5a69fc89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "159c8b81_41d7335c",
+        "filename": "github-plugin/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-11T08:13:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85f77d25_4874555d",
       "range": {
         "startLine": 201,
         "startChar": 0,
