@@ -16,6 +16,24 @@
       "message": "@geminica.programs@gmail.com I am running locally:\n- gerrit from master `version 3.8.2-1144-ga9b5c3509c` (commit Date:Tue Oct 10 08:03:31 2023 +0000)\n- github from master `eb56de73b88cf027b4899f0681eb43ccf4a2d76e` (commit Date: Wed Oct 11 08:12:15 2023 +0200)\n\nAnd I dont see that WARN message. Am I missing something?",
       "revId": "3f2f0d612d931b238dd7df2f9a45c0ded8c8ed3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be402be5_ccb0060c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-11T11:58:31Z",
+      "side": 1,
+      "message": "Please, read above.",
+      "parentUuid": "10ac9a0e_a7ba6c1c",
+      "revId": "3f2f0d612d931b238dd7df2f9a45c0ded8c8ed3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
