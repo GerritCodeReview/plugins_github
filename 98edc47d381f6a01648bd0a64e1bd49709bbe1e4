@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c44d828_9a6c6b39",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-10-11T10:28:57Z",
+      "side": 1,
+      "message": "That following makes sense (note that the last one requires the signed part being removed):\n```\ncom.google.gerrit:gerrit-plugin-api ................... 3.8.0 -\u003e 3.8.2\ncom.infradna.tool:bridge-method-injector .............. 1.24 -\u003e 1.29\norg.eclipse.mylyn.github:org.eclipse.egit.github.core . 2.1.5 -\u003e 6.1.0.202203080745-r\n```\n\nIn terms of `javax.mail:mail` I have switched to the same package that gerrit is using `com.sun.mail:javax.mail` which is available in version `1.6.2`\n\nIn case of `guava`, `guice`, `javax.servlet-api` and `httpclient` we are using those deps in `provided` mode hence versions are locked to what we currently have on gerrit\u0027s `master`\n\nWith regards to `commons-discovery` version `0.5` is the newer see [here](https://mvnrepository.com/artifact/commons-discovery/commons-discovery). Same goes for [commons-io](https://mvnrepository.com/artifact/commons-io/commons-io).",
+      "parentUuid": "c8c96990_50d1fa3a",
+      "revId": "98edc47d381f6a01648bd0a64e1bd49709bbe1e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c7bafc80_698be899",
@@ -43,6 +61,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "375b8864_2f7e537c",
+        "filename": "github-oauth/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-10-11T10:28:57Z",
+      "side": 1,
+      "message": "Sure, note that there is no `stable-3.9` in `gerrit` repo yet hence I have confirmed that in `master`:\n* [guava:32.1.2-jre](https://gerrit.googlesource.com/gerrit/+/refs/heads/master/tools/nongoogle.bzl#3)\n* [guice:6.0.0](https://gerrit.googlesource.com/gerrit/+/refs/heads/master/tools/nongoogle.bzl#180)\n* [javax.servlet-api:3.1.0](https://gerrit.googlesource.com/gerrit/+/refs/heads/master/tools/deps.bzl#67)\n\nI have checked all `provided` deps to be aligned to what we have currently in `master`.",
+      "parentUuid": "c7bafc80_698be899",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 17
+      },
+      "revId": "98edc47d381f6a01648bd0a64e1bd49709bbe1e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f9473c30_1b9d7beb",
         "filename": "github-plugin/pom.xml",
         "patchSetId": 3
@@ -54,6 +96,30 @@
       "writtenOn": "2023-10-11T09:27:07Z",
       "side": 1,
       "message": "Have you checked this is aligned with Gerrit v3.9 ones?",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 17
+      },
+      "revId": "98edc47d381f6a01648bd0a64e1bd49709bbe1e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6568e061_06fab2d3",
+        "filename": "github-plugin/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-10-11T10:28:57Z",
+      "side": 1,
+      "message": "Yeap: [javax.servlet-api:3.1.0](https://gerrit.googlesource.com/gerrit/+/refs/heads/master/tools/deps.bzl#67) ✔",
+      "parentUuid": "f9473c30_1b9d7beb",
       "range": {
         "startLine": 108,
         "startChar": 0,
