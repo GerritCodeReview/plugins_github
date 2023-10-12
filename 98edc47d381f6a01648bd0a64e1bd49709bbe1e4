@@ -107,6 +107,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9d134d8_bf7f72f2",
+        "filename": "github-oauth/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-12T21:16:55Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "8f4081a6_63d58ddb",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 17
+      },
+      "revId": "98edc47d381f6a01648bd0a64e1bd49709bbe1e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f9473c30_1b9d7beb",
@@ -168,6 +192,30 @@
       "side": 1,
       "message": "ping @luca.milanesio@gmail.com",
       "parentUuid": "6568e061_06fab2d3",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 17
+      },
+      "revId": "98edc47d381f6a01648bd0a64e1bd49709bbe1e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6679053a_ba575b5b",
+        "filename": "github-plugin/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-12T21:16:55Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "8fbdc045_b5e939a7",
       "range": {
         "startLine": 108,
         "startChar": 0,
