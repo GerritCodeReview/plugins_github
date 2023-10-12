@@ -21,7 +21,7 @@ limitations under the License.
   <parent>
     <groupId>com.googlesource.gerrit.plugins.github</groupId>
     <artifactId>github-parent</artifactId>
-    <version>3.8.0</version>
+    <version>3.8.2</version>
   </parent>
   <artifactId>github-oauth</artifactId>
   <name>Gerrit Code Review - GitHub OAuth login</name>
@@ -71,35 +71,35 @@ limitations under the License.
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
-      <version>3.0.1</version>
+      <version>3.1.0</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>com.google.inject</groupId>
       <artifactId>guice</artifactId>
-      <version>4.1.0</version>
+      <version>6.0.0</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>20.0</version>
+      <version>32.1.2-jre</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.kohsuke</groupId>
       <artifactId>github-api</artifactId>
-      <version>1.315</version>
+      <version>1.316</version>
     </dependency>
     <dependency>
       <groupId>com.infradna.tool</groupId>
       <artifactId>bridge-method-injector</artifactId>
-      <version>1.23</version>
+      <version>1.29</version>
     </dependency>
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpclient</artifactId>
-      <version>4.4</version>
+      <version>4.5.2</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
