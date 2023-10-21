@@ -18,12 +18,12 @@ limitations under the License.
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.googlesource.gerrit.plugins.github</groupId>
   <artifactId>github-parent</artifactId>
-  <version>3.8.2</version>
+  <version>3.9.0-rc0</version>
   <name>Gerrit Code Review - GitHub integration</name>
   <url>http://www.gerritforge.com</url>
   <packaging>pom</packaging>
   <properties>
-    <javaVersion>11</javaVersion>
+    <javaVersion>17</javaVersion>
   </properties>
   <licenses>
     <license>
