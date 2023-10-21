@@ -54,12 +54,19 @@ public class FanoutReplicationConfig implements ReplicationConfig {
             FS.DETECTED);
 
     replicationConf.load();
-    replicationConf.setString("remote", null, "url", url);
+    String currentUrl = replicationConf.getString("remote", null, "url");
+    if (currentUrl == null) {
+      replicationConf.setString("remote", null, "url", url);
+    }
     List<String> projects =
         new ArrayList<>(Arrays.asList(replicationConf.getStringList("remote", null, "projects")));
     projects.add(projectName);
     replicationConf.setStringList("remote", null, "projects", projects);
-    replicationConf.setString("remote", null, "push", "refs/*:refs/*");
+
+    String currentPushRefs = replicationConf.getString("remote", null, "push");
+    if (currentPushRefs == null) {
+      replicationConf.setString("remote", null, "push", "refs/*:refs/*");
+    }
     replicationConf.save();
   }
 }
