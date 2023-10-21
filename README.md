@@ -78,13 +78,13 @@ reference on how to build Gerrit using Bazel.
 Gerrit 3.3 is distributed for Java 11 only. However, the source code is compatible
 with Java 8 assuming you build it from the source repository by yourself.
 
-The GitHub plugin can be built for Java 8 by using the `javaVersion=1.8` Maven
+The GitHub plugin can be built for Java 17 by using the `javaVersion=1.17` Maven
 parameter.
 
 Example:
   git clone https://gerrit.googlesource.com/plugins/github
   cd github
-  mvn -DjavaVersion=1.8 install
+  mvn -DjavaVersion=17 install
 
 ### singleusergroup plugin
 
