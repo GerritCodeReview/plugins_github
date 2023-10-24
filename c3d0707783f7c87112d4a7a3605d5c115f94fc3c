@@ -16,6 +16,24 @@
       "message": "this is also using a later java version, we should mention it in the commit msg.",
       "revId": "c3d0707783f7c87112d4a7a3605d5c115f94fc3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5658e4a_2085059a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-24T10:20:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c542db78_3d4a6d61",
+      "revId": "c3d0707783f7c87112d4a7a3605d5c115f94fc3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
