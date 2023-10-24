@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "189c4964_843d86e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-10-24T06:21:32Z",
+      "side": 1,
+      "message": "nit: `s/default of te/defaults of the`",
+      "range": {
+        "startLine": 12,
+        "startChar": 17,
+        "endLine": 12,
+        "endChar": 30
+      },
+      "revId": "503eff4b0b1aa38f2309e3edc2c92c0d7f3594db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "484bba33_d760cdf8",
+        "filename": "github-plugin/src/test/java/com/googlesource/gerrit/plugins/github/FanoutReplicationConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-10-24T06:21:32Z",
+      "side": 1,
+      "message": "question: how about adding tests cases for `push` piece of the replication config?",
+      "revId": "503eff4b0b1aa38f2309e3edc2c92c0d7f3594db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e22659f5_43456cda",
+        "filename": "github-plugin/src/test/java/com/googlesource/gerrit/plugins/github/FanoutReplicationConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-10-24T06:21:32Z",
+      "side": 1,
+      "message": "nit: name is misleading as it suggests that `ad hoc` config will be kept which is actually tested in the previous test case",
+      "range": {
+        "startLine": 68,
+        "startChar": 14,
+        "endLine": 68,
+        "endChar": 56
+      },
+      "revId": "503eff4b0b1aa38f2309e3edc2c92c0d7f3594db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
