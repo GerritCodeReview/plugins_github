@@ -26,6 +26,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b2d0f3f6_6b75a8a5",
+        "filename": "github-plugin/src/test/java/com/googlesource/gerrit/plugins/github/FanoutReplicationConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-24T08:40:31Z",
+      "side": 1,
+      "message": "nit: newline",
+      "revId": "503eff4b0b1aa38f2309e3edc2c92c0d7f3594db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "484bba33_d760cdf8",
         "filename": "github-plugin/src/test/java/com/googlesource/gerrit/plugins/github/FanoutReplicationConfigTest.java",
         "patchSetId": 1
@@ -37,6 +54,24 @@
       "writtenOn": "2023-10-24T06:21:32Z",
       "side": 1,
       "message": "question: how about adding tests cases for `push` piece of the replication config?",
+      "revId": "503eff4b0b1aa38f2309e3edc2c92c0d7f3594db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c458f31_4480b4ba",
+        "filename": "github-plugin/src/test/java/com/googlesource/gerrit/plugins/github/FanoutReplicationConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-24T08:40:31Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "484bba33_d760cdf8",
       "revId": "503eff4b0b1aa38f2309e3edc2c92c0d7f3594db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
