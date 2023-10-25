@@ -16,6 +16,23 @@
       "message": "@geminica.programs@gmail.com thanks for your reviews, PTAL.",
       "revId": "b1d62efec4d6bd9e63e7f5e9dd8c545a5d5c1687",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f711deb_3d66b952",
+        "filename": "github-plugin/src/test/java/com/googlesource/gerrit/plugins/github/FanoutReplicationConfigTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-10-25T17:58:02Z",
+      "side": 1,
+      "message": "```suggestion\n    assertThat(currConfig.getString(\"remote\", null, \"url\")).isEqualTo(url);\n    assertThat(currConfig.getString(\"remote\", null, \"push\")).isEqualTo(\"refs/*:refs/*\");\n```\n\nso that we check if `push` is also a subject of ad-hoc settings?",
+      "revId": "b1d62efec4d6bd9e63e7f5e9dd8c545a5d5c1687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
