@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36b75684_13864423",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-27T20:44:37Z",
+      "side": 0,
+      "message": "This public method was also used from repositories.html:56\n```\n \u003ca href\u003d\"$config.getScopeSelectionUrl(null)\"\u003e\n Login with a different GitHub Scope\n \u003c/a\u003e\n```",
+      "range": {
+        "startLine": 160,
+        "startChar": 16,
+        "endLine": 160,
+        "endChar": 36
+      },
+      "revId": "87e71fb8b19c9cfc4e6dcc86f3ad139a0f0f0155",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
