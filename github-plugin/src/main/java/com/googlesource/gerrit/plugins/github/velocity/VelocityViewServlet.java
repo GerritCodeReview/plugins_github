@@ -25,6 +25,7 @@ import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map.Entry;
+import java.util.Optional;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -94,8 +95,11 @@ public class VelocityViewServlet extends HttpServlet {
   private PluginVelocityModel initVelocityModel(HttpServletRequest request) throws IOException {
     PluginVelocityModel model = modelProvider.get();
     GitHubLogin gitHubLogin = loginProvider.get(request);
+    String serverName = request.getServerName();
     model.put("myself", gitHubLogin.getMyself());
     model.put("config", config);
+    model.put(
+        "scopes", Optional.ofNullable(config.virtualScopes.get(serverName)).orElse(config.scopes));
 
     CurrentUser user = userProvider.get();
     if (user.isIdentifiedUser()) {

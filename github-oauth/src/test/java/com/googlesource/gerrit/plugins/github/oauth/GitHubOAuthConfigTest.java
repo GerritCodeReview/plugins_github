@@ -24,10 +24,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 
 import com.google.gerrit.extensions.client.AuthType;
-import com.google.gerrit.httpd.CanonicalWebUrl;
-import com.google.inject.AbstractModule;
-import com.google.inject.Guice;
-import com.google.inject.util.Providers;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
@@ -35,7 +33,6 @@ import org.junit.Test;
 
 public class GitHubOAuthConfigTest {
 
-  CanonicalWebUrl canonicalWebUrl;
   Config config;
   private static final String testPasswordDevice = "/dev/zero";
 
@@ -46,18 +43,6 @@ public class GitHubOAuthConfigTest {
     config.setString(CONF_SECTION, null, "clientId", "theClientId");
     config.setString("auth", null, "httpHeader", "GITHUB_USER");
     config.setString("auth", null, "type", AuthType.HTTP.toString());
-
-    canonicalWebUrl =
-        Guice.createInjector(
-                new AbstractModule() {
-                  @Override
-                  protected void configure() {
-                    bind(String.class)
-                        .annotatedWith(com.google.gerrit.server.config.CanonicalWebUrl.class)
-                        .toProvider(Providers.of(null));
-                  }
-                })
-            .getInstance(CanonicalWebUrl.class);
   }
 
   @Test
@@ -178,8 +163,33 @@ public class GitHubOAuthConfigTest {
     assertEquals(Optional.of(myDomain), githubOAuthConfig().getCookieDomain());
   }
 
+  @Test
+  public void shouldReturnOverridesForSpecificHostName() {
+    setupEncryptionConfig();
+    String vhost = "v.host.com";
+    String description = "scope description";
+
+    // virtual host scopes
+    config.setString(CONF_SECTION, vhost, "scopesVHost", "USER_EMAIL");
+    config.setInt(CONF_SECTION, vhost, "scopesVHostSequence", 1);
+    config.setString(CONF_SECTION, vhost, "scopesVHostDescription", "scope description");
+
+    Map<String, Map<ScopeKey, List<OAuthProtocol.Scope>>> virtualScopes =
+        githubOAuthConfig().getVirtualScopes();
+
+    assertEquals(virtualScopes.containsKey(vhost), true);
+
+    Map<ScopeKey, List<OAuthProtocol.Scope>> vhostConfig = virtualScopes.get(vhost);
+    Map.Entry<ScopeKey, List<OAuthProtocol.Scope>> entry = vhostConfig.entrySet().iterator().next();
+
+    assertEquals(entry.getKey().name, "scopesVHost");
+    assertEquals(entry.getKey().description, description);
+    assertEquals(entry.getKey().sequence, 1);
+    assertEquals(List.of(OAuthProtocol.Scope.USER_EMAIL), entry.getValue());
+  }
+
   private GitHubOAuthConfig githubOAuthConfig() {
-    return new GitHubOAuthConfig(config, canonicalWebUrl);
+    return new GitHubOAuthConfig(config);
   }
 
   private void setupEncryptionConfig() {

@@ -24,6 +24,7 @@ import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import com.googlesource.gerrit.plugins.github.oauth.CannonicalWebUrls;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -40,6 +41,7 @@ public class GitHubTopMenu implements TopMenu {
       @PluginName String pluginName,
       Provider<CurrentUser> userProvider,
       AuthConfig authConfig,
+      CannonicalWebUrls urlProvider,
       GitHubConfig ghConfig) {
     String baseUrl = "/plugins/" + pluginName;
     this.menuEntries =
@@ -47,7 +49,7 @@ public class GitHubTopMenu implements TopMenu {
             new MenuEntry(
                 "GitHub",
                 Arrays.asList(
-                    getItem("Scope", ghConfig.getScopeSelectionUrl(null)),
+                    getItem("Scope", urlProvider.getScopeSelectionUrl()),
                     getItem("Profile", baseUrl + "/static/account.html"),
                     getItem("Repositories", baseUrl + "/static/repositories.html"),
                     getItem("Pull Requests", baseUrl + "/static/pullrequests.html"))));
