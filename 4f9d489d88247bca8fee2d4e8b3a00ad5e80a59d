@@ -81,6 +81,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "936597e1_396a1cc6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-27T20:38:57Z",
+      "side": 1,
+      "message": "I get an exception after the login wizard with:\n```\norg.apache.velocity.exception.MethodInvocationException: Object \u0027com.googlesource.gerrit.plugins.github.GitHubConfig\u0027 does not contain method getScopeSelectionUrl(null) at /static/repositories.html[line 56, column 97]\n```",
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3477c7b0_00360769",
