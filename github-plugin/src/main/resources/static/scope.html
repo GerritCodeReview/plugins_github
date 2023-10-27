@@ -44,7 +44,7 @@
         <form class="signupform" method="get" action="/login">
           <h5>Which level of GitHub access do you need?</h5>
           <ul class="scopes">
-                #foreach ( $scope in $config.sortedScopesKeys )
+                #foreach ( $scope in $scopes.keySet() )
                     <li>
                         #set ( $scopeName = $scope.name.substring(6) )
                         #set ( $scopeDescription = $scope.description )
@@ -60,7 +60,7 @@
                         #end
                         <p class="scopeDescription">$scopeDescription</p>
                         <p class="scopePermissions">Allow to:
-                            #set ( $scopeItems = $config.scopes.get($scope) )
+                            #set ( $scopeItems = $scopes.get($scope) )
                             #foreach ( $scopeItem in $scopeItems )
                                 $scopeItem.description
                                 #if ( $foreach.count < $scopeItems.size())
