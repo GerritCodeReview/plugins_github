@@ -28,6 +28,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -64,6 +66,7 @@ public class GitHubLogin implements Serializable {
 
   private SortedSet<Scope> loginScopes;
   private final GitHubOAuthConfig config;
+  private final CannonicalWebUrls cannonicalWebUrls;
   private final GitHubConnector gitHubConnector;
 
   public GHMyself getMyself() throws IOException {
@@ -81,8 +84,12 @@ public class GitHubLogin implements Serializable {
   }
 
   @Inject
-  public GitHubLogin(GitHubOAuthConfig config, GitHubHttpConnector httpConnector) {
+  public GitHubLogin(
+      GitHubOAuthConfig config,
+      CannonicalWebUrls cannonicalWebUrls,
+      GitHubHttpConnector httpConnector) {
     this.config = config;
+    this.cannonicalWebUrls = cannonicalWebUrls;
     this.gitHubConnector = GitHubConnectorHttpConnectorAdapter.adapt(httpConnector);
   }
 
@@ -108,12 +115,13 @@ public class GitHubLogin implements Serializable {
         response.sendRedirect(OAuthProtocol.getTargetUrl(request));
       }
     } else {
-      Set<ScopeKey> configuredScopesProfiles = config.scopes.keySet();
+      Set<ScopeKey> configuredScopesProfiles = getConfiguredScopes(request).keySet();
       String scopeRequested = getScopesKey(request, response);
       if (Strings.isNullOrEmpty(scopeRequested) && configuredScopesProfiles.size() > 1) {
-        response.sendRedirect(config.getScopeSelectionUrl(request));
+        response.sendRedirect(cannonicalWebUrls.getScopeSelectionUrl());
       } else {
-        this.loginScopes = getScopes(MoreObjects.firstNonNull(scopeRequested, "scopes"), scopes);
+        this.loginScopes =
+            getScopes(request, MoreObjects.firstNonNull(scopeRequested, "scopes"), scopes);
         log.debug("Login-PHASE1 " + this);
         state = oauth.loginPhase1(request, response, loginScopes);
       }
@@ -179,18 +187,23 @@ public class GitHubLogin implements Serializable {
     return null;
   }
 
-  private SortedSet<Scope> getScopes(String baseScopeKey, Scope... scopes) {
-    HashSet<Scope> fullScopes = new HashSet<>(scopesForKey(baseScopeKey));
+  private SortedSet<Scope> getScopes(HttpServletRequest req, String baseScopeKey, Scope... scopes) {
+    HashSet<Scope> fullScopes = new HashSet<>(scopesForKey(req, baseScopeKey));
     fullScopes.addAll(Arrays.asList(scopes));
 
     return new TreeSet<>(fullScopes);
   }
 
-  private List<Scope> scopesForKey(String baseScopeKey) {
-    return config.scopes.entrySet().stream()
+  private List<Scope> scopesForKey(HttpServletRequest req, String baseScopeKey) {
+    return getConfiguredScopes(req).entrySet().stream()
         .filter(entry -> entry.getKey().name.equals(baseScopeKey))
         .map(entry -> entry.getValue())
         .findFirst()
         .orElse(DEFAULT_SCOPES);
+  }
+
+  private Map<ScopeKey, List<Scope>> getConfiguredScopes(HttpServletRequest req) {
+    String serverName = req.getServerName();
+    return Optional.ofNullable(config.virtualScopes.get(serverName)).orElse(config.scopes);
   }
 }

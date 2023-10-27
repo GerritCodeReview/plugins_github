@@ -20,11 +20,13 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import com.googlesource.gerrit.plugins.github.GitHubConfig;
+import com.googlesource.gerrit.plugins.github.oauth.CannonicalWebUrls;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map.Entry;
+import java.util.Optional;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -49,6 +51,7 @@ public class VelocityViewServlet extends HttpServlet {
   private final ScopedProvider<GitHubLogin> loginProvider;
   private final Provider<CurrentUser> userProvider;
   private final GitHubConfig config;
+  private final CannonicalWebUrls cannonicalWebUrls;
 
   @Inject
   public VelocityViewServlet(
@@ -56,13 +59,15 @@ public class VelocityViewServlet extends HttpServlet {
       Provider<PluginVelocityModel> modelProvider,
       ScopedProvider<GitHubLogin> loginProvider,
       Provider<CurrentUser> userProvider,
-      GitHubConfig config) {
+      GitHubConfig config,
+      CannonicalWebUrls cannonicalWebUrls) {
 
     this.velocityRuntime = velocityRuntime;
     this.modelProvider = modelProvider;
     this.loginProvider = loginProvider;
     this.userProvider = userProvider;
     this.config = config;
+    this.cannonicalWebUrls = cannonicalWebUrls;
   }
 
   @Override
@@ -94,8 +99,12 @@ public class VelocityViewServlet extends HttpServlet {
   private PluginVelocityModel initVelocityModel(HttpServletRequest request) throws IOException {
     PluginVelocityModel model = modelProvider.get();
     GitHubLogin gitHubLogin = loginProvider.get(request);
+    String serverName = request.getServerName();
     model.put("myself", gitHubLogin.getMyself());
     model.put("config", config);
+    model.put("scopeSelectionUrl", cannonicalWebUrls.getScopeSelectionUrl());
+    model.put(
+        "scopes", Optional.ofNullable(config.virtualScopes.get(serverName)).orElse(config.scopes));
 
     CurrentUser user = userProvider.get();
     if (user.isIdentifiedUser()) {
