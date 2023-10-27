@@ -1,0 +1,314 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9b6ba3d_8801d289",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-27T19:15:47Z",
+      "side": 1,
+      "message": "may be",
+      "range": {
+        "startLine": 9,
+        "startChar": 63,
+        "endLine": 9,
+        "endChar": 68
+      },
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4eac25e7_552025fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-27T19:15:47Z",
+      "side": 1,
+      "message": "each",
+      "range": {
+        "startLine": 10,
+        "startChar": 48,
+        "endLine": 10,
+        "endChar": 53
+      },
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88013ad6_1fa0237f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-27T19:15:47Z",
+      "side": 1,
+      "message": "Extremely good stuff @dariusz.luksza@gmail.com ! Tested E2E on eclipse.gerrithub.io and works like a charm.",
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3477c7b0_00360769",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-27T19:15:47Z",
+      "side": 1,
+      "message": "This is now a `SortedMap`.\n\n\n```suggestion\n  @Getter public final SortedMap\u003cScopeKey, List\u003cOAuthProtocol.Scope\u003e\u003e scopes;\n```",
+      "range": {
+        "startLine": 70,
+        "startChar": 23,
+        "endLine": 70,
+        "endChar": 26
+      },
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4aafea67_2447ae83",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-27T19:15:47Z",
+      "side": 1,
+      "message": "We need a `SortedMap` because of the need of sorting the keys by sequence number.\n\n\n```suggestion\n  @Getter public final Map\u003cString, SortedMap\u003cScopeKey, List\u003cOAuthProtocol.Scope\u003e\u003e\u003e virtualScopes;\n```",
+      "range": {
+        "startLine": 71,
+        "startChar": 35,
+        "endLine": 71,
+        "endChar": 38
+      },
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f0a4e67_33ce6947",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-27T19:15:47Z",
+      "side": 1,
+      "message": "```suggestion\n  private SortedMap\u003cScopeKey, List\u003cScope\u003e\u003e getScopes(Config config) {\n```",
+      "range": {
+        "startLine": 150,
+        "startChar": 10,
+        "endLine": 150,
+        "endChar": 13
+      },
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0ee7254_504dcb6b",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-27T19:15:47Z",
+      "side": 1,
+      "message": "```suggestion\n  private Map\u003cString, SortedMap\u003cScopeKey, List\u003cScope\u003e\u003e\u003e getVirtualScopes(Config config) {\n```",
+      "range": {
+        "startLine": 154,
+        "startChar": 22,
+        "endLine": 154,
+        "endChar": 25
+      },
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e6e56f8_02194527",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-27T19:15:47Z",
+      "side": 1,
+      "message": "This is a `SortedMap`\n\n\n```suggestion\n  private SortedMap\u003cScopeKey, List\u003cScope\u003e\u003e getScopesInSection(Config config, String subsection) {\n```",
+      "range": {
+        "startLine": 159,
+        "startChar": 10,
+        "endLine": 159,
+        "endChar": 13
+      },
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55387c1a_848f093a",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-27T19:15:47Z",
+      "side": 1,
+      "message": "`\n```suggestion\n    String scopeDescription \u003d \"scope description\";\n```",
+      "range": {
+        "startLine": 170,
+        "startChar": 11,
+        "endLine": 170,
+        "endChar": 22
+      },
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9b1ef9a_d460ea3f",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-27T19:15:47Z",
+      "side": 1,
+      "message": "We should define at least two scopes with two different sequence numbers and assert that they are returned in order.",
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a12430c5_ccbed98a",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-27T19:15:47Z",
+      "side": 1,
+      "message": "DRY this out with the `scopeDescription` variable at L170.\n\n\n```suggestion\n    config.setString(CONF_SECTION, vhost, \"scopesVHostDescription\", scopeDescription);\n```",
+      "range": {
+        "startLine": 175,
+        "startChar": 68,
+        "endLine": 175,
+        "endChar": 87
+      },
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ecbf1c8_adbdcde3",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-27T19:15:47Z",
+      "side": 1,
+      "message": "```suggestion\n    Map\u003cString, SortedMap\u003cScopeKey, List\u003cOAuthProtocol.Scope\u003e\u003e\u003e virtualScopes \u003d\n```",
+      "range": {
+        "startLine": 177,
+        "startChar": 4,
+        "endLine": 177,
+        "endChar": 7
+      },
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54021b5b_b733a6a0",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-27T19:15:47Z",
+      "side": 1,
+      "message": "```suggestion\n    SortedMap\u003cScopeKey, List\u003cOAuthProtocol.Scope\u003e\u003e vhostConfig \u003d virtualScopes.get(vhost);\n```",
+      "range": {
+        "startLine": 182,
+        "startChar": 4,
+        "endLine": 182,
+        "endChar": 7
+      },
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27cf3b5d_f8a3a6c7",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-27T19:15:47Z",
+      "side": 1,
+      "message": "nit: consider DRY this out L185 with L173 into a variable called `scopeName`",
+      "range": {
+        "startLine": 185,
+        "startChar": 38,
+        "endLine": 185,
+        "endChar": 51
+      },
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
