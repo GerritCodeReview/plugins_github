@@ -77,6 +77,10 @@ github.scopes
     Default is empty read-only access to public 
     information (includes public user profile info, public repository info, and gists).
 
+github.<domain>.scopes
+:   Use only in conjunction with the `virtualhost` plugin to provide different GitHub scopes
+    selections for each virtual domain. It works the same way as `github.scopes`.
+
 github.httpConnectionTimeout
 :   Maximum time to wait for GitHub API to answer to a new HTTP connection attempt.
     Values should use common common unit unit suffixes to express their setting:

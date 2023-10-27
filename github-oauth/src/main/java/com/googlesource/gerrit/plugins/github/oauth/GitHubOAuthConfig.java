@@ -13,14 +13,14 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.oauth;
 
+import static com.googlesource.gerrit.plugins.github.oauth.CannonicalWebUrls.trimTrailingSlash;
 import static com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig.KeyConfig.PASSWORD_DEVICE_CONFIG_LABEL;
 
-import com.google.common.base.CharMatcher;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableSortedMap;
 import com.google.gerrit.extensions.client.AuthType;
-import com.google.gerrit.httpd.CanonicalWebUrl;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
@@ -35,17 +35,16 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.SortedMap;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletRequest;
 import lombok.Getter;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class GitHubOAuthConfig {
   private final Config config;
-  private final CanonicalWebUrl canonicalWebUrl;
 
   public static final String CONF_SECTION = "github";
   public static final String CONF_KEY_SECTION = "github-key";
@@ -66,10 +65,11 @@ public class GitHubOAuthConfig {
   public final String httpHeader;
   public final String gitHubOAuthUrl;
   public final String gitHubOAuthAccessTokenUrl;
+  public final String scopeSelectionUrl;
   public final boolean enabled;
 
-  @Getter public final Map<ScopeKey, List<OAuthProtocol.Scope>> scopes;
-  @Getter public final List<ScopeKey> sortedScopesKeys;
+  @Getter public final SortedMap<ScopeKey, List<OAuthProtocol.Scope>> scopes;
+  @Getter public final Map<String, SortedMap<ScopeKey, List<OAuthProtocol.Scope>>> virtualScopes;
 
   public final int fileUpdateMaxRetryCount;
   public final int fileUpdateMaxRetryIntervalMsec;
@@ -82,9 +82,8 @@ public class GitHubOAuthConfig {
   private final Optional<String> cookieDomain;
 
   @Inject
-  protected GitHubOAuthConfig(@GerritServerConfig Config config, CanonicalWebUrl canonicalWebUrl) {
+  protected GitHubOAuthConfig(@GerritServerConfig Config config) {
     this.config = config;
-    this.canonicalWebUrl = canonicalWebUrl;
 
     httpHeader =
         Preconditions.checkNotNull(
@@ -105,6 +104,7 @@ public class GitHubOAuthConfig {
         Preconditions.checkNotNull(
             config.getString(CONF_SECTION, null, "clientSecret"),
             "GitHub `clientSecret` must be provided");
+    scopeSelectionUrl = config.getString(CONF_SECTION, null, "scopeSelectionUrl");
 
     oauthHttpHeader = config.getString("auth", null, "httpExternalIdHeader");
     gitHubOAuthUrl = gitHubUrl + GITHUB_OAUTH_AUTHORIZE;
@@ -114,10 +114,7 @@ public class GitHubOAuthConfig {
     enabled = config.getString("auth", null, "type").equalsIgnoreCase(AuthType.HTTP.toString());
     cookieDomain = Optional.ofNullable(config.getString("auth", null, "cookieDomain"));
     scopes = getScopes(config);
-    sortedScopesKeys =
-        scopes.keySet().stream()
-            .sorted(Comparator.comparing(ScopeKey::getSequence))
-            .collect(Collectors.toList());
+    virtualScopes = getVirtualScopes(config);
 
     fileUpdateMaxRetryCount = config.getInt(CONF_SECTION, "fileUpdateMaxRetryCount", 3);
     fileUpdateMaxRetryIntervalMsec =
@@ -151,36 +148,29 @@ public class GitHubOAuthConfig {
     currentKeyConfig = currentKeyConfigs.get(0);
   }
 
-  public String getOAuthFinalRedirectUrl(HttpServletRequest req) {
-    return req == null
-        ? GERRIT_OAUTH_FINAL
-        : trimTrailingSlash(canonicalWebUrl.get(req)) + GERRIT_OAUTH_FINAL;
+  private SortedMap<ScopeKey, List<Scope>> getScopes(Config config) {
+    return getScopesInSection(config, null);
   }
 
-  public String getScopeSelectionUrl(HttpServletRequest req) {
-    String canonicalUrl = req == null ? "" : trimTrailingSlash(canonicalWebUrl.get(req));
-    return canonicalUrl
-        + MoreObjects.firstNonNull(
-            config.getString(CONF_SECTION, null, "scopeSelectionUrl"), GITHUB_PLUGIN_OAUTH_SCOPE);
+  private Map<String, SortedMap<ScopeKey, List<Scope>>> getVirtualScopes(Config config) {
+    return config.getSubsections(CONF_SECTION).stream()
+        .collect(Collectors.toMap(k -> k, v -> getScopesInSection(config, v)));
   }
 
-  private Map<ScopeKey, List<Scope>> getScopes(Config config) {
-    return config.getNames(CONF_SECTION, true).stream()
+  private SortedMap<ScopeKey, List<Scope>> getScopesInSection(Config config, String subsection) {
+    return config.getNames(CONF_SECTION, subsection, true).stream()
         .filter(k -> k.startsWith("scopes"))
         .filter(k -> !k.endsWith("Description"))
         .filter(k -> !k.endsWith("Sequence"))
         .collect(
-            Collectors.toMap(
+            ImmutableSortedMap.toImmutableSortedMap(
+                Comparator.comparing(ScopeKey::getSequence),
                 k ->
                     new ScopeKey(
                         k,
-                        config.getString(CONF_SECTION, null, k + "Description"),
-                        config.getInt(CONF_SECTION, k + "Sequence", 0)),
-                v -> parseScopesString(config.getString(CONF_SECTION, null, v))));
-  }
-
-  private String trimTrailingSlash(String url) {
-    return CharMatcher.is('/').trimTrailingFrom(url);
+                        config.getString(CONF_SECTION, subsection, k + "Description"),
+                        config.getInt(CONF_SECTION, subsection, k + "Sequence", 0)),
+                v -> parseScopesString(config.getString(CONF_SECTION, subsection, v))));
   }
 
   private List<Scope> parseScopesString(String scopesString) {
