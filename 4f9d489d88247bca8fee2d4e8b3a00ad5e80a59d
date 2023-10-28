@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "77e39143_53bbf4af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-28T11:37:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9b6ba3d_8801d289",
+      "range": {
+        "startLine": 9,
+        "startChar": 63,
+        "endLine": 9,
+        "endChar": 68
+      },
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4eac25e7_552025fe",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "72233f1b_ef6bf50f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-28T11:37:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4eac25e7_552025fe",
+      "range": {
+        "startLine": 10,
+        "startChar": 48,
+        "endLine": 10,
+        "endChar": 53
+      },
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1c23988a_c07c1d2b",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-10-28T07:54:29Z",
       "side": 1,
       "message": "nit: `s/do/does`",
+      "range": {
+        "startLine": 11,
+        "startChar": 20,
+        "endLine": 11,
+        "endChar": 22
+      },
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9b6be11_e9c03cc1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-28T11:37:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c23988a_c07c1d2b",
       "range": {
         "startLine": 11,
         "startChar": 20,
@@ -172,6 +244,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c0a7784_f48e7222",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/CannonicalWebUrls.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-28T11:37:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96a27e88_77d8c997",
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f936372d_d4d7488c",
@@ -214,6 +304,48 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "27a4adc1_086a7ca9",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/CannonicalWebUrls.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-28T11:37:18Z",
+      "side": 1,
+      "message": "I had a hard time naming this class. It started as `UrlsProvider` but then decided to rename it to `CannonicalWebUrls` as all of the URLs it provides are absolute and include the canonical web url, so I went with it.\n\nI wouldn\u0027t say that it has _two responsibilities_, it does provide different URLs, but as mentioned above they share the same properties. Splitting this into two separate classes with one method each feels a bit of an overkill.\n\nAlso, where\u0027d you put the static `trimTrailingSlash` method? Maybe it should also deserve its own _utility_ class?",
+      "parentUuid": "f936372d_d4d7488c",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 30
+      },
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75d6b892_3ff3e471",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/CannonicalWebUrls.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-28T11:37:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f93bb28_a98c3613",
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3fb040eb_eb087f49",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/CannonicalWebUrls.java",
         "patchSetId": 1
@@ -225,6 +357,30 @@
       "writtenOn": "2023-10-28T07:54:29Z",
       "side": 1,
       "message": "nit: can be package protected",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 9
+      },
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28e0eceb_e1f287cd",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/CannonicalWebUrls.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-28T11:37:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fb040eb_eb087f49",
       "range": {
         "startLine": 28,
         "startChar": 2,
@@ -248,6 +404,30 @@
       "writtenOn": "2023-10-28T07:54:29Z",
       "side": 1,
       "message": "nit: can be package protected",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 39,
+        "endChar": 9
+      },
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8f3659e_887847c5",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/CannonicalWebUrls.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-28T11:37:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6294a42_59917dad",
       "range": {
         "startLine": 39,
         "startChar": 2,
@@ -283,6 +463,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bdaa3356_74cdf25c",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubLogin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-28T11:37:18Z",
+      "side": 1,
+      "message": "Yes, both are the same, but I don\u0027t feel like this belongs to the `Config` class which IMO should only provide the \"data\" without any logic (something like DTO class). Would rather have something on top of it with the logic.\n\nWDYT?",
+      "parentUuid": "e151d6fd_f4f04ca1",
+      "range": {
+        "startLine": 205,
+        "startChar": 2,
+        "endLine": 208,
+        "endChar": 3
+      },
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3477c7b0_00360769",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
         "patchSetId": 1
@@ -294,6 +498,30 @@
       "writtenOn": "2023-10-27T19:15:47Z",
       "side": 1,
       "message": "This is now a `SortedMap`.\n\n\n```suggestion\n  @Getter public final SortedMap\u003cScopeKey, List\u003cOAuthProtocol.Scope\u003e\u003e scopes;\n```",
+      "range": {
+        "startLine": 70,
+        "startChar": 23,
+        "endLine": 70,
+        "endChar": 26
+      },
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "100ebe11_22e99d8a",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-28T11:37:18Z",
+      "side": 1,
+      "message": "Sure, we may document that it\u0027s actually a sorted map now.",
+      "parentUuid": "3477c7b0_00360769",
       "range": {
         "startLine": 70,
         "startChar": 23,
@@ -327,6 +555,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "75bd52f9_ee2b06fd",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-28T11:37:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4aafea67_2447ae83",
+      "range": {
+        "startLine": 71,
+        "startChar": 35,
+        "endLine": 71,
+        "endChar": 38
+      },
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1f0a4e67_33ce6947",
@@ -340,6 +592,30 @@
       "writtenOn": "2023-10-27T19:15:47Z",
       "side": 1,
       "message": "```suggestion\n  private SortedMap\u003cScopeKey, List\u003cScope\u003e\u003e getScopes(Config config) {\n```",
+      "range": {
+        "startLine": 150,
+        "startChar": 10,
+        "endLine": 150,
+        "endChar": 13
+      },
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "206c2f8d_2e5a3d0b",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-28T11:37:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f0a4e67_33ce6947",
       "range": {
         "startLine": 150,
         "startChar": 10,
@@ -373,6 +649,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "edd27a6a_882eea3f",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-28T11:37:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0ee7254_504dcb6b",
+      "range": {
+        "startLine": 154,
+        "startChar": 22,
+        "endLine": 154,
+        "endChar": 25
+      },
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4e6e56f8_02194527",
@@ -386,6 +686,30 @@
       "writtenOn": "2023-10-27T19:15:47Z",
       "side": 1,
       "message": "This is a `SortedMap`\n\n\n```suggestion\n  private SortedMap\u003cScopeKey, List\u003cScope\u003e\u003e getScopesInSection(Config config, String subsection) {\n```",
+      "range": {
+        "startLine": 159,
+        "startChar": 10,
+        "endLine": 159,
+        "endChar": 13
+      },
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2beaf9bc_2b96c577",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-28T11:37:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e6e56f8_02194527",
       "range": {
         "startLine": 159,
         "startChar": 10,
@@ -419,6 +743,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a123b1f8_322045da",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-28T11:37:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55387c1a_848f093a",
+      "range": {
+        "startLine": 170,
+        "startChar": 11,
+        "endLine": 170,
+        "endChar": 22
+      },
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f9b1ef9a_d460ea3f",
@@ -436,6 +784,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b90b684_eadccc77",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-28T11:37:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9b1ef9a_d460ea3f",
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a12430c5_ccbed98a",
@@ -449,6 +815,30 @@
       "writtenOn": "2023-10-27T19:15:47Z",
       "side": 1,
       "message": "DRY this out with the `scopeDescription` variable at L170.\n\n\n```suggestion\n    config.setString(CONF_SECTION, vhost, \"scopesVHostDescription\", scopeDescription);\n```",
+      "range": {
+        "startLine": 175,
+        "startChar": 68,
+        "endLine": 175,
+        "endChar": 87
+      },
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd81ed3b_42329a06",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-28T11:37:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a12430c5_ccbed98a",
       "range": {
         "startLine": 175,
         "startChar": 68,
@@ -482,6 +872,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eafb8aea_08c23bcf",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-28T11:37:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ecbf1c8_adbdcde3",
+      "range": {
+        "startLine": 177,
+        "startChar": 4,
+        "endLine": 177,
+        "endChar": 7
+      },
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "54021b5b_b733a6a0",
@@ -505,6 +919,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4539bb5d_06809a61",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-28T11:37:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54021b5b_b733a6a0",
+      "range": {
+        "startLine": 182,
+        "startChar": 4,
+        "endLine": 182,
+        "endChar": 7
+      },
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "27cf3b5d_f8a3a6c7",
@@ -518,6 +956,30 @@
       "writtenOn": "2023-10-27T19:15:47Z",
       "side": 1,
       "message": "nit: consider DRY this out L185 with L173 into a variable called `scopeName`",
+      "range": {
+        "startLine": 185,
+        "startChar": 38,
+        "endLine": 185,
+        "endChar": 51
+      },
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fefb62a_c1d7b97e",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-28T11:37:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27cf3b5d_f8a3a6c7",
       "range": {
         "startLine": 185,
         "startChar": 38,
