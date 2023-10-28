@@ -47,6 +47,29 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c23988a_c07c1d2b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-10-28T07:54:29Z",
+      "side": 1,
+      "message": "nit: `s/do/does`",
+      "range": {
+        "startLine": 11,
+        "startChar": 20,
+        "endLine": 11,
+        "endChar": 22
+      },
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "88013ad6_1fa0237f",
@@ -111,6 +134,149 @@
       "writtenOn": "2023-10-27T20:44:37Z",
       "side": 1,
       "message": "Breaks the repositories.html Velocity Template.",
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3784778_4df629b6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-10-28T07:54:29Z",
+      "side": 1,
+      "message": "A few nits, overall good stuff 😎",
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96a27e88_77d8c997",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/CannonicalWebUrls.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-10-28T07:54:29Z",
+      "side": 1,
+      "message": "nit: empty line",
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f936372d_d4d7488c",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/CannonicalWebUrls.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-10-28T07:54:29Z",
+      "side": 1,
+      "message": "nit: class has _two_ responsibilities:\n1. provide canonicalWebUrl that depends on request\n2. provide canonicalWebUrl\u0027s dependant scope selection\n\nIt is more evident by looking at the customers of it - they either use it to get `canonicalWebUrl` or to get `scopes` AFAICT there is no single one that uses both hence IMHO it is a potential reason to split it in two (and one is used exclusively in `outh` so could be package protected). Apart from the lesser fact that its name doesn\u0027t suggest that it provides the second responsibility 😊 WDYT?",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 30
+      },
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f93bb28_a98c3613",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/CannonicalWebUrls.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-10-28T07:54:29Z",
+      "side": 1,
+      "message": "nit: class is used in a few singletons and on login maybe it make sense to turn it into `@Singleton` so that a single object will be held in memory?",
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fb040eb_eb087f49",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/CannonicalWebUrls.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-10-28T07:54:29Z",
+      "side": 1,
+      "message": "nit: can be package protected",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 9
+      },
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6294a42_59917dad",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/CannonicalWebUrls.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-10-28T07:54:29Z",
+      "side": 1,
+      "message": "nit: can be package protected",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 39,
+        "endChar": 9
+      },
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e151d6fd_f4f04ca1",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubLogin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-10-28T07:54:29Z",
+      "side": 1,
+      "message": "nit: similar functionality is used also in `VelocityViewServlet` so maybe it could be moved to `GitHubOAuthConfig`, WDYT?",
+      "range": {
+        "startLine": 205,
+        "startChar": 2,
+        "endLine": 208,
+        "endChar": 3
+      },
       "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
