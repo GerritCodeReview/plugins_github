@@ -96,7 +96,10 @@ public class PullRequestCreateChange {
       final RevCommit pullRequestCommit,
       final String pullRequestMessage,
       final String topic)
-      throws NoSuchChangeException, IOException, InvalidChangeOperationException, UpdateException,
+      throws NoSuchChangeException,
+          IOException,
+          InvalidChangeOperationException,
+          UpdateException,
           RestApiException {
     try (BatchUpdate bu =
         updateFactory.create(

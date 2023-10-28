@@ -128,7 +128,8 @@ public class InitGitHub implements InitStep {
     if (maybeCurrentKeyId.isPresent()) {
       if (!ui.yesno(
           false,
-          "Current GitHub OAuth token cipher is configured under the %s key id. Do you want to configure a new one?",
+          "Current GitHub OAuth token cipher is configured under the %s key id. Do you want to"
+              + " configure a new one?",
           maybeCurrentKeyId.get())) {
         return;
       }

@@ -148,7 +148,8 @@ public class OAuthTokenCipher {
     if (nOfTokens != 2) {
       throw new IllegalStateException(
           String.format(
-              "The encrypted key is expected to contain 2 tokens (keyId:key), whereas it contains %d tokens",
+              "The encrypted key is expected to contain 2 tokens (keyId:key), whereas it contains"
+                  + " %d tokens",
               nOfTokens));
     }
     return tokens;
