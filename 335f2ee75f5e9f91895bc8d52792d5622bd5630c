@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "389001cc_8a7130d7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-29T22:13:14Z",
+      "side": 1,
+      "message": "Thanks for completing the fix @dariusz.luksza@gmail.com and @geminica.programs@gmail.com for the thorough reviews 👍",
+      "revId": "335f2ee75f5e9f91895bc8d52792d5622bd5630c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a5a09a8e_79587886",
