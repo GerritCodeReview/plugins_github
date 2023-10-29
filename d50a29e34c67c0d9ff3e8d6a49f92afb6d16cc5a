@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0af3126b_68a2ed40",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-10-29T09:16:58Z",
+      "side": 1,
+      "message": "According to [style guide](https://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html) Gerrit uses GJF in version `1.7`. The change is proposed for plugin but still we shouldn\u0027t have two versions of formatting tool in development...",
+      "revId": "d50a29e34c67c0d9ff3e8d6a49f92afb6d16cc5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
