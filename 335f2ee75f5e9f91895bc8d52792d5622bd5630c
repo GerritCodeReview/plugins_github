@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5a09a8e_79587886",
+        "filename": "github-plugin/src/main/resources/Documentation/config.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-29T22:12:26Z",
+      "side": 1,
+      "message": "`domain` for consistency with L118.\n\nDoes it make sense to have a specific chapter about the _domain-specific_ configs?",
+      "range": {
+        "startLine": 80,
+        "startChar": 8,
+        "endLine": 80,
+        "endChar": 19
+      },
+      "revId": "335f2ee75f5e9f91895bc8d52792d5622bd5630c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
