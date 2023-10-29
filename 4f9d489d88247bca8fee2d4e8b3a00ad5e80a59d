@@ -344,6 +344,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d03c36b3_5915c2a7",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/CannonicalWebUrls.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-29T22:07:19Z",
+      "side": 1,
+      "message": "I agree that splitting them is overkill for now. I\u0027d leave it like that and, should new method appear, we\u0027ll take the opportunity to split it into two classes.",
+      "parentUuid": "27a4adc1_086a7ca9",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 30
+      },
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3fb040eb_eb087f49",
