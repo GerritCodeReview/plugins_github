@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "819f9c72_788db427",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-30T12:07:31Z",
+      "side": 1,
+      "message": "\u003e don\u0027t know enough to effectively review it, but some nits on typos/style\n\nI\u0027ll do a follow-up change to address nits in the code. Thank you for reviewing!",
+      "parentUuid": "d5cd34b3_f2a455e6",
+      "revId": "f0678bb0e80509b9c042eb843f711e3be4f3b55b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e7cdce1f_7ca6a970",
