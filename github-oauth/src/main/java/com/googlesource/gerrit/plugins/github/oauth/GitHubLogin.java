@@ -64,7 +64,7 @@ public class GitHubLogin implements Serializable {
 
   private SortedSet<Scope> loginScopes;
   private final GitHubOAuthConfig config;
-  private final CannonicalWebUrls cannonicalWebUrls;
+  private final CanonicalWebUrls canonicalWebUrls;
   private final VirtualDomainConfig virtualDomainConfig;
   private final GitHubConnector gitHubConnector;
 
@@ -85,11 +85,11 @@ public class GitHubLogin implements Serializable {
   @Inject
   public GitHubLogin(
       GitHubOAuthConfig config,
-      CannonicalWebUrls cannonicalWebUrls,
+      CanonicalWebUrls canonicalWebUrls,
       VirtualDomainConfig virutalDomainConfig,
       GitHubHttpConnector httpConnector) {
     this.config = config;
-    this.cannonicalWebUrls = cannonicalWebUrls;
+    this.canonicalWebUrls = canonicalWebUrls;
     this.virtualDomainConfig = virutalDomainConfig;
     this.gitHubConnector = GitHubConnectorHttpConnectorAdapter.adapt(httpConnector);
   }
@@ -119,7 +119,7 @@ public class GitHubLogin implements Serializable {
       Set<ScopeKey> configuredScopesProfiles = virtualDomainConfig.getScopes(request).keySet();
       String scopeRequested = getScopesKey(request, response);
       if (Strings.isNullOrEmpty(scopeRequested) && configuredScopesProfiles.size() > 1) {
-        response.sendRedirect(cannonicalWebUrls.getScopeSelectionUrl());
+        response.sendRedirect(canonicalWebUrls.getScopeSelectionUrl());
       } else {
         this.loginScopes =
             getScopes(request, MoreObjects.firstNonNull(scopeRequested, "scopes"), scopes);

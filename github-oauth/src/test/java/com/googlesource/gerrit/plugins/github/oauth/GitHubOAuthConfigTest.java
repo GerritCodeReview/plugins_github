@@ -22,6 +22,7 @@ import static com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig.Key
 import static com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig.KeyConfig.SECRET_KEY_CONFIG_LABEL;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.extensions.client.AuthType;
 import java.util.ArrayList;
@@ -185,7 +186,7 @@ public class GitHubOAuthConfigTest {
     Map<String, SortedMap<ScopeKey, List<OAuthProtocol.Scope>>> virtualScopes =
         githubOAuthConfig().getVirtualScopes();
 
-    assertEquals(virtualScopes.containsKey(vhost), true);
+    assertTrue(virtualScopes.containsKey(vhost));
 
     SortedMap<ScopeKey, List<OAuthProtocol.Scope>> vhostConfig = virtualScopes.get(vhost);
     List<Map.Entry<ScopeKey, List<OAuthProtocol.Scope>>> entries =

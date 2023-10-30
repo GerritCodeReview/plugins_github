@@ -20,7 +20,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import com.googlesource.gerrit.plugins.github.GitHubConfig;
-import com.googlesource.gerrit.plugins.github.oauth.CannonicalWebUrls;
+import com.googlesource.gerrit.plugins.github.oauth.CanonicalWebUrls;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
 import com.googlesource.gerrit.plugins.github.oauth.VirtualDomainConfig;
@@ -52,7 +52,7 @@ public class VelocityViewServlet extends HttpServlet {
   private final Provider<CurrentUser> userProvider;
   private final GitHubConfig config;
   private final VirtualDomainConfig virtualDomainConfig;
-  private final CannonicalWebUrls cannonicalWebUrls;
+  private final CanonicalWebUrls canonicalWebUrls;
 
   @Inject
   public VelocityViewServlet(
@@ -62,7 +62,7 @@ public class VelocityViewServlet extends HttpServlet {
       Provider<CurrentUser> userProvider,
       GitHubConfig config,
       VirtualDomainConfig virutalDomainConfig,
-      CannonicalWebUrls cannonicalWebUrls) {
+      CanonicalWebUrls canonicalWebUrls) {
 
     this.velocityRuntime = velocityRuntime;
     this.modelProvider = modelProvider;
@@ -70,7 +70,7 @@ public class VelocityViewServlet extends HttpServlet {
     this.userProvider = userProvider;
     this.config = config;
     this.virtualDomainConfig = virutalDomainConfig;
-    this.cannonicalWebUrls = cannonicalWebUrls;
+    this.canonicalWebUrls = canonicalWebUrls;
   }
 
   @Override
@@ -104,7 +104,7 @@ public class VelocityViewServlet extends HttpServlet {
     GitHubLogin gitHubLogin = loginProvider.get(request);
     model.put("myself", gitHubLogin.getMyself());
     model.put("config", config);
-    model.put("scopeSelectionUrl", cannonicalWebUrls.getScopeSelectionUrl());
+    model.put("scopeSelectionUrl", canonicalWebUrls.getScopeSelectionUrl());
     model.put("scopes", virtualDomainConfig.getScopes(request));
 
     CurrentUser user = userProvider.get();

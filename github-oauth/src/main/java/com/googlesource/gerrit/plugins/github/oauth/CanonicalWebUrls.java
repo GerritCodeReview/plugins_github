@@ -24,19 +24,19 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class CannonicalWebUrls {
+public class CanonicalWebUrls {
   private final GitHubOAuthConfig oauthConf;
-  private final HttpCanonicalWebUrlProvider canonnicalWebUrlProvider;
+  private final HttpCanonicalWebUrlProvider canonicalWebUrlProvider;
 
   static String trimTrailingSlash(String url) {
     return CharMatcher.is('/').trimTrailingFrom(url);
   }
 
   @Inject
-  CannonicalWebUrls(
+  CanonicalWebUrls(
       GitHubOAuthConfig oauthConf, HttpCanonicalWebUrlProvider canonicalWebUrlProvider) {
     this.oauthConf = oauthConf;
-    this.canonnicalWebUrlProvider = canonicalWebUrlProvider;
+    this.canonicalWebUrlProvider = canonicalWebUrlProvider;
   }
 
   public String getScopeSelectionUrl() {
@@ -49,6 +49,6 @@ public class CannonicalWebUrls {
   }
 
   private String getCannonicalWebUrl() {
-    return trimTrailingSlash(canonnicalWebUrlProvider.get());
+    return trimTrailingSlash(canonicalWebUrlProvider.get());
   }
 }

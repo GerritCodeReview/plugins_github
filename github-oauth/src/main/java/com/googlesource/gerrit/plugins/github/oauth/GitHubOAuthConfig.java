@@ -13,7 +13,7 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.oauth;
 
-import static com.googlesource.gerrit.plugins.github.oauth.CannonicalWebUrls.trimTrailingSlash;
+import static com.googlesource.gerrit.plugins.github.oauth.CanonicalWebUrls.trimTrailingSlash;
 import static com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig.KeyConfig.PASSWORD_DEVICE_CONFIG_LABEL;
 
 import com.google.common.base.MoreObjects;
