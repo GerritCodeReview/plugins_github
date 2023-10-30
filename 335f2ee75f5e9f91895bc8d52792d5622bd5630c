@@ -39,6 +39,30 @@
       },
       "revId": "335f2ee75f5e9f91895bc8d52792d5622bd5630c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e5d64fb_97133526",
+        "filename": "github-plugin/src/main/resources/Documentation/config.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-30T10:03:50Z",
+      "side": 1,
+      "message": "For now, I\u0027d keep those close to the non-domain-specific versions so that we don\u0027t need to duplicate the documentation.",
+      "parentUuid": "a5a09a8e_79587886",
+      "range": {
+        "startLine": 80,
+        "startChar": 8,
+        "endLine": 80,
+        "endChar": 19
+      },
+      "revId": "335f2ee75f5e9f91895bc8d52792d5622bd5630c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -533,6 +533,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f8f2920_9f0f37cb",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubLogin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-30T10:03:50Z",
+      "side": 1,
+      "message": "sure, can extract this to `VritualDomainConfig`",
+      "parentUuid": "e072c629_7388f8af",
+      "range": {
+        "startLine": 205,
+        "startChar": 2,
+        "endLine": 208,
+        "endChar": 3
+      },
+      "revId": "4f9d489d88247bca8fee2d4e8b3a00ad5e80a59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3477c7b0_00360769",
