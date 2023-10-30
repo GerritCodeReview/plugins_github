@@ -86,6 +86,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b8f59d1_5d82e742",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/CannonicalWebUrls.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-30T12:39:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3068a032_a0491369",
+      "revId": "335f2ee75f5e9f91895bc8d52792d5622bd5630c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f6cb71e_eedd6d1b",
@@ -99,6 +117,24 @@
       "writtenOn": "2023-10-30T11:44:10Z",
       "side": 1,
       "message": "```suggestion\n  private final HttpCanonicalWebUrlProvider canonicalWebUrlProvider;\n```",
+      "revId": "335f2ee75f5e9f91895bc8d52792d5622bd5630c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d7f894a_99739860",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/CannonicalWebUrls.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-30T12:39:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f6cb71e_eedd6d1b",
       "revId": "335f2ee75f5e9f91895bc8d52792d5622bd5630c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
