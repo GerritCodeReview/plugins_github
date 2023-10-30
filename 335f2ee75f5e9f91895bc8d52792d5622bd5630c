@@ -1,6 +1,57 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "c33e5f81_8d711cc2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-30T11:44:10Z",
+      "side": 1,
+      "message": "nit: typo `virtual`",
+      "revId": "335f2ee75f5e9f91895bc8d52792d5622bd5630c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25c83af3_7677701a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-30T11:44:10Z",
+      "side": 1,
+      "message": "nit: typo `virtualhost`",
+      "revId": "335f2ee75f5e9f91895bc8d52792d5622bd5630c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bd1e80a_45ecc974",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-30T11:44:10Z",
+      "side": 1,
+      "message": "nit: .. `plugins together it may be desirable` ...",
+      "revId": "335f2ee75f5e9f91895bc8d52792d5622bd5630c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "389001cc_8a7130d7",
@@ -14,6 +65,40 @@
       "writtenOn": "2023-10-29T22:13:14Z",
       "side": 1,
       "message": "Thanks for completing the fix @dariusz.luksza@gmail.com and @geminica.programs@gmail.com for the thorough reviews 👍",
+      "revId": "335f2ee75f5e9f91895bc8d52792d5622bd5630c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3068a032_a0491369",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/CannonicalWebUrls.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-30T11:44:10Z",
+      "side": 1,
+      "message": "```suggestion\npublic class CanonicalWebUrls {\n```",
+      "revId": "335f2ee75f5e9f91895bc8d52792d5622bd5630c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f6cb71e_eedd6d1b",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/CannonicalWebUrls.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-30T11:44:10Z",
+      "side": 1,
+      "message": "```suggestion\n  private final HttpCanonicalWebUrlProvider canonicalWebUrlProvider;\n```",
       "revId": "335f2ee75f5e9f91895bc8d52792d5622bd5630c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

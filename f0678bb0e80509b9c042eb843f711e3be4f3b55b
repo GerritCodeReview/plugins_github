@@ -1,5 +1,57 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4da7dd84_3c6b0f2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-30T11:44:10Z",
+      "side": 1,
+      "message": "typos: `scopesReadOnly`, `scopesReadonlySequence`, `scopesReadonlyDescription`",
+      "revId": "f0678bb0e80509b9c042eb843f711e3be4f3b55b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5cd34b3_f2a455e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-30T11:44:10Z",
+      "side": 1,
+      "message": "don\u0027t know enough to effectively review it, but some nits on typos/style",
+      "revId": "f0678bb0e80509b9c042eb843f711e3be4f3b55b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7cdce1f_7ca6a970",
+        "filename": "github-oauth/src/test/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfigTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-30T11:44:10Z",
+      "side": 1,
+      "message": "```suggestion\n    assertTrue(virtualScopes.containsKey(vhost));\n```",
+      "revId": "f0678bb0e80509b9c042eb843f711e3be4f3b55b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {
