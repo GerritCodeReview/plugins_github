@@ -26,10 +26,6 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertThrows;
 
 import com.google.gerrit.extensions.client.AuthType;
-import com.google.gerrit.httpd.CanonicalWebUrl;
-import com.google.inject.AbstractModule;
-import com.google.inject.Guice;
-import com.google.inject.util.Providers;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
@@ -43,7 +39,6 @@ import org.junit.rules.TemporaryFolder;
 
 public class OAuthTokenCipherTest {
 
-  CanonicalWebUrl canonicalWebUrl;
   Config config;
 
   @ClassRule public static TemporaryFolder temporaryFolder = new TemporaryFolder();
@@ -63,18 +58,6 @@ public class OAuthTokenCipherTest {
         CONF_KEY_SECTION, VERSION1_KEY_ID, PASSWORD_DEVICE_CONFIG_LABEL, testPasswordDevice);
     config.setString(
         CONF_KEY_SECTION, VERSION2_KEY_ID, PASSWORD_DEVICE_CONFIG_LABEL, testPasswordDevice);
-
-    canonicalWebUrl =
-        Guice.createInjector(
-                new AbstractModule() {
-                  @Override
-                  protected void configure() {
-                    bind(String.class)
-                        .annotatedWith(com.google.gerrit.server.config.CanonicalWebUrl.class)
-                        .toProvider(Providers.of(null));
-                  }
-                })
-            .getInstance(CanonicalWebUrl.class);
   }
 
   @Test
@@ -193,7 +176,7 @@ public class OAuthTokenCipherTest {
   }
 
   private OAuthTokenCipher objectUnderTest(Config testConfig) throws IOException {
-    return new OAuthTokenCipher(new GitHubOAuthConfig(testConfig, canonicalWebUrl));
+    return new OAuthTokenCipher(new GitHubOAuthConfig(testConfig));
   }
 
   private static Config createCommonConfig() {

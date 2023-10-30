@@ -17,7 +17,6 @@ import com.google.common.base.MoreObjects;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.httpd.CanonicalWebUrl;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -75,10 +74,9 @@ public class GitHubConfig extends GitHubOAuthConfig {
   public GitHubConfig(
       @GerritServerConfig Config config,
       final SitePaths site,
-      Provider<AllProjectsName> allProjectsNameProvider,
-      CanonicalWebUrl canonicalWebUrl)
+      Provider<AllProjectsName> allProjectsNameProvider)
       throws MalformedURLException {
-    super(config, canonicalWebUrl);
+    super(config);
     parseWizardFlow(config.getStringList(CONF_SECTION, null, CONF_WIZARD_FLOW), DEFAULT_SERVER);
 
     // Virtual host specific sections
