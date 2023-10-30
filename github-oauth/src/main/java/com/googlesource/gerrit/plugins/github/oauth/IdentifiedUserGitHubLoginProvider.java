@@ -36,23 +36,20 @@ public class IdentifiedUserGitHubLoginProvider implements UserScopedProvider<Git
       ExternalId.SCHEME_EXTERNAL + ":" + OAuthWebFilter.GITHUB_EXT_ID;
 
   private final Provider<IdentifiedUser> userProvider;
-  private final GitHubOAuthConfig config;
   private final AccountCache accountCache;
-  private final GitHubHttpConnector httpConnector;
   private final OAuthTokenCipher oAuthTokenCipher;
+  private final Provider<GitHubLogin> gitHubLoginProvider;
 
   @Inject
   public IdentifiedUserGitHubLoginProvider(
+      Provider<GitHubLogin> gitHubLoginaprovider,
       Provider<IdentifiedUser> identifiedUserProvider,
-      GitHubOAuthConfig config,
-      GitHubHttpConnector httpConnector,
       AccountCache accountCache,
       OAuthTokenCipher oAuthTokenCipher) {
     this.userProvider = identifiedUserProvider;
-    this.config = config;
     this.accountCache = accountCache;
-    this.httpConnector = httpConnector;
     this.oAuthTokenCipher = oAuthTokenCipher;
+    this.gitHubLoginProvider = gitHubLoginaprovider;
   }
 
   @Override
@@ -67,7 +64,7 @@ public class IdentifiedUserGitHubLoginProvider implements UserScopedProvider<Git
     try {
       AccessToken accessToken = newAccessTokenFromUser(username);
       if (accessToken != null) {
-        GitHubLogin login = new GitHubLogin(config, httpConnector);
+        GitHubLogin login = gitHubLoginProvider.get();
         login.login(accessToken);
         return login;
       }

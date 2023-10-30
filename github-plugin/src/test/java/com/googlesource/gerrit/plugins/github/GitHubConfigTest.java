@@ -117,6 +117,6 @@ public class GitHubConfigTest {
             + "clientId = myclientid\n"
             + "clientSecret = mysecret\n"
             + configText);
-    return new GitHubConfig(gerritConfig, site, ALL_PROJECTS_NAME_PROVIDER, null);
+    return new GitHubConfig(gerritConfig, site, ALL_PROJECTS_NAME_PROVIDER);
   }
 }

@@ -64,6 +64,8 @@ public class GitHubLogin implements Serializable {
 
   private SortedSet<Scope> loginScopes;
   private final GitHubOAuthConfig config;
+  private final CanonicalWebUrls canonicalWebUrls;
+  private final VirtualDomainConfig virtualDomainConfig;
   private final GitHubConnector gitHubConnector;
 
   public GHMyself getMyself() throws IOException {
@@ -81,8 +83,14 @@ public class GitHubLogin implements Serializable {
   }
 
   @Inject
-  public GitHubLogin(GitHubOAuthConfig config, GitHubHttpConnector httpConnector) {
+  public GitHubLogin(
+      GitHubOAuthConfig config,
+      CanonicalWebUrls canonicalWebUrls,
+      VirtualDomainConfig virutalDomainConfig,
+      GitHubHttpConnector httpConnector) {
     this.config = config;
+    this.canonicalWebUrls = canonicalWebUrls;
+    this.virtualDomainConfig = virutalDomainConfig;
     this.gitHubConnector = GitHubConnectorHttpConnectorAdapter.adapt(httpConnector);
   }
 
@@ -108,12 +116,13 @@ public class GitHubLogin implements Serializable {
         response.sendRedirect(OAuthProtocol.getTargetUrl(request));
       }
     } else {
-      Set<ScopeKey> configuredScopesProfiles = config.scopes.keySet();
+      Set<ScopeKey> configuredScopesProfiles = virtualDomainConfig.getScopes(request).keySet();
       String scopeRequested = getScopesKey(request, response);
       if (Strings.isNullOrEmpty(scopeRequested) && configuredScopesProfiles.size() > 1) {
-        response.sendRedirect(config.getScopeSelectionUrl(request));
+        response.sendRedirect(canonicalWebUrls.getScopeSelectionUrl());
       } else {
-        this.loginScopes = getScopes(MoreObjects.firstNonNull(scopeRequested, "scopes"), scopes);
+        this.loginScopes =
+            getScopes(request, MoreObjects.firstNonNull(scopeRequested, "scopes"), scopes);
         log.debug("Login-PHASE1 " + this);
         state = oauth.loginPhase1(request, response, loginScopes);
       }
@@ -179,15 +188,15 @@ public class GitHubLogin implements Serializable {
     return null;
   }
 
-  private SortedSet<Scope> getScopes(String baseScopeKey, Scope... scopes) {
-    HashSet<Scope> fullScopes = new HashSet<>(scopesForKey(baseScopeKey));
+  private SortedSet<Scope> getScopes(HttpServletRequest req, String baseScopeKey, Scope... scopes) {
+    HashSet<Scope> fullScopes = new HashSet<>(scopesForKey(req, baseScopeKey));
     fullScopes.addAll(Arrays.asList(scopes));
 
     return new TreeSet<>(fullScopes);
   }
 
-  private List<Scope> scopesForKey(String baseScopeKey) {
-    return config.scopes.entrySet().stream()
+  private List<Scope> scopesForKey(HttpServletRequest req, String baseScopeKey) {
+    return virtualDomainConfig.getScopes(req).entrySet().stream()
         .filter(entry -> entry.getKey().name.equals(baseScopeKey))
         .map(entry -> entry.getValue())
         .findFirst()

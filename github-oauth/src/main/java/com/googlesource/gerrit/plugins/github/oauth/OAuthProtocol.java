@@ -155,6 +155,7 @@ public class OAuthProtocol {
   private static SecureRandom randomState = newRandomGenerator();
 
   private final GitHubOAuthConfig config;
+  private final CanonicalWebUrls canonicalWebUrls;
   private final Gson gson;
   private final Provider<HttpClient> httpProvider;
 
@@ -231,6 +232,7 @@ public class OAuthProtocol {
   @Inject
   public OAuthProtocol(
       GitHubOAuthConfig config,
+      CanonicalWebUrls canonicalWebUrls,
       PooledHttpClientProvider httpClientProvider,
       /*
        * We need to explicitly tell Guice which Provider<> we need as this class
@@ -239,6 +241,7 @@ public class OAuthProtocol {
        */
       GsonProvider gsonProvider) {
     this.config = config;
+    this.canonicalWebUrls = canonicalWebUrls;
     this.httpProvider = httpClientProvider;
     this.gson = gsonProvider.get();
   }
@@ -256,7 +259,7 @@ public class OAuthProtocol {
         + "?client_id="
         + config.gitHubClientId
         + getURLEncodedParameter("&scope=", scopesString)
-        + getURLEncodedParameter("&redirect_uri=", config.getOAuthFinalRedirectUrl(req))
+        + getURLEncodedParameter("&redirect_uri=", canonicalWebUrls.getOAuthFinalRedirectUrl())
         + getURLEncodedParameter("&state=", state);
   }
 

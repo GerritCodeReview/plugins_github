@@ -22,20 +22,20 @@ import static com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig.Key
 import static com.googlesource.gerrit.plugins.github.oauth.GitHubOAuthConfig.KeyConfig.SECRET_KEY_CONFIG_LABEL;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.extensions.client.AuthType;
-import com.google.gerrit.httpd.CanonicalWebUrl;
-import com.google.inject.AbstractModule;
-import com.google.inject.Guice;
-import com.google.inject.util.Providers;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.SortedMap;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Test;
 
 public class GitHubOAuthConfigTest {
 
-  CanonicalWebUrl canonicalWebUrl;
   Config config;
   private static final String testPasswordDevice = "/dev/zero";
 
@@ -46,18 +46,6 @@ public class GitHubOAuthConfigTest {
     config.setString(CONF_SECTION, null, "clientId", "theClientId");
     config.setString("auth", null, "httpHeader", "GITHUB_USER");
     config.setString("auth", null, "type", AuthType.HTTP.toString());
-
-    canonicalWebUrl =
-        Guice.createInjector(
-                new AbstractModule() {
-                  @Override
-                  protected void configure() {
-                    bind(String.class)
-                        .annotatedWith(com.google.gerrit.server.config.CanonicalWebUrl.class)
-                        .toProvider(Providers.of(null));
-                  }
-                })
-            .getInstance(CanonicalWebUrl.class);
   }
 
   @Test
@@ -178,8 +166,46 @@ public class GitHubOAuthConfigTest {
     assertEquals(Optional.of(myDomain), githubOAuthConfig().getCookieDomain());
   }
 
+  @Test
+  public void shouldReturnOverridesForSpecificHostName() {
+    setupEncryptionConfig();
+    String vhost = "v.host.com";
+    String scope1Name = "scopesRepo";
+    String scope1Description = "repo scope description";
+    String scope2Name = "scopesVHost";
+    String scope2Description = "scope description";
+
+    // virtual host scopes
+    config.setString(CONF_SECTION, vhost, scope2Name, "USER_EMAIL");
+    config.setInt(CONF_SECTION, vhost, scope2Name + "Sequence", 1);
+    config.setString(CONF_SECTION, vhost, scope2Name + "Description", scope2Description);
+    config.setString(CONF_SECTION, vhost, scope1Name, "REPO");
+    config.setInt(CONF_SECTION, vhost, scope1Name + "Sequence", 0);
+    config.setString(CONF_SECTION, vhost, scope1Name + "Description", scope1Description);
+
+    Map<String, SortedMap<ScopeKey, List<OAuthProtocol.Scope>>> virtualScopes =
+        githubOAuthConfig().getVirtualScopes();
+
+    assertTrue(virtualScopes.containsKey(vhost));
+
+    SortedMap<ScopeKey, List<OAuthProtocol.Scope>> vhostConfig = virtualScopes.get(vhost);
+    List<Map.Entry<ScopeKey, List<OAuthProtocol.Scope>>> entries =
+        new ArrayList<>(vhostConfig.entrySet());
+    Map.Entry<ScopeKey, List<OAuthProtocol.Scope>> firstEntry = entries.get(0);
+    Map.Entry<ScopeKey, List<OAuthProtocol.Scope>> secondEntry = entries.get(1);
+
+    assertEquals(firstEntry.getKey().name, scope1Name);
+    assertEquals(firstEntry.getKey().description, scope1Description);
+    assertEquals(firstEntry.getKey().sequence, 0);
+    assertEquals(List.of(OAuthProtocol.Scope.REPO), firstEntry.getValue());
+    assertEquals(secondEntry.getKey().name, scope2Name);
+    assertEquals(secondEntry.getKey().description, scope2Description);
+    assertEquals(secondEntry.getKey().sequence, 1);
+    assertEquals(List.of(OAuthProtocol.Scope.USER_EMAIL), secondEntry.getValue());
+  }
+
   private GitHubOAuthConfig githubOAuthConfig() {
-    return new GitHubOAuthConfig(config, canonicalWebUrl);
+    return new GitHubOAuthConfig(config);
   }
 
   private void setupEncryptionConfig() {
