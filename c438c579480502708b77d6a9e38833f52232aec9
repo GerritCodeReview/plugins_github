@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "b16b8fda_891cd69e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-30T14:56:41Z",
+      "side": 1,
+      "message": "I wanted point to the exact comment on that change, that\u0027s why a direct link was used.",
+      "parentUuid": "0bde218a_6b43ab13",
+      "range": {
+        "startLine": 11,
+        "startChar": 25,
+        "endLine": 13,
+        "endChar": 95
+      },
+      "revId": "c438c579480502708b77d6a9e38833f52232aec9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "7424c91c_2ec88f4f",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
