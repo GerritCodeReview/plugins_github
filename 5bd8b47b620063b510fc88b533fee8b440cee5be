@@ -254,6 +254,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "61f76bbe_d918e0f9",
+        "filename": "github-plugin/src/test/java/com/googlesource/gerrit/plugins/github/FakeHttpServletRequest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-09T21:44:06Z",
+      "side": 1,
+      "message": "Addressed in the follow-up change Id86945fced, which needs to wait for tomorrow\u0027s v3.9.0-rc4.",
+      "parentUuid": "45b433fd_0967258a",
+      "range": {
+        "startLine": 54,
+        "startChar": 13,
+        "endLine": 54,
+        "endChar": 35
+      },
+      "revId": "5bd8b47b620063b510fc88b533fee8b440cee5be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b099d486_d83eb613",
