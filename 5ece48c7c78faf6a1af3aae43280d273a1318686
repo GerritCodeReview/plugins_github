@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4762ea2_54b6420f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-09T17:07:24Z",
+      "side": 1,
+      "message": "Rolled out and tested E2E successfully on eclipse.gerrithub.io.",
+      "revId": "5ece48c7c78faf6a1af3aae43280d273a1318686",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
