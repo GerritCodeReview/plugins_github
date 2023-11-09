@@ -18,10 +18,13 @@ import com.google.gerrit.extensions.auth.oauth.OAuthServiceProvider;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.JavaScriptPlugin;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
+import com.google.gerrit.httpd.AllRequestFilter;
+import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.name.Names;
 import com.google.inject.servlet.ServletModule;
+import com.googlesource.gerrit.plugins.github.filters.GitHubGroupCacheRefreshFilter;
 import com.googlesource.gerrit.plugins.github.filters.GitHubOAuthFilter;
 import com.googlesource.gerrit.plugins.github.git.CreateProjectStep;
 import com.googlesource.gerrit.plugins.github.git.GitCloneStep;
@@ -103,5 +106,9 @@ public class GuiceHttpModule extends ServletModule {
 
     serve("/static/*").with(VelocityViewServlet.class);
     filterRegex("(?!/webhook).*").through(GitHubOAuthFilter.class);
+
+    DynamicSet.bind(binder(), AllRequestFilter.class)
+        .to(GitHubGroupCacheRefreshFilter.class)
+        .in(Scopes.SINGLETON);
   }
 }
