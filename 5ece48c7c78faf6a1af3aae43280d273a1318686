@@ -33,6 +33,24 @@
       "message": "nit: unused field",
       "revId": "5ece48c7c78faf6a1af3aae43280d273a1318686",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f688b437_60e9fc73",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/GuiceHttpModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-09T19:06:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4980c97_c744ed2f",
+      "revId": "5ece48c7c78faf6a1af3aae43280d273a1318686",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
