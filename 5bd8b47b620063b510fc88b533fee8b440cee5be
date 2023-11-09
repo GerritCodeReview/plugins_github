@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2121c159_50625775",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-09T16:46:52Z",
+      "side": 1,
+      "message": "\u003e Does this also covers logging in using using git client? In the other words, will the groups be refreshed on HTTP fetch and push?\n\nNo, and you should not do groups refresh in that case.\nGitHub API are very slow and subject to throttling and that would certainly cause the user to be kicked out very soon.\n\n\u003e Also this is potentially creating inconsistency between git HTTP and SSH protocols. As with HTTP, the groups _could be_ refreshed, but they definitely won\u0027t be over SSH. This means that user will have old permissions until they interact with the server over HTTP. This probably is not an issue when permissions are granted, but when they are removed user can still access repositories over SSH.\n\nNo, this is only done for interactive logins, let me clarify on the commit message.",
+      "parentUuid": "96fa9dc5_e1640d99",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 64
+      },
+      "revId": "5bd8b47b620063b510fc88b533fee8b440cee5be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6d136adf_c0a469e6",
