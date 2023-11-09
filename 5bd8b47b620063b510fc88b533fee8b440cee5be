@@ -206,6 +206,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a8f7a88_f9a4542f",
+        "filename": "github-plugin/src/test/java/com/googlesource/gerrit/plugins/github/FakeHttpServletRequest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-11-09T17:36:27Z",
+      "side": 1,
+      "message": "This sounds like such a common use case to have a _fake_ HTTP request/response, that there _must_ be a library that already has those fakes.",
+      "parentUuid": "7ad4c0bc_22a6b381",
+      "range": {
+        "startLine": 54,
+        "startChar": 13,
+        "endLine": 54,
+        "endChar": 35
+      },
+      "revId": "5bd8b47b620063b510fc88b533fee8b440cee5be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b099d486_d83eb613",

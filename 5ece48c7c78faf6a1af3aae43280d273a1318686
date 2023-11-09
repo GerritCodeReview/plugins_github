@@ -16,6 +16,23 @@
       "message": "Rolled out and tested E2E successfully on eclipse.gerrithub.io.",
       "revId": "5ece48c7c78faf6a1af3aae43280d273a1318686",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4980c97_c744ed2f",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/GuiceHttpModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-11-09T17:36:27Z",
+      "side": 1,
+      "message": "nit: unused field",
+      "revId": "5ece48c7c78faf6a1af3aae43280d273a1318686",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
