@@ -13,15 +13,19 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.auth.oauth.OAuthServiceProvider;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.JavaScriptPlugin;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
+import com.google.gerrit.httpd.AllRequestFilter;
+import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.name.Names;
 import com.google.inject.servlet.ServletModule;
+import com.googlesource.gerrit.plugins.github.filters.GitHubGroupCacheRefreshFilter;
 import com.googlesource.gerrit.plugins.github.filters.GitHubOAuthFilter;
 import com.googlesource.gerrit.plugins.github.git.CreateProjectStep;
 import com.googlesource.gerrit.plugins.github.git.GitCloneStep;
@@ -31,6 +35,7 @@ import com.googlesource.gerrit.plugins.github.git.MagicRefCheckStep;
 import com.googlesource.gerrit.plugins.github.git.ProtectedBranchesCheckStep;
 import com.googlesource.gerrit.plugins.github.git.PullRequestImportJob;
 import com.googlesource.gerrit.plugins.github.git.ReplicateProjectStep;
+import com.googlesource.gerrit.plugins.github.group.CurrentUsernameProvider;
 import com.googlesource.gerrit.plugins.github.notification.WebhookServlet;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.PooledHttpClientProvider;
@@ -44,6 +49,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.velocity.runtime.RuntimeInstance;
 
 public class GuiceHttpModule extends ServletModule {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Override
   protected void configureServlets() {
@@ -103,5 +109,8 @@ public class GuiceHttpModule extends ServletModule {
 
     serve("/static/*").with(VelocityViewServlet.class);
     filterRegex("(?!/webhook).*").through(GitHubOAuthFilter.class);
+
+    bind(String.class).annotatedWith(Names.named(CurrentUsernameProvider.CURRENT_USERNAME)).toProvider(CurrentUsernameProvider.class);
+    DynamicSet.bind(binder(), AllRequestFilter.class).to(GitHubGroupCacheRefreshFilter.class).in(Scopes.SINGLETON);
   }
 }
