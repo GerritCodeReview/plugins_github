@@ -15,7 +15,9 @@
 package com.googlesource.gerrit.plugins.github.group;
 
 import static java.time.temporal.ChronoUnit.MINUTES;
+import static com.googlesource.gerrit.plugins.github.group.CurrentUsernameProvider.CURRENT_USERNAME;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSet;
@@ -115,14 +117,15 @@ public class GitHubGroupsCache {
   }
 
   private final LoadingCache<String, OrganizationStructure> orgTeamsByUsername;
-  private final Provider<IdentifiedUser> userProvider;
+  private final Provider<String> usernameProvider;
 
   @Inject
-  GitHubGroupsCache(
+  @VisibleForTesting
+  public GitHubGroupsCache(
       @Named(ORGS_CACHE_NAME) LoadingCache<String, OrganizationStructure> byUsername,
-      Provider<IdentifiedUser> userProvider) {
+      @Named(CURRENT_USERNAME) Provider<String> usernameProvider) {
     this.orgTeamsByUsername = byUsername;
-    this.userProvider = userProvider;
+    this.usernameProvider = usernameProvider;
   }
 
   Set<String> getOrganizationsForUser(String username) {
@@ -135,7 +138,7 @@ public class GitHubGroupsCache {
   }
 
   Set<String> getOrganizationsForCurrentUser() throws ExecutionException {
-    return orgTeamsByUsername.get(userProvider.get().getUserName().get()).keySet();
+    return orgTeamsByUsername.get(usernameProvider.get()).keySet();
   }
 
   Set<String> getTeamsForUser(String organizationName, String username) {
@@ -156,7 +159,7 @@ public class GitHubGroupsCache {
   }
 
   Set<String> getTeamsForCurrentUser(String organizationName) {
-    return getTeamsForUser(organizationName, userProvider.get().getUserName().get());
+    return getTeamsForUser(organizationName, usernameProvider.get());
   }
 
   public Set<UUID> getGroupsForUser(String username) {
@@ -169,5 +172,9 @@ public class GitHubGroupsCache {
       }
     }
     return groupsBuilder.build();
+  }
+
+  public void refreshCurrentUserGroups() {
+    orgTeamsByUsername.refresh(usernameProvider.get());
   }
 }
