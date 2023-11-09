@@ -230,6 +230,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "45b433fd_0967258a",
+        "filename": "github-plugin/src/test/java/com/googlesource/gerrit/plugins/github/FakeHttpServletRequest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-09T19:33:04Z",
+      "side": 1,
+      "message": "Let\u0027s see if Id30d5f465df4 goes though in stable-3.9 😊\nIf yes, I will be able to remove these two classes.",
+      "parentUuid": "7a8f7a88_f9a4542f",
+      "range": {
+        "startLine": 54,
+        "startChar": 13,
+        "endLine": 54,
+        "endChar": 35
+      },
+      "revId": "5bd8b47b620063b510fc88b533fee8b440cee5be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b099d486_d83eb613",
