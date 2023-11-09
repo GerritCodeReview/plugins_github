@@ -19,6 +19,8 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
+import com.google.gerrit.util.http.testutil.FakeHttpServletResponse;
 import com.googlesource.gerrit.plugins.github.filters.GitHubGroupCacheRefreshFilter;
 import com.googlesource.gerrit.plugins.github.group.GitHubGroupsCache;
 import com.googlesource.gerrit.plugins.github.groups.OrganizationStructure;
@@ -33,6 +35,8 @@ public class GitHubGroupCacheRefreshFilterTest {
   private static final FilterChain NOOP_FILTER_CHAIN_TEST = (req, res) -> {};
   private static final String GITHUB_USERNAME_TEST = "somegithubuser";
   private static final OrganizationStructure GITHUB_USER_ORGANIZATION = new OrganizationStructure();
+  private static final String TEST_SERVER = "test-server";
+  private static final int TEST_PORT = 80;
 
   private LoadingCache<String, OrganizationStructure> groupsByUsernameCache;
   private GitHubGroupCacheRefreshFilter filter;
@@ -94,16 +98,14 @@ public class GitHubGroupCacheRefreshFilterTest {
     FakeHttpServletRequest regularRequest = new FakeHttpServletRequest();
     filter.doFilter(regularRequest, new FakeHttpServletResponse(), NOOP_FILTER_CHAIN_TEST);
     filter.doFilter(
-        newHomepageRequest(regularRequest.getSession()),
-        new FakeHttpServletResponse(),
-        NOOP_FILTER_CHAIN_TEST);
+        newHomepageRequest(null), new FakeHttpServletResponse(), NOOP_FILTER_CHAIN_TEST);
 
     assertThat(groupsByUsernameCache.get(GITHUB_USERNAME_TEST)).isEqualTo(GITHUB_USER_ORGANIZATION);
     assertThat(groupsCacheLoader.getLoadCount()).isEqualTo(initialLoadCount);
   }
 
   private ServletRequest newHomepageRequest(HttpSession session) {
-    return new FakeHttpServletRequest("/", session);
+    return new FakeHttpServletRequest(TEST_SERVER, TEST_PORT, "", "/", null, session);
   }
 
   private static HttpServletResponse newFinalLoginRedirectWithCookie() {
@@ -113,8 +115,11 @@ public class GitHubGroupCacheRefreshFilterTest {
   }
 
   private static FakeHttpServletRequest newFinalLoginRequest() {
-    FakeHttpServletRequest req = new FakeHttpServletRequest("/login", null);
+    FakeHttpServletRequest req =
+        new FakeHttpServletRequest(
+            TEST_SERVER, TEST_PORT, "", "", () -> new FakeHttpSession(), null);
     req.setQueryString("final=true");
+    req.setPathInfo("/login");
     return req;
   }
 }
