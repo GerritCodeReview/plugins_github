@@ -109,7 +109,8 @@ public class GitCloneStep extends ImportStep {
     createNewProject();
     String sourceUri = getSourceUri();
     try (Git git = Git.open(destinationDirectory)) {
-      FetchCommand fetch = git.fetch().setRefSpecs("refs/*:refs/*").setRemote(sourceUri);
+      FetchCommand fetch =
+          git.fetch().setRefSpecs("^refs/changes/*", "refs/*:refs/*").setRemote(sourceUri);
       fetch.setCredentialsProvider(getRepository().getCredentialsProvider());
       if (progress != null) {
         fetch.setProgressMonitor(progress);
