@@ -33,6 +33,24 @@
       "message": "Would we revert this when the \"per-project change ID\" will be merged?",
       "revId": "922696c233cca6f3f368975bf9394efe50896f34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "affcbc7b_2fa9c84f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-17T18:52:19Z",
+      "side": 1,
+      "message": "It depends 😄 the thing is that `changes/XX/YYY/Z/meta` contains also the `serverId` e.g.\n```\nauthor Gerrit User 1000000 \u003c1000000@3ee95446-3422-4b57-9078-03522ea5448b\u003e 1700069635 +0100\n```\nhence it would have to be taken care of as well and that is just the tip of the iceberg as users/accounts may not match etc...",
+      "parentUuid": "40dd10e3_b896fed6",
+      "revId": "922696c233cca6f3f368975bf9394efe50896f34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
