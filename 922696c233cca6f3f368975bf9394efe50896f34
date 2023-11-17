@@ -16,6 +16,23 @@
       "message": "Re-verified 😄\n\nBefore:\n```\ngit ls-remote\nFrom http://geminicaprograms@localhost:8080/a/geminicaprograms/to_be_replicated_to_gh\nc667664a6d1322f37fb6219dd33d0d184b6732f0\trefs/changes/41/141/1\n513961876bdf2639076916be6463c2c4791df6bc\trefs/changes/41/141/2\n6a83871de76ee48629a48d8f3ecedeb8aa8f4dfe\trefs/changes/41/141/meta\ndeb09bfe129f8b49e0aad9722d4db5dce3cc3471\trefs/changes/42/142/1\nebaa91f19c7dffbd3d99df0488c3caf2a0894bcd\trefs/changes/42/142/2\n0131c9e30b87b838c99c64be8ee462b5e7418f90\trefs/changes/42/142/meta\n21c4661b1822db52f2c916d79b724a640d495403\trefs/changes/61/161/1\n89db57cc3002437a5a6bb85826c44535880e7765\trefs/changes/61/161/2\n49ed6c3966d2ad69e2edba9bb7a06bff84d72c77\trefs/changes/61/161/meta\nebaa91f19c7dffbd3d99df0488c3caf2a0894bcd\trefs/heads/main\nc8bcd9cf9a1cfa96b19c40d753fc93bebb8cb610\trefs/meta/config\n09672b92b43727371cf9c08099aac583ac90c516\trefs/tags/v1.0\nebaa91f19c7dffbd3d99df0488c3caf2a0894bcd\trefs/tags/v1.0^{}\n```\n\nAfter:\n```\ngit ls-remote\nFrom http://geminicaprograms@localhost:8080/a/geminicaprograms/to_be_replicated_to_gh\nebaa91f19c7dffbd3d99df0488c3caf2a0894bcd\trefs/heads/main\n13076041e176d733c907cea508a23e8dfa1bf05d\trefs/meta/config\n09672b92b43727371cf9c08099aac583ac90c516\trefs/tags/v1.0\nebaa91f19c7dffbd3d99df0488c3caf2a0894bcd\trefs/tags/v1.0^{}\n```",
       "revId": "922696c233cca6f3f368975bf9394efe50896f34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40dd10e3_b896fed6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-11-17T09:40:21Z",
+      "side": 1,
+      "message": "Would we revert this when the \"per-project change ID\" will be merged?",
+      "revId": "922696c233cca6f3f368975bf9394efe50896f34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
