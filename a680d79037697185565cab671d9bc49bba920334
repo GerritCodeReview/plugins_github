@@ -73,6 +73,30 @@
       },
       "revId": "a680d79037697185565cab671d9bc49bba920334",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "644f8f95_d8f6a189",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/GitCloneStep.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-18T11:58:16Z",
+      "side": 1,
+      "message": "Both are equally working fine, @geminica.programs@gmail.com I\u0027ll leave to you to decide which one you prefer :-)",
+      "parentUuid": "90c1c46f_2cf2e5dc",
+      "range": {
+        "startLine": 103,
+        "startChar": 10,
+        "endLine": 105,
+        "endChar": 28
+      },
+      "revId": "a680d79037697185565cab671d9bc49bba920334",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
