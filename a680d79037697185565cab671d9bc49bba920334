@@ -97,6 +97,30 @@
       },
       "revId": "a680d79037697185565cab671d9bc49bba920334",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4459c82_be863d7b",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/GitCloneStep.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-18T16:15:09Z",
+      "side": 1,
+      "message": "In post JDK9 if we are talking `Streams` then we can do even better:\n\n```\nStream.ofNullable(ghRepository.getDefaultBranch()).collect(toList());\n```\n\nbut there is slight difference between the original code as `ProjectInput.branches` was `null` when no default branch was set in the GitHub repo (and that is the default value of `ProjectInput`) whereas `collect` on empty stream results in the empty list. Having said that I have verified that it is treated as if it was `null` anyway so here we go 😊",
+      "parentUuid": "644f8f95_d8f6a189",
+      "range": {
+        "startLine": 103,
+        "startChar": 10,
+        "endLine": 105,
+        "endChar": 28
+      },
+      "revId": "a680d79037697185565cab671d9bc49bba920334",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
