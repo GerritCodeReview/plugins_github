@@ -121,6 +121,30 @@
       },
       "revId": "a680d79037697185565cab671d9bc49bba920334",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e05841a_4203c8c7",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/GitCloneStep.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-18T16:16:50Z",
+      "side": 1,
+      "message": "WDYT @luca.milanesio@gmail.com about the current version?",
+      "parentUuid": "e4459c82_be863d7b",
+      "range": {
+        "startLine": 103,
+        "startChar": 10,
+        "endLine": 105,
+        "endChar": 28
+      },
+      "revId": "a680d79037697185565cab671d9bc49bba920334",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
