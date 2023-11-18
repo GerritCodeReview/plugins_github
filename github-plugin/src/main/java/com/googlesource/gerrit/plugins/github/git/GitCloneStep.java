@@ -30,6 +30,8 @@ import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.github.GitHubConfig;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.FetchCommand;
 import org.eclipse.jgit.api.Git;
@@ -95,7 +97,12 @@ public class GitCloneStep extends ImportStep {
     try (ManualRequestContext requestContext = context.openAs(config.importAccountId)) {
       ProjectInput pi = new ProjectInput();
       pi.name = projectName;
-      pi.parent = config.getBaseProject(getRepository().isPrivate());
+      GitHubRepository ghRepository = getRepository();
+      pi.parent = config.getBaseProject(ghRepository.isPrivate());
+      pi.branches =
+          Optional.ofNullable(ghRepository.getDefaultBranch())
+              .map(defaultBranch -> List.of(defaultBranch))
+              .orElse(null);
       gerritApi.projects().create(pi).get();
     } catch (ResourceConflictException e) {
       throw new GitDestinationAlreadyExistsException(projectName);
