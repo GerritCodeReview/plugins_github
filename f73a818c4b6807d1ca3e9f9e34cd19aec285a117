@@ -16,6 +16,24 @@
       "message": "Please, can you add a test?",
       "revId": "f73a818c4b6807d1ca3e9f9e34cd19aec285a117",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf67d112_4f7e0abf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-11-21T11:24:28Z",
+      "side": 1,
+      "message": "Adding a test for this would require creating the whole test infrastructure for testing Guice servlets, which IMO is out of scope for this change.",
+      "parentUuid": "a8bf9791_c080132e",
+      "revId": "f73a818c4b6807d1ca3e9f9e34cd19aec285a117",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
