@@ -56,6 +56,29 @@
       "message": "It is not enforced by the CI (I think it should!), but can you run google-java-format on your change?\n\nThe only offending file is `VelocityViewServlet.java`, modified by this change.",
       "revId": "9055740595593d1d6877253b0d1d55cda6b4b716",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7908404d_e544a453",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/velocity/VelocityViewServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-21T15:02:18Z",
+      "side": 1,
+      "message": "I believe we should also add the return URL parameter, so that after the login we are redirected back to the original place, WDYT?",
+      "range": {
+        "startLine": 90,
+        "startChar": 26,
+        "endLine": 90,
+        "endChar": 51
+      },
+      "revId": "9055740595593d1d6877253b0d1d55cda6b4b716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
