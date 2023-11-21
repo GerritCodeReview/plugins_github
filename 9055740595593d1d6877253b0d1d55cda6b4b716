@@ -43,6 +43,48 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e4d8945f_98f04d63",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-11-21T15:23:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4de8ae2c_6ff5cfbb",
+      "revId": "9055740595593d1d6877253b0d1d55cda6b4b716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77a8bd74_8076cdaf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-11-21T15:23:03Z",
+      "side": 1,
+      "message": "Yes, this affects all of the profile pages.\n\nIMO, we don\u0027t need to list all of them. I\u0027ll just reword it to read \"any of the profile pages\", which will cover all of them.",
+      "parentUuid": "8b3f6e25_b3b4acf3",
+      "range": {
+        "startLine": 9,
+        "startChar": 52,
+        "endLine": 9,
+        "endChar": 65
+      },
+      "revId": "9055740595593d1d6877253b0d1d55cda6b4b716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ee665d89_4a6914c5",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -71,6 +113,30 @@
       "writtenOn": "2023-11-21T15:02:18Z",
       "side": 1,
       "message": "I believe we should also add the return URL parameter, so that after the login we are redirected back to the original place, WDYT?",
+      "range": {
+        "startLine": 90,
+        "startChar": 26,
+        "endLine": 90,
+        "endChar": 51
+      },
+      "revId": "9055740595593d1d6877253b0d1d55cda6b4b716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b797a11_6ecb6588",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/velocity/VelocityViewServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-11-21T15:23:03Z",
+      "side": 1,
+      "message": "I was thinking about this, but from my quick test, it looks like Gerrit doesn\u0027t support the _redirect back_ argument. Additionally we either need to pass that through the oauth-redirect-dance or store it in the user session.\n\nHaving said that, I don\u0027t think that this should be part of a bug fix, as it feels more like a feature request.\n\nDoes this answer your question?",
+      "parentUuid": "7908404d_e544a453",
       "range": {
         "startLine": 90,
         "startChar": 26,
