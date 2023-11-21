@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4de8ae2c_6ff5cfbb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-11-21T13:55:38Z",
+      "side": 1,
+      "message": "an unauthorized",
+      "revId": "9055740595593d1d6877253b0d1d55cda6b4b716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b3f6e25_b3b4acf3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-11-21T13:55:38Z",
+      "side": 1,
+      "message": "nit: can you specify this is affecting `account`, `repositories` and `pullrequests` too?\n\nThe related monorail issue mentions just `account`, but your change fixes all of the above 😊",
+      "range": {
+        "startLine": 9,
+        "startChar": 52,
+        "endLine": 9,
+        "endChar": 65
+      },
+      "revId": "9055740595593d1d6877253b0d1d55cda6b4b716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee665d89_4a6914c5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-11-21T13:55:38Z",
+      "side": 1,
+      "message": "It is not enforced by the CI (I think it should!), but can you run google-java-format on your change?\n\nThe only offending file is `VelocityViewServlet.java`, modified by this change.",
+      "revId": "9055740595593d1d6877253b0d1d55cda6b4b716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
