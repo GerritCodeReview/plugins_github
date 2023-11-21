@@ -57,6 +57,42 @@
       "parentUuid": "a8bf9791_c080132e",
       "revId": "f73a818c4b6807d1ca3e9f9e34cd19aec285a117",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f79b12f8_6dee45a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-11-21T11:32:59Z",
+      "side": 1,
+      "message": "Have you tested manually?",
+      "parentUuid": "bf67d112_4f7e0abf",
+      "revId": "f73a818c4b6807d1ca3e9f9e34cd19aec285a117",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf9981ba_d667e3ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-11-21T11:32:59Z",
+      "side": 1,
+      "message": "Have you tested manually? In that case please add a +1 in Verified.",
+      "parentUuid": "bf67d112_4f7e0abf",
+      "revId": "f73a818c4b6807d1ca3e9f9e34cd19aec285a117",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
