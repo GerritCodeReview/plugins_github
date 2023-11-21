@@ -15,6 +15,7 @@ package com.googlesource.gerrit.plugins.github.velocity;
 
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -53,6 +54,7 @@ public class VelocityViewServlet extends HttpServlet {
   private final GitHubConfig config;
   private final VirtualDomainConfig virtualDomainConfig;
   private final CanonicalWebUrls canonicalWebUrls;
+  private final AuthConfig authConfig;
 
   @Inject
   public VelocityViewServlet(
@@ -62,7 +64,8 @@ public class VelocityViewServlet extends HttpServlet {
       Provider<CurrentUser> userProvider,
       GitHubConfig config,
       VirtualDomainConfig virutalDomainConfig,
-      CanonicalWebUrls canonicalWebUrls) {
+      CanonicalWebUrls canonicalWebUrls,
+      AuthConfig authConfig) {
 
     this.velocityRuntime = velocityRuntime;
     this.modelProvider = modelProvider;
@@ -71,6 +74,7 @@ public class VelocityViewServlet extends HttpServlet {
     this.config = config;
     this.virtualDomainConfig = virutalDomainConfig;
     this.canonicalWebUrls = canonicalWebUrls;
+    this.authConfig = authConfig;
   }
 
   @Override
@@ -78,6 +82,11 @@ public class VelocityViewServlet extends HttpServlet {
       throws ServletException, IOException {
     HttpServletRequest req = (HttpServletRequest) request;
     HttpServletResponse resp = (HttpServletResponse) response;
+
+    if (!userProvider.get().isIdentifiedUser()) {
+        resp.sendRedirect(authConfig.getLoginUrl());
+        return;
+    }
 
     String pathInfo =
         STATIC_PREFIX
