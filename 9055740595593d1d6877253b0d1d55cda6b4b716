@@ -85,6 +85,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "956ecf29_74a7d217",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-21T15:24:30Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "77a8bd74_8076cdaf",
+      "range": {
+        "startLine": 9,
+        "startChar": 52,
+        "endLine": 9,
+        "endChar": 65
+      },
+      "revId": "9055740595593d1d6877253b0d1d55cda6b4b716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ee665d89_4a6914c5",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -137,6 +161,30 @@
       "side": 1,
       "message": "I was thinking about this, but from my quick test, it looks like Gerrit doesn\u0027t support the _redirect back_ argument. Additionally we either need to pass that through the oauth-redirect-dance or store it in the user session.\n\nHaving said that, I don\u0027t think that this should be part of a bug fix, as it feels more like a feature request.\n\nDoes this answer your question?",
       "parentUuid": "7908404d_e544a453",
+      "range": {
+        "startLine": 90,
+        "startChar": 26,
+        "endLine": 90,
+        "endChar": 51
+      },
+      "revId": "9055740595593d1d6877253b0d1d55cda6b4b716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcb6f946_8cbd203f",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/velocity/VelocityViewServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-21T15:24:30Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "2b797a11_6ecb6588",
       "range": {
         "startLine": 90,
         "startChar": 26,
