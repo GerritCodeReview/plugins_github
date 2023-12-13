@@ -97,7 +97,7 @@ public class GitHubGroupsCache {
     private void loadOrganisations(
         String username, OrganizationStructure orgsTeams, GitHubLogin ghLogin) throws IOException {
       logger.debug("Getting list of public organisations for user '{}'", username);
-      Set<String> organisations = ghLogin.getMyOrganisationsLogins();
+      Set<String> organisations = ghLogin.getMyOrganisationsLogins(username);
       for (String org : organisations) {
         orgsTeams.put(org, EVERYONE_TEAM_NAME);
       }
