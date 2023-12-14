@@ -143,6 +143,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cac01bff_cf98624c",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubLogin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-14T13:59:10Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "2df1b0ce_4db21a11",
+      "revId": "d77146c5e0a6a08baa631a92b283b0bb5905f4ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f533be1c_0d63a041",
@@ -210,6 +228,24 @@
       "side": 1,
       "message": "sure, I\u0027m all for the consistency in the codebase if that\u0027s how this is handled I can wrap it in some kind of _permission_ exception.",
       "parentUuid": "bb775a17_46fec4d8",
+      "revId": "d77146c5e0a6a08baa631a92b283b0bb5905f4ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73de897d_2a2f743f",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubLogin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-14T13:59:10Z",
+      "side": 1,
+      "message": "At the end of the day is your call. I am interested to see what the others say about that.",
+      "parentUuid": "9ed21531_8b016deb",
       "revId": "d77146c5e0a6a08baa631a92b283b0bb5905f4ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
