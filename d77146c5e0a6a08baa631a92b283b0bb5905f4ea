@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8ad38c79_6179829e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-12-14T13:07:03Z",
+      "side": 1,
+      "message": "sure, I just copied the scopes from GerritHub, and created a new account with the _Reviewer_ scope. This resulted in two or three `HttpException` being thrown during the login, plus one more when GitHub \u003e Repositories page from the navigation bar was accessed. Also logging out and in resulted in a few `HttpException`s.\n\nAfter this change, no `HttpException` is logged during the above operations.",
+      "parentUuid": "b40d4ac3_c03dabd8",
+      "revId": "d77146c5e0a6a08baa631a92b283b0bb5905f4ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "93d7a8f0_0e402da4",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubLogin.java",
         "patchSetId": 1
@@ -109,6 +127,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2df1b0ce_4db21a11",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubLogin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-12-14T13:07:03Z",
+      "side": 1,
+      "message": "\u003e So if I understand correctly, if Github Rest API changes the message, this logic would fail. If that is the case I think we should try to find another alternative.\n\nFor that reason, I opted only for a partial match and skipped the part about the exact required permissions (as those may change over time). This is a REST API, and part of the API are errors and messages, so they _should_ be stable, any change should require another version of the API to be published.\n\nIMO, that\u0027s the best and least invasive thing that we can do right now.\n\nA proper way of dealing with it would be to not call the APIs that we know will fail. But this is a completely different approach compared to the overall strategy in the GitHub` plugin. That would require more refactoring which IMO is out of scope of the bug fix.",
+      "parentUuid": "92a269c2_66a1efbb",
+      "revId": "d77146c5e0a6a08baa631a92b283b0bb5905f4ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f533be1c_0d63a041",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubLogin.java",
         "patchSetId": 1
@@ -156,6 +192,24 @@
       "side": 1,
       "message": "I did not mean to create a new one. Maybe you could use another type of Exception in scope that represents this use case. I tend to hide 3rd party libraries exceptions and encapsulate in others that represent my use case. In any case It is a matter of taste I think.",
       "parentUuid": "809307ba_94e08ec7",
+      "revId": "d77146c5e0a6a08baa631a92b283b0bb5905f4ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ed21531_8b016deb",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubLogin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-12-14T13:07:03Z",
+      "side": 1,
+      "message": "sure, I\u0027m all for the consistency in the codebase if that\u0027s how this is handled I can wrap it in some kind of _permission_ exception.",
+      "parentUuid": "bb775a17_46fec4d8",
       "revId": "d77146c5e0a6a08baa631a92b283b0bb5905f4ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
