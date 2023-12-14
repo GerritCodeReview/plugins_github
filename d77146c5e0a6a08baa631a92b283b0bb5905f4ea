@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdd5291d_ad2ee3ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-14T11:45:29Z",
+      "side": 1,
+      "message": "There are no tests. I guess this is more a E2E scenario.",
+      "revId": "d77146c5e0a6a08baa631a92b283b0bb5905f4ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93d7a8f0_0e402da4",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubLogin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-14T11:45:29Z",
+      "side": 1,
+      "message": "Personally I find brittle to do checking based on strings/substrings defined in a third party library.\n\nI have tried to find the substring `You need at least` in https://github.com/hub4j/github-api/tree/github-api-1.316 and I was not able to do it. Where is it coming from?",
+      "revId": "d77146c5e0a6a08baa631a92b283b0bb5905f4ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
