@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "92a269c2_66a1efbb",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubLogin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-14T12:41:39Z",
+      "side": 1,
+      "message": "\u003e This message is not coming from the library, but from the GitHub REST API\n\nSo if I understand correctly, if Github Rest API changes the message, this logic would fail. If that is the case I think we should try to find another alternative.\nObviously this is personal opinion.",
+      "parentUuid": "d3bcd2af_9e6a6baa",
+      "revId": "d77146c5e0a6a08baa631a92b283b0bb5905f4ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f533be1c_0d63a041",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubLogin.java",
         "patchSetId": 1
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "IMO this would be an overkill, to define a new exception type to throw it once just to have a better message in the logs. I believe that the message from `HttpException` is good enough (after all it\u0027s just forwarding the message from the official REST API), also wrapping in another exception would make the log statement even longer.",
       "parentUuid": "f533be1c_0d63a041",
+      "revId": "d77146c5e0a6a08baa631a92b283b0bb5905f4ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb775a17_46fec4d8",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubLogin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-14T12:41:39Z",
+      "side": 1,
+      "message": "I did not mean to create a new one. Maybe you could use another type of Exception in scope that represents this use case. I tend to hide 3rd party libraries exceptions and encapsulate in others that represent my use case. In any case It is a matter of taste I think.",
+      "parentUuid": "809307ba_94e08ec7",
       "revId": "d77146c5e0a6a08baa631a92b283b0bb5905f4ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
