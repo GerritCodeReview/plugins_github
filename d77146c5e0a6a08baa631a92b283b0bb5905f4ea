@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b40d4ac3_c03dabd8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-14T12:42:49Z",
+      "side": 1,
+      "message": "For visibility, I think is good to explain the E2E tests that you have done. In that way some readers can give you feedback.",
+      "parentUuid": "f01c02d6_09853567",
+      "revId": "d77146c5e0a6a08baa631a92b283b0bb5905f4ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "93d7a8f0_0e402da4",
         "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubLogin.java",
         "patchSetId": 1
