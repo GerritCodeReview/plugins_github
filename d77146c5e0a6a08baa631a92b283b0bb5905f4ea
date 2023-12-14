@@ -33,6 +33,23 @@
       "message": "Personally I find brittle to do checking based on strings/substrings defined in a third party library.\n\nI have tried to find the substring `You need at least` in https://github.com/hub4j/github-api/tree/github-api-1.316 and I was not able to do it. Where is it coming from?",
       "revId": "d77146c5e0a6a08baa631a92b283b0bb5905f4ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f533be1c_0d63a041",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubLogin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-14T12:01:55Z",
+      "side": 1,
+      "message": "nit: you could rise an exception containing `org.kohsuke.github.HttpException` and providing another message with more context so when the stack trace is printed in the logs the reader can have a better context.",
+      "revId": "d77146c5e0a6a08baa631a92b283b0bb5905f4ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
