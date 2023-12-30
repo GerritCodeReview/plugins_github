@@ -248,6 +248,24 @@
       "parentUuid": "9ed21531_8b016deb",
       "revId": "d77146c5e0a6a08baa631a92b283b0bb5905f4ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0d41545_c01165e8",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubLogin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-30T00:35:59Z",
+      "side": 1,
+      "message": "If we were in Scala, it would have been much cleaner, because the catch is basically a match. However, we are in Java (my bad, next time I\u0027ll rewrite it in Scala) and I guess we need to live with the nuances of the language.\n\nHere we just wanted to catch an HttpException with a specific message, and if that\u0027s not the case just let it go upstream. So, rethrowing is fine IMHO.",
+      "parentUuid": "73de897d_2a2f743f",
+      "revId": "d77146c5e0a6a08baa631a92b283b0bb5905f4ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
