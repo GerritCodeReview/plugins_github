@@ -14,19 +14,21 @@
 
 package com.googlesource.gerrit.plugins.github.group;
 
+import static com.googlesource.gerrit.plugins.github.group.CurrentUsernameProvider.CURRENT_USERNAME;
 import static java.time.temporal.ChronoUnit.MINUTES;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.AccountGroup.UUID;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+import com.google.inject.name.Names;
 import com.googlesource.gerrit.plugins.github.groups.OrganizationStructure;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.UserScopedProvider;
@@ -95,7 +97,7 @@ public class GitHubGroupsCache {
     private void loadOrganisations(
         String username, OrganizationStructure orgsTeams, GitHubLogin ghLogin) throws IOException {
       logger.debug("Getting list of public organisations for user '{}'", username);
-      Set<String> organisations = ghLogin.getMyOrganisationsLogins();
+      Set<String> organisations = ghLogin.getMyOrganisationsLogins(username);
       for (String org : organisations) {
         orgsTeams.put(org, EVERYONE_TEAM_NAME);
       }
@@ -106,6 +108,9 @@ public class GitHubGroupsCache {
     return new CacheModule() {
       @Override
       protected void configure() {
+        bind(String.class)
+            .annotatedWith(Names.named(CurrentUsernameProvider.CURRENT_USERNAME))
+            .toProvider(CurrentUsernameProvider.class);
         persist(ORGS_CACHE_NAME, String.class, OrganizationStructure.class)
             .expireAfterWrite(Duration.of(GROUPS_CACHE_TTL_MINS, MINUTES))
             .loader(OrganisationLoader.class);
@@ -115,14 +120,15 @@ public class GitHubGroupsCache {
   }
 
   private final LoadingCache<String, OrganizationStructure> orgTeamsByUsername;
-  private final Provider<IdentifiedUser> userProvider;
+  private final Provider<String> usernameProvider;
 
   @Inject
-  GitHubGroupsCache(
+  @VisibleForTesting
+  public GitHubGroupsCache(
       @Named(ORGS_CACHE_NAME) LoadingCache<String, OrganizationStructure> byUsername,
-      Provider<IdentifiedUser> userProvider) {
+      @Named(CURRENT_USERNAME) Provider<String> usernameProvider) {
     this.orgTeamsByUsername = byUsername;
-    this.userProvider = userProvider;
+    this.usernameProvider = usernameProvider;
   }
 
   Set<String> getOrganizationsForUser(String username) {
@@ -135,7 +141,7 @@ public class GitHubGroupsCache {
   }
 
   Set<String> getOrganizationsForCurrentUser() throws ExecutionException {
-    return orgTeamsByUsername.get(userProvider.get().getUserName().get()).keySet();
+    return orgTeamsByUsername.get(usernameProvider.get()).keySet();
   }
 
   Set<String> getTeamsForUser(String organizationName, String username) {
@@ -156,7 +162,7 @@ public class GitHubGroupsCache {
   }
 
   Set<String> getTeamsForCurrentUser(String organizationName) {
-    return getTeamsForUser(organizationName, userProvider.get().getUserName().get());
+    return getTeamsForUser(organizationName, usernameProvider.get());
   }
 
   public Set<UUID> getGroupsForUser(String username) {
@@ -169,5 +175,9 @@ public class GitHubGroupsCache {
       }
     }
     return groupsBuilder.build();
+  }
+
+  public void invalidateCurrentUserGroups() {
+    orgTeamsByUsername.invalidate(usernameProvider.get());
   }
 }

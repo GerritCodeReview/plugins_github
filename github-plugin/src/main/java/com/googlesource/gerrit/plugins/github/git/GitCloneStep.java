@@ -13,6 +13,8 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
+import static java.util.stream.Collectors.toList;
+
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -30,6 +32,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.github.GitHubConfig;
 import java.io.File;
 import java.io.IOException;
+import java.util.stream.Stream;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.FetchCommand;
 import org.eclipse.jgit.api.Git;
@@ -95,7 +98,9 @@ public class GitCloneStep extends ImportStep {
     try (ManualRequestContext requestContext = context.openAs(config.importAccountId)) {
       ProjectInput pi = new ProjectInput();
       pi.name = projectName;
-      pi.parent = config.getBaseProject(getRepository().isPrivate());
+      GitHubRepository ghRepository = getRepository();
+      pi.parent = config.getBaseProject(ghRepository.isPrivate());
+      pi.branches = Stream.ofNullable(ghRepository.getDefaultBranch()).collect(toList());
       gerritApi.projects().create(pi).get();
     } catch (ResourceConflictException e) {
       throw new GitDestinationAlreadyExistsException(projectName);
@@ -109,7 +114,8 @@ public class GitCloneStep extends ImportStep {
     createNewProject();
     String sourceUri = getSourceUri();
     try (Git git = Git.open(destinationDirectory)) {
-      FetchCommand fetch = git.fetch().setRefSpecs("refs/*:refs/*").setRemote(sourceUri);
+      FetchCommand fetch =
+          git.fetch().setRefSpecs("^refs/changes/*", "refs/*:refs/*").setRemote(sourceUri);
       fetch.setCredentialsProvider(getRepository().getCredentialsProvider());
       if (progress != null) {
         fetch.setProgressMonitor(progress);

@@ -38,6 +38,7 @@ import lombok.Getter;
 import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GitHub;
 import org.kohsuke.github.GitHubBuilder;
+import org.kohsuke.github.HttpException;
 import org.kohsuke.github.connector.GitHubConnector;
 import org.kohsuke.github.internal.GitHubConnectorHttpConnectorAdapter;
 import org.slf4j.Logger;
@@ -75,9 +76,21 @@ public class GitHubLogin implements Serializable {
     return null;
   }
 
-  public Set<String> getMyOrganisationsLogins() throws IOException {
+  public Set<String> getMyOrganisationsLogins(String username) throws IOException {
     if (isLoggedIn()) {
-      return getHub().getMyOrganizations().keySet();
+      try {
+        return getHub().getMyOrganizations().keySet();
+      } catch (HttpException httpException) {
+        if (!httpException.getMessage().contains("You need at least")) {
+          throw httpException;
+        }
+        log.info(
+            "Cannot access organizations for user '{}': falling back to list of public"
+                + " organisations",
+            username);
+
+        return getHub().getUserPublicOrganizations(username).keySet();
+      }
     }
     return Collections.emptySet();
   }
