@@ -55,8 +55,10 @@ public class FanoutReplicationConfigTest {
     currConfig.setString("remote", null, CUSTOM_KEY, CUSTOM_VALUE);
     currConfig.save();
 
+    InMemorySecureStore secureStore = new InMemorySecureStore();
+
     String url = "http://github.com/myurl";
-    FanoutReplicationConfig fanoutReplicationConfig = new FanoutReplicationConfig(sitePaths);
+    FanoutReplicationConfig fanoutReplicationConfig = new FanoutReplicationConfig(sitePaths, secureStore);
     fanoutReplicationConfig.addReplicationRemote(REMOTE_ENDPOINT, url, "myproject");
 
     currConfig.load();
@@ -70,7 +72,9 @@ public class FanoutReplicationConfigTest {
     currConfig.setString("remote", null, "url", customUrl);
     currConfig.save();
 
-    new FanoutReplicationConfig(sitePaths)
+    InMemorySecureStore secureStore = new InMemorySecureStore();
+
+    new FanoutReplicationConfig(sitePaths, secureStore)
         .addReplicationRemote(REMOTE_ENDPOINT, TEST_REMOTE_URL, TEST_PROJECT_NAME);
 
     currConfig.load();
@@ -84,7 +88,9 @@ public class FanoutReplicationConfigTest {
     currConfig.setString("remote", null, "push", customPushRefSpec);
     currConfig.save();
 
-    new FanoutReplicationConfig(sitePaths)
+    InMemorySecureStore secureStore = new InMemorySecureStore();
+
+    new FanoutReplicationConfig(sitePaths, secureStore)
         .addReplicationRemote(REMOTE_ENDPOINT, TEST_REMOTE_URL, TEST_PROJECT_NAME);
 
     currConfig.load();

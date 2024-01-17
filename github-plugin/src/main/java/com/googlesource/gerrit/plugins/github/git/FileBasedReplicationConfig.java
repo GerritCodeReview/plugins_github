@@ -23,25 +23,27 @@ import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
+import com.google.gerrit.server.securestore.SecureStore;
 
 public class FileBasedReplicationConfig implements ReplicationConfig {
-  private final FileBasedConfig secureConf;
   private final FileBasedConfig replicationConf;
 
+  private final SecureStore secureStore;
+
   @Inject
-  public FileBasedReplicationConfig(final SitePaths site) {
+  public FileBasedReplicationConfig(final SitePaths site, final SecureStore secureStore) {
     replicationConf =
         new FileBasedConfig(new File(site.etc_dir.toFile(), "replication.config"), FS.DETECTED);
-    secureConf = new FileBasedConfig(site.secure_config.toFile(), FS.DETECTED);
+    this.secureStore = secureStore;
   }
 
   @Override
   public synchronized void addSecureCredentials(String authUsername, String authToken)
       throws IOException, ConfigInvalidException {
-    secureConf.load();
-    secureConf.setString("remote", authUsername, "username", authUsername);
-    secureConf.setString("remote", authUsername, "password", authToken);
-    secureConf.save();
+    secureStore.reload();
+
+    secureStore.set("remote", authUsername, "username", authUsername);
+    secureStore.set("remote", authUsername, "password", authToken);
   }
 
   @Override

@@ -37,24 +37,26 @@ import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.kohsuke.github.GHMyself;
 import org.slf4j.LoggerFactory;
+import com.google.gerrit.server.securestore.SecureStore;
 
 @Singleton
 public class OAuthWebFilter implements Filter {
   private static final org.slf4j.Logger log = LoggerFactory.getLogger(OAuthWebFilter.class);
   public static final String GERRIT_COOKIE_NAME = "GerritAccount";
   public static final String GITHUB_EXT_ID = "github_oauth:";
-
   private final GitHubOAuthConfig config;
   private final Random retryRandom = new Random(System.currentTimeMillis());
   private final SitePaths sites;
   private final ScopedProvider<GitHubLogin> loginProvider;
   private final OAuthProtocol oauth;
   private final OAuthTokenCipher oAuthTokenCipher;
+  private final SecureStore secureStore;
 
   @Inject
   public OAuthWebFilter(
       GitHubOAuthConfig config,
       SitePaths sites,
+      final SecureStore secureStore,
       OAuthProtocol oauth,
       // We need to explicitly tell Guice the correct implementation
       // as this filter is instantiated with a standard Gerrit WebModule
@@ -62,6 +64,7 @@ public class OAuthWebFilter implements Filter {
       OAuthTokenCipher oAuthTokenCipher) {
     this.config = config;
     this.sites = sites;
+    this.secureStore = secureStore;
     this.oauth = oauth;
     this.loginProvider = loginProvider;
     this.oAuthTokenCipher = oAuthTokenCipher;
@@ -187,46 +190,41 @@ public class OAuthWebFilter implements Filter {
   private synchronized void updateSecureConfig(
       Set<String> organisations, String user, String access_token)
       throws IOException, ConfigInvalidException {
-    FileBasedConfig currentSecureConfig =
-        new FileBasedConfig(sites.secure_config.toFile(), FS.DETECTED);
-    FileTime currentSecureConfigUpdateTs = Files.getLastModifiedTime(sites.secure_config);
-    currentSecureConfig.load();
 
-    boolean configUpdate = updateConfigSection(currentSecureConfig, user, user, access_token);
+    log.info("Updating secure config credentials for user " + user);
+
+    boolean configUpdate = updateConfigSection(user, user, access_token);
+
     for (String organisation : organisations) {
-      configUpdate |= updateConfigSection(currentSecureConfig, organisation, user, access_token);
+      configUpdate |= updateConfigSection(organisation, user, access_token);
     }
-
-    if (!configUpdate) {
-      return;
-    }
-
-    log.info("Updating " + sites.secure_config + " credentials for user " + user);
-
-    FileTime secureConfigCurrentModifiedTime = Files.getLastModifiedTime(sites.secure_config);
-    if (!secureConfigCurrentModifiedTime.equals(currentSecureConfigUpdateTs)) {
-      throw new ConcurrentFileBasedConfigWriteException(
-          "File "
-              + sites.secure_config
-              + " was written at "
-              + secureConfigCurrentModifiedTime
-              + " while was trying to update security for user "
-              + user);
-    }
-    currentSecureConfig.save();
   }
 
   private boolean updateConfigSection(
-      FileBasedConfig c, String section, String user, String password) {
-    String configUser = c.getString("remote", section, "username");
-    String configPassword = c.getString("remote", section, "password");
-    if (!StringUtils.equals(configUser, user) || StringUtils.equals(configPassword, password)) {
+      String section, String user, String authToken) {
+    // Reload the secure config so that any change that happened on the file via fs in between is updated
+    secureStore.reload();
+
+    String configUser = getConfigValue("remote", section, "username");
+    String configPassword = getConfigValue("remote", section, "password");
+
+    if ( !(configUser != null || StringUtils.equals(configUser, user)) || StringUtils.equals(configPassword, authToken)) {
       return false;
     }
 
-    c.setString("remote", section, "username", user);
-    c.setString("remote", section, "password", password);
+    secureStore.set("remote", section, "username", user);
+    secureStore.set("remote", section, "password", authToken);
+
     return true;
+  }
+
+  private String getConfigValue(String section, String subsection, String name) {
+    try {
+      return secureStore.get(section, subsection, name);
+    } catch (Exception e) {
+      // To distinguish between the value not set and an encryption problem
+      return "";
+    }
   }
 
   private Cookie getGerritCookie(HttpServletRequest httpRequest) {
