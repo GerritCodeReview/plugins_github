@@ -10,9 +10,9 @@ export class GrGitHubOAuthProgress extends LitElement {
 
     @property() plugin!: PluginApi;
 
-    @state() authInfo?: AuthInfo
+    @state() authInfo?: AuthInfo;
 
-    @state() loggedIn?: boolean
+    @state() loggedIn?: boolean;
 
     @state() currentNavigationPath?: string;
 
@@ -59,7 +59,7 @@ export class GrGitHubOAuthProgress extends LitElement {
 
     override render() {
         if (!this.authInfo || this.loggedIn !== false) {
-            return
+            return;
         }
         const loginWithRedirect = new URL(this.authInfo.login_url ?? "/", window.location.origin);
         if (this.currentNavigationPath) {
