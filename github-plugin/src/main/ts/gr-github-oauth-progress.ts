@@ -14,6 +14,8 @@ export class GrGitHubOAuthProgress extends LitElement {
 
     @state() loggedIn?: boolean
 
+    @state() currentNavigationPath?: string;
+
     override connectedCallback() {
         super.connectedCallback();
         const restApi = this.plugin.restApi();
@@ -21,6 +23,13 @@ export class GrGitHubOAuthProgress extends LitElement {
             restApi.getConfig().then(config => this.authInfo = config?.auth);
         }
         restApi.getLoggedIn().then(loggedIn => this.loggedIn = loggedIn);
+        document.addEventListener(
+          'nav-report',
+          // the `nav-report` event is emitted before `window.location` is updated, in order
+          // to get the current location, we need to delay `this.updateLocationPath` execution
+          // by putting it on the end of processing queue
+          () => setTimeout(() => this.updateLocationPath(), 0));
+        this.updateLocationPath();
     }
 
     static override get styles() {
@@ -52,9 +61,13 @@ export class GrGitHubOAuthProgress extends LitElement {
         if (!this.authInfo || this.loggedIn !== false) {
             return
         }
+        const loginWithRedirect = new URL(this.authInfo.login_url ?? "/", window.location.origin);
+        if (this.currentNavigationPath) {
+          loginWithRedirect.pathname = loginWithRedirect.pathname + this.currentNavigationPath;
+        }
 
         return html`
-            <a class="loginButton" href=${this.authInfo.login_url} @click=${this.showModal}>
+            <a class="loginButton" href="${loginWithRedirect}" @click=${this.showModal}>
                 ${this.authInfo.login_text}
             </a>
             <dialog id="gitHubOAuthProgress">
@@ -64,6 +77,10 @@ export class GrGitHubOAuthProgress extends LitElement {
                 </div>
            </dialog>
         `
+    }
+
+    private updateLocationPath() {
+        this.currentNavigationPath = window.location.pathname;
     }
 
     private showModal() {
