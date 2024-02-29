@@ -66,11 +66,9 @@ a Change in Gerrit submitted for review.
 How to build this plugin
 ------------------------
 
-### Gerrit 3.3 build
-
-GitHub plugin is designed to work with Gerrit 3.3 (currently in development).
-In order to build the GitHub plugin you need to have a working Gerrit 3.3
-build in place.
+GitHub plugin is designed to work with Gerrit 3.3 or newer.
+In order to build the GitHub plugin you need to have a working Gerrit 3.3,
+or newer, build in place.
 
 See https://gerrit-review.googlesource.com/Documentation/dev-bazel.html for a
 reference on how to build Gerrit using Bazel.
