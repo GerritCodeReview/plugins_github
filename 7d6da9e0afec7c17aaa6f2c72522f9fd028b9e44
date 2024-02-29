@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7fd0495_8e37dfdb",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-02-29T15:22:46Z",
+      "side": 1,
+      "message": "I\u0027m not sure if 3.3 is still the minimum required version. When we integrate the `ReplicationRemotesUpdater` from https://gerrit-review.googlesource.com/c/plugins/replication/+/407200 we\u0027ll need to update that to either `master` or 3.10.\n\nHow about removing all of the `3.3` mentions? Maybe replace them with a `latest` instead.",
+      "range": {
+        "startLine": 69,
+        "startChar": 46,
+        "endLine": 69,
+        "endChar": 49
+      },
+      "revId": "7d6da9e0afec7c17aaa6f2c72522f9fd028b9e44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
