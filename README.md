@@ -66,25 +66,22 @@ a Change in Gerrit submitted for review.
 How to build this plugin
 ------------------------
 
-### Gerrit 3.3 build
-
-GitHub plugin is designed to work with Gerrit 3.3 (currently in development).
-In order to build the GitHub plugin you need to have a working Gerrit 3.3
-build in place.
+GitHub plugin is designed to work with the latest Gerrit. In order to build
+the GitHub plugin you need to have a working Gerrit build in place.
 
 See https://gerrit-review.googlesource.com/Documentation/dev-bazel.html for a
 reference on how to build Gerrit using Bazel.
 
-Gerrit 3.3 is distributed for Java 11 only. However, the source code is compatible
-with Java 8 assuming you build it from the source repository by yourself.
+The default parameters run a build against Java 17, aligned with Gerrit default
+build and distribution.
 
-The GitHub plugin can be built for Java 17 by using the `javaVersion=1.17` Maven
-parameter.
+However, you can build the plugin for a different java version by using the
+`javaVersion=<version>` Maven parameter.
 
 Example:
   git clone https://gerrit.googlesource.com/plugins/github
   cd github
-  mvn -DjavaVersion=17 install
+  mvn -DjavaVersion=<version> install
 
 ### singleusergroup plugin
 
