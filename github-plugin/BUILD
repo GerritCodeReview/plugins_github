@@ -30,6 +30,7 @@ gerrit_plugin(
     resources = glob(["src/main/resources/**/*"]),
     deps = [
         ":github-plugin-lib",
+        ":replication-api",
         "//plugins/github/github-oauth:github-oauth-lib",
         "@axis-jaxrpc//jar",
         "@axis//jar",
@@ -92,4 +93,10 @@ java_library(
     exported_plugins = [":lombok_plugin"],
     neverlink = True,
     exports = ["@lombok//jar"],
+)
+
+java_library(
+    name = "replication-api",
+    neverlink = True,
+    exports = ["//plugins/replication:replication-api"],
 )
