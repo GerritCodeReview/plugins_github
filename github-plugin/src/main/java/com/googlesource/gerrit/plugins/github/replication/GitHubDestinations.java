@@ -18,22 +18,17 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.account.GroupBackend;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
-import java.io.IOException;
+import com.googlesource.gerrit.plugins.replication.api.ReplicationConfig;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
-import org.eclipse.jgit.util.FS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,15 +55,15 @@ public class GitHubDestinations {
 
   @Inject
   GitHubDestinations(
-      final SitePaths site,
+      final ReplicationConfig replicationConfig,
       final RemoteSiteUser.Factory ruf,
       final GroupBackend gb,
       final PluginUser pu)
-      throws ConfigInvalidException, IOException {
+      throws ConfigInvalidException {
     pluginUser = pu;
     replicationUserFactory = ruf;
     groupBackend = gb;
-    configs = getDestinations(site.etc_dir.resolve("replication.config"));
+    configs = getDestinations(replicationConfig.getConfig());
     organisations = getOrganisations(configs);
   }
 
@@ -83,22 +78,7 @@ public class GitHubDestinations {
     return result;
   }
 
-  private List<Destination> getDestinations(Path cfgPath)
-      throws ConfigInvalidException, IOException {
-    if (!Files.exists(cfgPath) || Files.size(cfgPath) == 0) {
-      return Collections.emptyList();
-    }
-
-    FileBasedConfig cfg = new FileBasedConfig(cfgPath.toFile(), FS.DETECTED);
-    try {
-      cfg.load();
-    } catch (ConfigInvalidException e) {
-      throw new ConfigInvalidException(
-          String.format("Config file %s is invalid: %s", cfg.getFile(), e.getMessage()), e);
-    } catch (IOException e) {
-      throw new IOException(String.format("Cannot read %s: %s", cfg.getFile(), e.getMessage()), e);
-    }
-
+  private List<Destination> getDestinations(Config cfg) throws ConfigInvalidException {
     ImmutableList.Builder<Destination> dest = ImmutableList.builder();
     for (RemoteConfig c : allRemotes(cfg)) {
       if (c.getURIs().isEmpty()) {
@@ -108,9 +88,7 @@ public class GitHubDestinations {
       for (URIish u : c.getURIs()) {
         if (u.getPath() == null || !u.getPath().contains("${name}")) {
           throw new ConfigInvalidException(
-              String.format(
-                  "remote.%s.url \"%s\" lacks ${name} placeholder in %s",
-                  c.getName(), u, cfg.getFile()));
+              String.format("remote.%s.url \"%s\" lacks ${name} placeholder", c.getName(), u));
         }
       }
 
@@ -131,7 +109,7 @@ public class GitHubDestinations {
     return dest.build();
   }
 
-  private static List<RemoteConfig> allRemotes(FileBasedConfig cfg) throws ConfigInvalidException {
+  private static List<RemoteConfig> allRemotes(Config cfg) throws ConfigInvalidException {
     Set<String> names = cfg.getSubsections("remote");
     List<RemoteConfig> result = Lists.newArrayListWithCapacity(names.size());
     for (String name : names) {
@@ -140,8 +118,7 @@ public class GitHubDestinations {
           result.add(new RemoteConfig(cfg, name));
         }
       } catch (URISyntaxException e) {
-        throw new ConfigInvalidException(
-            String.format("remote %s has invalid URL in %s", name, cfg.getFile()));
+        throw new ConfigInvalidException(String.format("remote %s has invalid URL", name));
       }
     }
     return result;
