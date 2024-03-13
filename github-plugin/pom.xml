@@ -152,6 +152,12 @@ limitations under the License.
       <scope>provided</scope>
     </dependency>
     <dependency>
+      <groupId>com.googlesource.gerrit.plugins.replication</groupId>
+      <artifactId>replication</artifactId>
+      <version>3.9.2-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-acceptance-framework</artifactId>
       <version>${Gerrit-ApiVersion}</version>
