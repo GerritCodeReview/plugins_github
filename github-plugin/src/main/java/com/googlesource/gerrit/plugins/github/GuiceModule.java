@@ -18,7 +18,6 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.extensions.webui.TopMenu;
 import com.google.gerrit.server.account.GroupBackend;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.events.EventListener;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gson.Gson;
@@ -27,9 +26,6 @@ import com.google.inject.Inject;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
-import com.googlesource.gerrit.plugins.github.git.FanoutReplicationConfig;
-import com.googlesource.gerrit.plugins.github.git.FileBasedReplicationConfig;
-import com.googlesource.gerrit.plugins.github.git.ReplicationConfig;
 import com.googlesource.gerrit.plugins.github.group.GitHubGroupBackend;
 import com.googlesource.gerrit.plugins.github.group.GitHubGroupMembership;
 import com.googlesource.gerrit.plugins.github.group.GitHubGroupsCache;
@@ -42,19 +38,21 @@ import com.googlesource.gerrit.plugins.github.replication.ListProjectReplication
 import com.googlesource.gerrit.plugins.github.replication.ReplicationStatusFlatFile;
 import com.googlesource.gerrit.plugins.github.replication.ReplicationStatusListener;
 import com.googlesource.gerrit.plugins.github.replication.ReplicationStatusStore;
-import java.nio.file.Files;
+import com.googlesource.gerrit.plugins.replication.ReplicationConfigModule;
 
 public class GuiceModule extends AbstractModule {
 
-  private final SitePaths site;
+  private ReplicationConfigModule replicationConfigMoudle;
 
   @Inject
-  public GuiceModule(SitePaths site) {
-    this.site = site;
+  public GuiceModule(ReplicationConfigModule replicationConfigMoudle) {
+    this.replicationConfigMoudle = replicationConfigMoudle;
   }
 
   @Override
   protected void configure() {
+    install(replicationConfigMoudle);
+
     bind(new TypeLiteral<UserScopedProvider<GitHubLogin>>() {})
         .to(IdentifiedUserGitHubLoginProvider.class);
 
@@ -74,12 +72,6 @@ public class GuiceModule extends AbstractModule {
             get(ProjectResource.PROJECT_KIND, "replication").to(ListProjectReplicationStatus.class);
           }
         });
-
-    if (Files.exists(site.etc_dir.resolve("replication"))) {
-      bind(ReplicationConfig.class).to(FanoutReplicationConfig.class).in(Scopes.SINGLETON);
-    } else {
-      bind(ReplicationConfig.class).to(FileBasedReplicationConfig.class).in(Scopes.SINGLETON);
-    }
 
     bind(ReplicationStatusStore.class).to(ReplicationStatusFlatFile.class).in(Scopes.SINGLETON);
     bind(Gson.class).toProvider(GerritGsonProvider.class);
