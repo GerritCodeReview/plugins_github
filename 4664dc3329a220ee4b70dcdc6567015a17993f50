@@ -98,6 +98,30 @@
       },
       "revId": "4664dc3329a220ee4b70dcdc6567015a17993f50",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "767d477b_fd927fb4",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-04-01T20:59:03Z",
+      "side": 1,
+      "message": "Unfortunately, that change wasn\u0027t merged into recent branches. I fixed that in this series: [1] and rebased this change on top of it.\n\n[1]: https://gerrit-review.googlesource.com/c/plugins/github/+/417099/1",
+      "parentUuid": "d1b3667b_73d1840a",
+      "range": {
+        "startLine": 181,
+        "startChar": 4,
+        "endLine": 198,
+        "endChar": 57
+      },
+      "revId": "4664dc3329a220ee4b70dcdc6567015a17993f50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [
@@ -116,23 +140,15 @@
       },
       "applicabilityExpressionResult": {},
       "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Code-Review\u003dMAX,user\u003dnon_uploader AND -label:Code-Review\u003dMIN"
-        },
-        "status": "FAIL",
-        "errorMessage": {},
-        "passingAtoms": [],
-        "failingAtoms": [
-          "label:Code-Review\u003dMAX,user\u003dnon_uploader",
-          "label:Code-Review\u003dMIN"
-        ]
+        "value": {"expression":{"expressionString":"label:Code-Review=MAX,user=non_uploader AND -label:Code-Review=MIN"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["label:Code-Review=MAX,user=non_uploader","label:Code-Review=MIN"]}
       },
       "overrideExpressionResult": {},
       "patchSetCommitId": "4664dc3329a220ee4b70dcdc6567015a17993f50",
       "legacy": {
         "value": false
       },
-      "forced": {}
+      "forced": {},
+      "hidden": {}
     },
     {
       "submitRequirement": {
@@ -152,36 +168,18 @@
         "allowOverrideInChildProjects": true
       },
       "applicabilityExpressionResult": {
-        "value": {
-          "expression": {
-            "expressionString": "-branch:refs/meta/config"
-          },
-          "status": "PASS",
-          "errorMessage": {},
-          "passingAtoms": [],
-          "failingAtoms": [
-            "branch:refs/meta/config"
-          ]
-        }
+        "value": {"expression":{"expressionString":"-branch:refs/meta/config"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config"]}
       },
       "submittabilityExpressionResult": {
-        "expression": {
-          "expressionString": "label:Verified\u003dMAX AND -label:Verified\u003dMIN"
-        },
-        "status": "FAIL",
-        "errorMessage": {},
-        "passingAtoms": [],
-        "failingAtoms": [
-          "label:Verified\u003dMAX",
-          "label:Verified\u003dMIN"
-        ]
+        "value": {"expression":{"expressionString":"label:Verified=MAX AND -label:Verified=MIN"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["label:Verified=MAX","label:Verified=MIN"]}
       },
       "overrideExpressionResult": {},
       "patchSetCommitId": "4664dc3329a220ee4b70dcdc6567015a17993f50",
       "legacy": {
         "value": false
       },
-      "forced": {}
+      "forced": {},
+      "hidden": {}
     }
   ]
 }
