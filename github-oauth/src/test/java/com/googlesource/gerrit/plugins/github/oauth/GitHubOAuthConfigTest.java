@@ -73,7 +73,8 @@ public class GitHubOAuthConfigTest {
 
     assertEquals(githubOAuthConfig().getCurrentKeyConfig().isCurrent(), true);
     assertEquals(githubOAuthConfig().getCurrentKeyConfig().getCipherAlgorithm(), cipherAlgorithm);
-    assertEquals(githubOAuthConfig().getCurrentKeyConfig().getSecretKeyAlgorithm(), secretKeyAlgorithm);
+    assertEquals(
+        githubOAuthConfig().getCurrentKeyConfig().getSecretKeyAlgorithm(), secretKeyAlgorithm);
     assertEquals(githubOAuthConfig().getCurrentKeyConfig().getKeyId(), keySubsection);
   }
 
@@ -103,7 +104,8 @@ public class GitHubOAuthConfigTest {
         CONF_KEY_SECTION, someOtherKeyConfig, PASSWORD_DEVICE_CONFIG_LABEL, testPasswordDevice);
 
     assertEquals(githubOAuthConfig().getKeyConfig(currentKeyConfig).getKeyId(), currentKeyConfig);
-    assertEquals(githubOAuthConfig().getKeyConfig(someOtherKeyConfig).getKeyId(), someOtherKeyConfig);
+    assertEquals(
+        githubOAuthConfig().getKeyConfig(someOtherKeyConfig).getKeyId(), someOtherKeyConfig);
   }
 
   @Test
