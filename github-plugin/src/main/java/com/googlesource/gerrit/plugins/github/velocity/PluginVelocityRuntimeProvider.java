@@ -21,6 +21,7 @@ import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Arrays;
 import java.util.Properties;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeInstance;
@@ -29,12 +30,12 @@ import org.apache.velocity.runtime.resource.loader.JarResourceLoader;
 
 @Singleton
 public class PluginVelocityRuntimeProvider implements Provider<RuntimeInstance> {
-  private static final String VELOCITY_FILE_RESOURCE_LOADER_PATH = "file.resource.loader.path";
-  private static final String VELOCITY_FILE_RESOURCE_LOADER_CLASS = "file.resource.loader.class";
-  private static final String VELOCITY_CLASS_RESOURCE_LOADER_CLASS = "class.resource.loader.class";
-  private static final String VELOCITY_JAR_RESOURCE_LOADER_CLASS = "jar.resource.loader.class";
-  private static final String VELOCITY_JAR_RESOURCE_LOADER_PATH = "jar.resource.loader.path";
-  private static final String VELOCITY_RESOURCE_LOADER = "resource.loader";
+  private static final String VELOCITY_FILE_RESOURCE_LOADER_PATH = "resource.loader.file.path";
+  private static final String VELOCITY_FILE_RESOURCE_LOADER_CLASS = "resource.loader.jar.path";
+  private static final String VELOCITY_CLASS_RESOURCE_LOADER_CLASS = "resource.loader.class.class";
+  private static final String VELOCITY_JAR_RESOURCE_LOADER_CLASS = "resource.loader.jar.class";
+  private static final String VELOCITY_JAR_RESOURCE_LOADER_PATH = "resource.loader.jar.path";
+  private static final String VELOCITY_RESOURCE_LOADER = "resource.loaders";
   private final SitePaths site;
   private String pluginName;
 
@@ -90,7 +91,7 @@ public class PluginVelocityRuntimeProvider implements Provider<RuntimeInstance> 
         "Cannot find any Jar file in "
             + pluginName
             + " plugin class loader URLs "
-            + jarUrls
+            + Arrays.toString(jarUrls)
             + ": unable to initialize Velocity resource loading.");
   }
 }
