@@ -1,0 +1,11 @@
+{
+  "extends": "../../../tsconfig-plugins-base.json",
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    /* outDir for IDE (overridden by Bazel rule arg) */
+    "outDir": "../../../../.ts-out/plugins/github-plugin/ui",
+  },
+  "include": [
+    "**/*",
+  ],
+}
