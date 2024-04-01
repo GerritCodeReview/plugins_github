@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "0996642d_5c0bb7b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-04-01T14:02:05Z",
+      "side": 1,
+      "message": "This and other fixes on stable-3.1 branch have never been merged into github-plugin@HEAD. Fixed in this series: [1].\n\n[1]: https://gerrit-review.googlesource.com/c/plugins/github/+/417099/1",
+      "revId": "c1ae1048ff84156808f24430e64063133e924ce5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "05b72b45_379a34f7",
