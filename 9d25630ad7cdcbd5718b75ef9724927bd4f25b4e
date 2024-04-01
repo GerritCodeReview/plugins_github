@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8591ab15_c318075c",
+        "filename": "external_plugin_deps.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-04-01T20:54:01Z",
+      "side": 1,
+      "message": "This depends on this change in gerrit core: [1].\n\n[1]: https://gerrit-review.googlesource.com/c/gerrit/+/417100",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 30
+      },
+      "revId": "9d25630ad7cdcbd5718b75ef9724927bd4f25b4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
