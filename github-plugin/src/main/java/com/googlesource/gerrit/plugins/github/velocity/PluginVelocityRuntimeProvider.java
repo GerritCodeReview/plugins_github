@@ -21,6 +21,7 @@ import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Arrays;
 import java.util.Properties;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeInstance;
@@ -92,7 +93,7 @@ public class PluginVelocityRuntimeProvider implements Provider<RuntimeInstance> 
         "Cannot find any Jar file in "
             + pluginName
             + " plugin class loader URLs "
-            + jarUrls
+            + Arrays.toString(jarUrls)
             + ": unable to initialize Velocity resource loading.");
   }
 }
