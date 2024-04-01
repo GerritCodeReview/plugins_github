@@ -19,7 +19,9 @@ import java.util.HashMap;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionContext;
+import org.junit.Ignore;
 
+@Ignore
 public class FakeHttpSession implements HttpSession {
   private final HashMap<String, Object> attributes;
 

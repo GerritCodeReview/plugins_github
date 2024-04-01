@@ -14,7 +14,6 @@
 
 package com.googlesource.gerrit.plugins.github.git;
 
-import com.infradna.tool.bridge_method_injector.WithBridgeMethods;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
@@ -442,7 +441,6 @@ class GHRepositoryDelegate extends GHRepository {
   }
 
   @Override
-  @WithBridgeMethods({Set.class})
   public GHPersonSet<GHUser> getCollaborators() throws IOException {
     return delegate.getCollaborators();
   }
@@ -1277,17 +1275,11 @@ class GHRepositoryDelegate extends GHRepository {
   }
 
   @Override
-  @WithBridgeMethods(
-      value = {String.class},
-      adapterMethod = "createdAtStr")
   public Date getCreatedAt() throws IOException {
     return delegate.getCreatedAt();
   }
 
   @Override
-  @WithBridgeMethods(
-      value = {String.class},
-      adapterMethod = "urlToString")
   public URL getUrl() {
     return delegate.getUrl();
   }
@@ -1298,9 +1290,6 @@ class GHRepositoryDelegate extends GHRepository {
   }
 
   @Override
-  @WithBridgeMethods(
-      value = {String.class, int.class},
-      adapterMethod = "longToStringOrInt")
   public long getId() {
     return delegate.getId();
   }
