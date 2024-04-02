@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c59c3b6f_e73bfd9e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-02T23:49:26Z",
+      "side": 1,
+      "message": "The build on stable-3.7 failed because of an incompatible bump happened on JGit in a stable branch.\n\nBefore merging this change, we need to review and merge Change 417477.",
+      "revId": "c4c52e7a1cc82556f49340c133cf9d1d5a3c5c57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
