@@ -16,6 +16,24 @@
       "message": "Need remerge",
       "revId": "5bd9220c66ca51295f66615d9061c1471ef2fa69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd7f500b_72ab735d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-04-03T04:13:25Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "b0e1e666_0845e59e",
+      "revId": "5bd9220c66ca51295f66615d9061c1471ef2fa69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
