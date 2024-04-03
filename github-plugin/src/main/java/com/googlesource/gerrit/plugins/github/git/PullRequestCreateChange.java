@@ -39,7 +39,6 @@ import com.google.gerrit.server.query.change.ChangeQueryProcessor;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
-import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
@@ -101,9 +100,7 @@ public class PullRequestCreateChange {
           RestApiException {
     try (BatchUpdate bu =
         updateFactory.create(
-            project.getNameKey(),
-            userFactory.create(pullRequestOwner),
-            Instant.now())) {
+            project.getNameKey(), userFactory.create(pullRequestOwner), Instant.now())) {
 
       return internalAddCommitToChange(
           bu,
