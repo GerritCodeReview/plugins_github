@@ -22,6 +22,30 @@
       },
       "revId": "12c9e4e54233262a771a3b4dd44874c8235dbab9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e3c4e20_a240006a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-04-03T05:33:54Z",
+      "side": 1,
+      "message": "I guess that it should be coordinated with core GJF upgrade... should we do it?\nATM it cannot be merged as it fails the check with the following error:\n```shell\n...ScopeKey.java:17:9: error: class, interface, or enum expected\n```",
+      "parentUuid": "5164a2e6_3a3f1db0",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 27
+      },
+      "revId": "12c9e4e54233262a771a3b4dd44874c8235dbab9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
