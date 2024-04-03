@@ -210,7 +210,7 @@ public class GitHubLogin implements Serializable {
 
   private List<Scope> scopesForKey(HttpServletRequest req, String baseScopeKey) {
     return virtualDomainConfig.getScopes(req).entrySet().stream()
-        .filter(entry -> entry.getKey().name.equals(baseScopeKey))
+        .filter(entry -> entry.getKey().name().equals(baseScopeKey))
         .map(entry -> entry.getValue())
         .findFirst()
         .orElse(DEFAULT_SCOPES);

@@ -14,16 +14,4 @@
 
 package com.googlesource.gerrit.plugins.github.oauth;
 
-import lombok.Getter;
-
-public class ScopeKey {
-  @Getter public final String name;
-  @Getter public final String description;
-  @Getter public final int sequence;
-
-  public ScopeKey(String name, String description, int sequence) {
-    this.name = name;
-    this.description = description;
-    this.sequence = sequence;
-  }
-}
+public record ScopeKey(String name, String description, int sequence) {}

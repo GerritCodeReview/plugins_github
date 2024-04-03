@@ -165,7 +165,7 @@ public class GitHubOAuthConfig {
         .filter(k -> !k.endsWith("Sequence"))
         .collect(
             ImmutableSortedMap.toImmutableSortedMap(
-                Comparator.comparing(ScopeKey::getSequence),
+                Comparator.comparing(ScopeKey::sequence),
                 k ->
                     new ScopeKey(
                         k,

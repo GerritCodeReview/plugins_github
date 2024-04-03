@@ -196,13 +196,13 @@ public class GitHubOAuthConfigTest {
     Map.Entry<ScopeKey, List<OAuthProtocol.Scope>> firstEntry = entries.get(0);
     Map.Entry<ScopeKey, List<OAuthProtocol.Scope>> secondEntry = entries.get(1);
 
-    assertEquals(firstEntry.getKey().name, scope1Name);
-    assertEquals(firstEntry.getKey().description, scope1Description);
-    assertEquals(firstEntry.getKey().sequence, 0);
+    assertEquals(firstEntry.getKey().name(), scope1Name);
+    assertEquals(firstEntry.getKey().description(), scope1Description);
+    assertEquals(firstEntry.getKey().sequence(), 0);
     assertEquals(List.of(OAuthProtocol.Scope.REPO), firstEntry.getValue());
-    assertEquals(secondEntry.getKey().name, scope2Name);
-    assertEquals(secondEntry.getKey().description, scope2Description);
-    assertEquals(secondEntry.getKey().sequence, 1);
+    assertEquals(secondEntry.getKey().name(), scope2Name);
+    assertEquals(secondEntry.getKey().description(), scope2Description);
+    assertEquals(secondEntry.getKey().sequence(), 1);
     assertEquals(List.of(OAuthProtocol.Scope.USER_EMAIL), secondEntry.getValue());
   }
 
