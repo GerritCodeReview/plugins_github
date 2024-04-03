@@ -34,7 +34,6 @@ import java.util.TreeSet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import lombok.Getter;
 import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GitHub;
 import org.kohsuke.github.GitHubBuilder;
@@ -59,10 +58,8 @@ public class GitHubLogin implements Serializable {
     }
   }
 
-  @Getter private AccessToken token;
-
+  private AccessToken token;
   private String state;
-
   private SortedSet<Scope> loginScopes;
   private final GitHubOAuthConfig config;
   private final CanonicalWebUrls canonicalWebUrls;
@@ -166,6 +163,10 @@ public class GitHubLogin implements Serializable {
         .withOAuthToken(token.accessToken)
         .withConnector(gitHubConnector)
         .build();
+  }
+
+  public AccessToken getToken() {
+    return token;
   }
 
   private String getScopesKey(HttpServletRequest request, HttpServletResponse response) {

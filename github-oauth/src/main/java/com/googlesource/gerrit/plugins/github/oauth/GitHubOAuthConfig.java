@@ -39,7 +39,6 @@ import java.util.SortedMap;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import lombok.Getter;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
@@ -69,8 +68,8 @@ public class GitHubOAuthConfig {
   public final String scopeSelectionUrl;
   public final boolean enabled;
 
-  @Getter public final SortedMap<ScopeKey, List<OAuthProtocol.Scope>> scopes;
-  @Getter public final Map<String, SortedMap<ScopeKey, List<OAuthProtocol.Scope>>> virtualScopes;
+  public final SortedMap<ScopeKey, List<OAuthProtocol.Scope>> scopes;
+  public final Map<String, SortedMap<ScopeKey, List<OAuthProtocol.Scope>>> virtualScopes;
 
   public final int fileUpdateMaxRetryCount;
   public final int fileUpdateMaxRetryIntervalMsec;
@@ -147,6 +146,14 @@ public class GitHubOAuthConfig {
               CONF_KEY_SECTION, currentKeyConfigs.size()));
     }
     currentKeyConfig = currentKeyConfigs.get(0);
+  }
+
+  public SortedMap<ScopeKey, List<OAuthProtocol.Scope>> getScopes() {
+    return scopes;
+  }
+
+  public Map<String, SortedMap<ScopeKey, List<OAuthProtocol.Scope>>> getVirtualScopes() {
+    return virtualScopes;
   }
 
   private SortedMap<ScopeKey, List<Scope>> getScopes(Config config) {

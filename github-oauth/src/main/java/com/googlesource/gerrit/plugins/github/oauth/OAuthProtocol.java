@@ -26,7 +26,6 @@ import java.util.Set;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import lombok.Getter;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -139,13 +138,20 @@ public class OAuthProtocol {
     /** Grants the ability to add and update GitHub Actions workflow files. */
     WORKFLOW("workflow", "Manage actions workflow files.");
 
-    @Getter private final String value;
-
-    @Getter private final String description;
+    private final String value;
+    private final String description;
 
     private Scope(final String value, final String description) {
       this.value = value;
       this.description = description;
+    }
+
+    public String getValue() {
+      return value;
+    }
+
+    public String getDescription() {
+      return description;
     }
   }
 
