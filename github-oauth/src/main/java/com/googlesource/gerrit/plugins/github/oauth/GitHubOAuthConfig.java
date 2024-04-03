@@ -56,6 +56,7 @@ public class GitHubOAuthConfig {
   public static final String GERRIT_LOGIN = "/login";
   public static final String GERRIT_LOGOUT = "/logout";
   public static final String GITHUB_PLUGIN_OAUTH_SCOPE = "/plugins/github-plugin/static/scope.html";
+  public static final ScopeKey GITHUB_DEFAULT_SCOPES_KEY = new ScopeKey("scopes", null, 0);
 
   public final String gitHubUrl;
   public final String gitHubApiUrl;
@@ -186,10 +187,10 @@ public class GitHubOAuthConfig {
   }
 
   public Scope[] getDefaultScopes() {
-    if (scopes == null || scopes.get("scopes") == null) {
+    if (scopes == null || scopes.get(GITHUB_DEFAULT_SCOPES_KEY) == null) {
       return new Scope[0];
     }
-    return scopes.get("scopes").toArray(new Scope[0]);
+    return scopes.get(GITHUB_DEFAULT_SCOPES_KEY).toArray(new Scope[0]);
   }
 
   public KeyConfig getCurrentKeyConfig() {
