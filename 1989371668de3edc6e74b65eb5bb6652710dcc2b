@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e18a1eb_921f0137",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-04-03T05:58:43Z",
+      "side": 1,
+      "message": "Having said that, it appears to be a problem to find an alternative replacement in Java world to experimental @Delegates annotation of `lombok` for delegation pattern implementation: [1], used in `GitHubRepository` class:\n\n```\n  @Delegate private GHRepository ghRepository;\n```\nThe only thing I found was Kotlin native support for that feature: [2]. Of course, Bazel has support for `rules_kotlin`: [3], but I don\u0027t think we should migrate this plugin or `GitHubRepository`class only to Kotlin because of this feature 😊\n\nOf course, we could try delombok: [4] to run as a preprocessor step, and even commit the result as the source, and use it in follow-up build toolchain, or alternatively try to integrate it, as bookingcom folks have done here: [5], WDYT?\n\n[1]: https://en.wikipedia.org/wiki/Delegation_pattern\n[2]: https://kotlinlang.org/docs/delegation.html\n[3]: https://github.com/bazelbuild/rules_kotlin\n[4]: https://projectlombok.org/features/delombok\n[5]: https://github.com/bookingcom/rules_lombok_java_library",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 17
+      },
+      "revId": "1989371668de3edc6e74b65eb5bb6652710dcc2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
