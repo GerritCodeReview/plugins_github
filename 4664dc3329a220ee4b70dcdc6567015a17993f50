@@ -122,6 +122,30 @@
       },
       "revId": "4664dc3329a220ee4b70dcdc6567015a17993f50",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb74499e_1f68acfd",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/GitHubOAuthConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-03T00:01:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "767d477b_fd927fb4",
+      "range": {
+        "startLine": 181,
+        "startChar": 4,
+        "endLine": 198,
+        "endChar": 57
+      },
+      "revId": "4664dc3329a220ee4b70dcdc6567015a17993f50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [
