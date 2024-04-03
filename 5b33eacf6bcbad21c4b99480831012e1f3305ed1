@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03f0689a_4843f798",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-04-03T05:59:37Z",
+      "side": 1,
+      "message": "Frontend build wasn\u0027t implemented yet. Mark as WIP.",
+      "revId": "5b33eacf6bcbad21c4b99480831012e1f3305ed1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
