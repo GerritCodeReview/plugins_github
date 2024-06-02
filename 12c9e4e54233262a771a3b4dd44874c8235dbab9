@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "7580bef2_4ee10bce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-06-02T12:21:27Z",
+      "side": 1,
+      "message": "I started to work GJF upgrade, see: Issue 40014697 and this series: [1].\n\n[1]: https://gerrit-review.googlesource.com/q/topic:%22update-google-java-format%22",
+      "parentUuid": "7e3c4e20_a240006a",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 27
+      },
+      "revId": "12c9e4e54233262a771a3b4dd44874c8235dbab9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "dc82a975_9fea246d",
@@ -61,6 +85,24 @@
       "writtenOn": "2024-04-03T16:35:19Z",
       "side": 1,
       "message": "We\u0027re not there yet to give up the Java 11 source level compatibility. I\u0027d suggest to park this change until we finally switch the language level to Java 17 in Gerrit master.",
+      "revId": "12c9e4e54233262a771a3b4dd44874c8235dbab9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2f38f37_54f4a713",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-06-02T12:21:27Z",
+      "side": 1,
+      "message": "\u003e We\u0027re not there yet to give up the Java 11 source level compatibility. \n\nYou changed this in change 423318, can you remove CRVW-2 now?",
+      "parentUuid": "dc82a975_9fea246d",
       "revId": "12c9e4e54233262a771a3b4dd44874c8235dbab9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
