@@ -105,6 +105,24 @@
       "parentUuid": "dc82a975_9fea246d",
       "revId": "12c9e4e54233262a771a3b4dd44874c8235dbab9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30419f63_f3e03136",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-05T20:05:48Z",
+      "side": 1,
+      "message": "Happy to remove it, good job @david.ostrovsky@gmail.com !",
+      "parentUuid": "e2f38f37_54f4a713",
+      "revId": "12c9e4e54233262a771a3b4dd44874c8235dbab9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
