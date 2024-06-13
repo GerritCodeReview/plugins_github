@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "029f968e_dc2a64a2",
+        "filename": "external_plugin_deps.bzl",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-13T22:02:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9aa7713_967cd2be",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 5
+      },
+      "revId": "af8836230d06df69fce96b97abb3a5ba2375e747",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "78ea25d6_919a8aeb",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-06-13T21:47:05Z",
       "side": 1,
       "message": "This isn\u0027t needed anymore",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 1
+      },
+      "revId": "af8836230d06df69fce96b97abb3a5ba2375e747",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9808f2b9_5c62e6b9",
+        "filename": "github-plugin/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-13T22:02:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78ea25d6_919a8aeb",
       "range": {
         "startLine": 82,
         "startChar": 0,
