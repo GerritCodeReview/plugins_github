@@ -39,7 +39,6 @@ import java.util.SortedMap;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import lombok.Getter;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
@@ -69,8 +68,8 @@ public class GitHubOAuthConfig {
   public final String scopeSelectionUrl;
   public final boolean enabled;
 
-  @Getter public final SortedMap<ScopeKey, List<OAuthProtocol.Scope>> scopes;
-  @Getter public final Map<String, SortedMap<ScopeKey, List<OAuthProtocol.Scope>>> virtualScopes;
+  public final SortedMap<ScopeKey, List<OAuthProtocol.Scope>> scopes;
+  public final Map<String, SortedMap<ScopeKey, List<OAuthProtocol.Scope>>> virtualScopes;
 
   public final int fileUpdateMaxRetryCount;
   public final int fileUpdateMaxRetryIntervalMsec;
@@ -153,12 +152,13 @@ public class GitHubOAuthConfig {
     return getScopesInSection(config, null);
   }
 
-  private Map<String, SortedMap<ScopeKey, List<Scope>>> getVirtualScopes(Config config) {
+  static Map<String, SortedMap<ScopeKey, List<Scope>>> getVirtualScopes(Config config) {
     return config.getSubsections(CONF_SECTION).stream()
         .collect(Collectors.toMap(k -> k, v -> getScopesInSection(config, v)));
   }
 
-  private SortedMap<ScopeKey, List<Scope>> getScopesInSection(Config config, String subsection) {
+  private static SortedMap<ScopeKey, List<Scope>> getScopesInSection(
+      Config config, String subsection) {
     return config.getNames(CONF_SECTION, subsection, true).stream()
         .filter(k -> k.startsWith("scopes"))
         .filter(k -> !k.endsWith("Description"))
@@ -174,7 +174,7 @@ public class GitHubOAuthConfig {
                 v -> parseScopesString(config.getString(CONF_SECTION, subsection, v))));
   }
 
-  private List<Scope> parseScopesString(String scopesString) {
+  private static List<Scope> parseScopesString(String scopesString) {
     ArrayList<Scope> result = new ArrayList<>();
     if (Strings.emptyToNull(scopesString) != null) {
       String[] scopesStrings = scopesString.split(",");

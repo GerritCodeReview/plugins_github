@@ -185,8 +185,7 @@ public class GitHubOAuthConfigTest {
     config.setInt(CONF_SECTION, vhost, scope1Name + "Sequence", 0);
     config.setString(CONF_SECTION, vhost, scope1Name + "Description", scope1Description);
 
-    Map<String, SortedMap<ScopeKey, List<OAuthProtocol.Scope>>> virtualScopes =
-        githubOAuthConfig().getVirtualScopes();
+    Map<String, SortedMap<ScopeKey, List<OAuthProtocol.Scope>>> virtualScopes = getVirtualScopes();
 
     assertTrue(virtualScopes.containsKey(vhost));
 
@@ -204,6 +203,10 @@ public class GitHubOAuthConfigTest {
     assertEquals(secondEntry.getKey().description(), scope2Description);
     assertEquals(secondEntry.getKey().sequence(), 1);
     assertEquals(List.of(OAuthProtocol.Scope.USER_EMAIL), secondEntry.getValue());
+  }
+
+  private Map<String, SortedMap<ScopeKey, List<OAuthProtocol.Scope>>> getVirtualScopes() {
+    return GitHubOAuthConfig.getVirtualScopes(config);
   }
 
   private GitHubOAuthConfig githubOAuthConfig() {
