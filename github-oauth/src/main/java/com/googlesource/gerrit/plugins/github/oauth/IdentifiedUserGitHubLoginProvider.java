@@ -65,7 +65,7 @@ public class IdentifiedUserGitHubLoginProvider implements UserScopedProvider<Git
       AccessToken accessToken = newAccessTokenFromUser(username);
       if (accessToken != null) {
         GitHubLogin login = gitHubLoginProvider.get();
-        login.login(accessToken);
+        login.login(accessToken.accessToken);
         return login;
       }
       return null;

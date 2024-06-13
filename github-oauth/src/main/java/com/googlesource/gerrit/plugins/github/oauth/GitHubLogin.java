@@ -20,7 +20,6 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.AccessToken;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.Scope;
 import java.io.IOException;
 import java.io.Serializable;
@@ -34,7 +33,6 @@ import java.util.TreeSet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import lombok.Getter;
 import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GitHub;
 import org.kohsuke.github.GitHubBuilder;
@@ -59,7 +57,7 @@ public class GitHubLogin implements Serializable {
     }
   }
 
-  @Getter private AccessToken token;
+  private String accessToken;
 
   private String state;
 
@@ -68,6 +66,10 @@ public class GitHubLogin implements Serializable {
   private final CanonicalWebUrls canonicalWebUrls;
   private final VirtualDomainConfig virtualDomainConfig;
   private final GitHubConnector gitHubConnector;
+
+  public String getAccessToken() {
+    return accessToken;
+  }
 
   public GHMyself getMyself() throws IOException {
     if (isLoggedIn()) {
@@ -108,7 +110,7 @@ public class GitHubLogin implements Serializable {
   }
 
   public boolean isLoggedIn() {
-    return token != null;
+    return accessToken != null;
   }
 
   public void login(
@@ -121,7 +123,7 @@ public class GitHubLogin implements Serializable {
     log.debug("Login " + this);
     if (OAuthProtocol.isOAuthFinal(request)) {
       log.debug("Login-FINAL " + this);
-      login(oauth.loginPhase2(request, response, state));
+      login(oauth.loginPhase2(request, response, state).accessToken);
       this.state = ""; // Make sure state is used only once
 
       if (isLoggedIn()) {
@@ -143,27 +145,27 @@ public class GitHubLogin implements Serializable {
   }
 
   public void logout() {
-    token = null;
+    accessToken = null;
   }
 
-  public GitHub login(AccessToken authToken) throws IOException {
-    log.debug("Logging in using access token {}", authToken.accessToken);
-    this.token = authToken;
+  public GitHub login(String authAccessToken) throws IOException {
+    log.debug("Logging in using access token {}", authAccessToken);
+    this.accessToken = authAccessToken;
     return getHub();
   }
 
   @Override
   public String toString() {
-    return "GitHubLogin [token=" + token + ", scopes=" + loginScopes + "]";
+    return "GitHubLogin [token=" + accessToken + ", scopes=" + loginScopes + "]";
   }
 
   public GitHub getHub() throws IOException {
-    if (token == null) {
+    if (accessToken == null) {
       return null;
     }
     return new GitHubBuilder()
         .withEndpoint(config.gitHubApiUrl)
-        .withOAuthToken(token.accessToken)
+        .withOAuthToken(accessToken)
         .withConnector(gitHubConnector)
         .build();
   }

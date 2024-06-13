@@ -37,7 +37,7 @@ public class OAuthCache {
 
     @Override
     public String load(AccessToken accessToken) throws Exception {
-      ghLogin.login(accessToken);
+      ghLogin.login(accessToken.accessToken);
       return ghLogin.getMyself().getLogin();
     }
   }

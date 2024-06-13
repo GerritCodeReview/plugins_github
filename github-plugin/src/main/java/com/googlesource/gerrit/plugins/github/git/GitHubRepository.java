@@ -66,7 +66,7 @@ public class GitHubRepository extends GHRepository {
     GitHubLogin ghLogin = ghLoginProvider.get();
     GitHub gh = ghLogin.getHub();
     this.username = ghLogin.getMyself().getLogin();
-    this.password = ghLogin.getToken().accessToken;
+    this.password = ghLogin.getAccessToken();
     this.ghRepository = gh.getRepository(organisation + "/" + repository);
   }
 

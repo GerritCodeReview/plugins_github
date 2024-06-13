@@ -25,7 +25,6 @@ import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.IdentifiedUserGitHubLoginProvider;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthFilter;
-import com.googlesource.gerrit.plugins.github.oauth.OAuthProtocol.AccessToken;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthTokenCipher;
 import com.googlesource.gerrit.plugins.github.oauth.OAuthWebFilter;
 import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
@@ -83,7 +82,7 @@ public class GitHubOAuthFilter implements Filter {
               .substring(
                   ExternalId.SCHEME_EXTERNAL.length() + OAuthWebFilter.GITHUB_EXT_ID.length() + 1);
       String decryptedToken = oAuthTokenCipher.decrypt(oauthToken);
-      hubLogin.login(new AccessToken(decryptedToken));
+      hubLogin.login(decryptedToken);
     }
 
     chain.doFilter(request, response);

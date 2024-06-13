@@ -167,7 +167,7 @@ public class WebhookServlet extends HttpServlet {
         resp.setStatus(SC_INTERNAL_SERVER_ERROR);
         return;
       }
-      requestScopedLoginProvider.get(req).login(login.getToken());
+      requestScopedLoginProvider.get(req).login(login.getAccessToken());
 
       if (callHander(handler, body)) {
         resp.setStatus(SC_NO_CONTENT);

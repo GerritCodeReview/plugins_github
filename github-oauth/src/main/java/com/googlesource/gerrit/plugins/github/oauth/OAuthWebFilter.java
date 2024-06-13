@@ -91,7 +91,7 @@ public class OAuthWebFilter implements Filter {
         }
 
         if (ghLogin != null && ghLogin.isLoggedIn()) {
-          String hashedToken = oAuthTokenCipher.encrypt(ghLogin.getToken().accessToken);
+          String hashedToken = oAuthTokenCipher.encrypt(ghLogin.getAccessToken());
           httpRequest =
               new AuthenticatedHttpRequest(
                   httpRequest,
@@ -131,7 +131,7 @@ public class OAuthWebFilter implements Filter {
       String user = myself.getLogin();
 
       updateSecureConfigWithRetry(
-          ghLogin.getMyOrganisationsLogins(user), user, ghLogin.getToken().accessToken);
+          ghLogin.getMyOrganisationsLogins(user), user, ghLogin.getAccessToken());
     }
   }
 
