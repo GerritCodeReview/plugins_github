@@ -14,17 +14,17 @@
 
 package com.googlesource.gerrit.plugins.github.group;
 
+import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.AccountGroup.UUID;
 import com.google.gerrit.entities.GroupDescription.Basic;
-import lombok.Getter;
 
 public abstract class GitHubGroup implements Basic {
   public static final String UUID_PREFIX = "github:";
   public static final String NAME_PREFIX = "github/";
 
-  @Getter protected final UUID groupUUID;
+  protected final UUID groupUUID;
 
-  @Getter protected final String url;
+  protected final String url;
 
   GitHubGroup(UUID groupUUID, String url) {
     this.groupUUID = groupUUID;
@@ -34,5 +34,15 @@ public abstract class GitHubGroup implements Basic {
   @Override
   public String getEmailAddress() {
     return "";
+  }
+
+  @Override
+  public AccountGroup.UUID getGroupUUID() {
+    return groupUUID;
+  }
+
+  @Override
+  public String getUrl() {
+    return url;
   }
 }
