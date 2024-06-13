@@ -19,15 +19,12 @@ import com.googlesource.gerrit.plugins.github.GitHubURL;
 import com.googlesource.gerrit.plugins.github.oauth.GitHubLogin;
 import com.googlesource.gerrit.plugins.github.oauth.ScopedProvider;
 import java.io.IOException;
-import lombok.experimental.Delegate;
 import org.eclipse.jgit.errors.UnsupportedCredentialItem;
 import org.eclipse.jgit.transport.CredentialItem;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.URIish;
-import org.kohsuke.github.GHRepository;
-import org.kohsuke.github.GitHub;
 
-public class GitHubRepository extends GHRepository {
+public class GitHubRepository extends GHRepositoryDelegate {
   public interface Factory {
     GitHubRepository create(
         @Assisted("organisation") String organisation, @Assisted("repository") String repository);
@@ -38,8 +35,6 @@ public class GitHubRepository extends GHRepository {
   private final String cloneUrl;
   private final String username;
   private final String password;
-
-  @Delegate private GHRepository ghRepository;
 
   public String getCloneUrl() {
     return cloneUrl.replace("://", "://" + username + "@");
@@ -60,14 +55,13 @@ public class GitHubRepository extends GHRepository {
       @Assisted("organisation") String organisation,
       @Assisted("repository") String repository)
       throws IOException {
+    super(ghLoginProvider.get().getHub().getRepository(organisation + "/" + repository));
     this.cloneUrl = gitHubUrl + "/" + organisation + "/" + repository + ".git";
     this.organisation = organisation;
     this.repository = repository;
     GitHubLogin ghLogin = ghLoginProvider.get();
-    GitHub gh = ghLogin.getHub();
     this.username = ghLogin.getMyself().getLogin();
     this.password = ghLogin.getAccessToken();
-    this.ghRepository = gh.getRepository(organisation + "/" + repository);
   }
 
   public CredentialsProvider getCredentialsProvider() {
