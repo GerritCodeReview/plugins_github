@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "313e0ed4_0d51029f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-13T22:16:06Z",
+      "side": 1,
+      "message": "@david.ostrovsky@gmail.com please also look at my comment on Ie06aadeb9 about the possibility to keep Lombok just for the @Delegate definition in a single class.",
+      "revId": "3732ef525b30faaf262937f1e61f4669fb2e910c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
