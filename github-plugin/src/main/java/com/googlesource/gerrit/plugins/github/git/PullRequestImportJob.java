@@ -205,7 +205,7 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
   private com.google.gerrit.entities.Account.Id getOrRegisterAccount(GitHubUser author)
       throws BadRequestException, ResourceConflictException, UnprocessableEntityException,
           IOException, ConfigInvalidException {
-    return getOrRegisterAccount(author.getLogin(), author.getName(), author.getEmail());
+    return getOrRegisterAccount(author.login, author.name, author.email);
   }
 
   private com.google.gerrit.entities.Account.Id getOrRegisterAccount(
