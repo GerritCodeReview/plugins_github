@@ -94,6 +94,23 @@
       },
       "revId": "1989371668de3edc6e74b65eb5bb6652710dcc2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71aa1c17_66930a3b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-13T20:19:58Z",
+      "side": 1,
+      "message": "I believe making a single change to remove *all* Lombok usage is way too much for now: I\u0027ll upload a series of intermediate changes for it.",
+      "revId": "1989371668de3edc6e74b65eb5bb6652710dcc2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
