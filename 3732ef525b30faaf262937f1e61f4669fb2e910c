@@ -16,6 +16,24 @@
       "message": "@david.ostrovsky@gmail.com please also look at my comment on Ie06aadeb9 about the possibility to keep Lombok just for the @Delegate definition in a single class.",
       "revId": "3732ef525b30faaf262937f1e61f4669fb2e910c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55443829_d0f45061",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-06-14T04:13:13Z",
+      "side": 1,
+      "message": "Thanks for yor help. During the k8s hackathon I added delombok processor as you suggested. It seems to work. \n\nAnother option to do refactoring to eliminate Lombok entirely.",
+      "parentUuid": "313e0ed4_0d51029f",
+      "revId": "3732ef525b30faaf262937f1e61f4669fb2e910c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
