@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5f274c1_1d00c05d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-14T20:17:43Z",
+      "side": 1,
+      "message": "Builds as expected, changes are verified as expected, works E2E as expected.",
+      "revId": "32e4cdcd0c47be2e36b1675026d480dc17d2fda3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
