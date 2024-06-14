@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9dcd2892_9ac307d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-06-14T22:55:13Z",
+      "side": 1,
+      "message": "From",
+      "revId": "0f8062c010870f157dba0b3bd2ad186cf09e3fe9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92620cdf_afc1551e",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-06-14T22:55:13Z",
+      "side": 1,
+      "message": "You can omit :github-plugin.jar part, right?",
+      "revId": "0f8062c010870f157dba0b3bd2ad186cf09e3fe9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
