@@ -203,15 +203,21 @@ public class PullRequestImportJob implements GitJob, ProgressMonitor {
   }
 
   private com.google.gerrit.entities.Account.Id getOrRegisterAccount(GitHubUser author)
-      throws BadRequestException, ResourceConflictException, UnprocessableEntityException,
-          IOException, ConfigInvalidException {
+      throws BadRequestException,
+          ResourceConflictException,
+          UnprocessableEntityException,
+          IOException,
+          ConfigInvalidException {
     return getOrRegisterAccount(author.login, author.name, author.email);
   }
 
   private com.google.gerrit.entities.Account.Id getOrRegisterAccount(
       String login, String name, String email)
-      throws BadRequestException, ResourceConflictException, UnprocessableEntityException,
-          IOException, ConfigInvalidException {
+      throws BadRequestException,
+          ResourceConflictException,
+          UnprocessableEntityException,
+          IOException,
+          ConfigInvalidException {
     Optional<ExternalId> gerritId = externalIdByScheme(ExternalId.SCHEME_GERRIT, login);
     if (gerritId.isPresent()) {
       return gerritId.get().accountId();

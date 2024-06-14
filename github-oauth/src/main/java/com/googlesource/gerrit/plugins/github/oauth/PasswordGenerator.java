@@ -57,7 +57,8 @@ public class PasswordGenerator {
       long length = passwordFile.length();
       if (length != PASSWORD_LENGTH_DEFAULT) {
         throw logErrorAndCreateRuntimeException(
-            "'%s' password file exists but has an invalid length of %d bytes. The expected length is %d bytes.",
+            "'%s' password file exists but has an invalid length of %d bytes. The expected length"
+                + " is %d bytes.",
             passwordFilePath, length, PASSWORD_LENGTH_DEFAULT);
       }
       return false;
