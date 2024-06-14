@@ -33,6 +33,24 @@
       "message": "I did a small refactoring to avoid the inheritance in the first place and just added a getter: getGHRepisitory() to this class. I have not uploaded this change yet.\n\nThen I have updated the Callers, that have GitHubRepository, to call getGHRepository(), if they actually need the underlying access to the GHRepository.",
       "revId": "5d8d0263bf951d3a164069cbb8a8d190d5460874",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f040bb6_bc109636",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/GitHubRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-14T06:25:53Z",
+      "side": 1,
+      "message": "That would also work, can you upload your change when you have time?",
+      "parentUuid": "e61a5301_001a00d3",
+      "revId": "5d8d0263bf951d3a164069cbb8a8d190d5460874",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
