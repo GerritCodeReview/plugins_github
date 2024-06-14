@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c2de45a_e80e13c5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-14T11:47:16Z",
+      "side": 1,
+      "message": "I\u0027ve now also implemented the UI part of the Bazel build",
+      "revId": "819c44625c9a5bc91b8ced1fb3e5bc766a14c6fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
