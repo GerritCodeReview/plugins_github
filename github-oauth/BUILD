@@ -4,6 +4,7 @@ load("//tools/bzl:plugin.bzl", "PLUGIN_DEPS", "PLUGIN_DEPS_NEVERLINK")
 java_binary(
     name = "github-oauth",
     main_class = "Dummy",
+    visibility = ["//visibility:public"],
     runtime_deps = [":github-oauth-lib"],
 )
 
