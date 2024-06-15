@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e8e8132_7acba9d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-15T08:23:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9dcd2892_9ac307d9",
+      "revId": "0f8062c010870f157dba0b3bd2ad186cf09e3fe9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "92620cdf_afc1551e",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-06-14T22:55:13Z",
       "side": 1,
       "message": "You can omit :github-plugin.jar part, right?",
+      "revId": "0f8062c010870f157dba0b3bd2ad186cf09e3fe9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1dd89d98_b9cc0bf1",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-15T08:23:21Z",
+      "side": 1,
+      "message": "Oh yes, well spotted !",
+      "parentUuid": "92620cdf_afc1551e",
       "revId": "0f8062c010870f157dba0b3bd2ad186cf09e3fe9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
