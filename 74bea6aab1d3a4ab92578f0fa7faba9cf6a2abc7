@@ -37,6 +37,29 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "fae89c22_b09c4bfb",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/ReplicationRemoteConfigBuilder.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-06-16T11:52:24Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com, unfortunately, this is another blocker for getting this in.\n\nWe need to access the replication config to read `remote.$usersname.projects\" to add another project for the replication (see line 55 and 68).\n\nAs we use `replication-api` as a dependency, we already have access to `ReplicationConfig` interface, but it\u0027s not bound to any implementation.\n\nTo get access to the replication configuration over the API, we need to bind `DynamicItem.Final` of `ReplicationConfig`. But this means that we need to also change all of the usages of this class _everywhere_ to `DynamicItem`.\n\nA _workaround_ that would reduce the number of required changes and will not require handling of `DynamicItem.get()` being `null` would be to use another markup interface (similarly like we do with `ConfigResource` and `ReplicationConfigOverrides`) and use that to access the replication configuration for outside.\n\nWDYT?",
+      "range": {
+        "startLine": 36,
+        "startChar": 6,
+        "endLine": 36,
+        "endChar": 36
+      },
+      "revId": "74bea6aab1d3a4ab92578f0fa7faba9cf6a2abc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "fd5d806f_6d1fd21a",
