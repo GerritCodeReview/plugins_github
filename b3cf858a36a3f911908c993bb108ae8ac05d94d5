@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94b3d60b_3cad299b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-06-18T21:52:21Z",
+      "side": 1,
+      "message": "Verified locally, by adding importing another GH project into local Gerrit instance. Which resulted in `$site_path/etc/replication.config` being modified by adding appropriate `remote.$remoteName.project` entries.",
+      "revId": "b3cf858a36a3f911908c993bb108ae8ac05d94d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
