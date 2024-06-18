@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "877ae348_f9206b71",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-06-18T04:44:09Z",
+      "side": 1,
+      "message": "May be use zip command instead and produce github.zip? We do this for plugin-api target im gerrit itself to combine all different API on one single target.",
+      "revId": "c82573f3a3d8e04a003b8ab26a3cbc79a162c1ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b93b2cd_64292ff6",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-06-18T04:44:09Z",
+      "side": 1,
+      "message": "Shoud it be called without trailing \u0027r\u0027?",
+      "revId": "c82573f3a3d8e04a003b8ab26a3cbc79a162c1ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
