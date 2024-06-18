@@ -33,6 +33,23 @@
       "message": "Shoud it be called without trailing \u0027r\u0027?",
       "revId": "c82573f3a3d8e04a003b8ab26a3cbc79a162c1ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6e70b6c_ccfe4572",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-06-18T06:45:47Z",
+      "side": 1,
+      "message": "Build failure seems to be related. Something is wrong with this command.\n\nAlso should the plugin content extraction take place to temporarily directory? In gerrit build we use genrule2 macro, that creates temporarily directory, executes a command and removes the temp directory.",
+      "revId": "c82573f3a3d8e04a003b8ab26a3cbc79a162c1ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
