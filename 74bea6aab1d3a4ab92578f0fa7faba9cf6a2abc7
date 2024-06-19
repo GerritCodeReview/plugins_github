@@ -60,6 +60,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c85a486_ea0c9953",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/ReplicationRemoteConfigBuilder.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-19T11:55:31Z",
+      "side": 1,
+      "message": "Actually, you could get the exact `Config` object using the [ReplicationRemotesApi](https://gerrit.googlesource.com/plugins/replication/+/refs/heads/master/src/main/java/com/googlesource/gerrit/plugins/replication/api/ReplicationRemotesApi.java#41) would that help?",
+      "parentUuid": "fae89c22_b09c4bfb",
+      "range": {
+        "startLine": 36,
+        "startChar": 6,
+        "endLine": 36,
+        "endChar": 36
+      },
+      "revId": "74bea6aab1d3a4ab92578f0fa7faba9cf6a2abc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "fd5d806f_6d1fd21a",
