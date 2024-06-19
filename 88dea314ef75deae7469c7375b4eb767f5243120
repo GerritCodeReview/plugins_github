@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "551e36e6_107ed6a9",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/ReplicationRemoteConfigBuilder.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-19T13:53:28Z",
+      "side": 1,
+      "message": "Keep the existing configuration of the remote.\n\n```suggestion\n    Config remoteConfig \u003d replicationConfigItem.get().get(username);\n```",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 39
+      },
+      "revId": "88dea314ef75deae7469c7375b4eb767f5243120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8e35520c_f8125612",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/ReplicationRemoteConfigBuilder.java",
         "patchSetId": 15
