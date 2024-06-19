@@ -22,6 +22,29 @@
       },
       "revId": "88dea314ef75deae7469c7375b4eb767f5243120",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0c7696e_817c1fdf",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/ReplicationRemoteConfigBuilder.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-19T13:39:08Z",
+      "side": 1,
+      "message": "I appreciate you get the list of projects from the existing config, but you should also keep everything else defined there.",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 5
+      },
+      "revId": "88dea314ef75deae7469c7375b4eb767f5243120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
