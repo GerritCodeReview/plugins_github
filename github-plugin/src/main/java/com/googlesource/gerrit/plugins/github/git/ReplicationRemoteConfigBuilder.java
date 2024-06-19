@@ -13,6 +13,7 @@
 // limitations under the License.
 package com.googlesource.gerrit.plugins.github.git;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.github.GitHubURL;
@@ -44,21 +45,28 @@ class ReplicationRemoteConfigBuilder {
   }
 
   Config build(String repositoryName) {
-    Config remoteConfig = new Config();
+    Config remoteConfig = replicationConfigItem.get().get(username);
 
     remoteConfig.setString("remote", username, "username", username);
     remoteConfig.setString("remote", username, "password", authToken);
 
-    remoteConfig.setString("remote", username, "url", gitHubUrl + "/${name}.git");
+    setRemoteConfigIfNotSet(remoteConfig, "url", gitHubUrl + "/${name}.git");
 
     String[] existingProjects = getProjects();
     List<String> projects = new ArrayList<>(List.of(existingProjects));
     projects.add(repositoryName);
 
     remoteConfig.setStringList("remote", username, "projects", projects);
-    remoteConfig.setString("remote", username, "push", "refs/*:refs/*");
+    setRemoteConfigIfNotSet(remoteConfig, "push", "refs/*:refs/*");
 
     return remoteConfig;
+  }
+
+  private void setRemoteConfigIfNotSet(Config remoteConfig, String key, String value) {
+    String existingValue = remoteConfig.getString("remote", username, key);
+    if (Strings.isNullOrEmpty(existingValue)) {
+      remoteConfig.setString("remote", username, key, value);
+    }
   }
 
   private String[] getProjects() {

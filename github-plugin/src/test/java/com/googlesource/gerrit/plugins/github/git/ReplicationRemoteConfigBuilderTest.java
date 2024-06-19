@@ -61,6 +61,21 @@ public class ReplicationRemoteConfigBuilderTest {
     assertThat(actual.getString("remote", username, "push")).isEqualTo("refs/*:refs/*");
   }
 
+  @Test
+  public void shoudKeepCustomUrlAndPushRefSpecInRemoteConfig() throws Exception {
+    Config currentConfig = new Config();
+    String customPushRefSpec = "+refs/heads/myheads/*:refs/heads/myheads/*";
+    String customUrl = "ssh://github@github.com/myuser/${name}.git";
+    currentConfig.setString("remote", username, "push", customPushRefSpec);
+    currentConfig.setString("remote", username, "url", customUrl);
+
+    ReplicationRemoteConfigBuilder builder = newReplicationRemoteConfigBuilder(currentConfig);
+    Config actual = builder.build(repoName);
+
+    assertThat(actual.getString("remote", username, "push")).isEqualTo(customPushRefSpec);
+    assertThat(actual.getString("remote", username, "url")).isEqualTo(customUrl);
+  }
+
   private ReplicationRemoteConfigBuilder newReplicationRemoteConfigBuilder() throws Exception {
     return newReplicationRemoteConfigBuilder(new Config());
   }
