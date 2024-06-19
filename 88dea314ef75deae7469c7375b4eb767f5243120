@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "10543630_400cbbd0",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/ReplicationRemoteConfigBuilder.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-19T16:15:05Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "9c5924e4_b345f277",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 39
+      },
+      "revId": "88dea314ef75deae7469c7375b4eb767f5243120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cd3eec65_f8a29246",
@@ -95,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fa4e06a_4e82720a",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/ReplicationRemoteConfigBuilder.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-19T16:15:05Z",
+      "side": 1,
+      "message": "I\u0027ll address as a follow-up.",
+      "parentUuid": "177336ac_e955aa34",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 82
+      },
+      "revId": "88dea314ef75deae7469c7375b4eb767f5243120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f7df3d66_26b31009",
@@ -132,6 +180,30 @@
       "side": 1,
       "message": "why we need to condition this?\n\nDoes anyone manually modifies the `push` configuration?",
       "parentUuid": "f7df3d66_26b31009",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 26
+      },
+      "revId": "88dea314ef75deae7469c7375b4eb767f5243120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34fcfdbd_a6817301",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/ReplicationRemoteConfigBuilder.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-19T16:15:05Z",
+      "side": 1,
+      "message": "I\u0027ll address as a follow-up.",
+      "parentUuid": "ee154a71_bf55781f",
       "range": {
         "startLine": 59,
         "startChar": 0,
