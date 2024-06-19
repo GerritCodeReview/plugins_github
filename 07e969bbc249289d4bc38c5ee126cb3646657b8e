@@ -16,6 +16,29 @@
       "message": "Tested E2E and works as expected.",
       "revId": "07e969bbc249289d4bc38c5ee126cb3646657b8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e58d49b2_03ee5259",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/ReplicationRemoteConfigBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-06-19T17:59:50Z",
+      "side": 1,
+      "message": "nit, reuse `remoteValue`:\n\n```\n    String remoteValue \u003d remoteConfig.getString(\"remote\", username, key);\n    if (Strings.isNullOrEmpty(remoteValue)) {\n        remoteConfig.setString(\"remote\", username, key, value);\n    }\n```",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 68,
+        "endChar": 5
+      },
+      "revId": "07e969bbc249289d4bc38c5ee126cb3646657b8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
