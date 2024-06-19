@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9c5924e4_b345f277",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/ReplicationRemoteConfigBuilder.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-06-19T15:40:26Z",
+      "side": 1,
+      "message": "The `ReplicationRemotesApi.update()` will merge the existing remote configuration with the incoming `Config` object. This way the API consumer doesn\u0027t need to think about merging the two configs together. See the implementation in `FileConfigResource.update()`\n\nI\u0027ve tested this locally and configuration options are preserved, even those that are not supported by the `replication` will be preserved.",
+      "parentUuid": "551e36e6_107ed6a9",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 39
+      },
+      "revId": "88dea314ef75deae7469c7375b4eb767f5243120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cd3eec65_f8a29246",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/ReplicationRemoteConfigBuilder.java",
         "patchSetId": 15
@@ -37,6 +61,30 @@
       "writtenOn": "2024-06-19T14:02:30Z",
       "side": 1,
       "message": "This needs to be conditioned if there isn\u0027t a `url` already.\n\n```suggestion\n    if(Strings.isNullOrEmpty(remoteConfig.getString(\"remote\", username, \"url\"))) {\n      remoteConfig.setString(\"remote\", username, \"url\", gitHubUrl + \"/${name}.git\");\n    }\n```",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 82
+      },
+      "revId": "88dea314ef75deae7469c7375b4eb767f5243120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "177336ac_e955aa34",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/ReplicationRemoteConfigBuilder.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-06-19T15:40:26Z",
+      "side": 1,
+      "message": "why? Isn\u0027t the URL always the same for the same user and repository?",
+      "parentUuid": "cd3eec65_f8a29246",
       "range": {
         "startLine": 52,
         "startChar": 4,
@@ -72,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ee154a71_bf55781f",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/ReplicationRemoteConfigBuilder.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-06-19T15:40:26Z",
+      "side": 1,
+      "message": "why we need to condition this?\n\nDoes anyone manually modifies the `push` configuration?",
+      "parentUuid": "f7df3d66_26b31009",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 26
+      },
+      "revId": "88dea314ef75deae7469c7375b4eb767f5243120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8e35520c_f8125612",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/ReplicationRemoteConfigBuilder.java",
         "patchSetId": 15
@@ -83,6 +155,30 @@
       "writtenOn": "2024-06-19T12:50:55Z",
       "side": 1,
       "message": "This creates a regression where the import of a new project wipes out any existing ad-hoc configuration settings.",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 24
+      },
+      "revId": "88dea314ef75deae7469c7375b4eb767f5243120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "671f72ce_d839624b",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/ReplicationRemoteConfigBuilder.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-06-19T15:40:26Z",
+      "side": 1,
+      "message": "No, there\u0027s no regression, as the `ReplicationRemtoesApi.update()` handles merging of existing and incoming configuration. See my above comment.",
+      "parentUuid": "8e35520c_f8125612",
       "range": {
         "startLine": 47,
         "startChar": 0,
@@ -106,6 +202,30 @@
       "writtenOn": "2024-06-19T13:39:08Z",
       "side": 1,
       "message": "I appreciate you get the list of projects from the existing config, but you should also keep everything else defined there.",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 5
+      },
+      "revId": "88dea314ef75deae7469c7375b4eb767f5243120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59dccc5d_8cc5c9e7",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/ReplicationRemoteConfigBuilder.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-06-19T15:40:26Z",
+      "side": 1,
+      "message": "This is here, as JGit `Config` is not handling merging of string list arguments gracefully, calling:\n\n```\nconfig.setStringList(\"remotes\", username, value, updates.getStringList(\"remotes\", username, value));\n```\n\nwill wipe the string list form `config` and replace it with a single element from `updates`. Therefore we need to manually handle that case.\n\nOther cases are handled by the `ReplicationRemtoesApi.update()`, as mentioned above.",
+      "parentUuid": "d0c7696e_817c1fdf",
       "range": {
         "startLine": 66,
         "startChar": 0,
@@ -150,6 +270,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "99d76e18_57d27a89",
+        "filename": "github-plugin/src/test/java/com/googlesource/gerrit/plugins/github/git/ReplicationRemoteConfigBuilderTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-06-19T15:40:26Z",
+      "side": 1,
+      "message": "please see my [other comment](https://gerrit-review.googlesource.com/c/plugins/github/+/413243/comment/e7a983ac_572288b6/)",
+      "parentUuid": "a201d2c9_4a95ed09",
+      "revId": "88dea314ef75deae7469c7375b4eb767f5243120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c04d606_e5f25b6a",
+        "filename": "github-plugin/src/test/java/com/googlesource/gerrit/plugins/github/git/ReplicationRemoteConfigBuilderTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-06-19T15:40:26Z",
+      "side": 1,
+      "message": "please see my [other comment](https://gerrit-review.googlesource.com/c/plugins/github/+/413243/comment/e7a983ac_572288b6/)",
+      "parentUuid": "f588fd40_7a3e388e",
+      "revId": "88dea314ef75deae7469c7375b4eb767f5243120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a538ae5b_6f222c3f",
@@ -173,6 +329,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d903c5cb_61de0cd6",
+        "filename": "github-plugin/src/test/java/com/googlesource/gerrit/plugins/github/git/ReplicationRemoteConfigBuilderTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-06-19T15:40:26Z",
+      "side": 1,
+      "message": "please see my [other comment](https://gerrit-review.googlesource.com/c/plugins/github/+/413243/comment/e7a983ac_572288b6/)",
+      "parentUuid": "a538ae5b_6f222c3f",
+      "range": {
+        "startLine": 68,
+        "startChar": 75,
+        "endLine": 68,
+        "endChar": 95
+      },
+      "revId": "88dea314ef75deae7469c7375b4eb767f5243120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a4a7d334_d1460361",
@@ -186,6 +366,30 @@
       "writtenOn": "2024-06-19T13:43:10Z",
       "side": 1,
       "message": "use `remoteName` here.\n\n\n\n```suggestion\n    when(replicationRemotesApi.get(remoteName)).thenReturn(currentConfig);\n```",
+      "range": {
+        "startLine": 80,
+        "startChar": 31,
+        "endLine": 80,
+        "endChar": 36
+      },
+      "revId": "88dea314ef75deae7469c7375b4eb767f5243120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec5d3232_856d7c99",
+        "filename": "github-plugin/src/test/java/com/googlesource/gerrit/plugins/github/git/ReplicationRemoteConfigBuilderTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-06-19T15:40:26Z",
+      "side": 1,
+      "message": "please see my [other comment](https://gerrit-review.googlesource.com/c/plugins/github/+/413243/comment/e7a983ac_572288b6/)",
+      "parentUuid": "a4a7d334_d1460361",
       "range": {
         "startLine": 80,
         "startChar": 31,

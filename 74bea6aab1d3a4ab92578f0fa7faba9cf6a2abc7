@@ -86,6 +86,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f78a1c67_a5ac1aa4",
+        "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/git/ReplicationRemoteConfigBuilder.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-06-19T15:40:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c85a486_ea0c9953",
+      "range": {
+        "startLine": 36,
+        "startChar": 6,
+        "endLine": 36,
+        "endChar": 36
+      },
+      "revId": "74bea6aab1d3a4ab92578f0fa7faba9cf6a2abc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "fd5d806f_6d1fd21a",
         "filename": "github-plugin/src/main/java/com/googlesource/gerrit/plugins/github/replication/GitHubDestinations.java",
         "patchSetId": 7
