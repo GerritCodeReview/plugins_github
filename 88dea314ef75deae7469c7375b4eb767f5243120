@@ -49,6 +49,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f588fd40_7a3e388e",
+        "filename": "github-plugin/src/test/java/com/googlesource/gerrit/plugins/github/git/ReplicationRemoteConfigBuilderTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-19T13:50:45Z",
+      "side": 1,
+      "message": "Add the `shoudKeepAdHocSettingsInFanoutReplicationConfig()` test from `FanoutReplicationConfigTest`\n\n```suggestion\n  @Test\n  public void shoudKeepAdHocSettingsInFanoutReplicationConfig() throws Exception {\n    Config currentConfig \u003d new Config();\n    currentConfig.setString(\"remote\", null, CUSTOM_KEY, CUSTOM_VALUE);\n    ReplicationRemoteConfigBuilder builder \u003d newReplicationRemoteConfigBuilder(currentConfig, username);\n    Config actual \u003d builder.build(repoName);\n\n    assertThat(actual.getString(\"remote\", null, CUSTOM_KEY)).isEqualTo(CUSTOM_VALUE);\n  }\n```",
+      "revId": "88dea314ef75deae7469c7375b4eb767f5243120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a538ae5b_6f222c3f",
         "filename": "github-plugin/src/test/java/com/googlesource/gerrit/plugins/github/git/ReplicationRemoteConfigBuilderTest.java",
         "patchSetId": 15
