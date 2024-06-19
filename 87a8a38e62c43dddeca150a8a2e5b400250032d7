@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7a983ac_572288b6",
+        "filename": "github-plugin/src/test/java/com/googlesource/gerrit/plugins/github/FanoutReplicationConfigTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-19T13:43:10Z",
+      "side": 0,
+      "message": "This test should be kept and introduced in the `ReplicationRemoteConfigBuilderTest`",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 3
+      },
+      "revId": "87a8a38e62c43dddeca150a8a2e5b400250032d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "402e2a4b_794008a6",
+        "filename": "github-plugin/src/test/java/com/googlesource/gerrit/plugins/github/FanoutReplicationConfigTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-19T13:43:10Z",
+      "side": 0,
+      "message": "This test should be kept and introduced in the `ReplicationRemoteConfigBuilderTest`",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 3
+      },
+      "revId": "87a8a38e62c43dddeca150a8a2e5b400250032d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47944f71_dcd3af89",
+        "filename": "github-plugin/src/test/java/com/googlesource/gerrit/plugins/github/FanoutReplicationConfigTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-06-19T13:43:10Z",
+      "side": 0,
+      "message": "This test should be kept and introduced in the `ReplicationRemoteConfigBuilderTest`",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 92,
+        "endChar": 3
+      },
+      "revId": "87a8a38e62c43dddeca150a8a2e5b400250032d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
