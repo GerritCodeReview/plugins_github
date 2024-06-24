@@ -26,6 +26,8 @@ import org.kohsuke.github.GHBranch;
 
 public class ProtectedBranchesCheckStep extends ImportStep {
 
+  private final GitHubConfig config;
+
   public interface Factory {
     ProtectedBranchesCheckStep create(
         @Assisted("organisation") String organisation, @Assisted("name") String repository);
@@ -38,10 +40,15 @@ public class ProtectedBranchesCheckStep extends ImportStep {
       @Assisted("organisation") String organisation,
       @Assisted("name") String repository) {
     super(config.gitHubUrl, organisation, repository, gitHubRepoFactory);
+    this.config = config;
   }
 
   @Override
   public void doImport(ProgressMonitor progress) throws Exception {
+    if (this.config.ignoreBranchProtection) {
+      return;
+    }
+
     Collection<GHBranch> branches = getRepository().getBranches().values();
     progress.beginTask("Checking branch protection", branches.size());
     List<String> protectedBranchNames = Lists.newLinkedList();

@@ -39,6 +39,7 @@ public class GitHubConfig extends GitHubOAuthConfig {
   private static final String CONF_PULL_REQUEST_LIST_LIMIT = "pullRequestListLimit";
   private static final String CONF_REPOSITORY_LIST_PAGE_SIZE = "repositoryListPageSize";
   private static final String CONF_REPOSITORY_LIST_LIMIT = "repositoryListLimit";
+  private static final String CONF_IGNORE_BRANCH_PROTECTION = "ignoreBranchProtection";
   private static final String CONF_PUBLIC_BASE_PROJECT = "publicBaseProject";
   private static final String CONF_PRIVATE_BASE_PROJECT = "privateBaseProject";
   private static final String CONF_WEBHOOK_SECRET = "webhookSecret";
@@ -52,6 +53,7 @@ public class GitHubConfig extends GitHubOAuthConfig {
   public final int pullRequestListLimit;
   public final int repositoryListPageSize;
   public final int repositoryListLimit;
+  public final boolean ignoreBranchProtection;
   public final String privateBaseProject;
   public final String publicBaseProject;
   public final String allProjectsName;
@@ -89,6 +91,7 @@ public class GitHubConfig extends GitHubOAuthConfig {
     pullRequestListLimit = config.getInt(CONF_SECTION, CONF_PULL_REQUEST_LIST_LIMIT, 50);
     repositoryListPageSize = config.getInt(CONF_SECTION, CONF_REPOSITORY_LIST_PAGE_SIZE, 50);
     repositoryListLimit = config.getInt(CONF_SECTION, CONF_REPOSITORY_LIST_LIMIT, 50);
+    ignoreBranchProtection = config.getBoolean(CONF_SECTION, CONF_IGNORE_BRANCH_PROTECTION, false);
 
     gitDir = site.resolve(config.getString("gerrit", null, "basePath"));
     if (gitDir == null) {
