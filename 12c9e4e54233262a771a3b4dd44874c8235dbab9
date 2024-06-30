@@ -235,6 +235,30 @@
       },
       "revId": "12c9e4e54233262a771a3b4dd44874c8235dbab9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f654222e_40f1bf6a",
+        "filename": "github-oauth/src/main/java/com/googlesource/gerrit/plugins/github/oauth/ScopeKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-06-30T12:49:22Z",
+      "side": 1,
+      "message": "Thanks for the fix!",
+      "parentUuid": "e31619cc_dd8981a4",
+      "range": {
+        "startLine": 17,
+        "startChar": 7,
+        "endLine": 17,
+        "endChar": 13
+      },
+      "revId": "12c9e4e54233262a771a3b4dd44874c8235dbab9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [
