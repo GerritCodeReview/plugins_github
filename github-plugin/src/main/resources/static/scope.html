@@ -46,10 +46,10 @@
           <ul class="scopes">
                 #foreach ( $scope in $scopes.keySet() )
                     <li>
-                        #set ( $scopeName = $scope.name.substring(6) )
-                        #set ( $scopeDescription = $scope.description )
+                        #set ( $scopeName = $scope.name().substring(6) )
+                        #set ( $scopeDescription = $scope.description() )
                         #set ( $checked = "" )
-                        #if ( ( $scopeCookie && $scopeCookie == $scope.name ) || $scopeName == "" )
+                        #if ( ( $scopeCookie && $scopeCookie == $scope.name() ) || $scopeName == "" )
                            #set ( $checked = "checked" )
                         #end
                         
@@ -62,7 +62,7 @@
                         <p class="scopePermissions">Allow to:
                             #set ( $scopeItems = $scopes.get($scope) )
                             #foreach ( $scopeItem in $scopeItems )
-                                $scopeItem.description
+                                $scopeItem.description()
                                 #if ( $foreach.count < $scopeItems.size())
                                     ,&nbsp;
                                 #end
