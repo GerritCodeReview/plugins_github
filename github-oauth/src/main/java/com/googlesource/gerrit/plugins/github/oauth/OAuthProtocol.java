@@ -146,6 +146,10 @@ public class OAuthProtocol {
       this.value = value;
       this.description = description;
     }
+
+    public String getDescription() {
+      return description;
+    }
   }
 
   private static final String ME_SEPARATOR = ",";
