@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa4f169c_3a0f72b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2024-07-02T16:29:50Z",
+      "side": 1,
+      "message": "It doesn\u0027t seem to be created: [1]. As the plugin was built with Maven, this file was created: [2].\n\nThis is apparently also the reason, why the plugin disappeared from plugin-manager.\n\n[1]: https://gerrit-ci.gerritforge.com/view/Plugins-master/job/plugin-github-bazel-master/\n[2]: https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.10/job/plugin-github-mvn-stable-3.10/",
+      "revId": "5129b6b338c96df79e3eb7eed529f2d0792dc927",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {
