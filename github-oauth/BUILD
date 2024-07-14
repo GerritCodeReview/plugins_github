@@ -21,9 +21,6 @@ java_library(
         "@jackson-annotations//jar",
         "@jackson-core//jar",
         "@jackson-databind//jar",
-        "@org-ow2-asm-commons//jar",
-        "@org-ow2-asm-tree//jar",
-        "@org-ow2-asm//jar",
     ],
 )
 
