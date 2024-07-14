@@ -83,24 +83,6 @@ def external_plugin_deps():
     )
 
     maven_jar(
-        name = "org-ow2-asm",
-        artifact = "org.ow2.asm:asm:9.6",
-        sha1 = "aa205cf0a06dbd8e04ece91c0b37c3f5d567546a",
-    )
-
-    maven_jar(
-        name = "org-ow2-asm-tree",
-        artifact = "org.ow2.asm:asm-tree:9.6",
-        sha1 = "c0cdda9d211e965d2a4448aa3fd86110f2f8c2de",
-    )
-
-    maven_jar(
-        name = "org-ow2-asm-commons",
-        artifact = "org.ow2.asm:asm-commons:9.6",
-        sha1 = "f1a9e5508eff490744144565c47326c8648be309",
-    )
-
-    maven_jar(
         name = "bridge-method-injector",
         artifact = "com.infradna.tool:bridge-method-injector:1.29",
         repository = JENKINS,
