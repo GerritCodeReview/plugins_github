@@ -3,6 +3,19 @@ import { AuthInfo } from '@gerritcodereview/typescript-api/rest-api';
 import { CSSResult, LitElement, css, html } from "lit";
 import { customElement, property, query, state } from 'lit/decorators.js';
 
+declare global {
+    interface Window {
+        CANONICAL_PATH:string;
+    }
+}
+
+function getBaseUrl(): string {
+  // window is not defined in service worker, therefore no CANONICAL_PATH
+  if (typeof window === 'undefined')
+    return '';
+  return self.CANONICAL_PATH || '';
+}
+
 @customElement('gr-github-oauth-progress')
 export class GrGitHubOAuthProgress extends LitElement {
     @query('#gitHubOAuthProgress')
@@ -61,9 +74,15 @@ export class GrGitHubOAuthProgress extends LitElement {
         if (!this.authInfo || this.loggedIn !== false) {
             return;
         }
-        const loginWithRedirect = new URL(this.authInfo.login_url ?? "/", window.location.origin);
+        let login_url = this.authInfo.login_url;
+        if (login_url == null) {
+          login_url = getBaseUrl();
+        } else {
+          login_url = getBaseUrl() + login_url;
+        }
+        const loginWithRedirect = new URL(login_url, window.location.origin + "/" + getBaseUrl());
         if (this.currentNavigationPath) {
-          loginWithRedirect.pathname = loginWithRedirect.pathname + this.currentNavigationPath;
+          loginWithRedirect.pathname = loginWithRedirect.pathname + this.currentNavigationPath.slice(getBaseUrl().length);
         }
 
         return html`
