@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1fa8fea_00661a55",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-03-05T14:17:48Z",
+      "side": 1,
+      "message": "Apologies for the delay. This project is now deprecated on Gerrit-Review and continues on GerritHub.io.\n\nSee the new project home at: https://review.gerrithub.io/admin/repos/GerritForge/github\n\nI would recommend to:\n- Review and sign the CLA (https://www.gerritforge.com/20260305.GerritForge.BSL.Contributors.Agreement.pdf)\n- Contribute this change to https://review.gerrithub.io/admin/repos/GerritForge/github",
+      "revId": "a745b17bdcdb6c4408883babc34e15ced07dc735",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
