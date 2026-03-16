@@ -226,7 +226,7 @@ public class WebhookServlet extends HttpServlet {
    * @param payload payload to calculate a signature for
    * @return signature of the payload
    * @see <a href=
-   *     "https://developer.github.com/webhooks/securing/#validating-payloads-from-github">
+   *     "https://docs.github.com/webhooks/securing/#validating-payloads-from-github">
    *     Validating payloads from GitHub</a>
    */
   private byte[] getExpectedSignature(byte[] payload) {
